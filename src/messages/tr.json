@@ -147,7 +147,13 @@
   },
   "contact": {
     "title": "İletişim",
+    "subtitle": "Size yardımcı olmaktan memnuniyet duyarız — hızlı ve samimi iletişim.",
     "hours": "Pzt.–Cmt.: 00:00–18:00",
+    "addressLabel": "Adres",
+    "phoneLabel": "Telefon",
+    "emailLabel": "E-posta",
+    "hoursLabel": "Çalışma saatleri",
+    "mapCta": "Google Maps'te aç",
     "formTitle": "Mesaj gönderin",
     "name": "Ad Soyad",
     "email": "E-posta",
@@ -159,8 +165,12 @@
   },
   "about": {
     "title": "Hakkımızda",
+    "subtitle": "Köln'deki toptancınız – 40 yılı aşkın deneyim.",
     "intro": "BOSPORUS Handelsgesellschaft mbH, Köln'de gastronomi ve bireysel müşterilere hizmet veren güvenilir toptan gıda partnerinizdir – 40 yılı aşkın deneyimle.",
     "story": "Taze gıdadan içeceklere ve non-food ürünlere kadar geniş ürün yelpazesi, kişisel hizmet ve esnek teslimat veya gel-al seçenekleri sunuyoruz.",
+    "valuesTitle": "Bizi farklı kılan",
+    "ctaContact": "İletişime geç",
+    "ctaShop": "Mağazaya git",
     "b2c": "Bireysel mağaza",
     "b2b": "Kurumsal net fiyat",
     "location": "Köln merkez"
@@ -309,7 +319,10 @@
     "trustDelivery": "Köln'e hızlı teslimat",
     "trustQuality": "Kontrollü kalite",
     "trustPayment": "Teslimatta / gel-al ödeme",
-    "trackOrder": "Sipariş takibi"
+    "trackOrder": "Sipariş takibi",
+    "shopSection": "Mağaza",
+    "companySection": "Kurumsal",
+    "legalSection": "Yasal"
   },
   "orderTrack": {
     "title": "Sipariş takibi",

@@ -147,7 +147,13 @@
   },
   "contact": {
     "title": "Kontakt",
+    "subtitle": "Wir freuen uns auf Ihre Nachricht – persönlich, schnell und unkompliziert.",
     "hours": "Mo.–Sa.: 00:00–18:00 Uhr",
+    "addressLabel": "Adresse",
+    "phoneLabel": "Telefon",
+    "emailLabel": "E-Mail",
+    "hoursLabel": "Öffnungszeiten",
+    "mapCta": "In Google Maps öffnen",
     "formTitle": "Nachricht senden",
     "name": "Name",
     "email": "E-Mail",
@@ -159,8 +165,12 @@
   },
   "about": {
     "title": "Über uns",
+    "subtitle": "Ihr Großhandel in Köln – seit über 40 Jahren.",
     "intro": "BOSPORUS Handelsgesellschaft mbH ist Ihr zuverlässiger Großhandelspartner in Köln – mit über 40 Jahren Erfahrung in der Belieferung von Gastronomie und Privatkunden.",
     "story": "Von frischen Lebensmitteln bis zu Getränken und Non-Food-Artikeln bieten wir ein breites Sortiment, persönlichen Service und flexible Liefer- sowie Abholmöglichkeiten.",
+    "valuesTitle": "Was uns auszeichnet",
+    "ctaContact": "Kontakt aufnehmen",
+    "ctaShop": "Zum Shop",
     "b2c": "Privatkunden-Shop",
     "b2b": "Gewerbe-Nettopreise",
     "location": "Standort Köln"
@@ -309,7 +319,10 @@
     "trustDelivery": "Schnelle Lieferung Köln",
     "trustQuality": "Geprüfte Qualität",
     "trustPayment": "Zahlung bei Lieferung / Abholung",
-    "trackOrder": "Bestellung verfolgen"
+    "trackOrder": "Bestellung verfolgen",
+    "shopSection": "Shop",
+    "companySection": "Unternehmen",
+    "legalSection": "Rechtliches"
   },
   "orderTrack": {
     "title": "Bestellung verfolgen",
