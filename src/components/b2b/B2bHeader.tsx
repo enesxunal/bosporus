@@ -51,8 +51,14 @@ export function B2bHeader({ onSearch, searchQuery, profile }: B2bHeaderProps) {
         </div>
       </div>
       <div className="max-w-[1600px] mx-auto px-4 py-3 flex items-center gap-6">
-        <Link href="/gewerbe" className="shrink-0">
-          <Image src="/logo.svg" alt="Bosporus" width={120} height={40} className="h-8 w-auto brightness-0 invert" />
+        <Link href="/gewerbe" className="shrink-0 flex items-center">
+          <Image
+            src="/logo.svg"
+            alt="Bosporus"
+            width={150}
+            height={49}
+            className="h-9 sm:h-10 md:h-11 w-auto brightness-0 invert"
+          />
         </Link>
         <div className="flex-1 relative max-w-2xl">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-bosporus-muted" />

@@ -61,8 +61,15 @@ export function B2cHeader() {
 
       <div className="page-container py-3">
         <div className="flex items-center gap-3 lg:gap-6">
-          <Link href="/" className="shrink-0">
-            <Image src="/logo.svg" alt="Bosporus" width={130} height={44} className="h-8 sm:h-9 w-auto" priority />
+          <Link href="/" className="shrink-0 flex items-center">
+            <Image
+              src="/logo.svg"
+              alt="Bosporus"
+              width={170}
+              height={57}
+              className="h-10 sm:h-11 md:h-12 lg:h-[52px] w-auto"
+              priority
+            />
           </Link>
 
           <div className="hidden md:block flex-1 max-w-xl">

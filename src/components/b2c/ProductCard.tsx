@@ -103,18 +103,9 @@ export function ProductCard({ product, profile = null, variant = "default" }: Pr
             onClick={handleAdd}
             fullWidth
             size="md"
-            className="sm:hidden"
           >
-            <ShoppingCart className="w-4 h-4" />
-            {t("addToCart")}
-          </Button>
-          <Button
-            type="button"
-            onClick={handleAdd}
-            size="md"
-            className="hidden sm:inline-flex w-full"
-          >
-            <Plus className="w-4 h-4" />
+            <ShoppingCart className="w-4 h-4 sm:hidden" />
+            <Plus className="w-4 h-4 hidden sm:block" />
             {t("addToCart")}
           </Button>
         </div>

@@ -32,7 +32,7 @@ export function B2cFooter() {
       <div className="bg-metro-navy text-white">
         <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <Image src="/logo.svg" alt="Bosporus" width={110} height={36} className="h-7 w-auto brightness-0 invert mb-4" />
+            <Image src="/logo.svg" alt="Bosporus" width={140} height={46} className="h-9 sm:h-10 w-auto brightness-0 invert mb-4" />
             <p className="text-sm text-white/75 leading-relaxed">{t("tagline")}</p>
           </div>
           <div>
