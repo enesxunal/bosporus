@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "title": "Bosporus GmbH – Köln Toptan Gıda",
+    "description": "Köln'de gastronomi ve bireysel müşteriler için gıda toptan satış"
+  },
+  "nav": {
+    "home": "Ana Sayfa",
+    "products": "Ürünler",
+    "categories": "Kategoriler",
+    "about": "Hakkımızda",
+    "contact": "İletişim",
+    "cart": "Sepet",
+    "login": "Giriş",
+    "register": "Kayıt Ol",
+    "b2bPortal": "Kurumsal Portal",
+    "account": "Hesabım",
+    "logout": "Çıkış"
+  },
+  "hero": {
+    "title": "Köln'deki Toptancınız",
+    "subtitle": "40 yılı aşkın deneyim. Gastronomi ve bireysel müşteriler için taze gıda.",
+    "ctaShop": "Alışverişe başla",
+    "ctaB2b": "Kurumsal hesap aç"
+  },
+  "home": {
+    "whyTitle": "Neden Bosporus?",
+    "delivery": "Hızlı Teslimat",
+    "deliveryDesc": "Köln ve çevresine güvenilir teslimat.",
+    "quality": "Kalite Kontrolü",
+    "qualityDesc": "Mutfağınız için titizlikle seçilmiş ürünler.",
+    "service": "Kişisel Hizmet",
+    "serviceDesc": "Gastronomi işletmeleri için özel danışmanlık.",
+    "fresh": "Taze Ürünler",
+    "freshDesc": "Her gün halden taze.",
+    "categoriesTitle": "Kategorilerimiz",
+    "allCategories": "Tüm Kategoriler",
+    "ctaTitle": "İş birliğine hazır mısınız?",
+    "ctaDesc": "İşletmenizi nasıl tedarik edebileceğimizi öğrenmek için bize ulaşın.",
+    "ctaButton": "İletişime geç"
+  },
+  "product": {
+    "addToCart": "Sepete ekle",
+    "brutto": "KDV dahil",
+    "netto": "KDV hariç",
+    "promo": "İndirim",
+    "perUnit": "{unit} başına",
+    "search": "Ürün ara…",
+    "noResults": "Ürün bulunamadı.",
+    "allProducts": "Tüm ürünler"
+  },
+  "b2b": {
+    "title": "Kurumsal Sipariş Portalı",
+    "subtitle": "Gastronomi için hızlı sipariş – net fiyatlar, barkod arama",
+    "searchPlaceholder": "Ürün adı veya barkod girin…",
+    "colProduct": "Ürün",
+    "colSku": "Ürün No",
+    "colUnit": "Birim",
+    "colPrice": "Net",
+    "colQty": "Adet",
+    "colAction": "",
+    "quickAdd": "Ekle",
+    "minOrder": "Minimum sipariş: {amount}",
+    "registerTitle": "Kurumsal hesap kaydı",
+    "companyName": "Şirket adı",
+    "companyAddress": "Şirket adresi",
+    "vatId": "KDV numarası (USt-IdNr.)",
+    "vatHint": "Format: DE123456789",
+    "registerSubmit": "Hesap oluştur ve doğrula"
+  },
+  "cart": {
+    "title": "Sepet",
+    "empty": "Sepetiniz boş.",
+    "subtotal": "Ara toplam",
+    "tax": "KDV",
+    "total": "Toplam",
+    "checkout": "Ödemeye geç",
+    "continue": "Alışverişe devam",
+    "remove": "Kaldır"
+  },
+  "checkout": {
+    "title": "Ödeme",
+    "delivery": "Teslimat",
+    "pickup": "Gel-Al (Click & Collect)",
+    "zipCode": "Posta kodu",
+    "address": "Teslimat adresi",
+    "pickupDate": "Alış tarihi",
+    "pickupSlot": "Alış saati (30 dk.)",
+    "pay": "Şimdi öde",
+    "minOrderWarning": "Bölgeniz için minimum sipariş: {amount}"
+  },
+  "footer": {
+    "tagline": "Köln'de gastronomi için toptan gıda partneriniz.",
+    "hours": "Pzt.–Cmt.: 00:00–18:00",
+    "imprint": "Künye",
+    "privacy": "Gizlilik"
+  },
+  "common": {
+    "loading": "Yükleniyor…",
+    "error": "Bir hata oluştu.",
+    "save": "Kaydet"
+  }
+}

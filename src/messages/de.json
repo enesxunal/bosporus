@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "title": "Bosporus GmbH – Großhandel Köln",
+    "description": "Lebensmittel-Großhandel für Gastronomie und Privatkunden in Köln"
+  },
+  "nav": {
+    "home": "Startseite",
+    "products": "Produkte",
+    "categories": "Kategorien",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "cart": "Warenkorb",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "b2bPortal": "Gewerbe-Portal",
+    "account": "Mein Konto",
+    "logout": "Abmelden"
+  },
+  "hero": {
+    "title": "Ihr Großhandel in Köln",
+    "subtitle": "Über 40 Jahre Erfahrung. Frische Lebensmittel für Gastronomie und Privatkunden.",
+    "ctaShop": "Jetzt einkaufen",
+    "ctaB2b": "Gewerbekonto eröffnen"
+  },
+  "home": {
+    "whyTitle": "Warum Bosporus?",
+    "delivery": "Schnelle Lieferung",
+    "deliveryDesc": "Zuverlässige Lieferung in Köln und Umgebung.",
+    "quality": "Geprüfte Qualität",
+    "qualityDesc": "Streng kontrollierte Produkte für Ihre Küche.",
+    "service": "Persönlicher Service",
+    "serviceDesc": "Individuelle Beratung für Gastronomiebetriebe.",
+    "fresh": "Frische Produkte",
+    "freshDesc": "Täglich frisch vom Großmarkt.",
+    "categoriesTitle": "Unsere Kategorien",
+    "allCategories": "Alle Kategorien",
+    "ctaTitle": "Bereit für eine Zusammenarbeit?",
+    "ctaDesc": "Kontaktieren Sie uns und erfahren Sie, wie wir Ihren Betrieb beliefern können.",
+    "ctaButton": "Jetzt Kontakt aufnehmen"
+  },
+  "product": {
+    "addToCart": "In den Warenkorb",
+    "brutto": "inkl. MwSt.",
+    "netto": "zzgl. MwSt.",
+    "promo": "Aktion",
+    "perUnit": "pro {unit}",
+    "search": "Produkte suchen…",
+    "noResults": "Keine Produkte gefunden.",
+    "allProducts": "Alle Produkte"
+  },
+  "b2b": {
+    "title": "Gewerbe-Bestellportal",
+    "subtitle": "Schnelle Bestellung für Gastronomie – Nettopreise, Barcode-Suche",
+    "searchPlaceholder": "Artikelname oder Barcode eingeben…",
+    "colProduct": "Artikel",
+    "colSku": "Art.-Nr.",
+    "colUnit": "Einheit",
+    "colPrice": "Netto",
+    "colQty": "Menge",
+    "colAction": "",
+    "quickAdd": "Hinzufügen",
+    "minOrder": "Mindestbestellwert: {amount}",
+    "registerTitle": "Gewerbekonto registrieren",
+    "companyName": "Firmenname",
+    "companyAddress": "Firmenadresse",
+    "vatId": "USt-IdNr.",
+    "vatHint": "Format: DE123456789",
+    "registerSubmit": "Konto erstellen & verifizieren"
+  },
+  "cart": {
+    "title": "Warenkorb",
+    "empty": "Ihr Warenkorb ist leer.",
+    "subtotal": "Zwischensumme",
+    "tax": "MwSt.",
+    "total": "Gesamt",
+    "checkout": "Zur Kasse",
+    "continue": "Weiter einkaufen",
+    "remove": "Entfernen"
+  },
+  "checkout": {
+    "title": "Kasse",
+    "delivery": "Lieferung",
+    "pickup": "Abholung (Click & Collect)",
+    "zipCode": "Postleitzahl",
+    "address": "Lieferadresse",
+    "pickupDate": "Abholdatum",
+    "pickupSlot": "Abholzeit (30 Min.)",
+    "pay": "Jetzt bezahlen",
+    "minOrderWarning": "Mindestbestellwert für Ihre Zone: {amount}"
+  },
+  "footer": {
+    "tagline": "Ihr Großhandels-Partner für Gastronomie in Köln.",
+    "hours": "Mo.–Sa.: 00:00–18:00 Uhr",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz"
+  },
+  "common": {
+    "loading": "Laden…",
+    "error": "Ein Fehler ist aufgetreten.",
+    "save": "Speichern"
+  }
+}
