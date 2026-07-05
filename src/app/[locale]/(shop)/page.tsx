@@ -27,10 +27,10 @@ export default async function HomePage({
         <section className="py-8 sm:py-10 bg-white">
           <div className="page-container">
             <SectionHeader
-              eyebrow={locale === "de" ? "Diese Woche" : "Bu hafta"}
-              title={locale === "de" ? "Top-Angebote – lohnt sich" : "Kaçırılmayacak fırsatlar"}
+              eyebrow={home("promoEyebrow")}
+              title={home("promoTitle")}
               action={{
-                label: locale === "de" ? "Alle Angebote →" : "Tüm kampanyalar →",
+                label: home("promoAction"),
                 href: "/products?filter=aktion",
               }}
             />
@@ -57,9 +57,9 @@ export default async function HomePage({
       <section className="py-8 sm:py-10 bg-white">
         <div className="page-container">
           <SectionHeader
-            title={locale === "de" ? "Beliebte Produkte" : "Popüler ürünler"}
+            title={home("popularTitle")}
             action={{
-              label: locale === "de" ? "Alle Produkte →" : "Tüm ürünler →",
+              label: home("popularAction"),
               href: "/products",
             }}
           />
@@ -81,7 +81,7 @@ export default async function HomePage({
               href="/gewerbe"
               className="inline-flex items-center justify-center h-12 px-6 text-base font-bold rounded-xl bg-bosporus-yellow text-bosporus-gray-800 hover:bg-bosporus-yellow-dark active:scale-[0.98] transition-all"
             >
-              {locale === "de" ? "Gewerbe-Portal" : "Kurumsal Portal"}
+              {home("b2bPortal")}
             </Link>
             <Link
               href="/contact"

@@ -1,6 +1,7 @@
 "use client";
 
 import { Link, usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import type { Category } from "@/lib/types";
 import { ChevronRight } from "lucide-react";
 
@@ -13,6 +14,7 @@ interface B2bSidebarProps {
 
 export function B2bSidebar({ categories, locale, activeSlug, productCount }: B2bSidebarProps) {
   const pathname = usePathname();
+  const t = useTranslations("b2b");
 
   return (
     <aside className="w-full lg:w-56 shrink-0">
@@ -22,7 +24,7 @@ export function B2bSidebar({ categories, locale, activeSlug, productCount }: B2b
             {locale === "de" ? "Sortiment" : "Ürün grupları"}
           </h2>
           {productCount != null && (
-            <p className="text-xs text-white/60 mt-0.5">{productCount} Artikel</p>
+            <p className="text-xs text-white/60 mt-0.5">{t("productCount", { count: productCount })}</p>
           )}
         </div>
         <nav className="max-h-[calc(100vh-200px)] overflow-y-auto">
@@ -32,8 +34,15 @@ export function B2bSidebar({ categories, locale, activeSlug, productCount }: B2b
               pathname === "/gewerbe" && !activeSlug ? "bg-bosporus-light font-semibold text-bosporus border-l-4 border-l-bosporus" : ""
             }`}
           >
-            {locale === "de" ? "Alle Artikel" : "Tüm ürünler"}
+            {t("allProducts")}
             <ChevronRight className="w-3.5 h-3.5 text-bosporus-muted" />
+          </Link>
+          <Link
+            href="/order/track"
+            className="flex items-center justify-between px-4 py-2 text-xs text-bosporus-muted border-b border-bosporus-gray-100 hover:bg-bosporus-gray-50"
+          >
+            {t("trackOrder")}
+            <ChevronRight className="w-3 h-3" />
           </Link>
           {categories.map((cat) => {
             const name = locale === "tr" && cat.name_tr ? cat.name_tr : cat.name_de;

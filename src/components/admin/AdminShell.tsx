@@ -17,6 +17,7 @@ import {
   FolderTree,
   Truck,
   Globe,
+  FileText,
 } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { cn } from "@/lib/cn";
@@ -33,6 +34,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const NAV = [
     { href: "/admin", icon: LayoutDashboard, label: t("overview"), exact: true },
     { href: "/admin/products", icon: ShoppingBag, label: t("products") },
+    { href: "/admin/content", icon: FileText, label: t("content") },
     { href: "/admin/categories", icon: FolderTree, label: t("categories") },
     { href: "/admin/orders", icon: Package, label: t("orders") },
     { href: "/admin/customers", icon: Users, label: t("customers") },

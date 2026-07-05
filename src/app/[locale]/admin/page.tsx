@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { Loader2, Package, Users, ShoppingBag, Building2 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 
 export default function AdminDashboardPage() {
+  const t = useTranslations("adminDashboard");
+  const ta = useTranslations("admin");
   const [stats, setStats] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
 
@@ -25,15 +28,15 @@ export default function AdminDashboardPage() {
   }
 
   const cards = [
-    { label: "Toplam Sipariş", value: stats.totalOrders ?? 0, href: "/admin/orders", icon: Package, color: "text-bosporus" },
-    { label: "Bekleyen B2B", value: stats.pendingB2b ?? 0, href: "/admin/b2b", icon: Building2, color: "text-orange-600" },
-    { label: "Ürünler", value: stats.totalProducts ?? 0, href: "/admin/products", icon: ShoppingBag, color: "text-green-600" },
-    { label: "Gönderilen E-posta", value: stats.emailsSent ?? 0, href: "/admin/emails", icon: Users, color: "text-purple-600" },
+    { label: t("totalOrders"), value: stats.totalOrders ?? 0, href: "/admin/orders", icon: Package, color: "text-bosporus" },
+    { label: t("pendingB2b"), value: stats.pendingB2b ?? 0, href: "/admin/b2b", icon: Building2, color: "text-orange-600" },
+    { label: t("totalProducts"), value: stats.totalProducts ?? 0, href: "/admin/products", icon: ShoppingBag, color: "text-green-600" },
+    { label: t("emailsSent"), value: stats.emailsSent ?? 0, href: "/admin/emails", icon: Users, color: "text-purple-600" },
   ];
 
   return (
     <div>
-      <h1 className="text-2xl font-extrabold text-metro-navy mb-6">Genel Bakış</h1>
+      <h1 className="text-2xl font-extrabold text-metro-navy mb-6">{ta("overview")}</h1>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {cards.map(({ label, value, href, icon: Icon, color }) => (
           <Link key={href} href={href}>
@@ -46,12 +49,12 @@ export default function AdminDashboardPage() {
         ))}
       </div>
       <Card className="!rounded-2xl">
-        <h2 className="font-bold text-lg mb-3">Hızlı Başlangıç</h2>
+        <h2 className="font-bold text-lg mb-3">{t("quickStart")}</h2>
         <ul className="text-sm text-bosporus-muted space-y-2">
-          <li>1. <Link href="/admin/products" className="text-bosporus font-semibold hover:underline">Ürünler</Link> sayfasından ürünleri veritabanına aktarın</li>
-          <li>2. Fiyat ve stok durumlarını buradan düzenleyin</li>
-          <li>3. <Link href="/admin/orders" className="text-bosporus font-semibold hover:underline">Siparişlere</Link> tıklayarak detayları görün</li>
-          <li>4. <Link href="/admin/customers" className="text-bosporus font-semibold hover:underline">Üyelere</Link> tıklayarak müşteri profilini açın</li>
+          <li>1. <Link href="/admin/products" className="text-bosporus font-semibold hover:underline">{ta("products")}</Link> — {t("step1")}</li>
+          <li>2. {t("step2")}</li>
+          <li>3. <Link href="/admin/orders" className="text-bosporus font-semibold hover:underline">{ta("orders")}</Link> — {t("step3")}</li>
+          <li>4. <Link href="/admin/customers" className="text-bosporus font-semibold hover:underline">{ta("customers")}</Link> — {t("step4")}</li>
         </ul>
       </Card>
     </div>

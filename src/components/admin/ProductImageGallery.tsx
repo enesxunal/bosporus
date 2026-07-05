@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { GripVertical, Trash2, Upload, Link2, Loader2, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
@@ -14,6 +15,7 @@ interface ProductImageGalleryProps {
 }
 
 export function ProductImageGallery({ urls, onChange, onUpload, uploading }: ProductImageGalleryProps) {
+  const t = useTranslations("adminProductForm");
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [overIndex, setOverIndex] = useState<number | null>(null);
   const [newUrl, setNewUrl] = useState("");
@@ -37,9 +39,7 @@ export function ProductImageGallery({ urls, onChange, onUpload, uploading }: Pro
     <div className="space-y-4">
       {urls.length > 0 ? (
         <>
-          <p className="text-xs text-bosporus-muted">
-            Görselleri sürükleyip bırakarak sıralayın. <strong>İlk görsel</strong> mağazada ana fotoğraf olur.
-          </p>
+          <p className="text-xs text-bosporus-muted">{t("galleryHint")}</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {urls.map((url, i) => (
               <div
@@ -73,7 +73,9 @@ export function ProductImageGallery({ urls, onChange, onUpload, uploading }: Pro
                   <span className="flex items-center gap-0.5 text-white/90">
                     <GripVertical className="w-4 h-4" />
                     {i === 0 ? (
-                      <span className="text-[10px] font-bold bg-bosporus-yellow text-metro-navy px-1.5 py-0.5 rounded">Ana</span>
+                      <span className="text-[10px] font-bold bg-bosporus-yellow text-metro-navy px-1.5 py-0.5 rounded">
+                        {t("mainImage")}
+                      </span>
                     ) : (
                       <span className="text-[10px] font-medium">{i + 1}</span>
                     )}
@@ -82,7 +84,7 @@ export function ProductImageGallery({ urls, onChange, onUpload, uploading }: Pro
                     type="button"
                     onClick={() => onChange(urls.filter((_, j) => j !== i))}
                     className="p-1 rounded-md bg-white/90 text-bosporus-red hover:bg-white"
-                    title="Sil"
+                    title={t("removeImage")}
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -94,7 +96,7 @@ export function ProductImageGallery({ urls, onChange, onUpload, uploading }: Pro
       ) : (
         <div className="flex flex-col items-center justify-center py-10 border-2 border-dashed border-bosporus-gray-200 rounded-2xl bg-bosporus-gray-50/50">
           <ImageIcon className="w-10 h-10 text-bosporus-muted mb-2" />
-          <p className="text-sm text-bosporus-muted">Henüz görsel yok</p>
+          <p className="text-sm text-bosporus-muted">{t("noImages")}</p>
         </div>
       )}
 
@@ -114,7 +116,7 @@ export function ProductImageGallery({ urls, onChange, onUpload, uploading }: Pro
           />
           <span className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 border-bosporus-gray-200 text-sm font-semibold cursor-pointer hover:border-bosporus hover:bg-bosporus-light/30 transition-colors w-full sm:w-auto justify-center">
             {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-            Bilgisayardan yükle
+            {t("uploadFromPc")}
           </span>
         </label>
         <div className="flex gap-2">
@@ -124,12 +126,12 @@ export function ProductImageGallery({ urls, onChange, onUpload, uploading }: Pro
               value={newUrl}
               onChange={(e) => setNewUrl(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addUrl())}
-              placeholder="Görsel linki (https://…)"
+              placeholder={t("imageUrlPlaceholder")}
               className="field-input !pl-10"
             />
           </div>
           <Button type="button" variant="outline" onClick={addUrl} disabled={!newUrl.trim()}>
-            Ekle
+            {t("addImage")}
           </Button>
         </div>
       </div>

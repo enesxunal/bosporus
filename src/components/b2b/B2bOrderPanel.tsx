@@ -8,6 +8,7 @@ import { ShoppingCart, ArrowRight } from "lucide-react";
 
 export function B2bOrderPanel() {
   const t = useTranslations("cart");
+  const tb = useTranslations("b2b");
   const locale = useLocale() as "de" | "tr";
   const { items, subtotalGross, totalItems } = useCart();
 
@@ -35,7 +36,7 @@ export function B2bOrderPanel() {
                 </li>
               ))}
               {items.length > 5 && (
-                <li className="text-xs text-bosporus-muted">+{items.length - 5} weitere</li>
+                <li className="text-xs text-bosporus-muted">{t("moreItems", { count: items.length - 5 })}</li>
               )}
             </ul>
           )}
@@ -58,9 +59,7 @@ export function B2bOrderPanel() {
         </div>
         <div className="px-4 pb-4">
           <p className="text-xs text-bosporus-muted bg-bosporus-gray-50 p-2 rounded-sm">
-            {locale === "de"
-              ? "Mindestbestellwert je nach Lieferzone. Netto-Preise für verifizierte Gewerbekunden."
-              : "Teslimat bölgesine göre minimum sipariş. Doğrulanmış kurumsal müşterilere net fiyat."}
+            {tb("minOrderHint")}
           </p>
         </div>
       </div>

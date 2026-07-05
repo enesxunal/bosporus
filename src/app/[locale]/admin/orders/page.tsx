@@ -3,21 +3,12 @@
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { Loader2, Search, ChevronRight } from "lucide-react";
+import { Loader2, Search, ChevronRight, Download } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import type { OrderStatus } from "@/lib/types";
-
-const STATUS_LABELS: Record<OrderStatus, string> = {
-  pending: "Yeni",
-  paid: "Ödendi",
-  preparing: "Hazırlanıyor",
-  ready: "Hazır",
-  out_for_delivery: "Yolda",
-  delivered: "Teslim edildi",
-  cancelled: "İptal",
-};
+import { ORDER_STATUS_KEYS } from "@/lib/admin-status";
 
 interface OrderRow {
   id: string;
@@ -32,6 +23,7 @@ interface OrderRow {
 
 export default function AdminOrdersPage() {
   const t = useTranslations("admin");
+  const ts = useTranslations("account");
   const [orders, setOrders] = useState<OrderRow[]>([]);
   const [total, setTotal] = useState(0);
   const [offset, setOffset] = useState(0);
@@ -65,13 +57,26 @@ export default function AdminOrdersPage() {
     load(0, false);
   }, [load]);
 
+  const exportCsv = () => {
+    const params = new URLSearchParams();
+    if (search) params.set("q", search);
+    if (status) params.set("status", status);
+    window.open(`/api/admin/orders/export?${params}`, "_blank");
+  };
+
   if (loading) {
     return <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-bosporus" /></div>;
   }
 
   return (
     <div>
-      <h1 className="text-2xl font-extrabold text-metro-navy mb-6">{t("orders")}</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+        <h1 className="text-2xl font-extrabold text-metro-navy">{t("orders")}</h1>
+        <Button type="button" variant="outline" onClick={exportCsv} className="shrink-0">
+          <Download className="w-4 h-4" />
+          {t("exportCsv")}
+        </Button>
+      </div>
 
       <form className="flex flex-col sm:flex-row gap-2 mb-4" onSubmit={(e) => { e.preventDefault(); setSearch(q); }}>
         <div className="flex-1 relative">
@@ -80,17 +85,17 @@ export default function AdminOrdersPage() {
         </div>
         <select value={status} onChange={(e) => setStatus(e.target.value)} className="field-input !w-auto">
           <option value="">{t("allStatuses")}</option>
-          {Object.entries(STATUS_LABELS).map(([k, v]) => (
-            <option key={k} value={k}>{v}</option>
+          {(Object.keys(ORDER_STATUS_KEYS) as OrderStatus[]).map((k) => (
+            <option key={k} value={k}>{ts(ORDER_STATUS_KEYS[k])}</option>
           ))}
         </select>
-        <Button type="submit">Ara</Button>
+        <Button type="submit">{t("search")}</Button>
       </form>
 
       <p className="text-sm text-bosporus-muted mb-3">{orders.length} / {total}</p>
 
       {orders.length === 0 ? (
-        <p className="text-center text-bosporus-muted py-12">—</p>
+        <p className="text-center text-bosporus-muted py-12">{t("noResults")}</p>
       ) : (
         <>
           <div className="space-y-2">
@@ -107,7 +112,7 @@ export default function AdminOrdersPage() {
                       <div>
                         <p className="font-bold">{Number(o.total_gross).toFixed(2)} €</p>
                         <span className={cn("text-xs font-bold px-2 py-0.5 rounded-full", o.status === "delivered" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-800")}>
-                          {STATUS_LABELS[o.status] ?? o.status}
+                          {ts(ORDER_STATUS_KEYS[o.status])}
                         </span>
                       </div>
                       <ChevronRight className="w-4 h-4 text-bosporus-muted" />

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Link } from "@/i18n/navigation";
 import { Save, Trash2, Loader2, Plus, ImageIcon, Euro, Settings2 } from "lucide-react";
@@ -76,6 +77,8 @@ function SectionTitle({ step, title, icon: Icon }: { step: number; title: string
 }
 
 export function AdminProductForm({ productId }: { productId?: string }) {
+  const t = useTranslations("adminProductForm");
+  const ta = useTranslations("admin");
   const router = useRouter();
   const isNew = !productId;
   const [product, setProduct] = useState<ProductForm | null>(isNew ? EMPTY : null);
@@ -85,6 +88,7 @@ export function AdminProductForm({ productId }: { productId?: string }) {
   const [deleting, setDeleting] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [msg, setMsg] = useState("");
+  const [msgOk, setMsgOk] = useState(true);
 
   useEffect(() => {
     fetch("/api/admin/categories")
@@ -128,7 +132,8 @@ export function AdminProductForm({ productId }: { productId?: string }) {
     const data = await res.json();
     setUploading(false);
     if (!res.ok) {
-      setMsg(data.error ?? "Yükleme başarısız");
+      setMsgOk(false);
+      setMsg(data.error ?? t("uploadFailed"));
       return;
     }
     setImages([...(product?.image_urls ?? []), data.url]);
@@ -137,7 +142,8 @@ export function AdminProductForm({ productId }: { productId?: string }) {
   const save = async () => {
     if (!product) return;
     if (!product.name_de.trim()) {
-      setMsg("Almanca ürün adı zorunlu");
+      setMsgOk(false);
+      setMsg(t("nameRequired"));
       return;
     }
     setSaving(true);
@@ -155,7 +161,8 @@ export function AdminProductForm({ productId }: { productId?: string }) {
 
     if (res.ok) {
       const d = await res.json();
-      setMsg(isNew ? "Ürün oluşturuldu!" : "Kaydedildi!");
+      setMsgOk(true);
+      setMsg(isNew ? t("created") : t("saved"));
       if (isNew && d.product?.id) {
         router.push(`/admin/products/${d.product.id}`);
         return;
@@ -164,19 +171,21 @@ export function AdminProductForm({ productId }: { productId?: string }) {
       setProduct({ ...d.product, image_urls: urls.length ? urls : d.product.image_url ? [d.product.image_url] : [] });
     } else {
       const d = await res.json();
-      setMsg(d.error ?? "Hata");
+      setMsgOk(false);
+      setMsg(d.error ?? ta("error"));
     }
   };
 
   const remove = async () => {
-    if (!productId || !confirm("Bu ürünü kalıcı olarak silmek istediğinize emin misiniz?")) return;
+    if (!productId || !confirm(t("deleteConfirm"))) return;
     setDeleting(true);
     const res = await fetch(`/api/admin/products/${productId}`, { method: "DELETE" });
     setDeleting(false);
     if (res.ok) router.push("/admin/products");
     else {
       const d = await res.json();
-      setMsg(d.error ?? "Silinemedi");
+      setMsgOk(false);
+      setMsg(d.error ?? t("deleteFailed"));
     }
   };
 
@@ -188,7 +197,7 @@ export function AdminProductForm({ productId }: { productId?: string }) {
     );
   }
 
-  if (!product) return <p className="text-center py-12 text-bosporus-muted">Ürün bulunamadı</p>;
+  if (!product) return <p className="text-center py-12 text-bosporus-muted">{t("notFound")}</p>;
 
   const hasPromo = product.promo_price != null && product.promo_price > 0;
 
@@ -204,16 +213,16 @@ export function AdminProductForm({ productId }: { productId?: string }) {
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-bold text-lg text-metro-navy truncate">{product.name_de || "Yeni ürün"}</p>
+          <p className="font-bold text-lg text-metro-navy truncate">{product.name_de || t("newProduct")}</p>
           <p className="text-sm text-bosporus-muted">
-            {product.sku || "SKU otomatik"} · {product.category_slug ?? "Kategori yok"}
+            {product.sku || t("autoSku")} · {product.category_slug ?? t("noCategory")}
           </p>
           <div className="flex flex-wrap gap-2 mt-2">
             <span className={cn("text-xs font-bold px-2 py-0.5 rounded-full", product.is_active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700")}>
-              {product.is_active ? "Aktif" : "Pasif"}
+              {product.is_active ? ta("active") : ta("inactive")}
             </span>
             {product.stock_status === "out_of_stock" && (
-              <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">Tükendi</span>
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">{ta("outOfStock")}</span>
             )}
             <span className="text-xs font-bold text-bosporus">{Number(product.price_b2c).toFixed(2)} € B2C</span>
           </div>
@@ -221,7 +230,7 @@ export function AdminProductForm({ productId }: { productId?: string }) {
       </div>
 
       {msg && (
-        <div className={cn("mb-4 p-3 rounded-xl text-sm", msg.includes("Hata") || msg.includes("başarısız") || msg.includes("Silinemedi") || msg.includes("zorunlu") ? "bg-red-50 text-red-800" : "bg-green-50 text-green-800")}>
+        <div className={cn("mb-4 p-3 rounded-xl text-sm", msgOk ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800")}>
           {msg}
         </div>
       )}
@@ -231,7 +240,7 @@ export function AdminProductForm({ productId }: { productId?: string }) {
         <div className="lg:col-span-2 space-y-6">
           {/* 1. Görseller */}
           <Card className="!rounded-2xl">
-            <SectionTitle step={1} title="Görseller" icon={ImageIcon} />
+            <SectionTitle step={1} title={t("images")} icon={ImageIcon} />
             <ProductImageGallery
               urls={product.image_urls}
               onChange={setImages}
@@ -242,29 +251,29 @@ export function AdminProductForm({ productId }: { productId?: string }) {
 
           {/* 2. Ürün adı & kategori */}
           <Card className="!rounded-2xl">
-            <SectionTitle step={2} title="Ürün bilgisi" />
+            <SectionTitle step={2} title={t("productInfo")} />
             <div className="space-y-4">
               <Input
-                label="Ürün adı (Almanca) *"
+                label={t("nameDe")}
                 value={product.name_de}
                 onChange={(e) => update("name_de", e.target.value)}
                 placeholder="z.B. Olivenöl 1L"
               />
               <Input
-                label="Ürün adı (Türkçe)"
+                label={t("nameTr")}
                 value={product.name_tr ?? ""}
                 onChange={(e) => update("name_tr", e.target.value || null)}
-                placeholder="Opsiyonel"
+                placeholder={t("optional")}
               />
               <div>
-                <label className="field-label">Kategori</label>
+                <label className="field-label">{t("category")}</label>
                 <div className="flex gap-2">
                   <select
                     value={product.category_slug ?? ""}
                     onChange={(e) => update("category_slug", e.target.value || null)}
                     className="field-input flex-1"
                   >
-                    <option value="">— Seçin —</option>
+                    <option value="">{t("selectCategory")}</option>
                     {categories.map((c) => (
                       <option key={c.id} value={c.slug}>{c.name_de}</option>
                     ))}
@@ -279,21 +288,21 @@ export function AdminProductForm({ productId }: { productId?: string }) {
 
           {/* 3. Açıklama */}
           <Card className="!rounded-2xl">
-            <SectionTitle step={3} title="Açıklama" />
+            <SectionTitle step={3} title={t("description")} />
             <div className="space-y-4">
               <Textarea
-                label="Almanca"
+                label={t("descDe")}
                 value={product.description_de ?? ""}
                 onChange={(e) => update("description_de", e.target.value || null)}
                 rows={4}
-                placeholder="Ürün detayları…"
+                placeholder={t("descPlaceholder")}
               />
               <Textarea
-                label="Türkçe"
+                label={t("descTr")}
                 value={product.description_tr ?? ""}
                 onChange={(e) => update("description_tr", e.target.value || null)}
                 rows={4}
-                placeholder="Opsiyonel"
+                placeholder={t("optional")}
               />
             </div>
           </Card>
@@ -303,10 +312,10 @@ export function AdminProductForm({ productId }: { productId?: string }) {
         <div className="space-y-6">
           {/* 4. Fiyatlar */}
           <Card className="!rounded-2xl">
-            <SectionTitle step={4} title="Fiyatlar" icon={Euro} />
+            <SectionTitle step={4} title={t("prices")} icon={Euro} />
             <div className="space-y-4">
               <Input
-                label="B2C fiyat (€, KDV dahil)"
+                label={t("priceB2c")}
                 type="number"
                 step="0.01"
                 min="0"
@@ -314,7 +323,7 @@ export function AdminProductForm({ productId }: { productId?: string }) {
                 onChange={(e) => update("price_b2c", Number(e.target.value))}
               />
               <Input
-                label="B2B fiyat (€, net)"
+                label={t("priceB2b")}
                 type="number"
                 step="0.01"
                 min="0"
@@ -322,27 +331,27 @@ export function AdminProductForm({ productId }: { productId?: string }) {
                 onChange={(e) => update("price_b2b", Number(e.target.value))}
               />
               <Input
-                label="KDV (%)"
+                label={t("taxRate")}
                 type="number"
                 value={product.tax_rate}
                 onChange={(e) => update("tax_rate", Number(e.target.value))}
               />
 
               <div className="pt-3 border-t border-bosporus-gray-100">
-                <p className="text-sm font-bold text-metro-navy mb-3">Kampanya (opsiyonel)</p>
+                <p className="text-sm font-bold text-metro-navy mb-3">{t("promoOptional")}</p>
                 <div className="space-y-3">
                   <Input
-                    label="İndirimli fiyat (€, net)"
+                    label={t("promoPrice")}
                     type="number"
                     step="0.01"
                     value={product.promo_price ?? ""}
                     onChange={(e) => update("promo_price", e.target.value ? Number(e.target.value) : null)}
-                    placeholder="Boş = kampanya yok"
+                    placeholder={t("promoEmpty")}
                   />
                   {hasPromo && (
                     <div className="grid grid-cols-2 gap-2">
-                      <Input label="Başlangıç" type="date" value={product.promo_from ?? ""} onChange={(e) => update("promo_from", e.target.value || null)} />
-                      <Input label="Bitiş" type="date" value={product.promo_to ?? ""} onChange={(e) => update("promo_to", e.target.value || null)} />
+                      <Input label={t("promoFrom")} type="date" value={product.promo_from ?? ""} onChange={(e) => update("promo_from", e.target.value || null)} />
+                      <Input label={t("promoTo")} type="date" value={product.promo_to ?? ""} onChange={(e) => update("promo_to", e.target.value || null)} />
                     </div>
                   )}
                 </div>
@@ -350,9 +359,8 @@ export function AdminProductForm({ productId }: { productId?: string }) {
             </div>
           </Card>
 
-          {/* 5. Durum */}
           <Card className="!rounded-2xl">
-            <SectionTitle step={5} title="Mağaza durumu" />
+            <SectionTitle step={5} title={t("storeStatus")} />
             <div className="space-y-4">
               <label className="flex items-center gap-3 p-3 rounded-xl border-2 border-bosporus-gray-200 cursor-pointer has-[:checked]:border-bosporus has-[:checked]:bg-bosporus-light/20">
                 <input
@@ -362,37 +370,36 @@ export function AdminProductForm({ productId }: { productId?: string }) {
                   className="w-5 h-5 rounded accent-bosporus"
                 />
                 <div>
-                  <p className="font-semibold text-sm">Mağazada göster</p>
-                  <p className="text-xs text-bosporus-muted">Kapalıysa sitede görünmez</p>
+                  <p className="font-semibold text-sm">{t("showInShop")}</p>
+                  <p className="text-xs text-bosporus-muted">{t("hiddenHint")}</p>
                 </div>
               </label>
               <div>
-                <label className="field-label">Satış durumu</label>
+                <label className="field-label">{t("stockStatus")}</label>
                 <select
                   value={product.stock_status}
                   onChange={(e) => update("stock_status", e.target.value)}
                   className="field-input"
                 >
-                  <option value="in_stock">Satışa açık</option>
-                  <option value="low_stock">Az stok (uyarı)</option>
-                  <option value="out_of_stock">Tükendi (sepete eklenemez)</option>
+                  <option value="in_stock">{t("inStock")}</option>
+                  <option value="low_stock">{t("lowStock")}</option>
+                  <option value="out_of_stock">{ta("outOfStock")}</option>
                 </select>
-                <p className="text-xs text-bosporus-muted mt-1">Adet takibi yok — sadece açık/kapalı</p>
+                <p className="text-xs text-bosporus-muted mt-1">{t("noStockTracking")}</p>
               </div>
             </div>
           </Card>
 
-          {/* 6. Teknik */}
           <Card className="!rounded-2xl">
-            <SectionTitle step={6} title="Teknik bilgiler" icon={Settings2} />
+            <SectionTitle step={6} title={t("technical")} icon={Settings2} />
             <div className="space-y-4">
               {isNew ? (
-                <Input label="SKU" value={product.sku} onChange={(e) => update("sku", e.target.value)} placeholder="Boş = otomatik" />
+                <Input label={t("sku")} value={product.sku} onChange={(e) => update("sku", e.target.value)} placeholder={t("skuAuto")} />
               ) : (
-                <Input label="SKU" value={product.sku} disabled />
+                <Input label={t("sku")} value={product.sku} disabled />
               )}
-              <Input label="Barkod" value={product.barcode ?? ""} onChange={(e) => update("barcode", e.target.value || null)} />
-              <BarcodeScanner onScan={(code) => update("barcode", code)} label="Barkod tara" />
+              <Input label={t("barcode")} value={product.barcode ?? ""} onChange={(e) => update("barcode", e.target.value || null)} />
+              <BarcodeScanner onScan={(code) => update("barcode", code)} label={t("scanBarcode")} />
             </div>
           </Card>
         </div>
@@ -402,18 +409,18 @@ export function AdminProductForm({ productId }: { productId?: string }) {
       <div className="fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur border-t border-bosporus-gray-200 px-4 py-3 lg:pl-72">
         <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-bosporus-muted hidden sm:block">
-            {isNew ? "Yeni ürün" : product.sku} · Değişiklikleri kaydetmeyi unutmayın
+            {isNew ? t("newProduct") : product.sku} · {t("saveReminder")}
           </p>
           <div className="flex gap-2 ml-auto w-full sm:w-auto">
             {!isNew && (
               <Button variant="outline" onClick={remove} disabled={deleting} className="!text-bosporus-red !border-red-200">
                 <Trash2 className="w-4 h-4" />
-                {deleting ? "…" : "Sil"}
+                {deleting ? "…" : ta("delete")}
               </Button>
             )}
             <Button onClick={save} disabled={saving} size="lg" className="flex-1 sm:flex-none">
               <Save className="w-4 h-4" />
-              {saving ? "Kaydediliyor…" : isNew ? "Ürünü oluştur" : "Kaydet"}
+              {saving ? t("saving") : isNew ? t("createProduct") : ta("save")}
             </Button>
           </div>
         </div>

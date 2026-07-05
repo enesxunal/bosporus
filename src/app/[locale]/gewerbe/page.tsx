@@ -58,9 +58,7 @@ function GewerbeContent() {
           />
           <div className="flex-1 min-w-0">
             <div className="mb-3 flex items-center justify-between text-sm text-bosporus-muted">
-              <span>
-                {products.length} {locale === "de" ? "Artikel" : "ürün"}
-              </span>
+              <span>{t("productCount", { count: products.length })}</span>
               <span className="text-metro-navy bg-bosporus-yellow px-2 py-0.5 rounded-lg font-bold text-xs">
                 NETTO
               </span>
@@ -68,6 +66,10 @@ function GewerbeContent() {
             {loading ? (
               <div className="flex justify-center py-12">
                 <Loader2 className="w-8 h-8 animate-spin text-bosporus" />
+              </div>
+            ) : products.length === 0 ? (
+              <div className="text-center py-16 bg-white rounded-sm border border-bosporus-gray-200">
+                <p className="text-bosporus-muted">{t("noProducts")}</p>
               </div>
             ) : (
               <ProductTable products={products} profile={profile} />

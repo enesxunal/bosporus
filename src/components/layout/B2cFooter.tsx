@@ -9,6 +9,7 @@ import { MapPin, Phone, Mail, Shield, Truck, Banknote } from "lucide-react";
 export function B2cFooter() {
   const t = useTranslations("footer");
   const nav = useTranslations("nav");
+  const legal = useTranslations("legal");
 
   const trust = [
     { icon: Truck, label: t("trustDelivery") },
@@ -61,6 +62,9 @@ export function B2cFooter() {
               <li><Link href="/contact" className="hover:text-white">{nav("contact")}</Link></li>
               <li><Link href="/impressum" className="hover:text-white">{t("imprint")}</Link></li>
               <li><Link href="/datenschutz" className="hover:text-white">{t("privacy")}</Link></li>
+              <li><Link href="/agb" className="hover:text-white">{legal("terms")}</Link></li>
+              <li><Link href="/faq" className="hover:text-white">{legal("faq")}</Link></li>
+              <li><Link href="/widerruf" className="hover:text-white">{legal("returns")}</Link></li>
             </ul>
           </div>
         </div>
