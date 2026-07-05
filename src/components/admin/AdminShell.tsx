@@ -13,6 +13,7 @@ import {
   Loader2,
   Menu,
   X,
+  FolderTree,
 } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { cn } from "@/lib/cn";
@@ -20,6 +21,7 @@ import { cn } from "@/lib/cn";
 const NAV = [
   { href: "/admin", icon: LayoutDashboard, label: "Genel Bakış", exact: true },
   { href: "/admin/products", icon: ShoppingBag, label: "Ürünler" },
+  { href: "/admin/categories", icon: FolderTree, label: "Kategoriler" },
   { href: "/admin/orders", icon: Package, label: "Siparişler" },
   { href: "/admin/customers", icon: Users, label: "Üyeler" },
   { href: "/admin/b2b", icon: Building2, label: "B2B Onay" },

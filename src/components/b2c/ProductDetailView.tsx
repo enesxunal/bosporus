@@ -1,18 +1,22 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { ShoppingCart, ArrowLeft } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import Image from "next/image";
 import type { Product } from "@/lib/types";
 import { getDisplayPrice, formatPrice, formatUnit, netToGross, isPromoActive } from "@/lib/pricing";
-import { getProductImageUrl, getAvailability } from "@/lib/category-images";
-import { getProductName } from "@/lib/product-display";
+import { getAvailability } from "@/lib/category-images";
+import { getProductImages } from "@/lib/product-images";
+import { getProductName, getProductDescription } from "@/lib/product-display";
+import { trackRecentProduct } from "@/lib/recent-products";
 import { useCart } from "@/stores/cart";
 import { useShopProfile } from "@/hooks/useShopProfile";
+import { RecommendedProducts } from "@/components/b2c/RecommendedProducts";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
-import Image from "next/image";
 
 interface ProductDetailViewProps {
   product: Product;
@@ -23,12 +27,18 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
   const locale = useLocale() as "de" | "tr";
   const profile = useShopProfile();
   const addItem = useCart((s) => s.addItem);
+  const images = getProductImages(product);
+  const [activeImage, setActiveImage] = useState(0);
   const displayPrice = getDisplayPrice(product, profile);
   const isDeal = isPromoActive(product);
   const avail = getAvailability(product);
   const name = getProductName(product, locale);
-  const img = getProductImageUrl(product);
+  const description = getProductDescription(product, locale);
   const outOfStock = avail === "out_of_stock";
+
+  useEffect(() => {
+    trackRecentProduct(product.sku);
+  }, [product.sku]);
 
   const handleAdd = () => {
     if (outOfStock) return;
@@ -50,7 +60,7 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
       priceNet: Math.round(net * 100) / 100,
       priceGross: Math.round(gross * 100) / 100,
       taxRate: product.tax_rate,
-      imageUrl: img,
+      imageUrl: images[0],
     });
   };
 
@@ -78,11 +88,37 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
       </Link>
 
       <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-        <div className="relative aspect-square bg-bosporus-gray-50 rounded-2xl overflow-hidden">
-          <Image src={img} alt={name} fill className="object-cover" sizes="(max-width:768px) 100vw, 50vw" priority />
-          {isDeal && (
-            <div className="absolute top-4 left-4">
-              <Badge variant="promo">{t("promo")}</Badge>
+        <div>
+          <div className="relative aspect-square bg-bosporus-gray-50 rounded-2xl overflow-hidden mb-3">
+            <Image
+              src={images[activeImage] ?? images[0]}
+              alt={name}
+              fill
+              className="object-cover"
+              sizes="(max-width:768px) 100vw, 50vw"
+              priority
+            />
+            {isDeal && (
+              <div className="absolute top-4 left-4">
+                <Badge variant="promo">{t("promo")}</Badge>
+              </div>
+            )}
+          </div>
+          {images.length > 1 && (
+            <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
+              {images.map((url, i) => (
+                <button
+                  key={url}
+                  type="button"
+                  onClick={() => setActiveImage(i)}
+                  className={cn(
+                    "relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border-2 transition-colors",
+                    i === activeImage ? "border-bosporus" : "border-transparent opacity-70 hover:opacity-100"
+                  )}
+                >
+                  <Image src={url} alt="" fill className="object-cover" sizes="80px" />
+                </button>
+              ))}
             </div>
           )}
         </div>
@@ -103,7 +139,7 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
             {stockLabel}
           </span>
 
-          <div className="mb-8">
+          <div className="mb-6">
             {displayPrice.isPromo && displayPrice.originalAmount != null && (
               <span className="text-lg text-bosporus-muted line-through block mb-1">
                 {formatPrice(displayPrice.originalAmount, locale)}
@@ -119,10 +155,19 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
             </div>
           </div>
 
-          <Button type="button" onClick={handleAdd} size="lg" disabled={outOfStock} className="w-full sm:w-auto">
+          <Button type="button" onClick={handleAdd} size="lg" disabled={outOfStock} className="w-full sm:w-auto mb-8">
             <ShoppingCart className="w-5 h-5" />
             {outOfStock ? stockLabel : t("addToCart")}
           </Button>
+
+          {description && (
+            <div className="border-t border-bosporus-gray-100 pt-6">
+              <h2 className="font-bold text-bosporus-gray-800 mb-2">
+                {locale === "de" ? "Beschreibung" : "Açıklama"}
+              </h2>
+              <p className="text-sm text-bosporus-muted leading-relaxed whitespace-pre-line">{description}</p>
+            </div>
+          )}
 
           {product.barcode && (
             <p className="text-xs text-bosporus-muted mt-6">
@@ -131,6 +176,8 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
           )}
         </div>
       </div>
+
+      <RecommendedProducts excludeSku={product.sku} categorySlug={product.category_slug} />
     </div>
   );
 }

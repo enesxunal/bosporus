@@ -3,6 +3,8 @@ import type { Product } from "./types";
 const DEFAULT_IMAGE =
   "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&h=450&fit=crop";
 
+export { DEFAULT_IMAGE };
+
 /** Category → Unsplash food imagery for MVP placeholders */
 export const CATEGORY_IMAGES: Record<string, string> = {
   obst: "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=600&h=450&fit=crop",
@@ -25,7 +27,11 @@ export const CATEGORY_IMAGES: Record<string, string> = {
   "lieferung-fracht": "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600&h=450&fit=crop",
 };
 
-export function getProductImageUrl(product: Pick<Product, "image_url" | "category_slug">): string {
+export function getProductImageUrl(product: Pick<Product, "image_url" | "image_urls" | "category_slug">): string {
+  const gallery = Array.isArray(product.image_urls)
+    ? product.image_urls.filter((u): u is string => typeof u === "string" && u.trim().length > 0)
+    : [];
+  if (gallery.length > 0) return gallery[0];
   if (product.image_url) return product.image_url;
   if (product.category_slug && CATEGORY_IMAGES[product.category_slug]) {
     return CATEGORY_IMAGES[product.category_slug];

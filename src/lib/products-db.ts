@@ -2,11 +2,13 @@ import type { Product, Category } from "./types";
 import productsData from "@/data/products.json";
 import categoriesData from "@/data/categories.json";
 import { createAdminClient } from "./supabase/admin";
+import { parseImageUrls } from "./product-images";
 
 const jsonProducts = productsData as Product[];
 const jsonCategories = categoriesData as Category[];
 
 function mapDbRow(row: Record<string, unknown>): Product {
+  const imageUrls = parseImageUrls(row.image_urls);
   return {
     id: row.id as string,
     sku: row.sku as string,
@@ -14,7 +16,10 @@ function mapDbRow(row: Record<string, unknown>): Product {
     name_de: row.name_de as string,
     name_tr: (row.name_tr as string) ?? null,
     category_slug: (row.category_slug as string) ?? null,
-    image_url: (row.image_url as string) ?? null,
+    image_url: (row.image_url as string) ?? imageUrls[0] ?? null,
+    image_urls: imageUrls,
+    description_de: (row.description_de as string) ?? null,
+    description_tr: (row.description_tr as string) ?? null,
     base_unit: row.base_unit as Product["base_unit"],
     tax_rate: Number(row.tax_rate),
     price_b2c: Number(row.price_b2c),

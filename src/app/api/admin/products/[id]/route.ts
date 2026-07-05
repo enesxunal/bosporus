@@ -25,14 +25,21 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   const body = await request.json();
 
   const allowed = [
-    "name_de", "name_tr", "price_b2c", "price_b2b", "promo_price",
+    "name_de", "name_tr", "description_de", "description_tr",
+    "price_b2c", "price_b2b", "promo_price",
     "promo_from", "promo_to", "is_active", "stock_status", "tax_rate",
-    "barcode", "image_url", "category_slug",
+    "barcode", "image_url", "image_urls", "category_slug",
   ] as const;
 
   const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
   for (const key of allowed) {
     if (key in body) updates[key] = body[key];
+  }
+
+  if (Array.isArray(body.image_urls)) {
+    const urls = body.image_urls.filter((u: unknown) => typeof u === "string" && u.trim());
+    updates.image_urls = urls;
+    updates.image_url = urls[0] ?? body.image_url ?? null;
   }
 
   const admin = createAdminClient();

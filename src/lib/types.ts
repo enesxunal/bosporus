@@ -21,6 +21,9 @@ export interface Product {
   category_name_de?: string;
   category_name_tr?: string;
   image_url: string | null;
+  image_urls?: string[];
+  description_de?: string | null;
+  description_tr?: string | null;
   base_unit: BaseUnit;
   tax_rate: number;
   price_b2c: number;
