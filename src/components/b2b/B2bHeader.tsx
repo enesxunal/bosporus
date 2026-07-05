@@ -68,7 +68,7 @@ export function B2bHeader({ onSearch, searchQuery }: B2bHeaderProps) {
             <p className="text-bosporus-yellow font-mono text-xs">DE123456789</p>
           </div>
           <Link
-            href="/gewerbe/register"
+            href="/register?tab=gewerbe"
             className="hidden md:flex items-center gap-1.5 px-3 py-2 border border-white/30 text-sm rounded-sm hover:bg-white/10"
           >
             <User className="w-4 h-4" />

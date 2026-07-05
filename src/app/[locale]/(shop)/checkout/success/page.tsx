@@ -5,25 +5,22 @@ import { CheckCircle } from "lucide-react";
 export default async function CheckoutSuccessPage({
   searchParams,
 }: {
-  searchParams: Promise<{ demo?: string }>;
+  searchParams: Promise<{ order?: string }>;
 }) {
-  const { demo } = await searchParams;
+  const { order } = await searchParams;
   const t = await getTranslations("cart");
+  const c = await getTranslations("checkout");
 
   return (
     <div className="max-w-lg mx-auto px-4 py-20 text-center">
       <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
       <h1 className="text-2xl font-bold text-bosporus-gray-800 mb-2">
-        Bestellung erfolgreich!
+        {c("successTitle")}
       </h1>
-      <p className="text-bosporus-muted mb-2">
-        Vielen Dank für Ihre Bestellung bei Bosporus GmbH.
-      </p>
-      {demo === "1" && (
-        <p className="text-xs text-amber-700 bg-amber-50 p-2 rounded mb-4">
-          Demo-Modus: Stripe noch nicht konfiguriert. Bestellung simuliert.
-        </p>
+      {order && (
+        <p className="text-lg font-mono font-bold text-bosporus mb-2">{order}</p>
       )}
+      <p className="text-bosporus-muted mb-6">{c("successDesc")}</p>
       <Link href="/products" className="text-bosporus font-medium hover:underline">
         {t("continue")} →
       </Link>

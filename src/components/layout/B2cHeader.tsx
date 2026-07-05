@@ -60,7 +60,13 @@ export function B2cHeader() {
 
           <div className="flex items-center gap-2 ml-auto">
             <Link
-              href="/gewerbe/register"
+              href="/login"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-bosporus-gray-800 hover:text-bosporus"
+            >
+              {t("login")}
+            </Link>
+            <Link
+              href="/register"
               className="hidden lg:flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-bosporus-gray-800 hover:text-bosporus border border-bosporus-gray-200 rounded-sm"
             >
               <User className="w-4 h-4" />
