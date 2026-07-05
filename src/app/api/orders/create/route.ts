@@ -66,6 +66,7 @@ export async function POST(request: Request) {
     orderType,
     customerEmail,
     customerName,
+    customerPhone,
     zipCode,
     address,
     deliveryDate,
@@ -78,6 +79,7 @@ export async function POST(request: Request) {
     orderType: "delivery" | "click_collect";
     customerEmail: string;
     customerName: string;
+    customerPhone?: string;
     zipCode?: string;
     address?: string;
     deliveryDate?: string;
@@ -158,6 +160,7 @@ export async function POST(request: Request) {
     orderType,
     customerEmail: customerEmail.trim(),
     customerName: customerName.trim(),
+    customerPhone: customerPhone?.trim() || undefined,
     userId,
     isB2b,
     zipCode,

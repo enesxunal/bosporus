@@ -33,6 +33,7 @@ export default function CheckoutPage() {
   const [orderType, setOrderType] = useState<"delivery" | "click_collect">("delivery");
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [address, setAddress] = useState("");
   const [deliveryDate, setDeliveryDate] = useState("");
@@ -101,6 +102,7 @@ export default function CheckoutPage() {
           if (p?.first_name || p?.last_name) {
             setCustomerName([p.first_name, p.last_name].filter(Boolean).join(" "));
           }
+          if (p?.phone) setCustomerPhone(p.phone);
         }
       }
     });
@@ -175,6 +177,7 @@ export default function CheckoutPage() {
           orderType,
           customerName: customerName.trim(),
           customerEmail: customerEmail.trim(),
+          customerPhone: customerPhone.trim() || undefined,
           zipCode,
           address,
           deliveryDate: orderType === "delivery" ? deliveryDate : undefined,
@@ -208,6 +211,14 @@ export default function CheckoutPage() {
           <div className="space-y-4">
             <Input label={t("customerName")} value={customerName} onChange={(e) => setCustomerName(e.target.value)} required />
             <Input label={t("customerEmail")} type="email" value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)} required />
+            <Input
+              label={t("customerPhone")}
+              type="tel"
+              value={customerPhone}
+              onChange={(e) => setCustomerPhone(e.target.value)}
+              placeholder={locale === "de" ? "+49 221 ..." : "+49 221 ..."}
+            />
+            <p className="text-xs text-bosporus-muted -mt-2">{t("phoneHint")}</p>
           </div>
         </Card>
 

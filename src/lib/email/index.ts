@@ -5,6 +5,8 @@ import {
   templateOrderPlaced,
   templateOrderPreparing,
   templateOrderCompleted,
+  templateOrderOutForDelivery,
+  templateOrderCancelled,
   templatePromotion,
   type OrderEmailData,
 } from "./templates";
@@ -78,6 +80,16 @@ export async function sendOrderStatusEmail(params: {
   if (params.status === "preparing") {
     const { subject, html } = templateOrderPreparing(data);
     return sendEmail({ to: params.to, subject, html, templateType: "order_preparing", referenceId: params.orderNumber });
+  }
+
+  if (params.status === "out_for_delivery") {
+    const { subject, html } = templateOrderOutForDelivery(data);
+    return sendEmail({ to: params.to, subject, html, templateType: "order_preparing", referenceId: params.orderNumber });
+  }
+
+  if (params.status === "cancelled") {
+    const { subject, html } = templateOrderCancelled(data);
+    return sendEmail({ to: params.to, subject, html, templateType: "order_completed", referenceId: params.orderNumber });
   }
 
   if (params.status === "delivered" || params.status === "ready") {

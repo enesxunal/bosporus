@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-auth";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { sendOrderStatusEmail } from "@/lib/email";
+import { notifyOrderStatusChange } from "@/lib/order-notifications";
 import type { OrderStatus } from "@/lib/types";
 
-const EMAIL_STATUSES: OrderStatus[] = ["preparing", "ready", "delivered"];
+const NOTIFY_STATUSES: OrderStatus[] = ["preparing", "ready", "out_for_delivery", "delivered", "cancelled"];
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const auth = await requireAdmin();
@@ -58,7 +58,7 @@ export async function PATCH(
     return NextResponse.json({ error: error?.message ?? "Update fehlgeschlagen" }, { status: 500 });
   }
 
-  if (EMAIL_STATUSES.includes(status) && before.status !== status && order.customer_email) {
+  if (NOTIFY_STATUSES.includes(status) && before.status !== status && order.customer_email) {
     const [{ data: items }, profileRes] = await Promise.all([
       admin.from("order_items").select("product_name, quantity, line_total_gross").eq("order_id", id),
       order.user_id
@@ -76,11 +76,12 @@ export async function PATCH(
     const locale: "de" | "tr" =
       profileLocale === "tr" || storedLocale === "tr" ? "tr" : "de";
 
-    sendOrderStatusEmail({
-      to: order.customer_email,
+    notifyOrderStatusChange({
       status,
-      orderNumber: order.order_number,
+      customerEmail: order.customer_email,
       customerName: order.customer_name ?? "Kunde",
+      customerPhone: order.customer_phone ?? undefined,
+      orderNumber: order.order_number,
       orderType: order.order_type,
       totalGross: Number(order.total_gross),
       items: items ?? [],
@@ -89,7 +90,7 @@ export async function PATCH(
       address: addressRaw,
       pickupDate: order.pickup_date ?? undefined,
       pickupSlot: order.pickup_slot_label ?? undefined,
-    }).catch((e) => console.error("Status email error:", e));
+    }).catch((e) => console.error("Status notify error:", e));
   }
 
   return NextResponse.json({ order });

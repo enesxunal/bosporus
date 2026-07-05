@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Loader2, Package, Users, ShoppingBag, Building2 } from "lucide-react";
+import { AdminDashboardCharts } from "@/components/admin/AdminDashboardCharts";
 import { Card } from "@/components/ui/Card";
 
 export default function AdminDashboardPage() {
@@ -48,6 +49,7 @@ export default function AdminDashboardPage() {
           </Link>
         ))}
       </div>
+      <AdminDashboardCharts />
       <Card className="!rounded-2xl">
         <h2 className="font-bold text-lg mb-3">{t("quickStart")}</h2>
         <ul className="text-sm text-bosporus-muted space-y-2">

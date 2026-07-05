@@ -104,6 +104,8 @@
     "contactSection": "Ihre Kontaktdaten",
     "customerName": "Name",
     "customerEmail": "E-Mail",
+    "customerPhone": "Telefon (WhatsApp)",
+    "phoneHint": "Optional — für WhatsApp-Bestellbestätigungen",
     "contactRequired": "Bitte Name und E-Mail eingeben.",
     "successTitle": "Bestellung eingegangen!",
     "successDesc": "Vielen Dank! Wir bereiten Ihre Bestellung vor und melden uns bei Ihnen.",
@@ -213,7 +215,25 @@
     "active": "Aktiv",
     "inactive": "Inaktiv",
     "outOfStock": "Ausverkauft",
-    "pieces": "{count} Stück"
+    "pieces": "{count} Stück",
+    "bulkEdit": "Massenbearbeitung"
+  },
+  "adminBulk": {
+    "title": "Massenbearbeitung",
+    "subtitle": "Preise oder Lagerstatus aller Produkte einer Kategorie auf einmal ändern",
+    "category": "Kategorie",
+    "selectCategory": "Kategorie wählen",
+    "b2cPercent": "B2C-Preisänderung (%)",
+    "b2bPercent": "B2B-Preisänderung (%)",
+    "percentHint": "Beispiel: 10 = +10 %, -5 = -5 %. Leer lassen = keine Änderung.",
+    "activeStatus": "Veröffentlichungsstatus",
+    "stockStatus": "Lagerstatus",
+    "noChange": "Keine Änderung",
+    "inStock": "Auf Lager",
+    "lowStock": "Wenig auf Lager",
+    "nothingSelected": "Mindestens eine Änderung wählen",
+    "apply": "Anwenden",
+    "success": "{updated} von {total} Produkten aktualisiert"
   },
   "adminDashboard": {
     "totalOrders": "Bestellungen gesamt",
@@ -224,7 +244,13 @@
     "step1": "Produkte importieren und verwalten",
     "step2": "Preise und Verfügbarkeit anpassen",
     "step3": "Bestelldetails einsehen",
-    "step4": "Kundenprofile öffnen"
+    "step4": "Kundenprofile öffnen",
+    "dailySales": "Tagesumsatz",
+    "topProducts": "Bestseller",
+    "last14Days": "Letzte 14 Tage",
+    "periodTotal": "Zeitraum gesamt",
+    "orderCount": "{count} Bestellungen",
+    "noSalesYet": "Keine Verkäufe in diesem Zeitraum"
   },
   "adminProductForm": {
     "uploadFailed": "Upload fehlgeschlagen",

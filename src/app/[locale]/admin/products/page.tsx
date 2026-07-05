@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { Loader2, Search, ChevronRight, Plus } from "lucide-react";
+import { Loader2, Search, ChevronRight, Plus, Percent } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
@@ -63,9 +63,14 @@ export default function AdminProductsPage() {
           <h1 className="text-2xl font-extrabold text-metro-navy">Ürünler</h1>
           <p className="text-sm text-bosporus-muted">{total} ürün</p>
         </div>
-        <Link href="/admin/products/new">
-          <Button><Plus className="w-4 h-4" />{t("addProduct")}</Button>
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/admin/products/new">
+            <Button><Plus className="w-4 h-4" />{t("addProduct")}</Button>
+          </Link>
+          <Link href="/admin/products/bulk">
+            <Button variant="secondary"><Percent className="w-4 h-4" />{t("bulkEdit")}</Button>
+          </Link>
+        </div>
       </div>
 
       <form

@@ -6,6 +6,7 @@ export interface CreateOrderInput {
   orderType: "delivery" | "click_collect";
   customerEmail: string;
   customerName: string;
+  customerPhone?: string | null;
   userId?: string | null;
   isB2b?: boolean;
   zipCode?: string;
@@ -62,6 +63,7 @@ export async function createOrder(input: CreateOrderInput) {
       total_gross: totalGross,
       customer_email: input.customerEmail,
       customer_name: input.customerName,
+      customer_phone: input.customerPhone?.trim() || null,
       delivery_zip_code: input.zipCode ?? null,
       delivery_date: input.orderType === "delivery" ? input.deliveryDate ?? null : null,
       delivery_address:
@@ -111,11 +113,12 @@ export async function createOrder(input: CreateOrderInput) {
     return { ok: false as const, error: itemsError.message };
   }
 
-  const { sendOrderPlacedEmail } = await import("./email");
-  sendOrderPlacedEmail({
-    to: input.customerEmail,
-    orderNumber: order.order_number,
+  const { notifyOrderPlaced } = await import("./order-notifications");
+  notifyOrderPlaced({
+    customerEmail: input.customerEmail,
     customerName: input.customerName,
+    customerPhone: input.customerPhone,
+    orderNumber: order.order_number,
     orderType: input.orderType,
     totalGross,
     items: input.items,
@@ -124,7 +127,7 @@ export async function createOrder(input: CreateOrderInput) {
     address: input.address,
     pickupDate: input.pickupDate,
     pickupSlot: input.pickupSlot,
-  }).catch((err) => console.error("Email error:", err));
+  }).catch((err) => console.error("Order notify error:", err));
 
   return {
     ok: true as const,

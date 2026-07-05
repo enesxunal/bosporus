@@ -1,5 +1,7 @@
 import { COMPANY, companyAddressLine } from "@/lib/company";
 
+const SITE = COMPANY.website.replace(/\/$/, "");
+
 export type EmailTemplateType =
   | "order_placed"
   | "order_preparing"
@@ -108,16 +110,70 @@ export function templateOrderPlaced(data: OrderEmailData): { subject: string; ht
     ${deliveryInfo(data, de)}
     ${itemsTable(data.items, de)}
     <p style="font-size:18px;font-weight:800;color:#1D71B8">${de ? "Gesamt" : "Toplam"}: ${formatEuro(data.totalGross)}</p>
-    <p style="color:#5c6573;font-size:13px">${de ? "Die Zahlungsart wird mit Ihnen abgestimmt." : "Ödeme yöntemi sizinle paylaşılacaktır."}</p>`;
+    <p style="color:#5c6573;font-size:13px">${de ? "Zahlung bei Lieferung / Abholung." : "Ödeme teslimat veya gel-al sırasında yapılır."}</p>`;
   return {
     subject,
     html: emailLayout({
       locale: data.locale,
       title: de ? "Bestellung eingegangen" : "Sipariş alındı",
       bodyHtml,
-      ctaLabel: de ? "Mein Konto" : "Hesabım",
-      ctaUrl: "https://bosporus-blue.vercel.app/account",
+      ctaLabel: de ? "Bestellung verfolgen" : "Siparişi takip et",
+      ctaUrl: `${SITE}/order/track?order=${encodeURIComponent(data.orderNumber)}`,
     }),
+  };
+}
+
+export function templateOrderAdminNotify(data: OrderEmailData & { customerEmail: string; customerPhone?: string | null }): { subject: string; html: string } {
+  const de = data.locale !== "tr";
+  const subject = de
+    ? `[Neu] Bestellung ${data.orderNumber} – ${formatEuro(data.totalGross)}`
+    : `[Yeni] Sipariş ${data.orderNumber} – ${formatEuro(data.totalGross)}`;
+  const bodyHtml = `
+    <p>${de ? "Neue Bestellung im Shop:" : "Mağazada yeni sipariş:"}</p>
+    <p style="background:#e8f2fa;padding:12px 16px;border-radius:10px">
+      <strong>${de ? "Bestellnummer" : "Sipariş no"}:</strong> ${data.orderNumber}<br>
+      <strong>${de ? "Kunde" : "Müşteri"}:</strong> ${data.customerName}<br>
+      <strong>E-Mail:</strong> ${data.customerEmail}<br>
+      ${data.customerPhone ? `<strong>${de ? "Telefon" : "Telefon"}:</strong> ${data.customerPhone}<br>` : ""}
+      <strong>${de ? "Gesamt" : "Toplam"}:</strong> ${formatEuro(data.totalGross)}
+    </p>
+    ${deliveryInfo(data, de)}
+    ${itemsTable(data.items, de)}`;
+  return {
+    subject,
+    html: emailLayout({
+      locale: data.locale,
+      title: de ? "Neue Bestellung" : "Yeni sipariş",
+      bodyHtml,
+      ctaLabel: de ? "Im Admin öffnen" : "Admin panelde aç",
+      ctaUrl: `${SITE}/admin/orders`,
+    }),
+  };
+}
+
+export function templateOrderOutForDelivery(data: OrderEmailData): { subject: string; html: string } {
+  const de = data.locale !== "tr";
+  const subject = de ? `Bestellung unterwegs – ${data.orderNumber}` : `Sipariş yola çıktı – ${data.orderNumber}`;
+  const bodyHtml = `
+    <p>${de ? "Hallo" : "Merhaba"} <strong>${data.customerName}</strong>,</p>
+    <p>${de ? "Ihre Bestellung" : "Siparişiniz"} <strong>${data.orderNumber}</strong> ${de ? "ist unterwegs." : "yola çıktı."}</p>
+    ${deliveryInfo(data, de)}`;
+  return {
+    subject,
+    html: emailLayout({ locale: data.locale, title: de ? "Unterwegs" : "Yolda", bodyHtml }),
+  };
+}
+
+export function templateOrderCancelled(data: OrderEmailData): { subject: string; html: string } {
+  const de = data.locale !== "tr";
+  const subject = de ? `Bestellung storniert – ${data.orderNumber}` : `Sipariş iptal – ${data.orderNumber}`;
+  const bodyHtml = `
+    <p>${de ? "Hallo" : "Merhaba"} <strong>${data.customerName}</strong>,</p>
+    <p>${de ? "Ihre Bestellung" : "Siparişiniz"} <strong>${data.orderNumber}</strong> ${de ? "wurde storniert." : "iptal edildi."}</p>
+    <p>${de ? "Fragen?" : "Sorularınız için"} ${COMPANY.email} · ${COMPANY.phone}</p>`;
+  return {
+    subject,
+    html: emailLayout({ locale: data.locale, title: de ? "Storniert" : "İptal", bodyHtml }),
   };
 }
 
@@ -190,7 +246,7 @@ export function templateB2bApproved(params: {
       title: de ? "Konto freigeschaltet" : "Hesap onaylandı",
       bodyHtml,
       ctaLabel: de ? "Zum Gewerbe-Portal" : "Kurumsal portala git",
-      ctaUrl: "https://bosporus-blue.vercel.app/gewerbe",
+      ctaUrl: `${SITE}/gewerbe`,
     }),
   };
 }
@@ -230,7 +286,7 @@ export function templatePromotion(params: {
       title: params.headline,
       bodyHtml: params.bodyHtml,
       ctaLabel: params.ctaLabel,
-      ctaUrl: params.ctaUrl ?? "https://bosporus-blue.vercel.app/products?filter=aktion",
+      ctaUrl: params.ctaUrl ?? `${SITE}/products?filter=aktion`,
     }),
   };
 }

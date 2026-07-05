@@ -104,6 +104,8 @@
     "contactSection": "İletişim bilgileriniz",
     "customerName": "Ad Soyad",
     "customerEmail": "E-posta",
+    "customerPhone": "Telefon (WhatsApp)",
+    "phoneHint": "İsteğe bağlı — WhatsApp sipariş bildirimi için",
     "contactRequired": "Lütfen ad ve e-posta girin.",
     "successTitle": "Siparişiniz alındı!",
     "successDesc": "Teşekkürler! Siparişinizi hazırlıyoruz, sizinle iletişime geçeceğiz.",
@@ -213,7 +215,25 @@
     "active": "Aktif",
     "inactive": "Pasif",
     "outOfStock": "Tükendi",
-    "pieces": "{count} adet"
+    "pieces": "{count} adet",
+    "bulkEdit": "Toplu düzenle"
+  },
+  "adminBulk": {
+    "title": "Toplu ürün düzenleme",
+    "subtitle": "Kategorideki tüm ürünlerin fiyat veya stok durumunu tek seferde güncelleyin",
+    "category": "Kategori",
+    "selectCategory": "Kategori seçin",
+    "b2cPercent": "B2C fiyat değişimi (%)",
+    "b2bPercent": "B2B fiyat değişimi (%)",
+    "percentHint": "Örnek: 10 = %10 artış, -5 = %5 indirim. Boş bırakırsanız değişmez.",
+    "activeStatus": "Yayın durumu",
+    "stockStatus": "Stok durumu",
+    "noChange": "Değiştirme",
+    "inStock": "Stokta",
+    "lowStock": "Az stok",
+    "nothingSelected": "En az bir değişiklik seçin",
+    "apply": "Uygula",
+    "success": "{updated} / {total} ürün güncellendi"
   },
   "adminDashboard": {
     "totalOrders": "Toplam sipariş",
@@ -224,7 +244,13 @@
     "step1": "Ürünleri içe aktarın ve yönetin",
     "step2": "Fiyat ve stok durumlarını düzenleyin",
     "step3": "Sipariş detaylarını görün",
-    "step4": "Müşteri profillerini açın"
+    "step4": "Müşteri profillerini açın",
+    "dailySales": "Günlük satış",
+    "topProducts": "En çok satanlar",
+    "last14Days": "Son 14 gün",
+    "periodTotal": "Dönem toplamı",
+    "orderCount": "{count} sipariş",
+    "noSalesYet": "Bu dönemde satış yok"
   },
   "adminProductForm": {
     "uploadFailed": "Yükleme başarısız",
