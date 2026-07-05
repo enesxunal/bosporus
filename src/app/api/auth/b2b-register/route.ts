@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { authErrorMessage } from "@/lib/auth-errors";
 import { createAdminClient, isSupabaseAdminConfigured } from "@/lib/supabase/admin";
 import { validateVatId } from "@/lib/vies";
+import { getSiteUrl } from "@/lib/site-url";
+import { sendEmail } from "@/lib/email/smtp";
 
 export async function POST(request: Request) {
   if (!isSupabaseAdminConfigured()) {
@@ -41,7 +43,7 @@ export async function POST(request: Request) {
   const { data, error } = await admin.auth.admin.createUser({
     email: normalizedEmail,
     password,
-    email_confirm: true,
+    email_confirm: false,
     user_metadata: { company_name: companyName, role: "b2b_pending" },
   });
 
@@ -68,12 +70,30 @@ export async function POST(request: Request) {
       console.error("B2B profile upsert error:", profileError);
       return NextResponse.json({ error: profileError.message }, { status: 500 });
     }
+
+    const { data: linkData } = await admin.auth.admin.generateLink({
+      type: "signup",
+      email: normalizedEmail,
+      password,
+      options: { redirectTo: `${getSiteUrl()}/auth/callback?next=/login` },
+    });
+
+    if (linkData?.properties?.action_link) {
+      sendEmail({
+        to: normalizedEmail,
+        subject: "E-Mail bestätigen – Bosporus Gewerbe",
+        html: `<p>Bitte bestätigen Sie Ihre E-Mail: <a href="${linkData.properties.action_link}">Bestätigen</a></p>`,
+        templateType: "campaign",
+        referenceId: "b2b-verify",
+      }).catch((e) => console.error("B2B verify email:", e));
+    }
   }
 
   return NextResponse.json({
     success: true,
+    needsVerification: true,
     message:
-      "Gewerbeanfrage eingegangen! Wir prüfen Ihre Daten und schalten Ihr Konto frei. Sie erhalten eine E-Mail.",
+      "Gewerbeanfrage eingegangen! Bitte bestätigen Sie Ihre E-Mail. Wir prüfen Ihre Daten und schalten Ihr Konto frei.",
     viesName: vies.name,
   });
 }

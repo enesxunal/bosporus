@@ -17,6 +17,8 @@ export default function AdminEmailsPage() {
   const [campHeadline, setCampHeadline] = useState("");
   const [campBody, setCampBody] = useState("");
   const [campAudience, setCampAudience] = useState("all");
+  const [previewHtml, setPreviewHtml] = useState("");
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   const load = () => {
     Promise.all([
@@ -30,6 +32,23 @@ export default function AdminEmailsPage() {
   };
 
   useEffect(() => { load(); }, []);
+
+  const previewCampaign = async () => {
+    const res = await fetch("/api/admin/campaigns/preview", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        headline: campHeadline || campSubject,
+        bodyHtml: campBody.replace(/\n/g, "<br>"),
+        locale: "tr",
+      }),
+    });
+    const data = await res.json();
+    if (data.html) {
+      setPreviewHtml(data.html);
+      setPreviewOpen(true);
+    }
+  };
 
   const sendCampaign = async (sendNow: boolean, campaignId?: string) => {
     if (campaignId) {
@@ -82,7 +101,8 @@ export default function AdminEmailsPage() {
                 <option value="b2b_approved">Onaylı B2B</option>
               </select>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
+              <Button variant="outline" onClick={previewCampaign}>Önizleme</Button>
               <Button variant="outline" onClick={() => sendCampaign(false)}>Taslak Kaydet</Button>
               <Button onClick={() => sendCampaign(true)}><Send className="w-4 h-4" /> Şimdi Gönder</Button>
             </div>
@@ -120,6 +140,15 @@ export default function AdminEmailsPage() {
           </Card>
         </div>
       </div>
+      {previewOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setPreviewOpen(false)}>
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-auto p-4" onClick={(e) => e.stopPropagation()}>
+            <h3 className="font-bold mb-3">E-posta önizleme</h3>
+            <iframe title="preview" srcDoc={previewHtml} className="w-full h-[60vh] border border-bosporus-gray-200 rounded-xl" />
+            <Button className="mt-3" onClick={() => setPreviewOpen(false)}>Kapat</Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

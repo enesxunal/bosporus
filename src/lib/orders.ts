@@ -10,9 +10,11 @@ export interface CreateOrderInput {
   isB2b?: boolean;
   zipCode?: string;
   address?: string;
+  deliveryDate?: string;
   pickupDate?: string;
   pickupSlot?: string;
   notes?: string;
+  locale?: "de" | "tr";
 }
 
 function generateOrderNumber(): string {
@@ -60,9 +62,14 @@ export async function createOrder(input: CreateOrderInput) {
       customer_email: input.customerEmail,
       customer_name: input.customerName,
       delivery_zip_code: input.zipCode ?? null,
-      delivery_address: input.address
-        ? { raw: input.address, street: input.address }
-        : null,
+      delivery_address:
+        input.address || input.locale || input.deliveryDate
+          ? {
+              ...(input.address ? { raw: input.address, street: input.address } : {}),
+              ...(input.deliveryDate ? { deliveryDate: input.deliveryDate } : {}),
+              ...(input.locale ? { locale: input.locale } : {}),
+            }
+          : null,
       pickup_date: input.pickupDate ?? null,
       pickup_slot_label: input.pickupSlot ?? null,
       notes: input.notes ?? null,
@@ -109,6 +116,7 @@ export async function createOrder(input: CreateOrderInput) {
     orderType: input.orderType,
     totalGross,
     items: input.items,
+    locale: input.locale ?? "de",
     zipCode: input.zipCode,
     address: input.address,
     pickupDate: input.pickupDate,

@@ -1,9 +1,8 @@
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { getCategories, getCategoryBySlug, getProducts } from "@/lib/products";
-import { ProductCard } from "@/components/b2c/ProductCard";
+import { getCategories, getCategoryBySlug } from "@/lib/products";
+import { ProductGrid } from "@/components/b2c/ProductGrid";
 import { CategoryNav } from "@/components/b2c/CategoryNav";
-import { isPromoActive } from "@/lib/pricing";
 import Image from "next/image";
 import { getCategoryImageUrl } from "@/lib/category-images";
 
@@ -19,7 +18,6 @@ export default async function CategoryPage({
   if (!category) notFound();
 
   const categories = getCategories();
-  const products = await getProducts({ category: slug, limit: 100 });
   const name = locale === "tr" && category.name_tr ? category.name_tr : category.name_de;
 
   return (
@@ -31,18 +29,11 @@ export default async function CategoryPage({
         <div className="absolute inset-0 flex items-end">
           <div className="max-w-7xl mx-auto px-4 pb-6 w-full">
             <h1 className="text-3xl font-bold text-white">{name}</h1>
-            <p className="text-white/80 text-sm mt-1">
-              {products.length} {locale === "de" ? "Artikel" : "ürün"}
-            </p>
           </div>
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-          {products.map((p) => (
-            <ProductCard key={p.id} product={p} variant={isPromoActive(p) ? "deal" : "default"} />
-          ))}
-        </div>
+        <ProductGrid category={slug} />
       </div>
     </>
   );

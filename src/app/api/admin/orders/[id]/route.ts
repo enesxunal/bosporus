@@ -59,15 +59,22 @@ export async function PATCH(
   }
 
   if (EMAIL_STATUSES.includes(status) && before.status !== status && order.customer_email) {
-    const { data: items } = await admin
-      .from("order_items")
-      .select("product_name, quantity, line_total_gross")
-      .eq("order_id", id);
+    const [{ data: items }, profileRes] = await Promise.all([
+      admin.from("order_items").select("product_name, quantity, line_total_gross").eq("order_id", id),
+      order.user_id
+        ? admin.from("profiles").select("locale").eq("id", order.user_id).single()
+        : Promise.resolve({ data: null }),
+    ]);
 
     const addressRaw =
       order.delivery_address && typeof order.delivery_address === "object"
         ? (order.delivery_address as { raw?: string }).raw
         : undefined;
+
+    const storedLocale = (order.delivery_address as { locale?: string } | null)?.locale;
+    const profileLocale = profileRes.data?.locale;
+    const locale: "de" | "tr" =
+      profileLocale === "tr" || storedLocale === "tr" ? "tr" : "de";
 
     sendOrderStatusEmail({
       to: order.customer_email,
@@ -77,6 +84,7 @@ export async function PATCH(
       orderType: order.order_type,
       totalGross: Number(order.total_gross),
       items: items ?? [],
+      locale,
       zipCode: order.delivery_zip_code ?? undefined,
       address: addressRaw,
       pickupDate: order.pickup_date ?? undefined,

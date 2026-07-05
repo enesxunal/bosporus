@@ -2,7 +2,8 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "@/i18n/navigation";
-import { Loader2, Search, RefreshCw, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Loader2, Search, RefreshCw, ChevronRight, Plus } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
@@ -22,26 +23,42 @@ interface ProductRow {
 }
 
 export default function AdminProductsPage() {
+  const t = useTranslations("admin");
   const [products, setProducts] = useState<ProductRow[]>([]);
   const [total, setTotal] = useState(0);
+  const [offset, setOffset] = useState(0);
   const [q, setQ] = useState("");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [msg, setMsg] = useState("");
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    const params = new URLSearchParams({ limit: "50" });
+  const PAGE_SIZE = 50;
+
+  const load = useCallback(async (fromOffset: number, append: boolean) => {
+    if (fromOffset === 0) setLoading(true);
+    else setLoadingMore(true);
+
+    const params = new URLSearchParams({
+      limit: String(PAGE_SIZE),
+      offset: String(fromOffset),
+    });
     if (search) params.set("q", search);
     const res = await fetch(`/api/admin/products?${params}`);
     const data = await res.json();
-    setProducts(data.products ?? []);
+
+    setProducts((prev) => (append ? [...prev, ...(data.products ?? [])] : data.products ?? []));
     setTotal(data.total ?? 0);
+    setOffset(fromOffset + (data.products?.length ?? 0));
     setLoading(false);
+    setLoadingMore(false);
   }, [search]);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    setOffset(0);
+    load(0, false);
+  }, [load]);
 
   const syncFromJson = async () => {
     setSyncing(true);
@@ -51,7 +68,8 @@ export default function AdminProductsPage() {
     setSyncing(false);
     if (data.synced) {
       setMsg(`${data.synced} ürün veritabanına aktarıldı.`);
-      load();
+      setOffset(0);
+      load(0, false);
     } else {
       setMsg(data.errors?.[0] ?? "Aktarım başarısız");
     }
@@ -68,6 +86,9 @@ export default function AdminProductsPage() {
           <RefreshCw className={cn("w-4 h-4", syncing && "animate-spin")} />
           JSON&apos;dan Aktar
         </Button>
+        <Link href="/admin/products/new">
+          <Button><Plus className="w-4 h-4" />{t("addProduct")}</Button>
+        </Link>
       </div>
 
       {msg && <div className="mb-4 p-3 bg-green-50 text-green-800 rounded-xl text-sm">{msg}</div>}
@@ -96,28 +117,40 @@ export default function AdminProductsPage() {
           <Button onClick={syncFromJson} disabled={syncing}>Ürünleri Aktar</Button>
         </Card>
       ) : (
-        <div className="space-y-2">
-          {products.map((p) => (
-            <Link key={p.id} href={`/admin/products/${p.id}`}>
-              <Card padding="sm" className="!rounded-xl hover:shadow-md transition-shadow cursor-pointer">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="min-w-0 flex-1">
-                    <p className="font-semibold text-sm truncate">{p.name_de}</p>
-                    <p className="text-xs text-bosporus-muted">
-                      {p.sku} · {p.category_slug ?? "—"}
-                      {!p.is_active && <span className="ml-2 text-bosporus-red font-bold">Pasif</span>}
-                    </p>
+        <>
+          <p className="text-sm text-bosporus-muted mb-3">
+            {products.length} / {total} ürün gösteriliyor
+          </p>
+          <div className="space-y-2">
+            {products.map((p) => (
+              <Link key={p.id} href={`/admin/products/${p.id}`}>
+                <Card padding="sm" className="!rounded-xl hover:shadow-md transition-shadow cursor-pointer">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-sm truncate">{p.name_de}</p>
+                      <p className="text-xs text-bosporus-muted">
+                        {p.sku} · {p.category_slug ?? "—"}
+                        {!p.is_active && <span className="ml-2 text-bosporus-red font-bold">Pasif</span>}
+                      </p>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="font-bold text-bosporus">{Number(p.price_b2c).toFixed(2)} €</p>
+                      <p className="text-xs text-bosporus-muted">B2B: {Number(p.price_b2b).toFixed(2)} €</p>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-bosporus-muted shrink-0" />
                   </div>
-                  <div className="text-right shrink-0">
-                    <p className="font-bold text-bosporus">{Number(p.price_b2c).toFixed(2)} €</p>
-                    <p className="text-xs text-bosporus-muted">B2B: {Number(p.price_b2b).toFixed(2)} €</p>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-bosporus-muted shrink-0" />
-                </div>
-              </Card>
-            </Link>
-          ))}
-        </div>
+                </Card>
+              </Link>
+            ))}
+          </div>
+          {products.length < total && (
+            <div className="flex justify-center mt-6">
+              <Button variant="outline" onClick={() => load(offset, true)} disabled={loadingMore}>
+                {loadingMore ? <Loader2 className="w-4 h-4 animate-spin" /> : "Daha fazla yükle"}
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

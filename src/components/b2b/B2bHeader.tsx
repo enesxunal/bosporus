@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { Search, ShoppingCart, MapPin, Globe } from "lucide-react";
 import { AuthNav } from "@/components/layout/AuthNav";
+import { BarcodeScanner } from "@/components/shared/BarcodeScanner";
 import { useCart } from "@/stores/cart";
 import type { UserProfile } from "@/lib/types";
 
@@ -60,16 +61,19 @@ export function B2bHeader({ onSearch, searchQuery, profile }: B2bHeaderProps) {
             className="h-9 sm:h-10 md:h-11 w-auto brightness-0 invert"
           />
         </Link>
-        <div className="flex-1 relative max-w-2xl">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-bosporus-muted" />
-          <input
-            type="search"
-            value={searchQuery}
-            onChange={(e) => onSearch(e.target.value)}
-            placeholder={t("searchPlaceholder")}
-            className="w-full pl-10 pr-4 py-2.5 bg-white text-bosporus-gray-800 text-sm rounded-sm focus:outline-none focus:ring-2 focus:ring-bosporus-yellow"
-            autoFocus
-          />
+        <div className="flex-1 relative max-w-2xl flex gap-2">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-bosporus-muted" />
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(e) => onSearch(e.target.value)}
+              placeholder={t("searchPlaceholder")}
+              className="w-full pl-10 pr-4 py-2.5 bg-white text-bosporus-gray-800 text-sm rounded-sm focus:outline-none focus:ring-2 focus:ring-bosporus-yellow"
+              autoFocus
+            />
+          </div>
+          <BarcodeScanner onScan={onSearch} label="Scan" />
         </div>
         <div className="flex items-center gap-3 shrink-0">
           {profile && (

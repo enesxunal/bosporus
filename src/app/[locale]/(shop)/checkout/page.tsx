@@ -1,12 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/stores/cart";
 import { formatPrice } from "@/lib/pricing";
-import { findDeliveryZone, PICKUP_SLOTS, zoneName } from "@/lib/delivery";
+import {
+  findZoneInList,
+  getPickupSlotsForDate,
+  isDeliveryDayAllowed,
+  isPickupDateAllowed,
+  zoneDisplayName,
+  formatDeliveryDays,
+  type DeliveryZoneData,
+  type PickupSlotData,
+} from "@/lib/delivery-data";
 import { Truck, Store } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { Card } from "@/components/ui/Card";
@@ -26,8 +35,11 @@ export default function CheckoutPage() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [address, setAddress] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState("");
   const [pickupDate, setPickupDate] = useState("");
   const [pickupSlot, setPickupSlot] = useState("");
+  const [zones, setZones] = useState<DeliveryZoneData[]>([]);
+  const [pickupSlots, setPickupSlots] = useState<PickupSlotData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [savedAddresses, setSavedAddresses] = useState<
@@ -36,8 +48,26 @@ export default function CheckoutPage() {
   const [selectedAddressId, setSelectedAddressId] = useState<string>("");
 
   const total = subtotalGross();
-  const zone = zipCode.length >= 4 ? findDeliveryZone(zipCode) : null;
+  const zone = zipCode.length >= 4 ? findZoneInList(zones, zipCode) : null;
   const minOrderOk = !zone || total >= zone.min_order_amount;
+  const availablePickupSlots = useMemo(
+    () => (pickupDate ? getPickupSlotsForDate(pickupSlots, pickupDate) : []),
+    [pickupSlots, pickupDate]
+  );
+
+  useEffect(() => {
+    fetch("/api/catalog/delivery-config")
+      .then((r) => r.json())
+      .then((d) => {
+        setZones(d.zones ?? []);
+        setPickupSlots(d.pickupSlots ?? []);
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    setPickupSlot("");
+  }, [pickupDate]);
 
   useEffect(() => {
     if (items.length === 0) router.replace("/cart");
@@ -104,8 +134,20 @@ export default function CheckoutPage() {
         setError(locale === "de" ? "PLZ und Adresse erforderlich" : "Posta kodu ve adres gerekli");
         return;
       }
+      if (!deliveryDate) {
+        setError(locale === "de" ? "Lieferdatum wählen" : "Teslimat tarihi seçin");
+        return;
+      }
       if (!zone) {
         setError(locale === "de" ? "Lieferung in diese PLZ nicht möglich" : "Bu posta koduna teslimat yok");
+        return;
+      }
+      if (!isDeliveryDayAllowed(zone, deliveryDate)) {
+        setError(
+          locale === "de"
+            ? `An diesem Tag keine Lieferung. Mögliche Tage: ${formatDeliveryDays(zone, locale)}`
+            : `Bu gün teslimat yok. Uygun günler: ${formatDeliveryDays(zone, locale)}`
+        );
         return;
       }
       if (!minOrderOk) {
@@ -115,6 +157,10 @@ export default function CheckoutPage() {
     } else {
       if (!pickupDate || !pickupSlot) {
         setError(locale === "de" ? "Abholdatum und -zeit wählen" : "Alış tarihi ve saati seçin");
+        return;
+      }
+      if (!isPickupDateAllowed(pickupDate)) {
+        setError(locale === "de" ? "Abholung nur Mo–Sa möglich" : "Gel-al sadece Pzt–Cmt");
         return;
       }
     }
@@ -131,8 +177,10 @@ export default function CheckoutPage() {
           customerEmail: customerEmail.trim(),
           zipCode,
           address,
+          deliveryDate: orderType === "delivery" ? deliveryDate : undefined,
           pickupDate,
           pickupSlot,
+          locale,
         }),
       });
       const data = await res.json();
@@ -216,9 +264,18 @@ export default function CheckoutPage() {
               />
               {zone && (
                 <p className="text-xs text-bosporus-muted -mt-2">
-                  {zoneName(zone, locale)} · Min. {formatPrice(zone.min_order_amount, locale)}
+                  {zoneDisplayName(zone, locale)} · Min. {formatPrice(zone.min_order_amount, locale)}
+                  <br />
+                  {locale === "de" ? "Liefertage" : "Teslimat günleri"}: {formatDeliveryDays(zone, locale)}
                 </p>
               )}
+              <Input
+                label={locale === "de" ? "Lieferdatum" : "Teslimat tarihi"}
+                type="date"
+                value={deliveryDate}
+                onChange={(e) => setDeliveryDate(e.target.value)}
+                min={new Date().toISOString().split("T")[0]}
+              />
               <Textarea
                 label={t("address")}
                 value={address}
@@ -239,8 +296,8 @@ export default function CheckoutPage() {
                 <label className="field-label">{t("pickupSlot")}</label>
                 <select value={pickupSlot} onChange={(e) => setPickupSlot(e.target.value)} className="field-input">
                   <option value="">—</option>
-                  {PICKUP_SLOTS.map((s) => (
-                    <option key={s.value} value={s.label}>{s.label}</option>
+                  {availablePickupSlots.map((s) => (
+                    <option key={s.id} value={s.label}>{s.label}</option>
                   ))}
                 </select>
               </div>

@@ -51,3 +51,18 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   clearProductsCache();
   return NextResponse.json({ product: data });
 }
+
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const auth = await requireAdmin();
+  if (!auth.ok) return auth.response;
+
+  const { id } = await params;
+  const admin = createAdminClient();
+  if (!admin) return NextResponse.json({ error: "DB error" }, { status: 503 });
+
+  const { error } = await admin.from("products").delete().eq("id", id);
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  clearProductsCache();
+  return NextResponse.json({ success: true });
+}

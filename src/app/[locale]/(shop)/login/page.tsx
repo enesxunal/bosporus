@@ -82,6 +82,11 @@ export default function LoginPage() {
         <Link href="/register" className="text-bosporus font-bold hover:underline">{t("registerLink")}</Link>
       </p>
       <p className="text-center text-sm mt-3">
+        <Link href="/forgot-password" className="text-bosporus-muted hover:text-bosporus font-semibold">
+          {t("forgotLink")}
+        </Link>
+      </p>
+      <p className="text-center text-sm mt-3">
         <Link href="/register?tab=gewerbe" className="text-metro-navy font-bold hover:underline">
           {t("businessRegisterLink")}
         </Link>

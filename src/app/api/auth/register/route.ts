@@ -1,6 +1,24 @@
 import { NextResponse } from "next/server";
 import { authErrorMessage } from "@/lib/auth-errors";
 import { createAdminClient, isSupabaseAdminConfigured } from "@/lib/supabase/admin";
+import { getSiteUrl } from "@/lib/site-url";
+import { sendEmail } from "@/lib/email/smtp";
+
+async function sendConfirmEmail(email: string, link: string) {
+  const html = `
+    <p>Guten Tag,</p>
+    <p>Bitte bestätigen Sie Ihre E-Mail-Adresse für Ihr Bosporus-Konto:</p>
+    <p><a href="${link}" style="display:inline-block;padding:12px 24px;background:#1D71B8;color:#fff;text-decoration:none;border-radius:8px;font-weight:bold">E-Mail bestätigen</a></p>
+    <p style="font-size:12px;color:#666">${link}</p>
+  `;
+  return sendEmail({
+    to: email,
+    subject: "E-Mail bestätigen – Bosporus",
+    html,
+    templateType: "campaign",
+    referenceId: "register-verify",
+  });
+}
 
 export async function POST(request: Request) {
   if (!isSupabaseAdminConfigured()) {
@@ -30,7 +48,7 @@ export async function POST(request: Request) {
   const { data, error } = await admin.auth.admin.createUser({
     email: normalizedEmail,
     password,
-    email_confirm: true,
+    email_confirm: false,
     user_metadata: { full_name: fullName, role: "b2c" },
   });
 
@@ -54,11 +72,25 @@ export async function POST(request: Request) {
     if (profileError) {
       console.error("B2C profile upsert error:", profileError);
     }
+
+    const { data: linkData } = await admin.auth.admin.generateLink({
+      type: "signup",
+      email: normalizedEmail,
+      password,
+      options: { redirectTo: `${getSiteUrl()}/auth/callback?next=/login` },
+    });
+
+    if (linkData?.properties?.action_link) {
+      sendConfirmEmail(normalizedEmail, linkData.properties.action_link).catch((e) =>
+        console.error("Verify email send:", e)
+      );
+    }
   }
 
   return NextResponse.json({
     success: true,
-    message: "Konto erstellt! Sie können sich jetzt anmelden.",
+    needsVerification: true,
+    message: "Konto erstellt! Bitte bestätigen Sie Ihre E-Mail-Adresse (Link wurde gesendet).",
     userId: data.user?.id,
   });
 }

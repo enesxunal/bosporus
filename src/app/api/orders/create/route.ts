@@ -24,9 +24,11 @@ export async function POST(request: Request) {
     customerName,
     zipCode,
     address,
+    deliveryDate,
     pickupDate,
     pickupSlot,
     notes,
+    locale: bodyLocale,
   } = body as {
     items: CartItem[];
     orderType: "delivery" | "click_collect";
@@ -34,9 +36,11 @@ export async function POST(request: Request) {
     customerName: string;
     zipCode?: string;
     address?: string;
+    deliveryDate?: string;
     pickupDate?: string;
     pickupSlot?: string;
     notes?: string;
+    locale?: "de" | "tr";
   };
 
   if (!items?.length) {
@@ -48,6 +52,7 @@ export async function POST(request: Request) {
 
   let userId: string | null = null;
   let isB2b = false;
+  let locale: "de" | "tr" = bodyLocale === "tr" ? "tr" : "de";
 
   try {
     const supabase = await createClient();
@@ -56,10 +61,13 @@ export async function POST(request: Request) {
       userId = user.id;
       const { data: profile } = await supabase
         .from("profiles")
-        .select("role")
+        .select("role, locale")
         .eq("id", user.id)
         .single();
       isB2b = profile?.role === "b2b_approved";
+      if (profile?.locale === "tr" || profile?.locale === "de") {
+        locale = profile.locale;
+      }
     }
   } catch {
     // guest checkout
@@ -74,9 +82,11 @@ export async function POST(request: Request) {
     isB2b,
     zipCode,
     address,
+    deliveryDate,
     pickupDate,
     pickupSlot,
     notes,
+    locale,
   });
 
   if (!result.ok) {

@@ -170,6 +170,50 @@ export function templateOrderCompleted(data: OrderEmailData): { subject: string;
   };
 }
 
+export function templateB2bApproved(params: {
+  companyName: string;
+  locale?: "de" | "tr";
+}): { subject: string; html: string } {
+  const de = params.locale !== "tr";
+  const subject = de ? "Gewerbekonto freigeschaltet – Bosporus" : "Kurumsal hesabınız onaylandı – Bosporus";
+  const bodyHtml = `
+    <p>${de ? "Guten Tag" : "Merhaba"},</p>
+    <p>${de
+      ? `Ihr Gewerbekonto für <strong>${params.companyName}</strong> wurde freigeschaltet. Sie können sich jetzt im B2B-Portal anmelden und zu Nettopreisen bestellen.`
+      : `<strong>${params.companyName}</strong> için kurumsal hesabınız onaylandı. B2B portalına giriş yapıp net fiyatlarla sipariş verebilirsiniz.`}</p>`;
+  return {
+    subject,
+    html: emailLayout({
+      locale: params.locale,
+      title: de ? "Konto freigeschaltet" : "Hesap onaylandı",
+      bodyHtml,
+      ctaLabel: de ? "Zum Gewerbe-Portal" : "Kurumsal portala git",
+      ctaUrl: "https://bosporus-blue.vercel.app/gewerbe",
+    }),
+  };
+}
+
+export function templateB2bRejected(params: {
+  companyName: string;
+  locale?: "de" | "tr";
+}): { subject: string; html: string } {
+  const de = params.locale !== "tr";
+  const subject = de ? "Gewerbeanfrage – Bosporus" : "Kurumsal başvuru – Bosporus";
+  const bodyHtml = `
+    <p>${de ? "Guten Tag" : "Merhaba"},</p>
+    <p>${de
+      ? `Ihre Gewerbeanfrage für <strong>${params.companyName}</strong> konnte leider nicht freigeschaltet werden. Bei Fragen erreichen Sie uns unter info@bosporus-gmbh.com oder +49 221 34098290.`
+      : `<strong>${params.companyName}</strong> için kurumsal başvurunuz onaylanamadı. Sorularınız için info@bosporus-gmbh.com veya +49 221 34098290.`}</p>`;
+  return {
+    subject,
+    html: emailLayout({
+      locale: params.locale,
+      title: de ? "Anfrage nicht freigeschaltet" : "Başvuru onaylanmadı",
+      bodyHtml,
+    }),
+  };
+}
+
 export function templatePromotion(params: {
   locale?: "de" | "tr";
   headline: string;

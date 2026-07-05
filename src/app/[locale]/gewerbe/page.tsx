@@ -10,6 +10,7 @@ import { B2bHeader } from "@/components/b2b/B2bHeader";
 import { B2bSidebar } from "@/components/b2b/B2bSidebar";
 import { B2bOrderPanel } from "@/components/b2b/B2bOrderPanel";
 import { B2bGate, useB2bProfile } from "@/components/b2b/B2bGate";
+import { useDebounce } from "@/hooks/useDebounce";
 import { Loader2 } from "lucide-react";
 
 function GewerbeContent() {
@@ -19,6 +20,7 @@ function GewerbeContent() {
   const searchParams = useSearchParams();
   const categorySlug = searchParams.get("category") ?? undefined;
   const [query, setQuery] = useState("");
+  const debouncedQuery = useDebounce(query, 400);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,13 +29,13 @@ function GewerbeContent() {
   useEffect(() => {
     setLoading(true);
     const params = new URLSearchParams({ limit: "80" });
-    if (query) params.set("q", query);
+    if (debouncedQuery) params.set("q", debouncedQuery);
     if (categorySlug) params.set("category", categorySlug);
     fetch(`/api/catalog/products?${params}`)
       .then((r) => r.json())
       .then((d) => setProducts(d.products ?? []))
       .finally(() => setLoading(false));
-  }, [query, categorySlug]);
+  }, [debouncedQuery, categorySlug]);
 
   if (!profile) return null;
 

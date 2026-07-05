@@ -70,7 +70,28 @@ export async function getProductsAsync(options?: {
   activeOnly?: boolean;
 }): Promise<Product[]> {
   const db = await loadProductsFromDb();
-  let result = db ? [...db] : [...jsonProducts];
+  if (db) {
+    let result = [...db];
+    if (options?.activeOnly !== false) {
+      result = result.filter((p) => p.is_active && p.price_b2c > 0);
+    }
+    if (options?.category) result = result.filter((p) => p.category_slug === options.category);
+    if (options?.search) {
+      const q = options.search.toLowerCase();
+      result = result.filter(
+        (p) =>
+          p.name_de.toLowerCase().includes(q) ||
+          (p.name_tr && p.name_tr.toLowerCase().includes(q)) ||
+          p.sku.toLowerCase().includes(q) ||
+          (p.barcode && p.barcode.includes(q))
+      );
+    }
+    const offset = options?.offset ?? 0;
+    const limit = options?.limit ?? result.length;
+    return result.slice(offset, offset + limit);
+  }
+
+  let result = [...jsonProducts];
 
   if (options?.activeOnly !== false) {
     result = result.filter((p) => p.is_active && p.price_b2c > 0);
@@ -97,6 +118,42 @@ export function getCategoriesSync(): Category[] {
   return jsonCategories;
 }
 
-export async function getCategoriesAsync(): Promise<Category[]> {
-  return jsonCategories;
+export async function countProductsAsync(options?: {
+  category?: string;
+  search?: string;
+  activeOnly?: boolean;
+}): Promise<number> {
+  const admin = createAdminClient();
+  if (admin) {
+    const { count } = await admin.from("products").select("id", { count: "exact", head: true });
+    if (count && count > 0) {
+      let query = admin.from("products").select("id", { count: "exact", head: true });
+      if (options?.activeOnly !== false) {
+        query = query.eq("is_active", true).gt("price_b2c", 0);
+      }
+      if (options?.category) query = query.eq("category_slug", options.category);
+      if (options?.search) {
+        const q = options.search;
+        query = query.or(`name_de.ilike.%${q}%,name_tr.ilike.%${q}%,sku.ilike.%${q}%,barcode.ilike.%${q}%`);
+      }
+      const { count: filtered } = await query;
+      return filtered ?? 0;
+    }
+  }
+
+  let result = [...jsonProducts];
+  if (options?.activeOnly !== false) result = result.filter((p) => p.is_active && p.price_b2c > 0);
+  if (options?.category) result = result.filter((p) => p.category_slug === options.category);
+  if (options?.search) {
+    const q = options.search.toLowerCase();
+    result = result.filter(
+      (p) =>
+        p.name_de.toLowerCase().includes(q) ||
+        (p.name_tr && p.name_tr.toLowerCase().includes(q)) ||
+        p.sku.toLowerCase().includes(q) ||
+        (p.barcode && p.barcode.includes(q))
+    );
+  }
+  return result.length;
 }
+

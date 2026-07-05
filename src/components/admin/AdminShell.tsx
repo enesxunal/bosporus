@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 import { usePathname, useRouter, Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import {
   LayoutDashboard,
   Package,
@@ -14,26 +15,29 @@ import {
   Menu,
   X,
   FolderTree,
+  Truck,
 } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { cn } from "@/lib/cn";
 
-const NAV = [
-  { href: "/admin", icon: LayoutDashboard, label: "Genel Bakış", exact: true },
-  { href: "/admin/products", icon: ShoppingBag, label: "Ürünler" },
-  { href: "/admin/categories", icon: FolderTree, label: "Kategoriler" },
-  { href: "/admin/orders", icon: Package, label: "Siparişler" },
-  { href: "/admin/customers", icon: Users, label: "Üyeler" },
-  { href: "/admin/b2b", icon: Building2, label: "B2B Onay" },
-  { href: "/admin/emails", icon: Mail, label: "E-postalar" },
-];
-
 export function AdminShell({ children }: { children: ReactNode }) {
+  const t = useTranslations("admin");
   const router = useRouter();
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
+
+  const NAV = [
+    { href: "/admin", icon: LayoutDashboard, label: t("overview"), exact: true },
+    { href: "/admin/products", icon: ShoppingBag, label: t("products") },
+    { href: "/admin/categories", icon: FolderTree, label: t("categories") },
+    { href: "/admin/orders", icon: Package, label: t("orders") },
+    { href: "/admin/customers", icon: Users, label: t("customers") },
+    { href: "/admin/b2b", icon: Building2, label: t("b2b") },
+    { href: "/admin/delivery", icon: Truck, label: t("delivery") },
+    { href: "/admin/emails", icon: Mail, label: t("emails") },
+  ];
 
   useEffect(() => {
     if (!isSupabaseConfigured()) {
@@ -77,7 +81,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
       <aside className="hidden lg:flex flex-col w-64 bg-metro-navy text-white shrink-0">
         <div className="p-5 border-b border-white/10">
           <h1 className="font-extrabold text-lg">Bosporus Admin</h1>
-          <p className="text-white/50 text-xs mt-1">Yönetim paneli</p>
+          <p className="text-white/50 text-xs mt-1">{t("panel")}</p>
         </div>
         <nav className="flex-1 p-3 space-y-1">
           {NAV.map(({ href, icon: Icon, label, exact }) => (
@@ -96,15 +100,11 @@ export function AdminShell({ children }: { children: ReactNode }) {
         </nav>
         <div className="p-3 border-t border-white/10 space-y-1">
           <Link href="/" className="block px-4 py-2 text-sm text-white/60 hover:text-white">
-            Mağazaya git →
+            {t("toShop")}
           </Link>
-          <button
-            type="button"
-            onClick={logout}
-            className="flex items-center gap-2 px-4 py-2 text-sm text-white/60 hover:text-white w-full"
-          >
+          <button type="button" onClick={logout} className="flex items-center gap-2 px-4 py-2 text-sm text-white/60 hover:text-white w-full">
             <LogOut className="w-4 h-4" />
-            Çıkış
+            {t("logout")}
           </button>
         </div>
       </aside>

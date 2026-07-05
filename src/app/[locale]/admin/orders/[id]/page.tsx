@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
-import { Loader2, ArrowLeft, User, MapPin, Package } from "lucide-react";
+import { useTranslations, useLocale } from "next-intl";
+import { Loader2, ArrowLeft, User, MapPin, Package, FileDown } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/cn";
 import type { OrderStatus } from "@/lib/types";
@@ -51,6 +52,8 @@ interface CustomerProfile {
 }
 
 export default function AdminOrderDetailPage() {
+  const t = useTranslations("admin");
+  const locale = useLocale();
   const params = useParams();
   const id = params.id as string;
   const [order, setOrder] = useState<OrderDetail | null>(null);
@@ -107,7 +110,17 @@ export default function AdminOrderDetailPage() {
             {" · "}{order.order_type === "delivery" ? "Teslimat" : "Gel-Al"}
           </p>
         </div>
-        <select
+        <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+          <a
+            href={`/api/admin/orders/${id}/invoice`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-bosporus text-white rounded-xl text-sm font-bold hover:bg-bosporus-dark"
+          >
+            <FileDown className="w-4 h-4" />
+            {t("downloadPdf")}
+          </a>
+          <select
           value={order.status}
           onChange={(e) => updateStatus(e.target.value as OrderStatus)}
           className="field-input !w-auto !min-h-11 font-semibold"
@@ -116,6 +129,7 @@ export default function AdminOrderDetailPage() {
             <option key={s.value} value={s.value}>{s.label}</option>
           ))}
         </select>
+        </div>
       </div>
 
       {msg && <div className="mb-4 p-3 bg-green-50 text-green-800 rounded-xl text-sm">{msg}</div>}

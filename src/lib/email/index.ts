@@ -111,5 +111,23 @@ export async function sendCampaignEmail(params: {
   });
 }
 
-// Backward compat for orders.ts
-export { sendOrderPlacedEmail as sendOrderConfirmationEmail };
+export async function sendB2bStatusEmail(params: {
+  to: string;
+  action: "approve" | "reject";
+  companyName: string;
+  locale?: "de" | "tr";
+}) {
+  const { templateB2bApproved, templateB2bRejected } = await import("./templates");
+  const { subject, html } =
+    params.action === "approve"
+      ? templateB2bApproved({ companyName: params.companyName, locale: params.locale })
+      : templateB2bRejected({ companyName: params.companyName, locale: params.locale });
+
+  return sendEmail({
+    to: params.to,
+    subject,
+    html,
+    templateType: "campaign",
+    referenceId: `b2b-${params.action}`,
+  });
+}

@@ -58,7 +58,11 @@ function RegisterForm() {
       }
       setStatus("success");
       setMessage(data.message);
-      setTimeout(() => router.push("/login"), 2000);
+      if (data.needsVerification) {
+        setTimeout(() => router.push(`/verify-email?email=${encodeURIComponent(b2cForm.email)}`), 1500);
+      } else {
+        setTimeout(() => router.push("/login"), 2000);
+      }
     } catch {
       setStatus("error");
       setMessage("Verbindungsfehler");
@@ -85,7 +89,11 @@ function RegisterForm() {
       }
       setStatus("success");
       setMessage(data.message);
-      setTimeout(() => router.push("/login"), 2000);
+      if (data.needsVerification) {
+        setTimeout(() => router.push(`/verify-email?email=${encodeURIComponent(b2bForm.email)}`), 1500);
+      } else {
+        setTimeout(() => router.push("/login"), 2000);
+      }
     } catch {
       setStatus("error");
       setMessage("Verbindungsfehler");

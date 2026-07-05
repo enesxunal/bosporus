@@ -56,6 +56,8 @@ export function B2cFooter() {
             <h3 className="font-bold mb-3 text-sm uppercase tracking-wider text-bosporus-yellow">Info</h3>
             <p className="text-sm text-white/75 mb-3">{t("hours")}</p>
             <ul className="space-y-2 text-sm text-white/75">
+              <li><Link href="/about" className="hover:text-white">{nav("about")}</Link></li>
+              <li><Link href="/contact" className="hover:text-white">{nav("contact")}</Link></li>
               <li><Link href="/impressum" className="hover:text-white">{t("imprint")}</Link></li>
               <li><Link href="/datenschutz" className="hover:text-white">{t("privacy")}</Link></li>
             </ul>
