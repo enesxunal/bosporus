@@ -191,7 +191,15 @@
     "orderNumber": "Sipariş numarası",
     "email": "E-posta adresi",
     "submit": "Siparişi bul",
-    "error": "Sipariş bulunamadı"
+    "error": "Sipariş bulunamadı",
+    "downloadPdf": "PDF / Fatura",
+    "invoiceError": "Fatura indirilemedi"
+  },
+  "cookies": {
+    "title": "Çerezler",
+    "message": "Yalnızca zorunlu teknik çerezler kullanıyoruz (sepet, giriş, dil). Ayrıntılar için",
+    "accept": "Kabul et",
+    "privacy": "Gizlilik Politikası"
   },
   "common": {
     "loading": "Yükleniyor…",
@@ -235,6 +243,7 @@
     "statusReady": "Hazır",
     "statusDelivery": "Yolda",
     "statusDelivered": "Teslim edildi",
-    "statusCancelled": "İptal"
+    "statusCancelled": "İptal",
+    "downloadPdf": "PDF / Fatura"
   }
 }

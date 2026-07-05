@@ -191,7 +191,15 @@
     "orderNumber": "Bestellnummer",
     "email": "E-Mail-Adresse",
     "submit": "Bestellung suchen",
-    "error": "Bestellung nicht gefunden"
+    "error": "Bestellung nicht gefunden",
+    "downloadPdf": "PDF / Rechnung",
+    "invoiceError": "Rechnung konnte nicht geladen werden"
+  },
+  "cookies": {
+    "title": "Cookies",
+    "message": "Wir verwenden nur technisch notwendige Cookies (Warenkorb, Anmeldung, Sprache). Details in unserer",
+    "accept": "Verstanden",
+    "privacy": "Datenschutzerklärung"
   },
   "common": {
     "loading": "Laden…",
@@ -235,6 +243,7 @@
     "statusReady": "Bereit",
     "statusDelivery": "Unterwegs",
     "statusDelivered": "Geliefert",
-    "statusCancelled": "Storniert"
+    "statusCancelled": "Storniert",
+    "downloadPdf": "PDF / Rechnung"
   }
 }

@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import { Search, Package, Loader2 } from "lucide-react";
+import { Search, Package, Loader2, FileDown } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
@@ -37,6 +37,7 @@ function OrderTrackContent() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [downloading, setDownloading] = useState(false);
   const [result, setResult] = useState<{
     order: Record<string, unknown>;
     items: { product_name: string; quantity: number; line_total_gross: number }[];
@@ -64,6 +65,34 @@ function OrderTrackContent() {
       return;
     }
     setResult(data);
+  };
+
+  const downloadInvoice = async () => {
+    setDownloading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/orders/invoice", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderNumber, email }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError((data as { error?: string }).error ?? t("invoiceError"));
+        return;
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${orderNumber.trim().toUpperCase()}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      setError(t("invoiceError"));
+    } finally {
+      setDownloading(false);
+    }
   };
 
   const order = result?.order;
@@ -127,9 +156,21 @@ function OrderTrackContent() {
             ))}
           </div>
 
-          <div className="flex justify-between font-extrabold text-lg border-t border-bosporus-gray-200 pt-4">
-            <span>{locale === "de" ? "Gesamt" : "Toplam"}</span>
-            <span className="text-bosporus">{formatPrice(Number(order.total_gross), locale)}</span>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 font-extrabold text-lg border-t border-bosporus-gray-200 pt-4">
+            <div className="flex justify-between sm:gap-8 flex-1">
+              <span>{locale === "de" ? "Gesamt" : "Toplam"}</span>
+              <span className="text-bosporus">{formatPrice(Number(order.total_gross), locale)}</span>
+            </div>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={downloadInvoice}
+              disabled={downloading}
+              className="shrink-0"
+            >
+              {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileDown className="w-4 h-4" />}
+              {t("downloadPdf")}
+            </Button>
           </div>
         </Card>
       )}

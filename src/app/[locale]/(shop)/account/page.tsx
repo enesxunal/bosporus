@@ -12,6 +12,7 @@ import {
   Trash2,
   Star,
   Plus,
+  FileDown,
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
@@ -493,7 +494,7 @@ export default function AccountPage() {
                         {order.pickup_date} · {order.pickup_slot_label}
                       </p>
                     )}
-                    <ul className="space-y-1 text-sm">
+                    <ul className="space-y-1 text-sm mb-4">
                       {order.items.map((item, i) => (
                         <li key={i} className="flex justify-between">
                           <span>{item.quantity}× {item.product_name}</span>
@@ -501,6 +502,15 @@ export default function AccountPage() {
                         </li>
                       ))}
                     </ul>
+                    <a
+                      href={`/api/account/orders/${order.id}/invoice`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-bosporus text-white rounded-xl text-sm font-bold hover:bg-bosporus-dark"
+                    >
+                      <FileDown className="w-4 h-4" />
+                      {t("downloadPdf")}
+                    </a>
                   </div>
                 )}
               </div>

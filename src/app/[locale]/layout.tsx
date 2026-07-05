@@ -3,6 +3,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Source_Sans_3 } from "next/font/google";
 import { routing } from "@/i18n/routing";
+import { CookieConsent } from "@/components/layout/CookieConsent";
 import "../globals.css";
 
 const sourceSans = Source_Sans_3({
@@ -30,7 +31,10 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body className={`${sourceSans.variable} antialiased`}>
-        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
+          {children}
+          <CookieConsent />
+        </NextIntlClientProvider>
       </body>
     </html>
   );
