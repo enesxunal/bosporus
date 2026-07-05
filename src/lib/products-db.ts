@@ -7,7 +7,7 @@ import { parseImageUrls } from "./product-images";
 const jsonProducts = productsData as Product[];
 const jsonCategories = categoriesData as Category[];
 
-function mapDbRow(row: Record<string, unknown>): Product {
+export function mapDbRow(row: Record<string, unknown>): Product {
   const imageUrls = parseImageUrls(row.image_urls);
   return {
     id: row.id as string,
@@ -56,6 +56,26 @@ export async function loadProductsFromDb(): Promise<Product[] | null> {
   dbCache = all;
   dbCacheTime = now;
   return all;
+}
+
+export async function fetchProductsForOrder(ids: string[], skus: string[]): Promise<Product[]> {
+  const admin = createAdminClient();
+  if (!admin) return [];
+
+  const map = new Map<string, Product>();
+
+  if (ids.length > 0) {
+    const { data } = await admin.from("products").select("*").in("id", ids);
+    for (const row of data ?? []) map.set(row.id as string, mapDbRow(row));
+  }
+
+  const missingSkus = skus.filter((s) => ![...map.values()].some((p) => p.sku === s));
+  if (missingSkus.length > 0) {
+    const { data } = await admin.from("products").select("*").in("sku", missingSkus);
+    for (const row of data ?? []) map.set(row.id as string, mapDbRow(row));
+  }
+
+  return [...map.values()];
 }
 
 export function clearProductsCache() {

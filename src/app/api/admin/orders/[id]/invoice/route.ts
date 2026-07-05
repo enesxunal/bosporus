@@ -32,6 +32,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     totalGross: Number(order.total_gross),
     zipCode: order.delivery_zip_code,
     address: addressRaw,
+    deliveryDate: order.delivery_date ?? undefined,
     items: (items ?? []).map((i) => ({
       product_name: i.product_name,
       product_sku: i.product_sku,

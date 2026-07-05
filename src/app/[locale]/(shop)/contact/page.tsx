@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { ContactForm } from "@/components/b2c/ContactForm";
+import { COMPANY, companyAddressLine } from "@/lib/company";
 
 export default async function ContactPage({
   params,
@@ -14,9 +15,9 @@ export default async function ContactPage({
   const t = await getTranslations("contact");
 
   const items = [
-    { icon: MapPin, text: "Von Hünefeld Straße 2, 50829 Köln" },
-    { icon: Phone, text: "+49 221 34098290", href: "tel:+4922134098290" },
-    { icon: Mail, text: "info@bosporus-gmbh.com", href: "mailto:info@bosporus-gmbh.com" },
+    { icon: MapPin, text: companyAddressLine() },
+    { icon: Phone, text: COMPANY.phone, href: "tel:+4922134098290" },
+    { icon: Mail, text: COMPANY.email, href: `mailto:${COMPANY.email}` },
     { icon: Clock, text: t("hours") },
   ];
 

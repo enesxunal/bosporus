@@ -1,7 +1,14 @@
 import { NextResponse } from "next/server";
 import { sendEmail } from "@/lib/email/smtp";
+import { clientIp, rateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
+  const ip = clientIp(request);
+  const limited = rateLimit(`contact:${ip}`, 5, 60 * 60 * 1000);
+  if (!limited.ok) {
+    return NextResponse.json({ error: "Zu viele Anfragen." }, { status: 429 });
+  }
+
   const { name, email, phone, message, locale } = (await request.json()) as {
     name?: string;
     email?: string;

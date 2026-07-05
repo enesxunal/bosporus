@@ -3,11 +3,9 @@
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { Loader2, Search, RefreshCw, ChevronRight, Plus } from "lucide-react";
+import { Loader2, Search, ChevronRight, Plus } from "lucide-react";
 import { Card } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { cn } from "@/lib/cn";
 
 interface ProductRow {
   id: string;
@@ -31,8 +29,6 @@ export default function AdminProductsPage() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [syncing, setSyncing] = useState(false);
-  const [msg, setMsg] = useState("");
 
   const PAGE_SIZE = 50;
 
@@ -60,21 +56,6 @@ export default function AdminProductsPage() {
     load(0, false);
   }, [load]);
 
-  const syncFromJson = async () => {
-    setSyncing(true);
-    setMsg("");
-    const res = await fetch("/api/admin/products/sync", { method: "POST" });
-    const data = await res.json();
-    setSyncing(false);
-    if (data.synced) {
-      setMsg(`${data.synced} ürün veritabanına aktarıldı.`);
-      setOffset(0);
-      load(0, false);
-    } else {
-      setMsg(data.errors?.[0] ?? "Aktarım başarısız");
-    }
-  };
-
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -82,16 +63,10 @@ export default function AdminProductsPage() {
           <h1 className="text-2xl font-extrabold text-metro-navy">Ürünler</h1>
           <p className="text-sm text-bosporus-muted">{total} ürün</p>
         </div>
-        <Button onClick={syncFromJson} disabled={syncing} variant="outline">
-          <RefreshCw className={cn("w-4 h-4", syncing && "animate-spin")} />
-          JSON&apos;dan Aktar
-        </Button>
         <Link href="/admin/products/new">
           <Button><Plus className="w-4 h-4" />{t("addProduct")}</Button>
         </Link>
       </div>
-
-      {msg && <div className="mb-4 p-3 bg-green-50 text-green-800 rounded-xl text-sm">{msg}</div>}
 
       <form
         className="flex gap-2 mb-4"
@@ -113,8 +88,10 @@ export default function AdminProductsPage() {
         <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-bosporus" /></div>
       ) : products.length === 0 ? (
         <Card className="text-center py-12 !rounded-2xl">
-          <p className="text-bosporus-muted mb-4">Henüz ürün yok. Önce &quot;JSON&apos;dan Aktar&quot; butonuna tıklayın.</p>
-          <Button onClick={syncFromJson} disabled={syncing}>Ürünleri Aktar</Button>
+          <p className="text-bosporus-muted mb-4">Henüz ürün yok.</p>
+          <Link href="/admin/products/new">
+            <Button>{t("addProduct")}</Button>
+          </Link>
         </Card>
       ) : (
         <>
@@ -131,6 +108,9 @@ export default function AdminProductsPage() {
                       <p className="text-xs text-bosporus-muted">
                         {p.sku} · {p.category_slug ?? "—"}
                         {!p.is_active && <span className="ml-2 text-bosporus-red font-bold">Pasif</span>}
+                        {p.stock_status === "out_of_stock" && (
+                          <span className="ml-2 text-orange-600 font-bold">Tükendi</span>
+                        )}
                       </p>
                     </div>
                     <div className="text-right shrink-0">
@@ -146,7 +126,7 @@ export default function AdminProductsPage() {
           {products.length < total && (
             <div className="flex justify-center mt-6">
               <Button variant="outline" onClick={() => load(offset, true)} disabled={loadingMore}>
-                {loadingMore ? <Loader2 className="w-4 h-4 animate-spin" /> : "Daha fazla yükle"}
+                {loadingMore ? <Loader2 className="w-4 h-4 animate-spin" /> : t("loadMore")}
               </Button>
             </div>
           )}

@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { getProductsAsync, countProductsAsync } from "@/lib/products-db";
 import { isPromoActive } from "@/lib/pricing";
+import { stripB2bPrice } from "@/lib/order-validation";
+import { createClient } from "@/lib/supabase/server";
+import type { Product } from "@/lib/types";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -10,11 +13,31 @@ export async function GET(request: Request) {
   const limit = Math.min(Number(searchParams.get("limit") ?? 48), 200);
   const offset = Number(searchParams.get("offset") ?? 0);
 
+  let isB2bApproved = false;
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+      isB2bApproved = profile?.role === "b2b_approved";
+    }
+  } catch {
+    // public catalog
+  }
+
+  const sanitize = (list: Product[]) =>
+    isB2bApproved ? list : list.map(stripB2bPrice);
+
   if (filter === "aktion") {
     const all = await getProductsAsync({ limit: 9999, activeOnly: true });
     const promos = all.filter((p) => isPromoActive(p));
+    const sliced = promos.slice(offset, offset + limit);
     return NextResponse.json({
-      products: promos.slice(offset, offset + limit),
+      products: sanitize(sliced),
       total: promos.length,
     });
   }
@@ -24,5 +47,5 @@ export async function GET(request: Request) {
     countProductsAsync({ category, search, activeOnly: true }),
   ]);
 
-  return NextResponse.json({ products, total });
+  return NextResponse.json({ products: sanitize(products), total });
 }

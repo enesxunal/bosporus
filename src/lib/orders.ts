@@ -13,6 +13,7 @@ export interface CreateOrderInput {
   deliveryDate?: string;
   pickupDate?: string;
   pickupSlot?: string;
+  pickupSlotId?: string | null;
   notes?: string;
   locale?: "de" | "tr";
 }
@@ -62,6 +63,7 @@ export async function createOrder(input: CreateOrderInput) {
       customer_email: input.customerEmail,
       customer_name: input.customerName,
       delivery_zip_code: input.zipCode ?? null,
+      delivery_date: input.orderType === "delivery" ? input.deliveryDate ?? null : null,
       delivery_address:
         input.address || input.locale || input.deliveryDate
           ? {
@@ -71,6 +73,7 @@ export async function createOrder(input: CreateOrderInput) {
             }
           : null,
       pickup_date: input.pickupDate ?? null,
+      pickup_slot_id: input.pickupSlotId ?? null,
       pickup_slot_label: input.pickupSlot ?? null,
       notes: input.notes ?? null,
     })

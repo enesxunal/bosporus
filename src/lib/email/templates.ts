@@ -1,3 +1,5 @@
+import { COMPANY, companyAddressLine } from "@/lib/company";
+
 export type EmailTemplateType =
   | "order_placed"
   | "order_preparing"
@@ -29,7 +31,7 @@ export function emailLayout({ locale = "de", title, bodyHtml, ctaLabel, ctaUrl }
     <tr><td align="center">
       <table width="100%" style="max-width:560px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.06)">
         <tr><td style="background:#1D71B8;padding:24px 28px">
-          <h1 style="margin:0;color:#fff;font-size:22px;font-weight:800">Bosporus GmbH</h1>
+          <h1 style="margin:0;color:#fff;font-size:20px;font-weight:800">${COMPANY.legalName}</h1>
           <p style="margin:6px 0 0;color:rgba(255,255,255,0.85);font-size:13px">${de ? "Lebensmittel-Großhandel Köln" : "Köln Gıda Toptan"}</p>
         </td></tr>
         <tr><td style="padding:28px;color:#1a1f2e;font-size:15px;line-height:1.6">
@@ -38,9 +40,9 @@ export function emailLayout({ locale = "de", title, bodyHtml, ctaLabel, ctaUrl }
           ${ctaBlock}
         </td></tr>
         <tr><td style="padding:20px 28px;background:#f7f8fa;border-top:1px solid #eef0f3;font-size:12px;color:#5c6573;line-height:1.5">
-          Bosporus GmbH · Von Hünefeld Straße 2 · 50829 Köln<br>
-          Tel: +49 221 34098290 · <a href="mailto:info@bosporus-gmbh.com" style="color:#1D71B8">info@bosporus-gmbh.com</a><br>
-          <a href="https://bosporus-blue.vercel.app" style="color:#1D71B8">bosporus-gmbh.com</a>
+          ${COMPANY.legalName} · ${companyAddressLine()}<br>
+          Tel: ${COMPANY.phone} · <a href="mailto:${COMPANY.email}" style="color:#1D71B8">${COMPANY.email}</a><br>
+          USt-IdNr.: ${COMPANY.vatId} · ${COMPANY.registerCourt}, ${COMPANY.registerNumber}
         </td></tr>
       </table>
     </td></tr>

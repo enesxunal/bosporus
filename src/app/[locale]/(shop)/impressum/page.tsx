@@ -1,4 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
+import { COMPANY, companyAddressLine } from "@/lib/company";
 
 export default async function ImpressumPage({
   params,
@@ -21,26 +22,19 @@ export default async function ImpressumPage({
             {de ? "Angaben gemäß § 5 TMG" : "Yasal bilgiler (§ 5 TMG)"}
           </h2>
           <p>
-            Bosporus GmbH<br />
-            Von Hünefeld Straße 2<br />
-            50829 Köln<br />
-            Deutschland
+            {COMPANY.legalName}<br />
+            {COMPANY.street}<br />
+            {COMPANY.zip} {COMPANY.city}<br />
+            {COMPANY.country}
           </p>
         </div>
 
         <div>
           <h2 className="font-semibold text-lg mb-2">{de ? "Kontakt" : "İletişim"}</h2>
           <p>
-            {de ? "Telefon" : "Telefon"}: +49 221 34098290<br />
-            E-Mail: info@bosporus-gmbh.com
+            {de ? "Telefon" : "Telefon"}: {COMPANY.phone}<br />
+            E-Mail: {COMPANY.email}
           </p>
-        </div>
-
-        <div>
-          <h2 className="font-semibold text-lg mb-2">
-            {de ? "Vertreten durch" : "Temsil eden"}
-          </h2>
-          <p>{de ? "Geschäftsführung Bosporus GmbH" : "Bosporus GmbH Yönetimi"}</p>
         </div>
 
         <div>
@@ -48,20 +42,18 @@ export default async function ImpressumPage({
             {de ? "Registereintrag" : "Ticaret sicili"}
           </h2>
           <p>
-            {de
-              ? "Eingetragen im Handelsregister. Registergericht: Amtsgericht Köln."
-              : "Köln Ticaret Sicili'ne kayıtlıdır (Amtsgericht Köln)."}
+            {de ? "Registergericht" : "Sicil mahkemesi"}: {COMPANY.registerCourt}<br />
+            {de ? "Registernummer" : "Sicil no"}: {COMPANY.registerNumber}
           </p>
         </div>
 
         <div>
           <h2 className="font-semibold text-lg mb-2">
-            {de ? "Umsatzsteuer-ID" : "KDV numarası"}
+            {de ? "Umsatzsteuer" : "Vergi bilgileri"}
           </h2>
           <p>
-            {de
-              ? "Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: auf Anfrage"
-              : "§ 27a UStG uyarınca KDV kimlik numarası: talep üzerine"}
+            {de ? "Steuernummer" : "Vergi no"}: {COMPANY.taxNumber}<br />
+            USt-IdNr.: {COMPANY.vatId}
           </p>
         </div>
 
@@ -69,7 +61,7 @@ export default async function ImpressumPage({
           <h2 className="font-semibold text-lg mb-2">
             {de ? "Verantwortlich für den Inhalt" : "İçerik sorumlusu"}
           </h2>
-          <p>Bosporus GmbH, Von Hünefeld Straße 2, 50829 Köln</p>
+          <p>{COMPANY.legalName}, {companyAddressLine()}</p>
         </div>
 
         <div>

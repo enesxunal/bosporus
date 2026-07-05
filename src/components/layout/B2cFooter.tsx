@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { COMPANY, companyAddressLine } from "@/lib/company";
 import { MapPin, Phone, Mail, Shield, Truck, Banknote } from "lucide-react";
 
 export function B2cFooter() {
@@ -47,9 +48,9 @@ export function B2cFooter() {
           <div>
             <h3 className="font-bold mb-3 text-sm uppercase tracking-wider text-bosporus-yellow">{nav("contact")}</h3>
             <ul className="space-y-2 text-sm text-white/75">
-              <li className="flex items-start gap-2"><MapPin className="w-4 h-4 shrink-0 mt-0.5" />Von Hünefeld Str. 2, 50829 Köln</li>
-              <li className="flex items-center gap-2"><Phone className="w-4 h-4" />+49 221 34098290</li>
-              <li className="flex items-center gap-2"><Mail className="w-4 h-4" />info@bosporus-gmbh.com</li>
+              <li className="flex items-start gap-2"><MapPin className="w-4 h-4 shrink-0 mt-0.5" />{companyAddressLine()}</li>
+              <li className="flex items-center gap-2"><Phone className="w-4 h-4" />{COMPANY.phone}</li>
+              <li className="flex items-center gap-2"><Mail className="w-4 h-4" />{COMPANY.email}</li>
             </ul>
           </div>
           <div>
@@ -64,7 +65,7 @@ export function B2cFooter() {
           </div>
         </div>
         <div className="border-t border-white/15 py-4 text-center text-xs text-white/50">
-          © {new Date().getFullYear()} Bosporus GmbH
+          © {new Date().getFullYear()} {COMPANY.legalName}
         </div>
       </div>
     </footer>

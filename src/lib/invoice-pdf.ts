@@ -1,5 +1,6 @@
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
+import { COMPANY, companyAddressLine } from "./company";
 
 export interface InvoiceData {
   orderNumber: string;
@@ -12,6 +13,7 @@ export interface InvoiceData {
   totalGross: number;
   zipCode?: string | null;
   address?: string | null;
+  deliveryDate?: string | null;
   items: {
     product_name: string;
     product_sku: string;
@@ -22,28 +24,32 @@ export interface InvoiceData {
 
 export function generateInvoicePdf(data: InvoiceData): Buffer {
   const doc = new jsPDF();
-  const locale = "de";
-
-  doc.setFontSize(18);
-  doc.text("Bosporus GmbH", 14, 20);
-  doc.setFontSize(11);
-  doc.text("Von Hünefeld Straße 2, 50829 Köln", 14, 28);
-  doc.text("info@bosporus-gmbh.com · +49 221 34098290", 14, 34);
 
   doc.setFontSize(14);
-  doc.text(locale === "de" ? "Bestellung / Rechnung" : "Sipariş / Fatura", 14, 48);
-  doc.setFontSize(10);
-  doc.text(`Nr.: ${data.orderNumber}`, 14, 56);
-  doc.text(`Datum: ${new Date(data.createdAt).toLocaleDateString("de-DE")}`, 14, 62);
-  doc.text(`Kunde: ${data.customerName}`, 14, 68);
-  doc.text(`E-Mail: ${data.customerEmail}`, 14, 74);
+  doc.text(COMPANY.legalName, 14, 20);
+  doc.setFontSize(9);
+  doc.text(companyAddressLine(), 14, 27);
+  doc.text(`${COMPANY.country} · Tel: ${COMPANY.phone}`, 14, 32);
+  doc.text(`E-Mail: ${COMPANY.email}`, 14, 37);
+  doc.text(`USt-IdNr.: ${COMPANY.vatId}`, 14, 42);
+  doc.text(`Steuernummer: ${COMPANY.taxNumber}`, 14, 47);
+  doc.text(`${COMPANY.registerCourt}, ${COMPANY.registerNumber}`, 14, 52);
 
-  if (data.orderType === "delivery" && (data.address || data.zipCode)) {
-    doc.text(`Lieferung: ${data.address ?? ""} ${data.zipCode ?? ""}`, 14, 80);
+  doc.setFontSize(13);
+  doc.text("Rechnung / Bestellung", 14, 64);
+  doc.setFontSize(10);
+  doc.text(`Nr.: ${data.orderNumber}`, 14, 72);
+  doc.text(`Datum: ${new Date(data.createdAt).toLocaleDateString("de-DE")}`, 14, 78);
+  doc.text(`Kunde: ${data.customerName}`, 14, 84);
+  doc.text(`E-Mail: ${data.customerEmail}`, 14, 90);
+
+  if (data.orderType === "delivery") {
+    doc.text(`Lieferung: ${data.address ?? ""} · ${data.zipCode ?? ""}`, 14, 96);
+    if (data.deliveryDate) doc.text(`Lieferdatum: ${data.deliveryDate}`, 14, 102);
   }
 
   autoTable(doc, {
-    startY: 88,
+    startY: data.orderType === "delivery" && data.deliveryDate ? 108 : 98,
     head: [["Artikel", "SKU", "Menge", "Gesamt €"]],
     body: data.items.map((i) => [
       i.product_name,
@@ -60,7 +66,8 @@ export function generateInvoicePdf(data: InvoiceData): Buffer {
   doc.text(`Gesamt: ${Number(data.totalGross).toFixed(2)} €`, 14, finalY + 28);
 
   doc.setFontSize(8);
-  doc.text("Zahlung bei Lieferung / Abholung. Kein Zahlungsdienstleister.", 14, finalY + 40);
+  doc.text("Zahlung bei Lieferung / Abholung.", 14, finalY + 38);
+  doc.text(`${COMPANY.legalName} · ${companyAddressLine()}`, 14, finalY + 44);
 
   return Buffer.from(doc.output("arraybuffer"));
 }

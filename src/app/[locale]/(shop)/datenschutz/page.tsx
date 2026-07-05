@@ -1,5 +1,6 @@
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { COMPANY } from "@/lib/company";
 
 export default async function DatenschutzPage({
   params,
@@ -20,10 +21,10 @@ export default async function DatenschutzPage({
         <section>
           <h2 className="font-semibold text-base mb-2">1. {de ? "Verantwortlicher" : "Veri sorumlusu"}</h2>
           <p>
-            Bosporus GmbH<br />
-            Von Hünefeld Straße 2, 50829 Köln<br />
-            E-Mail: info@bosporus-gmbh.com<br />
-            {de ? "Telefon" : "Telefon"}: +49 221 34098290
+            {COMPANY.legalName}<br />
+            {COMPANY.street}, {COMPANY.zip} {COMPANY.city}<br />
+            E-Mail: {COMPANY.email}<br />
+            {de ? "Telefon" : "Telefon"}: {COMPANY.phone}
           </p>
         </section>
 

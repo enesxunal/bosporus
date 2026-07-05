@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import type { EmailTemplateType } from "./templates";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { COMPANY } from "@/lib/company";
 
 export interface SendEmailParams {
   to: string;
@@ -39,7 +40,7 @@ function getFromAddress(): string {
   return (
     process.env.SMTP_FROM ??
     process.env.ORDER_EMAIL_FROM ??
-    "Bosporus GmbH <info@bosporus-gmbh.com>"
+    `${COMPANY.legalName} <${COMPANY.email}>`
   );
 }
 
