@@ -173,7 +173,8 @@
     "downloadPdf": "PDF / Fatura",
     "previewEmail": "Önizleme",
     "deliveryZones": "Teslimat bölgeleri",
-    "pickupSlots": "Gel-al saatleri"
+    "pickupSlots": "Gel-al saatleri",
+    "language": "Dil"
   },
   "footer": {
     "tagline": "Köln'de gastronomi için toptan gıda partneriniz.",

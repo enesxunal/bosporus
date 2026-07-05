@@ -173,7 +173,8 @@
     "downloadPdf": "PDF / Rechnung",
     "previewEmail": "Vorschau",
     "deliveryZones": "Lieferzonen",
-    "pickupSlots": "Abholzeiten"
+    "pickupSlots": "Abholzeiten",
+    "language": "Sprache"
   },
   "footer": {
     "tagline": "Ihr Großhandels-Partner für Gastronomie in Köln.",
