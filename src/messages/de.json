@@ -118,7 +118,19 @@
     "tagline": "Ihr Großhandels-Partner für Gastronomie in Köln.",
     "hours": "Mo.–Sa.: 00:00–18:00 Uhr",
     "imprint": "Impressum",
-    "privacy": "Datenschutz"
+    "privacy": "Datenschutz",
+    "trustDelivery": "Schnelle Lieferung Köln",
+    "trustQuality": "Geprüfte Qualität",
+    "trustPayment": "Zahlung bei Lieferung / Abholung",
+    "trackOrder": "Bestellung verfolgen"
+  },
+  "orderTrack": {
+    "title": "Bestellung verfolgen",
+    "desc": "Prüfen Sie den Status mit Bestellnummer und E-Mail.",
+    "orderNumber": "Bestellnummer",
+    "email": "E-Mail-Adresse",
+    "submit": "Bestellung suchen",
+    "error": "Bestellung nicht gefunden"
   },
   "common": {
     "loading": "Laden…",

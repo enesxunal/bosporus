@@ -75,10 +75,16 @@ export async function createOrder(input: CreateOrderInput) {
     return { ok: false as const, error: orderError?.message ?? "ORDER_FAILED" };
   }
 
+  const productIds = [...new Set(input.items.map((i) => i.productId).filter(Boolean))];
+  let validProductIds = new Set<string>();
+  if (productIds.length > 0) {
+    const { data: existing } = await admin.from("products").select("id").in("id", productIds);
+    validProductIds = new Set((existing ?? []).map((p) => p.id));
+  }
+
   const orderItems = input.items.map((item) => ({
     order_id: order.id,
-    // Ürünler şimdilik JSON'da; Supabase products tablosu boş — FK hatası olmasın
-    product_id: null,
+    product_id: validProductIds.has(item.productId) ? item.productId : null,
     product_name: item.name,
     product_sku: item.sku,
     quantity: item.quantity,

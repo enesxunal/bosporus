@@ -45,9 +45,13 @@ export default function CartPage() {
           <li key={item.productId}>
             <Card padding="sm" className="!rounded-2xl">
               <div className="flex gap-3 sm:gap-4">
-                {item.imageUrl && (
+                {item.imageUrl ? (
                   <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-bosporus-gray-50 shrink-0">
                     <Image src={item.imageUrl} alt="" fill className="object-cover" sizes="80px" />
+                  </div>
+                ) : (
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-bosporus-light shrink-0 flex items-center justify-center">
+                    <ShoppingBag className="w-6 h-6 text-bosporus/40" />
                   </div>
                 )}
                 <div className="flex-1 min-w-0">

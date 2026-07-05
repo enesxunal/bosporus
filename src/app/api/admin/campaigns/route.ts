@@ -46,6 +46,7 @@ export async function POST(request: Request) {
     .from("email_campaigns")
     .insert({
       subject: subject.trim(),
+      headline: headline.trim(),
       html_body: bodyHtml.trim(),
       audience: audience ?? "all",
       created_by: auth.profile.id,

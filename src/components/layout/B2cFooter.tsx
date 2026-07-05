@@ -3,16 +3,16 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { MapPin, Phone, Mail, Shield, Truck, CreditCard } from "lucide-react";
+import { MapPin, Phone, Mail, Shield, Truck, Banknote } from "lucide-react";
 
 export function B2cFooter() {
   const t = useTranslations("footer");
   const nav = useTranslations("nav");
 
   const trust = [
-    { icon: Truck, label: "Schnelle Lieferung Köln" },
-    { icon: Shield, label: "Geprüfte Qualität" },
-    { icon: CreditCard, label: "Sichere Zahlung" },
+    { icon: Truck, label: t("trustDelivery") },
+    { icon: Shield, label: t("trustQuality") },
+    { icon: Banknote, label: t("trustPayment") },
   ];
 
   return (
@@ -41,6 +41,7 @@ export function B2cFooter() {
               <li><Link href="/" className="hover:text-white">{nav("home")}</Link></li>
               <li><Link href="/products" className="hover:text-white">{nav("products")}</Link></li>
               <li><Link href="/gewerbe" className="hover:text-white">{nav("b2bPortal")}</Link></li>
+              <li><Link href="/order/track" className="hover:text-white">{t("trackOrder")}</Link></li>
             </ul>
           </div>
           <div>

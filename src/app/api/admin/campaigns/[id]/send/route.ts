@@ -36,8 +36,9 @@ export async function POST(
   else if (audience === "b2b_approved") query = query.eq("role", "b2b_approved");
 
   const { data: recipients } = await query;
+  const headline = (campaign.headline as string | null) ?? campaign.subject;
   const { html } = templatePromotion({
-    headline: campaign.subject,
+    headline,
     bodyHtml: campaign.html_body,
   });
 

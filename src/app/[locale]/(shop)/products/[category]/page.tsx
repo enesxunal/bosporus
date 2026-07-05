@@ -31,7 +31,9 @@ export default async function CategoryPage({
         <div className="absolute inset-0 flex items-end">
           <div className="max-w-7xl mx-auto px-4 pb-6 w-full">
             <h1 className="text-3xl font-bold text-white">{name}</h1>
-            <p className="text-white/80 text-sm mt-1">{products.length} Artikel</p>
+            <p className="text-white/80 text-sm mt-1">
+              {products.length} {locale === "de" ? "Artikel" : "ürün"}
+            </p>
           </div>
         </div>
       </div>

@@ -37,10 +37,15 @@ export function getCategoryImageUrl(slug: string): string {
   return CATEGORY_IMAGES[slug] ?? DEFAULT_IMAGE;
 }
 
-/** Mock availability for Metro-style B2B rows */
+/** Gerçek stok durumu — admin / veritabanından */
 export function getAvailability(product: Product): "in_stock" | "limited" | "out_of_stock" {
   if (!product.is_active || product.price_b2c <= 0) return "out_of_stock";
-  const hash = product.sku.charCodeAt(0) % 10;
-  if (hash === 0) return "limited";
+  const status = product.stock_status?.toLowerCase() ?? "in_stock";
+  if (status === "out_of_stock" || status === "tükendi" || status === "nicht verfügbar") {
+    return "out_of_stock";
+  }
+  if (status === "low_stock" || status === "limited" || status === "az stok") {
+    return "limited";
+  }
   return "in_stock";
 }

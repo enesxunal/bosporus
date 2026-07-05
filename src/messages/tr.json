@@ -118,7 +118,19 @@
     "tagline": "Köln'de gastronomi için toptan gıda partneriniz.",
     "hours": "Pzt.–Cmt.: 00:00–18:00",
     "imprint": "Künye",
-    "privacy": "Gizlilik"
+    "privacy": "Gizlilik",
+    "trustDelivery": "Köln'e hızlı teslimat",
+    "trustQuality": "Kontrollü kalite",
+    "trustPayment": "Teslimatta / gel-al ödeme",
+    "trackOrder": "Sipariş takibi"
+  },
+  "orderTrack": {
+    "title": "Sipariş takibi",
+    "desc": "Sipariş numaranız ve e-posta adresinizle durumu kontrol edin.",
+    "orderNumber": "Sipariş numarası",
+    "email": "E-posta adresi",
+    "submit": "Siparişi bul",
+    "error": "Sipariş bulunamadı"
   },
   "common": {
     "loading": "Yükleniyor…",

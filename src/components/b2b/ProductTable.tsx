@@ -9,6 +9,7 @@ import { getDisplayPrice, formatPrice, formatUnit } from "@/lib/pricing";
 import { netToGross } from "@/lib/pricing";
 import { useCart } from "@/stores/cart";
 import { getProductImageUrl, getAvailability } from "@/lib/category-images";
+import { getProductName } from "@/lib/product-display";
 
 interface ProductTableProps {
   products: Product[];
@@ -47,12 +48,13 @@ export function ProductTable({ products, profile = null }: ProductTableProps) {
     addItem({
       productId: product.id,
       sku: product.sku,
-      name: product.name_de,
+      name: getProductName(product, locale),
       quantity: qty,
       unit: product.base_unit,
       priceNet: net,
       priceGross: gross,
       taxRate: product.tax_rate,
+      imageUrl: getProductImageUrl(product),
     });
     setQuantities((q) => ({ ...q, [product.id]: 1 }));
   };
@@ -90,7 +92,7 @@ export function ProductTable({ products, profile = null }: ProductTableProps) {
                   </div>
                 </td>
                 <td className="px-3 py-1.5">
-                  <p className="font-medium text-bosporus-gray-800 leading-tight line-clamp-2">{product.name_de}</p>
+                  <p className="font-medium text-bosporus-gray-800 leading-tight line-clamp-2">{getProductName(product, locale)}</p>
                   <p className="text-bosporus-muted text-xs mt-0.5 lg:hidden font-mono">{product.sku.slice(0, 10)}</p>
                 </td>
                 <td className="px-2 py-1.5 text-bosporus-muted font-mono text-xs hidden lg:table-cell">

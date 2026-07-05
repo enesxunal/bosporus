@@ -78,6 +78,7 @@ export async function getProductsAsync(options?: {
     result = result.filter(
       (p) =>
         p.name_de.toLowerCase().includes(q) ||
+        (p.name_tr && p.name_tr.toLowerCase().includes(q)) ||
         p.sku.toLowerCase().includes(q) ||
         (p.barcode && p.barcode.includes(q))
     );
