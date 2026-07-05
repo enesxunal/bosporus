@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "@/i18n/navigation";
 import { Link } from "@/i18n/navigation";
-import { Save, Upload, Plus, Trash2, Star, Loader2 } from "lucide-react";
+import { Save, Trash2, Loader2, Plus, ImageIcon, Euro, Settings2 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { BarcodeScanner } from "@/components/shared/BarcodeScanner";
+import { ProductImageGallery } from "@/components/admin/ProductImageGallery";
 import { cn } from "@/lib/cn";
 
 interface Category {
@@ -60,6 +61,20 @@ const EMPTY: ProductForm = {
   image_urls: [],
 };
 
+function SectionTitle({ step, title, icon: Icon }: { step: number; title: string; icon?: React.ComponentType<{ className?: string }> }) {
+  return (
+    <div className="flex items-center gap-3 mb-4">
+      <span className="flex items-center justify-center w-7 h-7 rounded-full bg-bosporus text-white text-xs font-bold shrink-0">
+        {step}
+      </span>
+      <h2 className="font-bold text-lg text-metro-navy flex items-center gap-2">
+        {Icon && <Icon className="w-5 h-5 text-bosporus" />}
+        {title}
+      </h2>
+    </div>
+  );
+}
+
 export function AdminProductForm({ productId }: { productId?: string }) {
   const router = useRouter();
   const isNew = !productId;
@@ -69,9 +84,7 @@ export function AdminProductForm({ productId }: { productId?: string }) {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [newUrl, setNewUrl] = useState("");
   const [msg, setMsg] = useState("");
-  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetch("/api/admin/categories")
@@ -119,11 +132,14 @@ export function AdminProductForm({ productId }: { productId?: string }) {
       return;
     }
     setImages([...(product?.image_urls ?? []), data.url]);
-    setMsg("Görsel yüklendi");
   };
 
   const save = async () => {
     if (!product) return;
+    if (!product.name_de.trim()) {
+      setMsg("Almanca ürün adı zorunlu");
+      return;
+    }
     setSaving(true);
     setMsg("");
 
@@ -174,134 +190,233 @@ export function AdminProductForm({ productId }: { productId?: string }) {
 
   if (!product) return <p className="text-center py-12 text-bosporus-muted">Ürün bulunamadı</p>;
 
+  const hasPromo = product.promo_price != null && product.promo_price > 0;
+
   return (
-    <div className="space-y-6">
+    <div className="pb-24">
+      {/* Üst özet */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-6 p-4 bg-white rounded-2xl border border-bosporus-gray-200 shadow-sm">
+        <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-bosporus-gray-100 shrink-0 border border-bosporus-gray-200">
+          {product.image_urls[0] ? (
+            <Image src={product.image_urls[0]} alt="" fill className="object-cover" sizes="64px" />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-bosporus-muted text-xs">—</div>
+          )}
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="font-bold text-lg text-metro-navy truncate">{product.name_de || "Yeni ürün"}</p>
+          <p className="text-sm text-bosporus-muted">
+            {product.sku || "SKU otomatik"} · {product.category_slug ?? "Kategori yok"}
+          </p>
+          <div className="flex flex-wrap gap-2 mt-2">
+            <span className={cn("text-xs font-bold px-2 py-0.5 rounded-full", product.is_active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700")}>
+              {product.is_active ? "Aktif" : "Pasif"}
+            </span>
+            {product.stock_status === "out_of_stock" && (
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">Tükendi</span>
+            )}
+            <span className="text-xs font-bold text-bosporus">{Number(product.price_b2c).toFixed(2)} € B2C</span>
+          </div>
+        </div>
+      </div>
+
       {msg && (
-        <div className={cn("p-3 rounded-xl text-sm", msg.includes("Hata") || msg.includes("başarısız") || msg.includes("Silinemedi") ? "bg-red-50 text-red-800" : "bg-green-50 text-green-800")}>
+        <div className={cn("mb-4 p-3 rounded-xl text-sm", msg.includes("Hata") || msg.includes("başarısız") || msg.includes("Silinemedi") || msg.includes("zorunlu") ? "bg-red-50 text-red-800" : "bg-green-50 text-green-800")}>
           {msg}
         </div>
       )}
 
-      <Card className="!rounded-2xl">
-        <h2 className="font-bold text-lg mb-4">Temel Bilgiler</h2>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {isNew ? (
-            <Input label="SKU (boş bırakılırsa otomatik)" value={product.sku} onChange={(e) => update("sku", e.target.value)} placeholder="MAN-001" />
-          ) : (
-            <Input label="SKU (değiştirilemez)" value={product.sku} disabled />
-          )}
-          <div>
-            <Input label="Barkod" value={product.barcode ?? ""} onChange={(e) => update("barcode", e.target.value || null)} />
-            <div className="mt-2">
-              <BarcodeScanner onScan={(code) => update("barcode", code)} label="Barkod tara" />
-            </div>
-          </div>
-          <Input label="Ad (DE)" value={product.name_de} onChange={(e) => update("name_de", e.target.value)} />
-          <Input label="Ad (TR)" value={product.name_tr ?? ""} onChange={(e) => update("name_tr", e.target.value || null)} />
-          <div className="sm:col-span-2">
-            <label className="field-label">Kategori</label>
-            <div className="flex gap-2">
-              <select
-                value={product.category_slug ?? ""}
-                onChange={(e) => update("category_slug", e.target.value || null)}
-                className="field-input flex-1"
-              >
-                <option value="">— Kategori seçin —</option>
-                {categories.map((c) => (
-                  <option key={c.id} value={c.slug}>
-                    {c.name_de} ({c.slug})
-                  </option>
-                ))}
-              </select>
-              <Link href="/admin/categories">
-                <Button type="button" variant="outline" size="md">
-                  <Plus className="w-4 h-4" />
-                  Yeni
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </Card>
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Sol: ana içerik — mantıksal sıra */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* 1. Görseller */}
+          <Card className="!rounded-2xl">
+            <SectionTitle step={1} title="Görseller" icon={ImageIcon} />
+            <ProductImageGallery
+              urls={product.image_urls}
+              onChange={setImages}
+              onUpload={uploadFile}
+              uploading={uploading}
+            />
+          </Card>
 
-      <Card className="!rounded-2xl">
-        <h2 className="font-bold text-lg mb-4">Açıklama</h2>
-        <div className="grid sm:grid-cols-2 gap-4">
-          <Textarea label="Açıklama (DE)" value={product.description_de ?? ""} onChange={(e) => update("description_de", e.target.value || null)} rows={5} />
-          <Textarea label="Açıklama (TR)" value={product.description_tr ?? ""} onChange={(e) => update("description_tr", e.target.value || null)} rows={5} />
-        </div>
-      </Card>
-
-      <Card className="!rounded-2xl">
-        <h2 className="font-bold text-lg mb-4">Fotoğraflar</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-          {product.image_urls.map((url, i) => (
-            <div key={url} className="relative aspect-square rounded-xl overflow-hidden border-2 border-bosporus-gray-200 group">
-              <Image src={url} alt="" fill className="object-cover" sizes="120px" />
-              {i === 0 && <span className="absolute top-1 left-1 bg-bosporus-yellow text-xs font-bold px-1.5 py-0.5 rounded">Ana</span>}
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1">
-                {i !== 0 && (
-                  <button type="button" onClick={() => { const next = [...product.image_urls]; const [item] = next.splice(i, 1); next.unshift(item); setImages(next); }} className="p-1.5 bg-white rounded-lg">
-                    <Star className="w-4 h-4" />
-                  </button>
-                )}
-                <button type="button" onClick={() => setImages(product.image_urls.filter((_, j) => j !== i))} className="p-1.5 bg-white rounded-lg text-bosporus-red">
-                  <Trash2 className="w-4 h-4" />
-                </button>
+          {/* 2. Ürün adı & kategori */}
+          <Card className="!rounded-2xl">
+            <SectionTitle step={2} title="Ürün bilgisi" />
+            <div className="space-y-4">
+              <Input
+                label="Ürün adı (Almanca) *"
+                value={product.name_de}
+                onChange={(e) => update("name_de", e.target.value)}
+                placeholder="z.B. Olivenöl 1L"
+              />
+              <Input
+                label="Ürün adı (Türkçe)"
+                value={product.name_tr ?? ""}
+                onChange={(e) => update("name_tr", e.target.value || null)}
+                placeholder="Opsiyonel"
+              />
+              <div>
+                <label className="field-label">Kategori</label>
+                <div className="flex gap-2">
+                  <select
+                    value={product.category_slug ?? ""}
+                    onChange={(e) => update("category_slug", e.target.value || null)}
+                    className="field-input flex-1"
+                  >
+                    <option value="">— Seçin —</option>
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.slug}>{c.name_de}</option>
+                    ))}
+                  </select>
+                  <Link href="/admin/categories">
+                    <Button type="button" variant="outline" size="md"><Plus className="w-4 h-4" /></Button>
+                  </Link>
+                </div>
               </div>
             </div>
-          ))}
+          </Card>
+
+          {/* 3. Açıklama */}
+          <Card className="!rounded-2xl">
+            <SectionTitle step={3} title="Açıklama" />
+            <div className="space-y-4">
+              <Textarea
+                label="Almanca"
+                value={product.description_de ?? ""}
+                onChange={(e) => update("description_de", e.target.value || null)}
+                rows={4}
+                placeholder="Ürün detayları…"
+              />
+              <Textarea
+                label="Türkçe"
+                value={product.description_tr ?? ""}
+                onChange={(e) => update("description_tr", e.target.value || null)}
+                rows={4}
+                placeholder="Opsiyonel"
+              />
+            </div>
+          </Card>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
-          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadFile(f); e.target.value = ""; }} />
-          <Button type="button" variant="outline" onClick={() => fileRef.current?.click()} disabled={uploading}>
-            {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-            Bilgisayardan yükle
-          </Button>
-          <div className="flex flex-1 gap-2">
-            <input value={newUrl} onChange={(e) => setNewUrl(e.target.value)} placeholder="https://… görsel linki" className="field-input flex-1" />
-            <Button type="button" variant="outline" onClick={() => { if (newUrl.trim()) { setImages([...product.image_urls, newUrl.trim()]); setNewUrl(""); } }}>
-              <Plus className="w-4 h-4" /> URL ekle
+
+        {/* Sağ: fiyat, durum, teknik */}
+        <div className="space-y-6">
+          {/* 4. Fiyatlar */}
+          <Card className="!rounded-2xl">
+            <SectionTitle step={4} title="Fiyatlar" icon={Euro} />
+            <div className="space-y-4">
+              <Input
+                label="B2C fiyat (€, KDV dahil)"
+                type="number"
+                step="0.01"
+                min="0"
+                value={product.price_b2c}
+                onChange={(e) => update("price_b2c", Number(e.target.value))}
+              />
+              <Input
+                label="B2B fiyat (€, net)"
+                type="number"
+                step="0.01"
+                min="0"
+                value={product.price_b2b}
+                onChange={(e) => update("price_b2b", Number(e.target.value))}
+              />
+              <Input
+                label="KDV (%)"
+                type="number"
+                value={product.tax_rate}
+                onChange={(e) => update("tax_rate", Number(e.target.value))}
+              />
+
+              <div className="pt-3 border-t border-bosporus-gray-100">
+                <p className="text-sm font-bold text-metro-navy mb-3">Kampanya (opsiyonel)</p>
+                <div className="space-y-3">
+                  <Input
+                    label="İndirimli fiyat (€, net)"
+                    type="number"
+                    step="0.01"
+                    value={product.promo_price ?? ""}
+                    onChange={(e) => update("promo_price", e.target.value ? Number(e.target.value) : null)}
+                    placeholder="Boş = kampanya yok"
+                  />
+                  {hasPromo && (
+                    <div className="grid grid-cols-2 gap-2">
+                      <Input label="Başlangıç" type="date" value={product.promo_from ?? ""} onChange={(e) => update("promo_from", e.target.value || null)} />
+                      <Input label="Bitiş" type="date" value={product.promo_to ?? ""} onChange={(e) => update("promo_to", e.target.value || null)} />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* 5. Durum */}
+          <Card className="!rounded-2xl">
+            <SectionTitle step={5} title="Mağaza durumu" />
+            <div className="space-y-4">
+              <label className="flex items-center gap-3 p-3 rounded-xl border-2 border-bosporus-gray-200 cursor-pointer has-[:checked]:border-bosporus has-[:checked]:bg-bosporus-light/20">
+                <input
+                  type="checkbox"
+                  checked={product.is_active}
+                  onChange={(e) => update("is_active", e.target.checked)}
+                  className="w-5 h-5 rounded accent-bosporus"
+                />
+                <div>
+                  <p className="font-semibold text-sm">Mağazada göster</p>
+                  <p className="text-xs text-bosporus-muted">Kapalıysa sitede görünmez</p>
+                </div>
+              </label>
+              <div>
+                <label className="field-label">Satış durumu</label>
+                <select
+                  value={product.stock_status}
+                  onChange={(e) => update("stock_status", e.target.value)}
+                  className="field-input"
+                >
+                  <option value="in_stock">Satışa açık</option>
+                  <option value="low_stock">Az stok (uyarı)</option>
+                  <option value="out_of_stock">Tükendi (sepete eklenemez)</option>
+                </select>
+                <p className="text-xs text-bosporus-muted mt-1">Adet takibi yok — sadece açık/kapalı</p>
+              </div>
+            </div>
+          </Card>
+
+          {/* 6. Teknik */}
+          <Card className="!rounded-2xl">
+            <SectionTitle step={6} title="Teknik bilgiler" icon={Settings2} />
+            <div className="space-y-4">
+              {isNew ? (
+                <Input label="SKU" value={product.sku} onChange={(e) => update("sku", e.target.value)} placeholder="Boş = otomatik" />
+              ) : (
+                <Input label="SKU" value={product.sku} disabled />
+              )}
+              <Input label="Barkod" value={product.barcode ?? ""} onChange={(e) => update("barcode", e.target.value || null)} />
+              <BarcodeScanner onScan={(code) => update("barcode", code)} label="Barkod tara" />
+            </div>
+          </Card>
+        </div>
+      </div>
+
+      {/* Sabit kaydet çubuğu */}
+      <div className="fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur border-t border-bosporus-gray-200 px-4 py-3 lg:pl-72">
+        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-bosporus-muted hidden sm:block">
+            {isNew ? "Yeni ürün" : product.sku} · Değişiklikleri kaydetmeyi unutmayın
+          </p>
+          <div className="flex gap-2 ml-auto w-full sm:w-auto">
+            {!isNew && (
+              <Button variant="outline" onClick={remove} disabled={deleting} className="!text-bosporus-red !border-red-200">
+                <Trash2 className="w-4 h-4" />
+                {deleting ? "…" : "Sil"}
+              </Button>
+            )}
+            <Button onClick={save} disabled={saving} size="lg" className="flex-1 sm:flex-none">
+              <Save className="w-4 h-4" />
+              {saving ? "Kaydediliyor…" : isNew ? "Ürünü oluştur" : "Kaydet"}
             </Button>
           </div>
         </div>
-      </Card>
-
-      <Card className="!rounded-2xl">
-        <h2 className="font-bold text-lg mb-4">Fiyat & Stok</h2>
-        <div className="grid sm:grid-cols-2 gap-4">
-          <Input label="B2C Fiyat (€)" type="number" step="0.01" value={product.price_b2c} onChange={(e) => update("price_b2c", Number(e.target.value))} />
-          <Input label="B2B Fiyat (€)" type="number" step="0.01" value={product.price_b2b} onChange={(e) => update("price_b2b", Number(e.target.value))} />
-          <Input label="Kampanya Fiyatı (€)" type="number" step="0.01" value={product.promo_price ?? ""} onChange={(e) => update("promo_price", e.target.value ? Number(e.target.value) : null)} />
-          <Input label="KDV (%)" type="number" value={product.tax_rate} onChange={(e) => update("tax_rate", Number(e.target.value))} />
-          <Input label="Kampanya Başlangıç" type="date" value={product.promo_from ?? ""} onChange={(e) => update("promo_from", e.target.value || null)} />
-          <Input label="Kampanya Bitiş" type="date" value={product.promo_to ?? ""} onChange={(e) => update("promo_to", e.target.value || null)} />
-          <div>
-            <label className="field-label">Stok Durumu</label>
-            <select value={product.stock_status} onChange={(e) => update("stock_status", e.target.value)} className="field-input">
-              <option value="in_stock">Stokta</option>
-              <option value="low_stock">Az stok</option>
-              <option value="out_of_stock">Tükendi</option>
-            </select>
-          </div>
-          <div className="flex items-center gap-3 pt-6">
-            <input type="checkbox" id="is_active" checked={product.is_active} onChange={(e) => update("is_active", e.target.checked)} className="w-5 h-5 rounded" />
-            <label htmlFor="is_active" className="font-semibold text-sm">Mağazada aktif</label>
-          </div>
-        </div>
-      </Card>
-
-      <div className="flex flex-wrap gap-3">
-        <Button onClick={save} disabled={saving} size="lg">
-          <Save className="w-4 h-4" />
-          {saving ? "Kaydediliyor…" : isNew ? "Ürünü oluştur" : "Tüm değişiklikleri kaydet"}
-        </Button>
-        {!isNew && (
-          <Button variant="outline" onClick={remove} disabled={deleting} className="!text-bosporus-red !border-red-200">
-            <Trash2 className="w-4 h-4" />
-            {deleting ? "Siliniyor…" : "Ürünü sil"}
-          </Button>
-        )}
       </div>
     </div>
   );

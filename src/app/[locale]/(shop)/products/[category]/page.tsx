@@ -1,8 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { getCategories, getCategoryBySlug } from "@/lib/products";
+import { getCategoryBySlug } from "@/lib/products";
 import { ProductGrid } from "@/components/b2c/ProductGrid";
-import { CategoryNav } from "@/components/b2c/CategoryNav";
 import Image from "next/image";
 import { getCategoryImageUrl } from "@/lib/category-images";
 
@@ -17,12 +16,10 @@ export default async function CategoryPage({
   const category = getCategoryBySlug(slug);
   if (!category) notFound();
 
-  const categories = getCategories();
   const name = locale === "tr" && category.name_tr ? category.name_tr : category.name_de;
 
   return (
     <>
-      <CategoryNav categories={categories} locale={locale} activeSlug={slug} />
       <div className="relative h-40 md:h-52 overflow-hidden">
         <Image src={getCategoryImageUrl(slug)} alt={name} fill className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-metro-navy/90 to-metro-navy/40" />
