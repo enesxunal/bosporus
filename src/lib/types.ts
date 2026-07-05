@@ -1,4 +1,4 @@
-export type UserRole = "b2c" | "b2b_pending" | "b2b_approved";
+export type UserRole = "b2c" | "b2b_pending" | "b2b_approved" | "admin";
 export type OrderType = "delivery" | "click_collect";
 export type OrderStatus =
   | "pending"

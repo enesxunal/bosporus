@@ -1,13 +1,6 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-import { isSupabaseAdminConfigured } from "@/lib/supabase/admin";
-
-function getAnonClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return null;
-  return createClient(url, key);
-}
+import { authErrorMessage } from "@/lib/auth-errors";
+import { createAdminClient, isSupabaseAdminConfigured } from "@/lib/supabase/admin";
 
 export async function POST(request: Request) {
   if (!isSupabaseAdminConfigured()) {
@@ -26,23 +19,41 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Passwort mindestens 6 Zeichen" }, { status: 400 });
   }
 
-  const supabase = getAnonClient();
-  if (!supabase) {
+  const admin = createAdminClient();
+  if (!admin) {
     return NextResponse.json({ error: "Supabase nicht konfiguriert" }, { status: 503 });
   }
 
   const fullName = [firstName, lastName].filter(Boolean).join(" ").trim();
+  const normalizedEmail = String(email).trim().toLowerCase();
 
-  const { data, error } = await supabase.auth.signUp({
-    email,
+  const { data, error } = await admin.auth.admin.createUser({
+    email: normalizedEmail,
     password,
-    options: {
-      data: { full_name: fullName, role: "b2c" },
-    },
+    email_confirm: true,
+    user_metadata: { full_name: fullName, role: "b2c" },
   });
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    console.error("B2C register error:", error);
+    return NextResponse.json({ error: authErrorMessage(error) }, { status: 400 });
+  }
+
+  if (data.user) {
+    const { error: profileError } = await admin.from("profiles").upsert(
+      {
+        id: data.user.id,
+        email: normalizedEmail,
+        role: "b2c",
+        first_name: firstName?.trim() || null,
+        last_name: lastName?.trim() || null,
+      },
+      { onConflict: "id" }
+    );
+
+    if (profileError) {
+      console.error("B2C profile upsert error:", profileError);
+    }
   }
 
   return NextResponse.json({

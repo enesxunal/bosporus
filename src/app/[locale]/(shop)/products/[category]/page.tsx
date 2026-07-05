@@ -19,7 +19,7 @@ export default async function CategoryPage({
   if (!category) notFound();
 
   const categories = getCategories();
-  const products = getProducts({ category: slug, limit: 100 });
+  const products = await getProducts({ category: slug, limit: 100 });
   const name = locale === "tr" && category.name_tr ? category.name_tr : category.name_de;
 
   return (

@@ -4,6 +4,7 @@ import { getFeaturedCategories, getProducts, getPromoProducts } from "@/lib/prod
 import { ProductCard } from "@/components/b2c/ProductCard";
 import { PromoBanner } from "@/components/b2c/PromoBanner";
 import { CategoryTile } from "@/components/b2c/CategoryTile";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 export default async function HomePage({
   params,
@@ -15,31 +16,25 @@ export default async function HomePage({
 
   const home = await getTranslations("home");
   const categories = getFeaturedCategories(8);
-  const featured = getProducts({ limit: 8 });
-  const promos = getPromoProducts(8);
+  const featured = await getProducts({ limit: 8 });
+  const promos = await getPromoProducts(8);
 
   return (
     <>
       <PromoBanner />
 
-      {/* Weekly deals — Lidl grid */}
       {promos.length > 0 && (
-        <section className="py-8 bg-white border-b border-bosporus-gray-200">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <span className="text-xs font-bold uppercase text-bosporus-red tracking-wider">
-                  {locale === "de" ? "Diese Woche" : "Bu hafta"}
-                </span>
-                <h2 className="text-2xl font-bold text-bosporus-gray-800">
-                  {locale === "de" ? "Top-Angebote – lohnt sich" : "Kaçırılmayacak fırsatlar"}
-                </h2>
-              </div>
-              <Link href="/products?filter=aktion" className="text-sm font-bold text-bosporus hover:underline">
-                {locale === "de" ? "Alle Angebote →" : "Tüm kampanyalar →"}
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3 md:gap-4">
+        <section className="py-8 sm:py-10 bg-white">
+          <div className="page-container">
+            <SectionHeader
+              eyebrow={locale === "de" ? "Diese Woche" : "Bu hafta"}
+              title={locale === "de" ? "Top-Angebote – lohnt sich" : "Kaçırılmayacak fırsatlar"}
+              action={{
+                label: locale === "de" ? "Alle Angebote →" : "Tüm kampanyalar →",
+                href: "/products?filter=aktion",
+              }}
+            />
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
               {promos.map((p) => (
                 <ProductCard key={p.id} product={p} variant="deal" />
               ))}
@@ -48,11 +43,10 @@ export default async function HomePage({
         </section>
       )}
 
-      {/* Categories with photos */}
-      <section className="py-10">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-bosporus-gray-800 mb-6">{home("categoriesTitle")}</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+      <section className="py-8 sm:py-10">
+        <div className="page-container">
+          <SectionHeader title={home("categoriesTitle")} />
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
             {categories.map((cat) => (
               <CategoryTile key={cat.slug} category={cat} locale={locale} />
             ))}
@@ -60,13 +54,16 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* Featured products */}
-      <section className="py-10 bg-bosporus-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-bosporus-gray-800 mb-6">
-            {locale === "de" ? "Beliebte Produkte" : "Popüler ürünler"}
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+      <section className="py-8 sm:py-10 bg-white">
+        <div className="page-container">
+          <SectionHeader
+            title={locale === "de" ? "Beliebte Produkte" : "Popüler ürünler"}
+            action={{
+              label: locale === "de" ? "Alle Produkte →" : "Tüm ürünler →",
+              href: "/products",
+            }}
+          />
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
             {featured.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
@@ -74,16 +71,22 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* CTA band */}
-      <section className="py-12 bg-bosporus text-white">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">{home("ctaTitle")}</h2>
-          <p className="text-white/90 mb-8 text-lg">{home("ctaDesc")}</p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/gewerbe" className="px-8 py-3 bg-bosporus-yellow text-bosporus-gray-800 font-bold rounded-sm hover:bg-bosporus-yellow-dark transition-colors">
+      <section className="py-12 sm:py-16 bg-gradient-to-br from-bosporus to-bosporus-dark text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_50%,white,transparent_50%)]" />
+        <div className="page-container relative text-center max-w-2xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-extrabold mb-4 tracking-tight">{home("ctaTitle")}</h2>
+          <p className="text-white/90 mb-8 text-base sm:text-lg">{home("ctaDesc")}</p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/gewerbe"
+              className="inline-flex items-center justify-center h-12 px-6 text-base font-bold rounded-xl bg-bosporus-yellow text-bosporus-gray-800 hover:bg-bosporus-yellow-dark active:scale-[0.98] transition-all"
+            >
               {locale === "de" ? "Gewerbe-Portal" : "Kurumsal Portal"}
             </Link>
-            <Link href="/contact" className="px-8 py-3 border-2 border-white font-bold rounded-sm hover:bg-white/10 transition-colors">
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center h-12 px-6 text-base font-bold rounded-xl border-2 border-white/40 text-white hover:bg-white/10 active:scale-[0.98] transition-all"
+            >
               {home("ctaButton")}
             </Link>
           </div>

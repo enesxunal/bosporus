@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, ArrowRight } from "lucide-react";
+import { Card } from "@/components/ui/Card";
 
 export default async function CheckoutSuccessPage({
   searchParams,
@@ -12,17 +13,25 @@ export default async function CheckoutSuccessPage({
   const c = await getTranslations("checkout");
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-20 text-center">
-      <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
-      <h1 className="text-2xl font-bold text-bosporus-gray-800 mb-2">
+    <div className="page-narrow py-16 sm:py-24 text-center">
+      <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-50 mb-6">
+        <CheckCircle className="w-10 h-10 text-green-600" />
+      </div>
+      <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-3 tracking-tight">
         {c("successTitle")}
       </h1>
       {order && (
-        <p className="text-lg font-mono font-bold text-bosporus mb-2">{order}</p>
+        <Card padding="sm" className="inline-block !rounded-xl mb-4">
+          <p className="text-lg font-mono font-bold text-bosporus">{order}</p>
+        </Card>
       )}
-      <p className="text-bosporus-muted mb-6">{c("successDesc")}</p>
-      <Link href="/products" className="text-bosporus font-medium hover:underline">
-        {t("continue")} →
+      <p className="text-bosporus-muted mb-8 max-w-sm mx-auto">{c("successDesc")}</p>
+      <Link
+        href="/products"
+        className="inline-flex items-center gap-2 text-bosporus font-bold hover:underline"
+      >
+        {t("continue")}
+        <ArrowRight className="w-4 h-4" />
       </Link>
     </div>
   );

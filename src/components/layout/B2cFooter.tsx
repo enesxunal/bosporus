@@ -16,7 +16,7 @@ export function B2cFooter() {
   ];
 
   return (
-    <footer className="mt-auto">
+    <footer className="mt-auto pb-mobile-nav md:pb-0">
       {/* Trust bar — Lidl style */}
       <div className="bg-bosporus-light border-t border-bosporus-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 sm:grid-cols-3 gap-4">

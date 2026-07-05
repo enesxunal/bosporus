@@ -7,11 +7,17 @@ import { Link } from "@/i18n/navigation";
 import { useCart } from "@/stores/cart";
 import { formatPrice } from "@/lib/pricing";
 import { findDeliveryZone, PICKUP_SLOTS, zoneName } from "@/lib/delivery";
-import { Truck, Store, Loader2 } from "lucide-react";
+import { Truck, Store } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/Textarea";
+import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/cn";
 
 export default function CheckoutPage() {
   const t = useTranslations("checkout");
+  const ta = useTranslations("account");
   const locale = useLocale() as "de" | "tr";
   const router = useRouter();
   const { items, subtotalGross, clear } = useCart();
@@ -24,6 +30,10 @@ export default function CheckoutPage() {
   const [pickupSlot, setPickupSlot] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [savedAddresses, setSavedAddresses] = useState<
+    { id: string; label: string; street: string; zip_code: string; city: string; is_default: boolean }[]
+  >([]);
+  const [selectedAddressId, setSelectedAddressId] = useState<string>("");
 
   const total = subtotalGross();
   const zone = zipCode.length >= 4 ? findDeliveryZone(zipCode) : null;
@@ -36,17 +46,49 @@ export default function CheckoutPage() {
   useEffect(() => {
     if (!isSupabaseConfigured()) return;
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (user?.email) setCustomerEmail(user.email);
       const name = user?.user_metadata?.full_name as string | undefined;
       if (name) setCustomerName(name);
+
+      if (user) {
+        const res = await fetch("/api/account/addresses");
+        if (res.ok) {
+          const data = await res.json();
+          const addrs = data.addresses ?? [];
+          setSavedAddresses(addrs);
+          const defaultAddr = addrs.find((a: { is_default: boolean }) => a.is_default) ?? addrs[0];
+          if (defaultAddr) {
+            setSelectedAddressId(defaultAddr.id);
+            setZipCode(defaultAddr.zip_code);
+            setAddress(defaultAddr.street);
+          }
+        }
+        const profileRes = await fetch("/api/account/profile");
+        if (profileRes.ok) {
+          const profileData = await profileRes.json();
+          const p = profileData.profile;
+          if (p?.first_name || p?.last_name) {
+            setCustomerName([p.first_name, p.last_name].filter(Boolean).join(" "));
+          }
+        }
+      }
     });
   }, []);
 
+  const applyAddress = (id: string) => {
+    setSelectedAddressId(id);
+    const addr = savedAddresses.find((a) => a.id === id);
+    if (addr) {
+      setZipCode(addr.zip_code);
+      setAddress(addr.street);
+    }
+  };
+
   if (items.length === 0) {
     return (
-      <div className="max-w-lg mx-auto px-4 py-20 text-center text-bosporus-muted">
-        <Link href="/cart">{locale === "de" ? "Zum Warenkorb" : "Sepete git"}</Link>
+      <div className="page-narrow py-20 text-center text-bosporus-muted">
+        <Link href="/cart" className="text-bosporus font-semibold">{locale === "de" ? "Zum Warenkorb" : "Sepete git"}</Link>
       </div>
     );
   }
@@ -108,132 +150,134 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-bosporus-gray-800 mb-2">{t("title")}</h1>
+    <div className="page-narrow py-6 sm:py-10 pb-32 sm:pb-10">
+      <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-2 tracking-tight">{t("title")}</h1>
       <p className="text-sm text-bosporus-muted mb-6">{t("noPaymentNote")}</p>
 
-      <div className="space-y-4 mb-6 p-4 bg-white border border-bosporus-gray-200 rounded-sm">
-        <h2 className="font-semibold text-sm">{t("contactSection")}</h2>
-        <div>
-          <label className="block text-sm font-medium mb-1">{t("customerName")}</label>
-          <input
-            value={customerName}
-            onChange={(e) => setCustomerName(e.target.value)}
-            className="w-full px-3 py-2 border border-bosporus-gray-200 rounded-sm"
-            required
-          />
+      <div className="space-y-4">
+        <Card>
+          <h2 className="font-bold text-bosporus-gray-800 mb-4">{t("contactSection")}</h2>
+          <div className="space-y-4">
+            <Input label={t("customerName")} value={customerName} onChange={(e) => setCustomerName(e.target.value)} required />
+            <Input label={t("customerEmail")} type="email" value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)} required />
+          </div>
+        </Card>
+
+        <div className="grid grid-cols-2 gap-3">
+          {(["delivery", "click_collect"] as const).map((type) => {
+            const Icon = type === "delivery" ? Truck : Store;
+            const active = orderType === type;
+            return (
+              <button
+                key={type}
+                type="button"
+                onClick={() => setOrderType(type)}
+                className={cn(
+                  "flex flex-col items-center justify-center gap-2 p-4 sm:p-5 rounded-2xl border-2 transition-all active:scale-[0.98]",
+                  active
+                    ? "border-bosporus bg-bosporus-light shadow-sm"
+                    : "border-bosporus-gray-200 bg-white hover:border-bosporus/30"
+                )}
+              >
+                <Icon className={cn("w-6 h-6", active ? "text-bosporus" : "text-bosporus-muted")} />
+                <span className={cn("text-sm font-bold text-center", active ? "text-bosporus" : "text-bosporus-gray-800")}>
+                  {type === "delivery" ? t("delivery") : t("pickup")}
+                </span>
+              </button>
+            );
+          })}
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">{t("customerEmail")}</label>
-          <input
-            type="email"
-            value={customerEmail}
-            onChange={(e) => setCustomerEmail(e.target.value)}
-            className="w-full px-3 py-2 border border-bosporus-gray-200 rounded-sm"
-            required
-          />
-        </div>
+
+        <Card>
+          {orderType === "delivery" ? (
+            <div className="space-y-4">
+              {savedAddresses.length > 0 && (
+                <div>
+                  <label className="field-label">{ta("savedAddress")}</label>
+                  <select
+                    value={selectedAddressId}
+                    onChange={(e) => applyAddress(e.target.value)}
+                    className="field-input"
+                  >
+                    {savedAddresses.map((addr) => (
+                      <option key={addr.id} value={addr.id}>
+                        {addr.label} — {addr.street}, {addr.zip_code}
+                      </option>
+                    ))}
+                    <option value="">{ta("manualAddress")}</option>
+                  </select>
+                </div>
+              )}
+              <Input
+                label={t("zipCode")}
+                value={zipCode}
+                onChange={(e) => { setZipCode(e.target.value); setSelectedAddressId(""); }}
+                placeholder="50829"
+              />
+              {zone && (
+                <p className="text-xs text-bosporus-muted -mt-2">
+                  {zoneName(zone, locale)} · Min. {formatPrice(zone.min_order_amount, locale)}
+                </p>
+              )}
+              <Textarea
+                label={t("address")}
+                value={address}
+                onChange={(e) => { setAddress(e.target.value); setSelectedAddressId(""); }}
+                rows={3}
+              />
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <Input
+                label={t("pickupDate")}
+                type="date"
+                value={pickupDate}
+                onChange={(e) => setPickupDate(e.target.value)}
+                min={new Date().toISOString().split("T")[0]}
+              />
+              <div>
+                <label className="field-label">{t("pickupSlot")}</label>
+                <select value={pickupSlot} onChange={(e) => setPickupSlot(e.target.value)} className="field-input">
+                  <option value="">—</option>
+                  {PICKUP_SLOTS.map((s) => (
+                    <option key={s.value} value={s.label}>{s.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
+        </Card>
+
+        <Card className="hidden sm:block">
+          <div className="flex justify-between items-center text-xl font-extrabold">
+            <span>{locale === "de" ? "Gesamt" : "Toplam"}</span>
+            <span className="text-bosporus">{formatPrice(total, locale)}</span>
+          </div>
+        </Card>
+
+        {error && (
+          <p className="text-bosporus-red text-sm bg-red-50 p-4 rounded-xl border border-red-100">{error}</p>
+        )}
+
+        <Button type="button" onClick={handleSubmit} loading={loading} size="lg" fullWidth className="hidden sm:flex">
+          {t("placeOrder")}
+        </Button>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 mb-6">
-        <button
-          type="button"
-          onClick={() => setOrderType("delivery")}
-          className={`flex items-center justify-center gap-2 p-4 rounded-sm border-2 transition-colors ${
-            orderType === "delivery" ? "border-bosporus bg-bosporus-light" : "border-bosporus-gray-200"
-          }`}
-        >
-          <Truck className="w-5 h-5" />
-          {t("delivery")}
-        </button>
-        <button
-          type="button"
-          onClick={() => setOrderType("click_collect")}
-          className={`flex items-center justify-center gap-2 p-4 rounded-sm border-2 transition-colors ${
-            orderType === "click_collect" ? "border-bosporus bg-bosporus-light" : "border-bosporus-gray-200"
-          }`}
-        >
-          <Store className="w-5 h-5" />
-          {t("pickup")}
-        </button>
+      {/* Mobile sticky order bar */}
+      <div className="sm:hidden fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] inset-x-0 z-40 px-4 pb-2">
+        <Card padding="sm" className="!rounded-2xl shadow-lg">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-xs text-bosporus-muted font-medium">{locale === "de" ? "Gesamt" : "Toplam"}</p>
+              <p className="text-xl font-extrabold text-bosporus">{formatPrice(total, locale)}</p>
+            </div>
+            <Button type="button" onClick={handleSubmit} loading={loading} size="lg" className="flex-1 max-w-[200px]">
+              {t("placeOrder")}
+            </Button>
+          </div>
+        </Card>
       </div>
-
-      {orderType === "delivery" ? (
-        <div className="space-y-4 mb-6">
-          <div>
-            <label className="block text-sm font-medium mb-1">{t("zipCode")}</label>
-            <input
-              value={zipCode}
-              onChange={(e) => setZipCode(e.target.value)}
-              className="w-full px-3 py-2 border border-bosporus-gray-200 rounded-sm"
-              placeholder="50829"
-            />
-            {zone && (
-              <p className="text-xs text-bosporus-muted mt-1">
-                {zoneName(zone, locale)} · Min. {formatPrice(zone.min_order_amount, locale)}
-              </p>
-            )}
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">{t("address")}</label>
-            <textarea
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              rows={3}
-              className="w-full px-3 py-2 border border-bosporus-gray-200 rounded-sm"
-            />
-          </div>
-        </div>
-      ) : (
-        <div className="space-y-4 mb-6">
-          <div>
-            <label className="block text-sm font-medium mb-1">{t("pickupDate")}</label>
-            <input
-              type="date"
-              value={pickupDate}
-              onChange={(e) => setPickupDate(e.target.value)}
-              min={new Date().toISOString().split("T")[0]}
-              className="w-full px-3 py-2 border border-bosporus-gray-200 rounded-sm"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">{t("pickupSlot")}</label>
-            <select
-              value={pickupSlot}
-              onChange={(e) => setPickupSlot(e.target.value)}
-              className="w-full px-3 py-2 border border-bosporus-gray-200 rounded-sm"
-            >
-              <option value="">—</option>
-              {PICKUP_SLOTS.map((s) => (
-                <option key={s.value} value={s.label}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      )}
-
-      <div className="bg-bosporus-gray-50 p-6 rounded-sm border mb-6">
-        <div className="flex justify-between text-lg font-bold">
-          <span>{locale === "de" ? "Gesamt" : "Toplam"}</span>
-          <span className="text-bosporus">{formatPrice(total, locale)}</span>
-        </div>
-      </div>
-
-      {error && (
-        <p className="text-bosporus-red text-sm mb-4 bg-red-50 p-3 rounded-sm">{error}</p>
-      )}
-
-      <button
-        type="button"
-        onClick={handleSubmit}
-        disabled={loading}
-        className="w-full py-3 bg-bosporus text-white font-semibold rounded-sm hover:bg-bosporus-dark disabled:opacity-60 flex items-center justify-center gap-2"
-      >
-        {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-        {t("placeOrder")}
-      </button>
     </div>
   );
 }

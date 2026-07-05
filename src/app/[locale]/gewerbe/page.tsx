@@ -1,51 +1,51 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import { getCategories, getProducts } from "@/lib/products";
+import { getCategories } from "@/lib/products";
+import type { Product } from "@/lib/types";
 import { ProductTable } from "@/components/b2b/ProductTable";
 import { B2bHeader } from "@/components/b2b/B2bHeader";
 import { B2bSidebar } from "@/components/b2b/B2bSidebar";
 import { B2bOrderPanel } from "@/components/b2b/B2bOrderPanel";
-
-const DEMO_B2B_PROFILE = {
-  id: "demo",
-  email: "demo@bosporus.de",
-  role: "b2b_approved" as const,
-  company_name: "Demo Restaurant GmbH",
-  company_address: "Köln",
-  vat_id: "DE123456789",
-  vat_verified: true,
-  locale: "de" as const,
-};
+import { B2bGate, useB2bProfile } from "@/components/b2b/B2bGate";
+import { Loader2 } from "lucide-react";
 
 function GewerbeContent() {
   const t = useTranslations("b2b");
   const locale = useLocale();
+  const { profile } = useB2bProfile();
   const searchParams = useSearchParams();
   const categorySlug = searchParams.get("category") ?? undefined;
   const [query, setQuery] = useState("");
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const categories = getCategories();
-  const products = useMemo(
-    () =>
-      getProducts({
-        search: query || undefined,
-        category: categorySlug,
-        limit: 80,
-        activeOnly: true,
-      }),
-    [query, categorySlug]
-  );
+
+  useEffect(() => {
+    setLoading(true);
+    const params = new URLSearchParams({ limit: "80" });
+    if (query) params.set("q", query);
+    if (categorySlug) params.set("category", categorySlug);
+    fetch(`/api/catalog/products?${params}`)
+      .then((r) => r.json())
+      .then((d) => setProducts(d.products ?? []))
+      .finally(() => setLoading(false));
+  }, [query, categorySlug]);
+
+  if (!profile) return null;
 
   return (
     <div className="min-h-screen bg-bosporus-gray-50 flex flex-col">
-      <B2bHeader onSearch={setQuery} searchQuery={query} />
+      <B2bHeader onSearch={setQuery} searchQuery={query} profile={profile} />
       <div className="max-w-[1600px] mx-auto px-4 py-4 flex-1 w-full">
         <div className="mb-4">
           <h1 className="text-xl font-bold text-metro-navy">{t("title")}</h1>
-          <p className="text-sm text-bosporus-muted">{t("subtitle")}</p>
+          <p className="text-sm text-bosporus-muted">
+            {profile.company_name} · {profile.vat_id}
+          </p>
         </div>
         <div className="flex flex-col lg:flex-row gap-4">
           <B2bSidebar
@@ -59,11 +59,17 @@ function GewerbeContent() {
               <span>
                 {products.length} {locale === "de" ? "Artikel" : "ürün"}
               </span>
-              <span className="text-metro-navy bg-bosporus-yellow px-2 py-0.5 rounded-sm font-bold text-xs">
+              <span className="text-metro-navy bg-bosporus-yellow px-2 py-0.5 rounded-lg font-bold text-xs">
                 NETTO
               </span>
             </div>
-            <ProductTable products={products} profile={DEMO_B2B_PROFILE} />
+            {loading ? (
+              <div className="flex justify-center py-12">
+                <Loader2 className="w-8 h-8 animate-spin text-bosporus" />
+              </div>
+            ) : (
+              <ProductTable products={products} profile={profile} />
+            )}
           </div>
           <B2bOrderPanel />
         </div>
@@ -78,14 +84,16 @@ function GewerbeContent() {
 
 export default function GewerbePage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-bosporus-gray-50 flex items-center justify-center text-bosporus-muted">
-          Laden…
-        </div>
-      }
-    >
-      <GewerbeContent />
-    </Suspense>
+    <B2bGate>
+      <Suspense
+        fallback={
+          <div className="min-h-screen bg-bosporus-gray-50 flex items-center justify-center text-bosporus-muted">
+            Laden…
+          </div>
+        }
+      >
+        <GewerbeContent />
+      </Suspense>
+    </B2bGate>
   );
 }

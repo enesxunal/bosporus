@@ -3,15 +3,18 @@
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
-import { Search, ShoppingCart, User, MapPin, Globe } from "lucide-react";
+import { Search, ShoppingCart, MapPin, Globe } from "lucide-react";
+import { AuthNav } from "@/components/layout/AuthNav";
 import { useCart } from "@/stores/cart";
+import type { UserProfile } from "@/lib/types";
 
 interface B2bHeaderProps {
   onSearch: (q: string) => void;
   searchQuery: string;
+  profile?: UserProfile;
 }
 
-export function B2bHeader({ onSearch, searchQuery }: B2bHeaderProps) {
+export function B2bHeader({ onSearch, searchQuery, profile }: B2bHeaderProps) {
   const t = useTranslations("b2b");
   const nav = useTranslations("nav");
   const locale = useLocale();
@@ -63,17 +66,13 @@ export function B2bHeader({ onSearch, searchQuery }: B2bHeaderProps) {
           />
         </div>
         <div className="flex items-center gap-3 shrink-0">
-          <div className="hidden lg:block text-right text-xs">
-            <p className="text-white/60">Demo Restaurant GmbH</p>
-            <p className="text-bosporus-yellow font-mono text-xs">DE123456789</p>
-          </div>
-          <Link
-            href="/register?tab=gewerbe"
-            className="hidden md:flex items-center gap-1.5 px-3 py-2 border border-white/30 text-sm rounded-sm hover:bg-white/10"
-          >
-            <User className="w-4 h-4" />
-            {nav("register")}
-          </Link>
+          {profile && (
+            <div className="hidden lg:block text-right text-xs">
+              <p className="text-white/80 font-semibold truncate max-w-[160px]">{profile.company_name}</p>
+              <p className="text-bosporus-yellow font-mono text-xs">{profile.vat_id}</p>
+            </div>
+          )}
+          <AuthNav variant="b2b" />
           <Link
             href="/cart"
             className="flex items-center gap-2 px-4 py-2 bg-bosporus-yellow text-metro-navy font-bold text-sm rounded-sm hover:bg-bosporus-yellow-dark"

@@ -1,15 +1,7 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { isSupabaseAdminConfigured } from "@/lib/supabase/admin";
+import { authErrorMessage } from "@/lib/auth-errors";
+import { createAdminClient, isSupabaseAdminConfigured } from "@/lib/supabase/admin";
 import { validateVatId } from "@/lib/vies";
-
-function getAnonClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return null;
-  return createClient(url, key);
-}
 
 export async function POST(request: Request) {
   if (!isSupabaseAdminConfigured()) {
@@ -38,40 +30,50 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: vies.error ?? "USt-IdNr. ungültig" }, { status: 400 });
   }
 
-  const supabase = getAnonClient();
   const admin = createAdminClient();
-  if (!supabase || !admin) {
+  if (!admin) {
     return NextResponse.json({ error: "Supabase nicht konfiguriert" }, { status: 503 });
   }
 
-  const { data, error } = await supabase.auth.signUp({
-    email,
+  const normalizedEmail = String(email).trim().toLowerCase();
+  const normalizedVatId = vatId.replace(/\s/g, "").toUpperCase();
+
+  const { data, error } = await admin.auth.admin.createUser({
+    email: normalizedEmail,
     password,
-    options: {
-      data: { company_name: companyName, role: "b2b_approved" },
-    },
+    email_confirm: true,
+    user_metadata: { company_name: companyName, role: "b2b_pending" },
   });
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    console.error("B2B register error:", error);
+    return NextResponse.json({ error: authErrorMessage(error) }, { status: 400 });
   }
 
   if (data.user) {
-    await admin
-      .from("profiles")
-      .update({
-        role: "b2b_approved",
+    const { error: profileError } = await admin.from("profiles").upsert(
+      {
+        id: data.user.id,
+        email: normalizedEmail,
+        role: "b2b_pending",
         company_name: companyName,
         company_address: companyAddress,
-        vat_id: vatId.replace(/\s/g, "").toUpperCase(),
+        vat_id: normalizedVatId,
         vat_verified: true,
-      })
-      .eq("id", data.user.id);
+      },
+      { onConflict: "id" }
+    );
+
+    if (profileError) {
+      console.error("B2B profile upsert error:", profileError);
+      return NextResponse.json({ error: profileError.message }, { status: 500 });
+    }
   }
 
   return NextResponse.json({
     success: true,
-    message: "Gewerbekonto erstellt! Sie können jetzt im Portal einkaufen.",
+    message:
+      "Gewerbeanfrage eingegangen! Wir prüfen Ihre Daten und schalten Ihr Konto frei. Sie erhalten eine E-Mail.",
     viesName: vies.name,
   });
 }

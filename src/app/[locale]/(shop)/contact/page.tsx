@@ -1,5 +1,6 @@
 import { setRequestLocale } from "next-intl/server";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Card } from "@/components/ui/Card";
 
 export default async function ContactPage({
   params,
@@ -8,23 +9,39 @@ export default async function ContactPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const de = locale !== "tr";
+
+  const items = [
+    { icon: MapPin, text: "Von Hünefeld Straße 2, 50829 Köln" },
+    { icon: Phone, text: "+49 221 34098290", href: "tel:+4922134098290" },
+    { icon: Mail, text: "info@bosporus-gmbh.com", href: "mailto:info@bosporus-gmbh.com" },
+    { icon: Clock, text: de ? "Mo.–Sa.: 00:00–18:00 Uhr" : "Pzt.–Cmt.: 00:00–18:00" },
+  ];
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
-      <h1 className="text-2xl font-bold text-bosporus-gray-800 mb-8">Kontakt</h1>
-      <div className="grid gap-6">
-        {[
-          { icon: MapPin, text: "Von Hünefeld Straße 2, 50829 Köln" },
-          { icon: Phone, text: "+49 221 34098290" },
-          { icon: Mail, text: "info@bosporus-gmbh.com" },
-          { icon: Clock, text: "Mo.–Sa.: 00:00–18:00 Uhr" },
-        ].map(({ icon: Icon, text }) => (
-          <div key={text} className="flex items-center gap-4 p-4 bg-white border border-bosporus-gray-200 rounded-xl">
-            <div className="w-10 h-10 bg-bosporus-light rounded-full flex items-center justify-center">
-              <Icon className="w-5 h-5 text-bosporus" />
-            </div>
-            <span className="text-bosporus-gray-800">{text}</span>
-          </div>
+    <div className="page-narrow py-10 sm:py-14">
+      <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-8 tracking-tight">
+        {de ? "Kontakt" : "İletişim"}
+      </h1>
+      <div className="grid gap-3">
+        {items.map(({ icon: Icon, text, href }) => (
+          <Card key={text} padding="sm" hover className="!rounded-2xl">
+            {href ? (
+              <a href={href} className="flex items-center gap-4 group">
+                <div className="w-12 h-12 bg-bosporus-light rounded-xl flex items-center justify-center shrink-0 group-hover:bg-bosporus/10 transition-colors">
+                  <Icon className="w-5 h-5 text-bosporus" />
+                </div>
+                <span className="text-bosporus-gray-800 font-medium group-hover:text-bosporus transition-colors">{text}</span>
+              </a>
+            ) : (
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-bosporus-light rounded-xl flex items-center justify-center shrink-0">
+                  <Icon className="w-5 h-5 text-bosporus" />
+                </div>
+                <span className="text-bosporus-gray-800 font-medium">{text}</span>
+              </div>
+            )}
+          </Card>
         ))}
       </div>
     </div>

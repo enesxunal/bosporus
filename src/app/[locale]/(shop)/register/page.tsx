@@ -4,7 +4,12 @@ import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useRouter, Link } from "@/i18n/navigation";
-import { User, Building2, CheckCircle, XCircle, Loader2 } from "lucide-react";
+import { User, Building2, CheckCircle, XCircle } from "lucide-react";
+import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/Textarea";
+import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/cn";
 
 type Tab = "b2c" | "b2b";
 
@@ -45,7 +50,10 @@ function RegisterForm() {
       const data = await res.json();
       if (!res.ok) {
         setStatus("error");
-        setMessage(data.error ?? "Fehler");
+        const err = data.error;
+        setMessage(
+          typeof err === "string" ? err : err?.message ?? "Fehler"
+        );
         return;
       }
       setStatus("success");
@@ -69,7 +77,10 @@ function RegisterForm() {
       const data = await res.json();
       if (!res.ok) {
         setStatus("error");
-        setMessage(data.error ?? "Fehler");
+        const err = data.error;
+        setMessage(
+          typeof err === "string" ? err : err?.message ?? "Fehler"
+        );
         return;
       }
       setStatus("success");
@@ -82,19 +93,17 @@ function RegisterForm() {
   };
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-10">
-      <h1 className="text-2xl font-bold text-bosporus-gray-800 mb-6">{t("registerTitle")}</h1>
+    <div className="page-narrow py-10 sm:py-14">
+      <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-6 tracking-tight">{t("registerTitle")}</h1>
 
-      {/* Tab switcher */}
-      <div className="flex mb-6 border border-bosporus-gray-200 rounded-sm overflow-hidden">
+      <div className="flex mb-6 p-1 bg-bosporus-gray-100 rounded-2xl gap-1">
         <button
           type="button"
           onClick={() => { setTab("b2c"); setStatus("idle"); setMessage(""); }}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-colors ${
-            tab === "b2c"
-              ? "bg-bosporus text-white"
-              : "bg-white text-bosporus-gray-800 hover:bg-bosporus-light"
-          }`}
+          className={cn(
+            "flex-1 flex items-center justify-center gap-2 py-3 text-sm font-bold rounded-xl transition-all",
+            tab === "b2c" ? "bg-white text-bosporus shadow-sm" : "text-bosporus-muted hover:text-bosporus-gray-800"
+          )}
         >
           <User className="w-4 h-4" />
           {t("tabPrivate")}
@@ -102,11 +111,10 @@ function RegisterForm() {
         <button
           type="button"
           onClick={() => { setTab("b2b"); setStatus("idle"); setMessage(""); }}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-colors ${
-            tab === "b2b"
-              ? "bg-metro-navy text-white"
-              : "bg-white text-bosporus-gray-800 hover:bg-bosporus-light"
-          }`}
+          className={cn(
+            "flex-1 flex items-center justify-center gap-2 py-3 text-sm font-bold rounded-xl transition-all",
+            tab === "b2b" ? "bg-metro-navy text-white shadow-sm" : "text-bosporus-muted hover:text-bosporus-gray-800"
+          )}
         >
           <Building2 className="w-4 h-4" />
           {t("tabBusiness")}
@@ -114,32 +122,47 @@ function RegisterForm() {
       </div>
 
       {tab === "b2c" ? (
-        <form onSubmit={handleB2cSubmit} className="space-y-4 bg-white p-6 rounded-sm border border-bosporus-gray-200">
-          <p className="text-sm text-bosporus-muted">{t("privateHint")}</p>
-          <div className="grid grid-cols-2 gap-3">
-            <Field label={t("firstName")} value={b2cForm.firstName} onChange={(v) => setB2cForm({ ...b2cForm, firstName: v })} />
-            <Field label={t("lastName")} value={b2cForm.lastName} onChange={(v) => setB2cForm({ ...b2cForm, lastName: v })} />
-          </div>
-          <Field label="E-Mail" type="email" value={b2cForm.email} onChange={(v) => setB2cForm({ ...b2cForm, email: v })} required />
-          <Field label={t("password")} type="password" value={b2cForm.password} onChange={(v) => setB2cForm({ ...b2cForm, password: v })} required />
-          <SubmitButton status={status} label={t("registerSubmit")} />
-        </form>
+        <Card>
+          <form onSubmit={handleB2cSubmit} className="space-y-4">
+            <p className="text-sm text-bosporus-muted">{t("privateHint")}</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Input label={t("firstName")} value={b2cForm.firstName} onChange={(e) => setB2cForm({ ...b2cForm, firstName: e.target.value })} />
+              <Input label={t("lastName")} value={b2cForm.lastName} onChange={(e) => setB2cForm({ ...b2cForm, lastName: e.target.value })} />
+            </div>
+            <Input label="E-Mail" type="email" value={b2cForm.email} onChange={(e) => setB2cForm({ ...b2cForm, email: e.target.value })} required />
+            <Input label={t("password")} type="password" value={b2cForm.password} onChange={(e) => setB2cForm({ ...b2cForm, password: e.target.value })} required />
+            <Button type="submit" loading={status === "loading"} size="lg" fullWidth>{t("registerSubmit")}</Button>
+          </form>
+        </Card>
       ) : (
-        <form onSubmit={handleB2bSubmit} className="space-y-4 bg-white p-6 rounded-sm border border-bosporus-gray-200">
-          <p className="text-sm text-bosporus-muted">{t("businessHint")}</p>
-          <Field label={tb("companyName")} value={b2bForm.companyName} onChange={(v) => setB2bForm({ ...b2bForm, companyName: v })} required />
-          <Field label={tb("companyAddress")} value={b2bForm.companyAddress} onChange={(v) => setB2bForm({ ...b2bForm, companyAddress: v })} required />
-          <div>
-            <Field label={tb("vatId")} value={b2bForm.vatId} onChange={(v) => setB2bForm({ ...b2bForm, vatId: v.toUpperCase() })} required placeholder="DE123456789" />
-            <p className="text-xs text-bosporus-muted mt-1">{tb("vatHint")}</p>
-          </div>
-          <Field label="E-Mail" type="email" value={b2bForm.email} onChange={(v) => setB2bForm({ ...b2bForm, email: v })} required />
-          <Field label={t("password")} type="password" value={b2bForm.password} onChange={(v) => setB2bForm({ ...b2bForm, password: v })} required />
-          <SubmitButton status={status} label={tb("registerSubmit")} />
-        </form>
+        <Card>
+          <form onSubmit={handleB2bSubmit} className="space-y-4">
+            <p className="text-sm text-bosporus-muted">{t("businessHint")}</p>
+            <Input label={tb("companyName")} value={b2bForm.companyName} onChange={(e) => setB2bForm({ ...b2bForm, companyName: e.target.value })} required />
+            <Textarea label={tb("companyAddress")} value={b2bForm.companyAddress} onChange={(e) => setB2bForm({ ...b2bForm, companyAddress: e.target.value })} rows={2} required />
+            <div>
+              <Input label={tb("vatId")} value={b2bForm.vatId} onChange={(e) => setB2bForm({ ...b2bForm, vatId: e.target.value.toUpperCase() })} required placeholder="DE123456789" />
+              <p className="text-xs text-bosporus-muted mt-1">{tb("vatHint")}</p>
+            </div>
+            <Input label="E-Mail" type="email" value={b2bForm.email} onChange={(e) => setB2bForm({ ...b2bForm, email: e.target.value })} required />
+            <Input label={t("password")} type="password" value={b2bForm.password} onChange={(e) => setB2bForm({ ...b2bForm, password: e.target.value })} required />
+            <Button type="submit" loading={status === "loading"} size="lg" fullWidth>{tb("registerSubmit")}</Button>
+          </form>
+        </Card>
       )}
 
-      <StatusMessage status={status} message={message} />
+      {status === "success" && (
+        <div className="flex items-center gap-2 text-green-700 bg-green-50 p-4 rounded-xl text-sm mt-4 border border-green-100">
+          <CheckCircle className="w-4 h-4 shrink-0" />
+          {message}
+        </div>
+      )}
+      {status === "error" && (
+        <div className="flex items-center gap-2 text-bosporus-red bg-red-50 p-4 rounded-xl text-sm mt-4 border border-red-100">
+          <XCircle className="w-4 h-4 shrink-0" />
+          {message}
+        </div>
+      )}
 
       <p className="text-center text-sm text-bosporus-muted mt-6">
         {t("hasAccount")}{" "}
@@ -151,72 +174,9 @@ function RegisterForm() {
   );
 }
 
-function SubmitButton({ status, label }: { status: string; label: string }) {
-  return (
-    <button
-      type="submit"
-      disabled={status === "loading"}
-      className="w-full py-3 bg-bosporus text-white font-semibold rounded-sm hover:bg-bosporus-dark disabled:opacity-60 flex items-center justify-center gap-2"
-    >
-      {status === "loading" && <Loader2 className="w-4 h-4 animate-spin" />}
-      {label}
-    </button>
-  );
-}
-
-function StatusMessage({ status, message }: { status: string; message: string }) {
-  if (status === "success") {
-    return (
-      <div className="flex items-center gap-2 text-green-700 bg-green-50 p-3 rounded-sm text-sm mt-4">
-        <CheckCircle className="w-4 h-4 shrink-0" />
-        {message}
-      </div>
-    );
-  }
-  if (status === "error") {
-    return (
-      <div className="flex items-center gap-2 text-bosporus-red bg-red-50 p-3 rounded-sm text-sm mt-4">
-        <XCircle className="w-4 h-4 shrink-0" />
-        {message}
-      </div>
-    );
-  }
-  return null;
-}
-
-function Field({
-  label,
-  value,
-  onChange,
-  type = "text",
-  required,
-  placeholder,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  type?: string;
-  required?: boolean;
-  placeholder?: string;
-}) {
-  return (
-    <div>
-      <label className="block text-sm font-medium text-bosporus-gray-800 mb-1">{label}</label>
-      <input
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        required={required}
-        placeholder={placeholder}
-        className="w-full px-3 py-2 border border-bosporus-gray-200 rounded-sm focus:outline-none focus:ring-2 focus:ring-bosporus/30"
-      />
-    </div>
-  );
-}
-
 export default function RegisterPage() {
   return (
-    <Suspense fallback={<div className="py-20 text-center text-bosporus-muted">Laden…</div>}>
+    <Suspense fallback={<div className="py-20 text-center text-bosporus-muted">…</div>}>
       <RegisterForm />
     </Suspense>
   );

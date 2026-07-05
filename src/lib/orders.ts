@@ -77,7 +77,8 @@ export async function createOrder(input: CreateOrderInput) {
 
   const orderItems = input.items.map((item) => ({
     order_id: order.id,
-    product_id: item.productId,
+    // Ürünler şimdilik JSON'da; Supabase products tablosu boş — FK hatası olmasın
+    product_id: null,
     product_name: item.name,
     product_sku: item.sku,
     quantity: item.quantity,
@@ -93,6 +94,20 @@ export async function createOrder(input: CreateOrderInput) {
     await admin.from("orders").delete().eq("id", order.id);
     return { ok: false as const, error: itemsError.message };
   }
+
+  const { sendOrderPlacedEmail } = await import("./email");
+  sendOrderPlacedEmail({
+    to: input.customerEmail,
+    orderNumber: order.order_number,
+    customerName: input.customerName,
+    orderType: input.orderType,
+    totalGross,
+    items: input.items,
+    zipCode: input.zipCode,
+    address: input.address,
+    pickupDate: input.pickupDate,
+    pickupSlot: input.pickupSlot,
+  }).catch((err) => console.error("Email error:", err));
 
   return {
     ok: true as const,

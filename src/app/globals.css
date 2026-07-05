@@ -10,13 +10,19 @@
   --metro-navy: #002d5b;
   --metro-navy-light: #003d7a;
   --bosporus-white: #ffffff;
-  --bosporus-gray-50: #f5f5f5;
-  --bosporus-gray-100: #ebebeb;
-  --bosporus-gray-200: #d9d9d9;
-  --bosporus-gray-600: #5c5c5c;
-  --bosporus-gray-800: #1a1a1a;
+  --bosporus-gray-50: #f7f8fa;
+  --bosporus-gray-100: #eef0f3;
+  --bosporus-gray-200: #dde1e8;
+  --bosporus-gray-600: #5c6573;
+  --bosporus-gray-800: #1a1f2e;
   --background: var(--bosporus-white);
   --foreground: var(--bosporus-gray-800);
+  --header-offset: 7.5rem;
+  --shadow-card: 0 1px 3px rgb(26 31 46 / 0.06), 0 4px 12px rgb(26 31 46 / 0.04);
+  --shadow-card-hover: 0 8px 24px rgb(26 31 46 / 0.1);
+  --shadow-btn: 0 2px 8px rgb(29 113 184 / 0.28);
+  --radius-card: 1rem;
+  --radius-btn: 0.75rem;
 }
 
 @theme inline {
@@ -27,16 +33,69 @@
   --color-bosporus-light: var(--bosporus-blue-light);
   --color-bosporus-red: var(--bosporus-red);
   --color-bosporus-yellow: var(--bosporus-yellow);
+  --color-bosporus-yellow-dark: var(--bosporus-yellow-dark);
   --color-bosporus-muted: var(--bosporus-gray-600);
+  --color-bosporus-gray-50: var(--bosporus-gray-50);
+  --color-bosporus-gray-100: var(--bosporus-gray-100);
+  --color-bosporus-gray-200: var(--bosporus-gray-200);
+  --color-bosporus-gray-800: var(--bosporus-gray-800);
   --color-metro-navy: var(--metro-navy);
   --color-metro-navy-light: var(--metro-navy-light);
   --font-sans: var(--font-source-sans);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-source-sans), "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6;
+}
+
+.page-narrow {
+  @apply max-w-2xl mx-auto px-4 sm:px-6;
+}
+
+.card {
+  background: white;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--bosporus-gray-200);
+  box-shadow: var(--shadow-card);
+}
+
+.card-hover {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card-hover:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.field-input {
+  @apply w-full min-h-11 px-4 py-2.5 text-base sm:text-sm;
+  @apply bg-white border border-bosporus-gray-200 rounded-xl;
+  @apply transition-colors duration-150;
+  @apply focus:outline-none focus:border-bosporus focus:ring-2 focus:ring-bosporus/15;
+}
+
+.field-label {
+  @apply block text-sm font-semibold text-bosporus-gray-800 mb-1.5;
+}
+
+.touch-target {
+  min-height: 2.75rem;
+  min-width: 2.75rem;
 }
 
 .b2b-table-wrap {
@@ -44,7 +103,6 @@ body {
   scrollbar-color: var(--metro-navy) var(--bosporus-gray-100);
 }
 
-/* Lidl-style deal marquee */
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -53,11 +111,20 @@ body {
   animation: marquee 30s linear infinite;
 }
 
-/* Hide scrollbar for category nav */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+.pb-mobile-nav {
+  padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 768px) {
+  .pb-mobile-nav {
+    padding-bottom: 0;
+  }
 }
