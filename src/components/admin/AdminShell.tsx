@@ -19,6 +19,7 @@ import {
   Globe,
   Percent,
   FileText,
+  Home,
 } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { cn } from "@/lib/cn";
@@ -46,29 +47,63 @@ export function AdminShell({ children }: { children: ReactNode }) {
   ];
 
   useEffect(() => {
-    if (!isSupabaseConfigured()) {
-      router.replace("/login");
-      return;
+    let cancelled = false;
+
+    async function checkAuth() {
+      if (!isSupabaseConfigured()) {
+        if (!cancelled) {
+          setLoading(false);
+          router.replace("/login");
+        }
+        return;
+      }
+
+      try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (cancelled) return;
+
+        if (!user) {
+          setLoading(false);
+          router.replace("/login");
+          return;
+        }
+
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .single();
+
+        if (cancelled) return;
+
+        if (profile?.role !== "admin") {
+          setLoading(false);
+          router.replace("/");
+          return;
+        }
+
+        setAuthorized(true);
+        setLoading(false);
+      } catch {
+        if (!cancelled) {
+          setLoading(false);
+          router.replace("/login");
+        }
+      }
     }
-    const supabase = createClient();
-    supabase.auth.getUser().then(async ({ data: { user } }) => {
-      if (!user) {
-        router.replace("/login");
-        return;
-      }
-      const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-      if (profile?.role !== "admin") {
-        router.replace("/");
-        return;
-      }
-      setAuthorized(true);
-      setLoading(false);
-    });
+
+    checkAuth();
+    return () => {
+      cancelled = true;
+    };
   }, [router]);
 
   const logout = async () => {
     await createClient().auth.signOut();
     router.push("/");
+    router.refresh();
   };
 
   if (loading || !authorized) {
@@ -133,6 +168,9 @@ export function AdminShell({ children }: { children: ReactNode }) {
           <div className="flex items-center justify-between px-4 py-3">
             <h1 className="font-bold">Admin</h1>
             <div className="flex items-center gap-1">
+              <Link href="/" className="p-2 text-white/70 hover:text-white" title={t("toShop")}>
+                <Home className="w-5 h-5" />
+              </Link>
               <button
                 type="button"
                 onClick={switchLocale}

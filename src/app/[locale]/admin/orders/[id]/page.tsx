@@ -61,6 +61,7 @@ export default function AdminOrderDetailPage() {
   const [profile, setProfile] = useState<CustomerProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState("");
+  const [statusUpdating, setStatusUpdating] = useState(false);
 
   const load = () => {
     fetch(`/api/admin/orders/${id}`)
@@ -76,14 +77,32 @@ export default function AdminOrderDetailPage() {
   useEffect(() => { load(); }, [id]);
 
   const updateStatus = async (status: OrderStatus) => {
-    const res = await fetch(`/api/admin/orders/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
-    });
-    if (res.ok) {
-      setMsg("Durum güncellendi — müşteriye e-posta gönderildi (SMTP ayarlıysa)");
-      load();
+    if (!order || statusUpdating || status === order.status) return;
+
+    const previousStatus = order.status;
+    setOrder({ ...order, status });
+    setStatusUpdating(true);
+    setMsg("");
+
+    try {
+      const res = await fetch(`/api/admin/orders/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setOrder((o) => (o ? { ...o, status: previousStatus } : o));
+        setMsg(data.error ?? "Durum güncellenemedi");
+        return;
+      }
+      if (data.order) setOrder(data.order);
+      setMsg("Durum güncellendi — müşteriye bildirim gönderiliyor");
+    } catch {
+      setOrder((o) => (o ? { ...o, status: previousStatus } : o));
+      setMsg("Bağlantı hatası — tekrar deneyin");
+    } finally {
+      setStatusUpdating(false);
     }
   };
 
@@ -120,19 +139,39 @@ export default function AdminOrderDetailPage() {
             <FileDown className="w-4 h-4" />
             {t("downloadPdf")}
           </a>
-          <select
-          value={order.status}
-          onChange={(e) => updateStatus(e.target.value as OrderStatus)}
-          className="field-input !w-auto !min-h-11 font-semibold"
-        >
-          {STATUS_OPTIONS.map((s) => (
-            <option key={s.value} value={s.value}>{s.label}</option>
-          ))}
-        </select>
+          <div className="relative flex items-center gap-2">
+            <select
+              value={order.status}
+              disabled={statusUpdating}
+              onChange={(e) => updateStatus(e.target.value as OrderStatus)}
+              className={cn(
+                "field-input !w-auto !min-h-11 font-semibold pr-10",
+                statusUpdating && "opacity-60 cursor-wait"
+              )}
+            >
+              {STATUS_OPTIONS.map((s) => (
+                <option key={s.value} value={s.value}>{s.label}</option>
+              ))}
+            </select>
+            {statusUpdating && (
+              <Loader2 className="w-5 h-5 animate-spin text-bosporus absolute right-3 pointer-events-none" />
+            )}
+          </div>
         </div>
       </div>
 
-      {msg && <div className="mb-4 p-3 bg-green-50 text-green-800 rounded-xl text-sm">{msg}</div>}
+      {msg && (
+        <div
+          className={cn(
+            "mb-4 p-3 rounded-xl text-sm",
+            msg.includes("hata") || msg.includes("güncellenemedi")
+              ? "bg-red-50 text-red-800"
+              : "bg-green-50 text-green-800"
+          )}
+        >
+          {msg}
+        </div>
+      )}
 
       <div className="grid lg:grid-cols-2 gap-4 mb-4">
         <Card className="!rounded-2xl">

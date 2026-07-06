@@ -76,7 +76,7 @@ export async function PATCH(
     const locale: "de" | "tr" =
       profileLocale === "tr" || storedLocale === "tr" ? "tr" : "de";
 
-    await notifyOrderStatusChange({
+    void notifyOrderStatusChange({
       status,
       customerEmail: order.customer_email,
       customerName: order.customer_name ?? "Kunde",

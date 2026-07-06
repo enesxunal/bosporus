@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
-import { User, LogOut, Loader2 } from "lucide-react";
-import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
-import type { User as SupabaseUser } from "@supabase/supabase-js";
+import { User, LogOut, LayoutDashboard, ChevronDown, Loader2 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/cn";
 
 type AuthNavVariant = "b2c" | "b2b";
@@ -13,109 +12,125 @@ type AuthNavVariant = "b2c" | "b2b";
 export function AuthNav({ variant = "b2c" }: { variant?: AuthNavVariant }) {
   const t = useTranslations("nav");
   const router = useRouter();
-  const [user, setUser] = useState<SupabaseUser | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { user, isAdmin, loading, signOut } = useAuth();
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!isSupabaseConfigured()) {
-      setLoading(false);
-      return;
-    }
-    const supabase = createClient();
-    supabase.auth.getUser().then(async ({ data: { user: currentUser } }) => {
-      setUser(currentUser);
-      if (currentUser) {
-        const { data } = await supabase.from("profiles").select("role").eq("id", currentUser.id).single();
-        setIsAdmin(data?.role === "admin");
+    const onDocClick = (e: MouseEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
+        setOpen(false);
       }
-      setLoading(false);
-    });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_e, session) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        const { data } = await supabase.from("profiles").select("role").eq("id", session.user.id).single();
-        setIsAdmin(data?.role === "admin");
-      } else setIsAdmin(false);
-    });
-    return () => subscription.unsubscribe();
+    };
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
   }, []);
 
   const handleLogout = async () => {
-    await createClient().auth.signOut();
-    setUser(null);
+    setOpen(false);
+    await signOut();
+    router.push("/");
     router.refresh();
-    router.push(variant === "b2b" ? "/gewerbe" : "/");
   };
 
-  const displayName =
-    (user?.user_metadata?.full_name as string | undefined) ||
-    user?.email?.split("@")[0] ||
-    t("account");
+  const isB2b = variant === "b2b";
+  const iconBtnClass = cn(
+    "relative flex items-center justify-center h-10 w-10 rounded-xl transition-colors",
+    isB2b ? "text-white/90 hover:bg-white/10" : "text-bosporus-gray-800 hover:bg-bosporus-light hover:text-bosporus"
+  );
 
-  if (loading) {
-    return <Loader2 className="w-4 h-4 animate-spin text-bosporus-muted hidden sm:block" />;
-  }
+  const menuClass = cn(
+    "absolute right-0 top-full mt-2 z-[60] min-w-[200px] rounded-2xl border shadow-lg py-1.5 overflow-hidden",
+    isB2b ? "bg-metro-navy border-white/10 text-white" : "bg-white border-bosporus-gray-200 text-bosporus-gray-800"
+  );
 
-  if (user) {
-    const accountHref = isAdmin ? "/admin" : "/account";
-    return (
-      <div className="flex items-center gap-1.5 sm:gap-2">
+  const itemClass = cn(
+    "flex items-center gap-2.5 w-full px-4 py-2.5 text-sm font-semibold text-left transition-colors",
+    isB2b ? "hover:bg-white/10" : "hover:bg-bosporus-light"
+  );
+
+  if (!user && !loading) {
+    if (isB2b) {
+      return (
         <Link
-          href={accountHref}
-          className={cn(
-            "hidden sm:flex items-center gap-1.5 h-10 px-3 rounded-xl text-sm font-semibold transition-colors max-w-[120px]",
-            variant === "b2b"
-              ? "text-white/90 hover:bg-white/10"
-              : "text-bosporus-gray-800 hover:bg-bosporus-light hover:text-bosporus"
-          )}
-          title={user.email}
+          href="/login"
+          className="hidden md:flex items-center gap-2 h-10 px-4 rounded-xl text-sm font-semibold border border-white/30 hover:bg-white/10"
         >
-          <User className="w-4 h-4 shrink-0" />
-          <span className="truncate">{isAdmin ? "Admin" : displayName}</span>
+          <User className="w-4 h-4" />
+          {t("login")}
         </Link>
-        <button
-          type="button"
-          onClick={handleLogout}
-          className={cn(
-            "flex items-center justify-center h-10 w-10 rounded-xl transition-colors",
-            variant === "b2b" ? "text-white/80 hover:bg-white/10" : "text-bosporus-muted hover:bg-bosporus-gray-100"
-          )}
-          aria-label={t("logout")}
+      );
+    }
+    return (
+      <div className="flex items-center gap-1.5">
+        <Link
+          href="/login"
+          className="flex items-center justify-center h-10 px-3 sm:px-4 rounded-xl text-sm font-semibold text-bosporus-gray-800 hover:bg-bosporus-gray-100 transition-colors whitespace-nowrap"
         >
-          <LogOut className="w-4 h-4" />
-        </button>
+          {t("login")}
+        </Link>
+        <Link
+          href="/register"
+          className="hidden sm:flex items-center gap-1.5 h-10 px-3 sm:px-4 rounded-xl text-sm font-bold text-white bg-bosporus hover:bg-bosporus-dark shadow-[var(--shadow-btn)] transition-all active:scale-[0.98] whitespace-nowrap"
+        >
+          {t("register")}
+        </Link>
       </div>
     );
   }
 
-  if (variant === "b2b") {
-    return (
-      <Link
-        href="/login"
-        className="hidden md:flex items-center gap-2 h-10 px-4 rounded-xl text-sm font-semibold border border-white/30 hover:bg-white/10"
-      >
-        <User className="w-4 h-4" />
-        {t("login")}
-      </Link>
-    );
-  }
+  const accountHref = isAdmin ? "/admin" : "/account";
 
   return (
-    <div className="flex items-center gap-1.5">
-      <Link
-        href="/login"
-        className="flex items-center justify-center h-10 px-3 sm:px-4 rounded-xl text-sm font-semibold text-bosporus-gray-800 hover:bg-bosporus-gray-100 transition-colors whitespace-nowrap"
+    <div ref={rootRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className={iconBtnClass}
+        aria-label={t("account")}
+        aria-expanded={open}
       >
-        {t("login")}
-      </Link>
-      <Link
-        href="/register"
-        className="flex items-center gap-1.5 h-10 px-3 sm:px-4 rounded-xl text-sm font-bold text-white bg-bosporus hover:bg-bosporus-dark shadow-[var(--shadow-btn)] transition-all active:scale-[0.98] whitespace-nowrap"
-      >
-        <User className="w-4 h-4 hidden xs:inline" />
-        {t("register")}
-      </Link>
+        {loading ? (
+          <Loader2 className="w-5 h-5 animate-spin opacity-70" />
+        ) : (
+          <User className="w-5 h-5" />
+        )}
+        {user && isAdmin && (
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-bosporus-yellow rounded-full ring-2 ring-white" />
+        )}
+      </button>
+
+      {open && (
+        <div className={menuClass}>
+          {loading ? (
+            <p className={cn("px-4 py-3 text-sm", isB2b ? "text-white/60" : "text-bosporus-muted")}>
+              …
+            </p>
+          ) : user ? (
+            <>
+              {user.email && (
+                <p className={cn("px-4 py-2 text-xs truncate border-b", isB2b ? "text-white/50 border-white/10" : "text-bosporus-muted border-bosporus-gray-100")}>
+                  {user.email}
+                </p>
+              )}
+              <Link href={accountHref} className={itemClass} onClick={() => setOpen(false)}>
+                {isAdmin ? <LayoutDashboard className="w-4 h-4 shrink-0" /> : <User className="w-4 h-4 shrink-0" />}
+                {isAdmin ? "Admin Panel" : t("account")}
+              </Link>
+              {isAdmin && (
+                <Link href="/" className={itemClass} onClick={() => setOpen(false)}>
+                  <User className="w-4 h-4 shrink-0" />
+                  {t("home")}
+                </Link>
+              )}
+              <button type="button" className={cn(itemClass, "text-bosporus-red")} onClick={handleLogout}>
+                <LogOut className="w-4 h-4 shrink-0" />
+                {t("logout")}
+              </button>
+            </>
+          ) : null}
+        </div>
+      )}
     </div>
   );
 }

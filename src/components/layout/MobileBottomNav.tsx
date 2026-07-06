@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Home, LayoutGrid, ShoppingCart, User } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useCart } from "@/stores/cart";
-import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/cn";
 
 const HIDDEN_ON = ["/checkout", "/gewerbe", "/admin"];
@@ -15,29 +14,17 @@ export function MobileBottomNav() {
   const pathname = usePathname();
   const locale = useLocale();
   const cartCount = useCart((s) => s.totalItems());
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    if (!isSupabaseConfigured()) return;
-    const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => setLoggedIn(!!user));
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
-      setLoggedIn(!!session?.user);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
+  const { user, isAdmin } = useAuth();
 
   if (HIDDEN_ON.some((p) => pathname.startsWith(p))) return null;
+
+  const accountHref = user ? (isAdmin ? "/admin" : "/account") : "/login";
 
   const items = [
     { href: "/", icon: Home, label: locale === "de" ? "Start" : "Ana Sayfa" },
     { href: "/products", icon: LayoutGrid, label: t("products") },
     { href: "/cart", icon: ShoppingCart, label: t("cart"), badge: cartCount },
-    {
-      href: loggedIn ? "/account" : "/login",
-      icon: User,
-      label: loggedIn ? t("account") : t("login"),
-    },
+    { href: accountHref, icon: User, label: user ? t("account") : t("login") },
   ];
 
   return (

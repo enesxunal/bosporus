@@ -35,6 +35,9 @@ function getTransporter() {
     secure,
     requireTLS: !secure,
     auth: { user, pass },
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 15_000,
   });
 }
 

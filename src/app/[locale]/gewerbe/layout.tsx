@@ -1,3 +1,5 @@
+import { ShopProviders } from "@/components/providers/ShopProviders";
+
 export default function GewerbeLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return <ShopProviders>{children}</ShopProviders>;
 }
