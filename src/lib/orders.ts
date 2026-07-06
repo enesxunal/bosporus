@@ -114,7 +114,7 @@ export async function createOrder(input: CreateOrderInput) {
   }
 
   const { notifyOrderPlaced } = await import("./order-notifications");
-  notifyOrderPlaced({
+  await notifyOrderPlaced({
     customerEmail: input.customerEmail,
     customerName: input.customerName,
     customerPhone: input.customerPhone,

@@ -20,18 +20,20 @@ export function isSmtpConfigured(): boolean {
 }
 
 function getTransporter() {
-  const host = process.env.SMTP_HOST;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
+  const host = process.env.SMTP_HOST?.trim();
+  const user = process.env.SMTP_USER?.trim();
+  const pass = process.env.SMTP_PASS?.trim();
   if (!host || !user || !pass) return null;
 
   const port = Number(process.env.SMTP_PORT ?? 587);
-  const secure = process.env.SMTP_SECURE === "true";
+  // Port 465 = SSL; 587 = STARTTLS (IONOS önerisi)
+  const secure = process.env.SMTP_SECURE === "true" || port === 465;
 
   return nodemailer.createTransport({
     host,
     port,
     secure,
+    requireTLS: !secure,
     auth: { user, pass },
   });
 }

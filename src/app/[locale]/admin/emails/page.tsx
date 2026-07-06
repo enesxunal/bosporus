@@ -19,6 +19,18 @@ export default function AdminEmailsPage() {
   const [campAudience, setCampAudience] = useState("all");
   const [previewHtml, setPreviewHtml] = useState("");
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [smtpTesting, setSmtpTesting] = useState(false);
+
+  const testSmtp = async () => {
+    setSmtpTesting(true);
+    setMsg("");
+    const res = await fetch("/api/admin/test-email", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+    const data = await res.json();
+    setSmtpTesting(false);
+    if (res.ok) setMsg(`SMTP testi gönderildi → ${data.to}`);
+    else setMsg(data.error ?? "SMTP testi başarısız");
+    load();
+  };
 
   const load = () => {
     Promise.all([
@@ -102,11 +114,16 @@ export default function AdminEmailsPage() {
               </select>
             </div>
             <div className="flex gap-2 flex-wrap">
+              <Button variant="outline" onClick={testSmtp} loading={smtpTesting}>SMTP testi</Button>
               <Button variant="outline" onClick={previewCampaign}>Önizleme</Button>
               <Button variant="outline" onClick={() => sendCampaign(false)}>Taslak Kaydet</Button>
               <Button onClick={() => sendCampaign(true)}><Send className="w-4 h-4" /> Şimdi Gönder</Button>
             </div>
-            <p className="text-xs text-bosporus-muted">SMTP ayarları Vercel&apos;de olmalı (SMTP_HOST, SMTP_USER, SMTP_PASS)</p>
+            <p className="text-xs text-bosporus-muted">
+              IONOS: smtp.ionos.de · port 587 · TLS · kullanıcı info@bosporus-gmbh.com
+              <br />
+              Vercel ortam değişkenleri: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM
+            </p>
           </div>
         </Card>
 
