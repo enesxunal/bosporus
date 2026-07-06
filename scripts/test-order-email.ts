@@ -26,6 +26,7 @@ async function main() {
       sku: "TEST",
       name: "Test Urun",
       quantity: 2,
+      unit: "piece",
       priceNet: 10,
       priceGross: 11.9,
       taxRate: 19,
