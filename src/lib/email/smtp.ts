@@ -7,6 +7,7 @@ export interface SendEmailParams {
   to: string;
   subject: string;
   html: string;
+  text?: string;
   templateType: EmailTemplateType;
   referenceId?: string;
 }
@@ -26,7 +27,6 @@ function getTransporter() {
   if (!host || !user || !pass) return null;
 
   const port = Number(process.env.SMTP_PORT ?? 587);
-  // Port 465 = SSL; 587 = STARTTLS (IONOS önerisi)
   const secure = process.env.SMTP_SECURE === "true" || port === 465;
 
   return nodemailer.createTransport({
@@ -38,12 +38,31 @@ function getTransporter() {
   });
 }
 
+/** Gönderen adresi SMTP kullanıcısı ile aynı domain olmalı (IONOS / spam filtreleri). */
 function getFromAddress(): string {
+  const user = process.env.SMTP_USER?.trim();
+  if (user) return `${COMPANY.tradeName} <${user}>`;
   return (
-    process.env.SMTP_FROM ??
-    process.env.ORDER_EMAIL_FROM ??
+    process.env.SMTP_FROM?.trim() ??
+    process.env.ORDER_EMAIL_FROM?.trim() ??
     `${COMPANY.legalName} <${COMPANY.email}>`
   );
+}
+
+function htmlToPlainText(html: string): string {
+  return html
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/tr>/gi, "\n")
+    .replace(/<\/p>/gi, "\n\n")
+    .replace(/<a[^>]+href="([^"]+)"[^>]*>([^<]*)<\/a>/gi, "$2 ($1)")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 async function logEmail(
@@ -69,13 +88,24 @@ export async function sendEmail(params: SendEmailParams) {
     return { ok: false as const, skipped: true };
   }
 
+  const from = getFromAddress();
+  const replyTo = process.env.SMTP_REPLY_TO?.trim() ?? COMPANY.email;
+  const text = params.text ?? htmlToPlainText(params.html);
+  const domain = (process.env.SMTP_USER?.split("@")[1] ?? "bosporus-gmbh.com").trim();
+
   try {
     await transporter.sendMail({
-      from: getFromAddress(),
-      replyTo: process.env.SMTP_REPLY_TO ?? "info@bosporus-gmbh.com",
+      from,
+      replyTo,
       to: params.to,
       subject: params.subject,
       html: params.html,
+      text,
+      headers: {
+        "X-Entity-Ref-ID": params.referenceId ?? params.templateType,
+        "Auto-Submitted": params.templateType === "campaign" ? "auto-generated" : "no",
+      },
+      messageId: `<${params.referenceId ?? Date.now()}.${params.to.replace(/@.*/, "")}@${domain}>`,
     });
     await logEmail({ ...params, status: "sent" });
     return { ok: true as const };
@@ -99,7 +129,6 @@ export async function sendBulkEmails(
     if (result.ok) sent++;
     else if ("skipped" in result && result.skipped) skipped++;
     else failed++;
-    // Kleine Pause gegen SMTP-Rate-Limits
     await new Promise((r) => setTimeout(r, 200));
   }
 

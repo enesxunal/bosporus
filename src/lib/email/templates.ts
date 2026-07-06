@@ -1,6 +1,9 @@
 import { COMPANY, companyAddressLine } from "@/lib/company";
+import { getSiteUrl } from "@/lib/site-url";
 
-const SITE = COMPANY.website.replace(/\/$/, "");
+function emailSiteUrl(): string {
+  return getSiteUrl().replace(/\/$/, "");
+}
 
 export type EmailTemplateType =
   | "order_placed"
@@ -118,7 +121,7 @@ export function templateOrderPlaced(data: OrderEmailData): { subject: string; ht
       title: de ? "Bestellung eingegangen" : "Sipariş alındı",
       bodyHtml,
       ctaLabel: de ? "Bestellung verfolgen" : "Siparişi takip et",
-      ctaUrl: `${SITE}/order/track?order=${encodeURIComponent(data.orderNumber)}`,
+      ctaUrl: `${emailSiteUrl()}/order/track?order=${encodeURIComponent(data.orderNumber)}`,
     }),
   };
 }
@@ -146,7 +149,7 @@ export function templateOrderAdminNotify(data: OrderEmailData & { customerEmail:
       title: de ? "Neue Bestellung" : "Yeni sipariş",
       bodyHtml,
       ctaLabel: de ? "Im Admin öffnen" : "Admin panelde aç",
-      ctaUrl: `${SITE}/admin/orders`,
+      ctaUrl: `${emailSiteUrl()}/admin/orders`,
     }),
   };
 }
@@ -246,7 +249,7 @@ export function templateB2bApproved(params: {
       title: de ? "Konto freigeschaltet" : "Hesap onaylandı",
       bodyHtml,
       ctaLabel: de ? "Zum Gewerbe-Portal" : "Kurumsal portala git",
-      ctaUrl: `${SITE}/gewerbe`,
+      ctaUrl: `${emailSiteUrl()}/gewerbe`,
     }),
   };
 }
@@ -286,7 +289,7 @@ export function templatePromotion(params: {
       title: params.headline,
       bodyHtml: params.bodyHtml,
       ctaLabel: params.ctaLabel,
-      ctaUrl: params.ctaUrl ?? `${SITE}/products?filter=aktion`,
+      ctaUrl: params.ctaUrl ?? `${emailSiteUrl()}/products?filter=aktion`,
     }),
   };
 }
