@@ -25,6 +25,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { PayPalCheckout } from "@/components/checkout/PayPalCheckout";
+import { StripeCheckout } from "@/components/checkout/StripeCheckout";
 
 interface DeliveryQuoteView {
   minOrderAmount: number;
@@ -69,6 +70,7 @@ export default function CheckoutPage() {
     clientId?: string;
     mode?: "live" | "sandbox";
   }>({ enabled: false });
+  const [stripeConfig, setStripeConfig] = useState<{ enabled: boolean }>({ enabled: false });
   const [isB2b, setIsB2b] = useState(false);
   const [quote, setQuote] = useState<DeliveryQuoteView | null>(null);
 
@@ -87,6 +89,15 @@ export default function CheckoutPage() {
       .then((d) => {
         setZones(d.zones ?? []);
         setPickupSlots(d.pickupSlots ?? []);
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/stripe/config")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.enabled) setStripeConfig({ enabled: true });
       })
       .catch(() => {});
   }, []);
@@ -290,7 +301,7 @@ export default function CheckoutPage() {
     <div className="page-narrow py-6 sm:py-10 pb-32 sm:pb-10">
       <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-2 tracking-tight">{t("title")}</h1>
       <p className="text-sm text-bosporus-muted mb-6">
-        {paypalConfig.enabled ? t("paymentNotePayPal") : t("noPaymentNote")}
+        {paypalConfig.enabled || stripeConfig.enabled ? t("paymentNoteOnline") : t("noPaymentNote")}
       </p>
 
       <div className="space-y-4">
@@ -431,17 +442,28 @@ export default function CheckoutPage() {
           <p className="text-bosporus-red text-sm bg-red-50 p-4 rounded-xl border border-red-100">{error}</p>
         )}
 
-        {paypalConfig.enabled && paypalConfig.clientId && (
+        {(paypalConfig.enabled || stripeConfig.enabled) && (
           <Card>
             <h2 className="font-bold text-bosporus-gray-800 mb-4">{t("paymentSection")}</h2>
-            <PayPalCheckout
-              clientId={paypalConfig.clientId}
-              mode={paypalConfig.mode ?? "live"}
-              disabled={paypalDisabled}
-              getPayload={getOrderPayload}
-              onError={(msg) => setError(msg)}
-              onSuccess={handlePayPalSuccess}
-            />
+            <div className="space-y-4">
+              {stripeConfig.enabled && (
+                <StripeCheckout
+                  disabled={paypalDisabled}
+                  getPayload={getOrderPayload}
+                  onError={(msg) => setError(msg)}
+                />
+              )}
+              {paypalConfig.enabled && paypalConfig.clientId && (
+                <PayPalCheckout
+                  clientId={paypalConfig.clientId}
+                  mode={paypalConfig.mode ?? "live"}
+                  disabled={paypalDisabled}
+                  getPayload={getOrderPayload}
+                  onError={(msg) => setError(msg)}
+                  onSuccess={handlePayPalSuccess}
+                />
+              )}
+            </div>
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-bosporus-gray-200" />
@@ -454,7 +476,7 @@ export default function CheckoutPage() {
         )}
 
         <Button type="button" onClick={handleSubmit} loading={loading} size="lg" fullWidth className="hidden sm:flex">
-          {paypalConfig.enabled ? t("placeOrderCash") : t("placeOrder")}
+          {paypalConfig.enabled || stripeConfig.enabled ? t("placeOrderCash") : t("placeOrder")}
         </Button>
       </div>
 
@@ -467,7 +489,7 @@ export default function CheckoutPage() {
               <p className="text-xl font-extrabold text-bosporus">{formatPrice(grandTotal, locale)}</p>
             </div>
             <Button type="button" onClick={handleSubmit} loading={loading} size="lg" className="flex-1 max-w-[200px]">
-              {paypalConfig.enabled ? t("placeOrderCash") : t("placeOrder")}
+              {paypalConfig.enabled || stripeConfig.enabled ? t("placeOrderCash") : t("placeOrder")}
             </Button>
           </div>
         </Card>

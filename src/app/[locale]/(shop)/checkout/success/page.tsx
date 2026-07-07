@@ -2,19 +2,21 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { CheckCircle, ArrowRight, Search } from "lucide-react";
 import { Card } from "@/components/ui/Card";
+import { CheckoutSuccessClient } from "./CheckoutSuccessClient";
 
 export default async function CheckoutSuccessPage({
   searchParams,
 }: {
-  searchParams: Promise<{ order?: string }>;
+  searchParams: Promise<{ order?: string; session_id?: string }>;
 }) {
-  const { order } = await searchParams;
+  const { order, session_id: sessionId } = await searchParams;
   const t = await getTranslations("cart");
   const c = await getTranslations("checkout");
   const track = await getTranslations("orderTrack");
 
   return (
     <div className="page-narrow py-16 sm:py-24 text-center">
+      <CheckoutSuccessClient sessionId={sessionId} />
       <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-50 mb-6">
         <CheckCircle className="w-10 h-10 text-green-600" />
       </div>
