@@ -29,6 +29,11 @@ function generateOrderNumber(): string {
   return `BOS-${date}-${rand}`;
 }
 
+function toDateOrNull(value?: string | null): string | null {
+  const v = value?.trim();
+  return v ? v : null;
+}
+
 export async function createOrder(input: CreateOrderInput) {
   const admin = createAdminClient();
   if (!admin) {
@@ -78,19 +83,21 @@ export async function createOrder(input: CreateOrderInput) {
       customer_email: input.customerEmail,
       customer_name: input.customerName,
       customer_phone: input.customerPhone?.trim() || null,
-      delivery_zip_code: input.zipCode ?? null,
-      delivery_date: input.orderType === "delivery" ? input.deliveryDate ?? null : null,
+      delivery_zip_code: input.orderType === "delivery" ? input.zipCode?.trim() || null : null,
+      delivery_date:
+        input.orderType === "delivery" ? toDateOrNull(input.deliveryDate) : null,
       delivery_address:
-        input.address || input.locale || input.deliveryDate
+        input.orderType === "delivery" && (input.address || input.locale || input.deliveryDate)
           ? {
               ...(input.address ? { raw: input.address, street: input.address } : {}),
               ...(input.deliveryDate ? { deliveryDate: input.deliveryDate } : {}),
               ...(input.locale ? { locale: input.locale } : {}),
             }
           : null,
-      pickup_date: input.pickupDate ?? null,
-      pickup_slot_id: input.pickupSlotId ?? null,
-      pickup_slot_label: input.pickupSlot ?? null,
+      pickup_date: input.orderType === "click_collect" ? toDateOrNull(input.pickupDate) : null,
+      pickup_slot_id: input.orderType === "click_collect" ? input.pickupSlotId ?? null : null,
+      pickup_slot_label:
+        input.orderType === "click_collect" ? input.pickupSlot?.trim() || null : null,
       notes: input.notes ?? null,
       stripe_payment_intent_id: input.paymentReference ?? null,
     })

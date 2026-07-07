@@ -71,7 +71,6 @@ export default function CheckoutPage() {
   }>({ enabled: false });
   const [isB2b, setIsB2b] = useState(false);
   const [quote, setQuote] = useState<DeliveryQuoteView | null>(null);
-  const [quoteLoading, setQuoteLoading] = useState(false);
 
   const subtotal = subtotalGross();
   const zone = zipCode.length >= 4 ? findZoneInList(zones, zipCode) : null;
@@ -120,7 +119,6 @@ export default function CheckoutPage() {
         return;
       }
 
-      setQuoteLoading(true);
       fetch("/api/delivery/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -136,8 +134,7 @@ export default function CheckoutPage() {
           if (d.isB2b != null) setIsB2b(Boolean(d.isB2b));
           setQuote(d.quote ?? null);
         })
-        .catch(() => setQuote(null))
-        .finally(() => setQuoteLoading(false));
+        .catch(() => setQuote(null));
     }, 450);
 
     return () => clearTimeout(timer);
@@ -246,9 +243,9 @@ export default function CheckoutPage() {
     customerPhone: customerPhone.trim() || undefined,
     zipCode,
     address,
-    deliveryDate: orderType === "delivery" ? deliveryDate : undefined,
-    pickupDate,
-    pickupSlot,
+    deliveryDate: orderType === "delivery" ? deliveryDate || undefined : undefined,
+    pickupDate: orderType === "click_collect" ? pickupDate || undefined : undefined,
+    pickupSlot: orderType === "click_collect" ? pickupSlot || undefined : undefined,
     locale,
   });
 
@@ -292,15 +289,9 @@ export default function CheckoutPage() {
   return (
     <div className="page-narrow py-6 sm:py-10 pb-32 sm:pb-10">
       <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-2 tracking-tight">{t("title")}</h1>
-      <p className="text-sm text-bosporus-muted mb-4">
+      <p className="text-sm text-bosporus-muted mb-6">
         {paypalConfig.enabled ? t("paymentNotePayPal") : t("noPaymentNote")}
       </p>
-      <Card className="mb-4 !bg-bosporus-light/40">
-        <p className="text-sm text-bosporus-gray-800 font-medium mb-1">{t("deliveryRulesTitle")}</p>
-        <p className="text-xs text-bosporus-muted leading-relaxed">
-          {isB2b ? t("deliveryRulesB2b") : t("deliveryRulesB2c")}
-        </p>
-      </Card>
 
       <div className="space-y-4">
         <Card>
@@ -377,25 +368,6 @@ export default function CheckoutPage() {
                   {locale === "de" ? "Liefertage" : "Teslimat günleri"}: {formatDeliveryDays(zone, locale)}
                 </p>
               )}
-              {quote && orderType === "delivery" && zipCode.length >= 4 && (
-                <div className="text-xs text-bosporus-muted space-y-1 rounded-xl bg-bosporus-light/50 p-3">
-                  {quoteLoading ? (
-                    <p>{locale === "de" ? "Entfernung wird berechnet…" : "Mesafe hesaplanıyor…"}</p>
-                  ) : (
-                    <>
-                      {quote.distanceKm != null && (
-                        <p>{t("distanceKm", { km: quote.distanceKm })}</p>
-                      )}
-                      {quote.freeDelivery ? (
-                        <p className="text-bosporus font-semibold">{t("freeDelivery")}</p>
-                      ) : quote.deliveryFee > 0 ? (
-                        <p>{t("deliveryFeeLine", { amount: formatPrice(quote.deliveryFee, locale) })}</p>
-                      ) : null}
-                      <p>{t("minOrderLine", { amount: formatPrice(quote.minOrderAmount, locale) })}</p>
-                    </>
-                  )}
-                </div>
-              )}
               <Input
                 label={locale === "de" ? "Lieferdatum" : "Teslimat tarihi"}
                 type="date"
@@ -428,11 +400,6 @@ export default function CheckoutPage() {
                   ))}
                 </select>
               </div>
-              {quote && (
-                <p className="text-xs text-bosporus-muted">
-                  {t("minOrderLine", { amount: formatPrice(quote.minOrderAmount, locale) })}
-                </p>
-              )}
             </div>
           )}
         </Card>
@@ -448,6 +415,12 @@ export default function CheckoutPage() {
               <span>{formatPrice(deliveryFee, locale)}</span>
             </div>
           )}
+          {orderType === "delivery" && quote?.freeDelivery && (
+            <div className="flex justify-between text-sm text-bosporus">
+              <span>{locale === "de" ? "Liefergebühr" : "Teslimat ücreti"}</span>
+              <span>{locale === "de" ? "Kostenlos" : "Ücretsiz"}</span>
+            </div>
+          )}
           <div className="flex justify-between items-center text-xl font-extrabold pt-2 border-t border-bosporus-gray-100">
             <span>{locale === "de" ? "Gesamt" : "Toplam"}</span>
             <span className="text-bosporus">{formatPrice(grandTotal, locale)}</span>
@@ -456,12 +429,6 @@ export default function CheckoutPage() {
 
         {error && (
           <p className="text-bosporus-red text-sm bg-red-50 p-4 rounded-xl border border-red-100">{error}</p>
-        )}
-
-        {paypalConfig.enabled && paypalConfig.ready === false && (
-          <p className="text-amber-800 text-sm bg-amber-50 p-4 rounded-xl border border-amber-100">
-            {t("paypalNotReady")}
-          </p>
         )}
 
         {paypalConfig.enabled && paypalConfig.ready !== false && paypalConfig.clientId && (

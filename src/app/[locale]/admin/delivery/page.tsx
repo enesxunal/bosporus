@@ -87,16 +87,6 @@ export default function AdminDeliveryPage() {
       {msg && <div className="mb-4 p-3 bg-green-50 text-green-800 rounded-xl text-sm">{msg}</div>}
 
       <Card className="!rounded-2xl mb-6">
-        <h2 className="font-bold mb-3">Teslimat kuralları (km)</h2>
-        <div className="text-sm text-bosporus-muted space-y-2">
-          <p><strong>B2C teslimat:</strong> Min. 100 € · 250 € üzeri ücretsiz · Max 40 km · Ücretler: 10→20€, 20→30€, 30→40€, 40→50€</p>
-          <p><strong>B2B teslimat:</strong> Min. 1.000 € · 2.500 € üzeri ücretsiz · Max 50 km · Ücretler: 10→20€, 20→30€, 30→40€, 40→50€, 50→60€</p>
-          <p><strong>Gel-al:</strong> B2C min. 50 € · B2B min. 500 €</p>
-          <p className="text-xs">Bu değerler veritabanında <code>delivery_settings</code> tablosundan okunur. Değiştirmek için Supabase veya migration kullanın.</p>
-        </div>
-      </Card>
-
-      <Card className="!rounded-2xl mb-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="font-bold">{t("deliveryZones")}</h2>
           <Button size="sm" variant="outline" onClick={() => saveZone({ name_de: "Neue Zone", name_tr: "Yeni bölge", zip_prefixes: [], min_order_amount: 150, delivery_days: [1,2,3,4,5,6], sort_order: zones.length })}>
