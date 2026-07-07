@@ -114,7 +114,18 @@
     "paymentNotePayPal": "Bezahlen Sie sicher mit PayPal oder wählen Sie Zahlung bei Lieferung/Abholung.",
     "orPayOnDelivery": "oder",
     "placeOrderCash": "Bei Lieferung/Abholung bezahlen",
-    "paypalError": "PayPal-Zahlung fehlgeschlagen. Bitte erneut versuchen."
+    "paypalError": "PayPal-Zahlung fehlgeschlagen. Bitte erneut versuchen.",
+    "paypalAuthFailed": "PayPal-Schlüssel sind falsch. Bitte Client ID und Secret in Vercel prüfen (Live-App, gleiche App).",
+    "paypalNotReady": "PayPal ist vorübergehend nicht verfügbar. Bitte bei Lieferung/Abholung bezahlen oder uns kontaktieren.",
+    "deliveryRulesTitle": "Liefer- & Abholregeln",
+    "deliveryRulesB2c": "Lieferung: Min. 100 €, ab 250 € versandkostenfrei, max. 40 km (10/20/30/40 km → 20/30/40/50 €). Gel-Al: Min. 50 €.",
+    "deliveryRulesB2b": "Lieferung: Min. 1.000 €, ab 2.500 € versandkostenfrei, max. 50 km (10/20/30/40/50 km → 20/30/40/50/60 €). Gel-Al: Min. 500 €.",
+    "distanceKm": "Entfernung: ca. {km} km",
+    "deliveryFeeLine": "Liefergebühr: {amount}",
+    "freeDelivery": "Versandkostenfrei",
+    "minOrderLine": "Mindestbestellwert: {amount}",
+    "deliveryTooFar": "Lieferung nur bis 40 km Entfernung möglich.",
+    "deliveryTooFarB2b": "Lieferung nur bis 50 km Entfernung möglich."
   },
   "auth": {
     "registerTitle": "Konto erstellen",

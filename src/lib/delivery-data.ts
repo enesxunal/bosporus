@@ -147,7 +147,10 @@ export function formatDeliveryDays(zone: DeliveryZoneData, locale: Locale): stri
   return zone.delivery_days.map((d) => names[d] ?? String(d)).join(", ");
 }
 
+import { clearDeliveryPricingCache } from "./delivery-pricing";
+
 export function clearDeliveryCache() {
   zonesCache = null;
   slotsCache = null;
+  clearDeliveryPricingCache();
 }

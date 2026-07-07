@@ -89,13 +89,19 @@ export async function POST(request: Request) {
 
   let pickupSlotId: string | null = null;
 
+  let deliveryFee = 0;
+  let distanceKm: number | null = null;
+
   if (orderType === "delivery") {
-    const deliveryCheck = await validateDeliveryOrder({ zipCode, deliveryDate, totalGross });
+    const deliveryCheck = await validateDeliveryOrder({ zipCode, address, deliveryDate, totalGross, isB2b });
     if (!deliveryCheck.ok) {
       return NextResponse.json({ error: deliveryCheck.error }, { status: 400 });
     }
+    deliveryFee = deliveryCheck.deliveryFee;
+    distanceKm = deliveryCheck.distanceKm;
+    totalGross = deliveryCheck.totalGross;
   } else {
-    const pickupCheck = await validatePickupOrder({ pickupDate, pickupSlot });
+    const pickupCheck = await validatePickupOrder({ pickupDate, pickupSlot, totalGross, isB2b });
     if (!pickupCheck.ok) {
       return NextResponse.json({ error: pickupCheck.error }, { status: 400 });
     }
@@ -124,6 +130,8 @@ export async function POST(request: Request) {
       pickupSlotId,
       locale,
       paymentReference: `paypal:${capture.captureId}`,
+      deliveryFee,
+      distanceKm,
     });
 
     if (!result.ok) {

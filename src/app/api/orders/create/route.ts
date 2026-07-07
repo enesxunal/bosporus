@@ -23,6 +23,18 @@ const ERROR_MSG: Record<string, { de: string; tr: string }> = {
     de: "Mindestbestellwert nicht erreicht.",
     tr: "Minimum sipariş tutarına ulaşılmadı.",
   },
+  DELIVERY_DISTANCE_EXCEEDED: {
+    de: "Lieferung nur bis 40 km möglich.",
+    tr: "Teslimat en fazla 40 km mesafeye yapılır.",
+  },
+  DELIVERY_DISTANCE_EXCEEDED_B2B: {
+    de: "Lieferung nur bis 50 km möglich.",
+    tr: "Teslimat en fazla 50 km mesafeye yapılır.",
+  },
+  DELIVERY_ADDRESS_UNKNOWN: {
+    de: "Adresse konnte nicht geprüft werden. Bitte PLZ und Adresse prüfen.",
+    tr: "Adres doğrulanamadı. Posta kodu ve adresi kontrol edin.",
+  },
   DELIVERY_ZONE_INVALID: {
     de: "Lieferung in diese PLZ nicht möglich.",
     tr: "Bu posta koduna teslimat yok.",
@@ -135,17 +147,29 @@ export async function POST(request: Request) {
   totalGross = Math.round(totalGross * 100) / 100;
 
   let pickupSlotId: string | null = null;
+  let deliveryFee = 0;
+  let distanceKm: number | null = null;
+  let orderTotalGross = totalGross;
 
   if (orderType === "delivery") {
-    const deliveryCheck = await validateDeliveryOrder({ zipCode, deliveryDate, totalGross });
+    const deliveryCheck = await validateDeliveryOrder({
+      zipCode,
+      address,
+      deliveryDate,
+      totalGross,
+      isB2b,
+    });
     if (!deliveryCheck.ok) {
       return NextResponse.json(
         { error: errorMessage(deliveryCheck.error, locale), code: deliveryCheck.error },
         { status: 400 }
       );
     }
+    deliveryFee = deliveryCheck.deliveryFee;
+    distanceKm = deliveryCheck.distanceKm;
+    orderTotalGross = deliveryCheck.totalGross;
   } else {
-    const pickupCheck = await validatePickupOrder({ pickupDate, pickupSlot });
+    const pickupCheck = await validatePickupOrder({ pickupDate, pickupSlot, totalGross, isB2b });
     if (!pickupCheck.ok) {
       return NextResponse.json(
         { error: errorMessage(pickupCheck.error, locale), code: pickupCheck.error },
@@ -171,6 +195,8 @@ export async function POST(request: Request) {
     pickupSlotId,
     notes,
     locale,
+    deliveryFee,
+    distanceKm,
   });
 
   if (!result.ok) {
@@ -181,6 +207,7 @@ export async function POST(request: Request) {
     success: true,
     orderNumber: result.orderNumber,
     orderId: result.orderId,
-    total: result.totalGross,
+    total: orderTotalGross,
+    deliveryFee,
   });
 }

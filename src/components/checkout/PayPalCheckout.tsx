@@ -25,6 +25,14 @@ interface PayPalCheckoutProps {
   onSuccess: (orderNumber: string) => void;
 }
 
+function mapPayPalError(code: string, t: (key: string) => string): string {
+  if (code === "PAYPAL_AUTH_FAILED") return t("paypalAuthFailed");
+  if (code.startsWith("MIN_ORDER") || code.startsWith("DELIVERY") || code.startsWith("PICKUP") || code.startsWith("PRODUCT")) {
+    return code;
+  }
+  return t("paypalError");
+}
+
 export function PayPalCheckout({
   clientId,
   mode,
@@ -64,6 +72,7 @@ export function PayPalCheckout({
                 items: payload.items,
                 orderType: payload.orderType,
                 zipCode: payload.zipCode,
+                address: payload.address,
                 deliveryDate: payload.deliveryDate,
                 pickupDate: payload.pickupDate,
                 pickupSlot: payload.pickupSlot,
@@ -72,8 +81,9 @@ export function PayPalCheckout({
 
             const data = await res.json();
             if (!res.ok) {
-              onError(data.error ?? t("paypalError"));
-              throw new Error(data.error ?? "create failed");
+              const msg = mapPayPalError(String(data.error ?? ""), t);
+              onError(msg);
+              throw new Error(msg);
             }
             return data.paypalOrderId as string;
           }}
@@ -89,13 +99,14 @@ export function PayPalCheckout({
             });
             const result = await res.json();
             if (!res.ok) {
-              onError(result.error ?? t("paypalError"));
-              throw new Error(result.error ?? "capture failed");
+              const msg = mapPayPalError(String(result.error ?? ""), t);
+              onError(msg);
+              throw new Error(msg);
             }
             onSuccess(result.orderNumber as string);
           }}
           onError={() => {
-            onError(t("paypalError"));
+            // SDK fires after our own errors — keep the first message shown.
           }}
         />
       </div>

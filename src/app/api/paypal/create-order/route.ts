@@ -5,17 +5,26 @@ import {
   validateDeliveryOrder,
   validatePickupOrder,
 } from "@/lib/order-validation";
-import { createPayPalOrder, getPayPalClientId, isPayPalConfigured } from "@/lib/paypal";
+import {
+  createPayPalOrder,
+  getPayPalClientId,
+  getPayPalMode,
+  isPayPalConfigured,
+  verifyPayPalConnection,
+} from "@/lib/paypal";
 import type { CartItem } from "@/lib/types";
 
 export async function GET() {
   if (!isPayPalConfigured()) {
     return NextResponse.json({ enabled: false });
   }
+  const connection = await verifyPayPalConnection();
   return NextResponse.json({
     enabled: true,
+    ready: connection.ok,
+    issue: connection.ok ? undefined : connection.code,
     clientId: getPayPalClientId(),
-    mode: process.env.PAYPAL_MODE === "sandbox" ? "sandbox" : "live",
+    mode: getPayPalMode(),
   });
 }
 
@@ -23,6 +32,7 @@ interface CheckoutBody {
   items: CartItem[];
   orderType: "delivery" | "click_collect";
   zipCode?: string;
+  address?: string;
   deliveryDate?: string;
   pickupDate?: string;
   pickupSlot?: string;
@@ -32,28 +42,39 @@ async function resolveTotal(body: CheckoutBody, isB2b: boolean) {
   const priced = await validateAndPriceOrderItems(body.items, isB2b);
   if (!priced.ok) return { ok: false as const, error: priced.error };
 
-  let totalGross = 0;
+  let subtotalGross = 0;
   for (const item of priced.items) {
-    totalGross += item.priceGross * item.quantity;
+    subtotalGross += item.priceGross * item.quantity;
   }
-  totalGross = Math.round(totalGross * 100) / 100;
+  subtotalGross = Math.round(subtotalGross * 100) / 100;
+
+  let deliveryFee = 0;
+  let distanceKm: number | null = null;
+  let totalGross = subtotalGross;
 
   if (body.orderType === "delivery") {
     const deliveryCheck = await validateDeliveryOrder({
       zipCode: body.zipCode,
+      address: body.address,
       deliveryDate: body.deliveryDate,
-      totalGross,
+      totalGross: subtotalGross,
+      isB2b,
     });
     if (!deliveryCheck.ok) return { ok: false as const, error: deliveryCheck.error };
+    deliveryFee = deliveryCheck.deliveryFee;
+    distanceKm = deliveryCheck.distanceKm;
+    totalGross = deliveryCheck.totalGross;
   } else {
     const pickupCheck = await validatePickupOrder({
       pickupDate: body.pickupDate,
       pickupSlot: body.pickupSlot,
+      totalGross: subtotalGross,
+      isB2b,
     });
     if (!pickupCheck.ok) return { ok: false as const, error: pickupCheck.error };
   }
 
-  return { ok: true as const, totalGross, items: priced.items };
+  return { ok: true as const, totalGross, subtotalGross, deliveryFee, distanceKm, items: priced.items };
 }
 
 export async function POST(request: Request) {
@@ -87,7 +108,8 @@ export async function POST(request: Request) {
     const paypalOrderId = await createPayPalOrder(resolved.totalGross);
     return NextResponse.json({ paypalOrderId, total: resolved.totalGross });
   } catch (e) {
+    const code = e instanceof Error ? e.message : "PAYPAL_ERROR";
     console.error("PayPal create-order:", e);
-    return NextResponse.json({ error: "PayPal error" }, { status: 500 });
+    return NextResponse.json({ error: code }, { status: 500 });
   }
 }

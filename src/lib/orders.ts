@@ -18,6 +18,8 @@ export interface CreateOrderInput {
   notes?: string;
   locale?: "de" | "tr";
   paymentReference?: string | null;
+  deliveryFee?: number;
+  distanceKm?: number | null;
 }
 
 function generateOrderNumber(): string {
@@ -49,6 +51,15 @@ export async function createOrder(input: CreateOrderInput) {
   taxAmount = Math.round(taxAmount * 100) / 100;
   totalGross = Math.round(totalGross * 100) / 100;
 
+  const deliveryFee = Math.round((input.deliveryFee ?? 0) * 100) / 100;
+  if (deliveryFee > 0) {
+    const feeNet = Math.round((deliveryFee / 1.19) * 100) / 100;
+    subtotalNet += feeNet;
+    taxAmount += Math.round((deliveryFee - feeNet) * 100) / 100;
+    totalGross += deliveryFee;
+    totalGross = Math.round(totalGross * 100) / 100;
+  }
+
   const orderNumber = generateOrderNumber();
 
   const { data: order, error: orderError } = await admin
@@ -62,6 +73,8 @@ export async function createOrder(input: CreateOrderInput) {
       subtotal_net: subtotalNet,
       tax_amount: taxAmount,
       total_gross: totalGross,
+      delivery_fee: deliveryFee,
+      distance_km: input.distanceKm ?? null,
       customer_email: input.customerEmail,
       customer_name: input.customerName,
       customer_phone: input.customerPhone?.trim() || null,

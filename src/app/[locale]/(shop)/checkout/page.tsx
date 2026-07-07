@@ -11,6 +11,7 @@ import {
   getPickupSlotsForDate,
   isDeliveryDayAllowed,
   isPickupDateAllowed,
+  getWeekdayFromDate,
   zoneDisplayName,
   formatDeliveryDays,
   type DeliveryZoneData,
@@ -24,6 +25,19 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { PayPalCheckout } from "@/components/checkout/PayPalCheckout";
+
+interface DeliveryQuoteView {
+  minOrderAmount: number;
+  freeDeliveryThreshold: number | null;
+  maxDistanceKm: number | null;
+  distanceKm: number | null;
+  deliveryFee: number;
+  totalGross: number;
+  minOrderMet: boolean;
+  withinRadius: boolean;
+  freeDelivery: boolean;
+  subtotalGross: number;
+}
 
 export default function CheckoutPage() {
   const t = useTranslations("checkout");
@@ -50,13 +64,19 @@ export default function CheckoutPage() {
   const [selectedAddressId, setSelectedAddressId] = useState<string>("");
   const [paypalConfig, setPaypalConfig] = useState<{
     enabled: boolean;
+    ready?: boolean;
+    issue?: string;
     clientId?: string;
     mode?: "live" | "sandbox";
   }>({ enabled: false });
+  const [isB2b, setIsB2b] = useState(false);
+  const [quote, setQuote] = useState<DeliveryQuoteView | null>(null);
+  const [quoteLoading, setQuoteLoading] = useState(false);
 
-  const total = subtotalGross();
+  const subtotal = subtotalGross();
   const zone = zipCode.length >= 4 ? findZoneInList(zones, zipCode) : null;
-  const minOrderOk = !zone || total >= zone.min_order_amount;
+  const deliveryFee = orderType === "delivery" ? (quote?.deliveryFee ?? 0) : 0;
+  const grandTotal = quote?.totalGross ?? subtotal;
   const availablePickupSlots = useMemo(
     () => (pickupDate ? getPickupSlotsForDate(pickupSlots, pickupDate) : []),
     [pickupSlots, pickupDate]
@@ -77,7 +97,13 @@ export default function CheckoutPage() {
       .then((r) => r.json())
       .then((d) => {
         if (d.enabled && d.clientId) {
-          setPaypalConfig({ enabled: true, clientId: d.clientId, mode: d.mode });
+          setPaypalConfig({
+            enabled: true,
+            ready: d.ready !== false,
+            issue: d.issue,
+            clientId: d.clientId,
+            mode: d.mode,
+          });
         }
       })
       .catch(() => {});
@@ -86,6 +112,36 @@ export default function CheckoutPage() {
   useEffect(() => {
     setPickupSlot("");
   }, [pickupDate]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (orderType === "delivery" && zipCode.replace(/\s/g, "").length < 4) {
+        setQuote(null);
+        return;
+      }
+
+      setQuoteLoading(true);
+      fetch("/api/delivery/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderType,
+          subtotalGross: subtotal,
+          zipCode: orderType === "delivery" ? zipCode : undefined,
+          address: orderType === "delivery" ? address : undefined,
+        }),
+      })
+        .then((r) => r.json())
+        .then((d) => {
+          if (d.isB2b != null) setIsB2b(Boolean(d.isB2b));
+          setQuote(d.quote ?? null);
+        })
+        .catch(() => setQuote(null))
+        .finally(() => setQuoteLoading(false));
+    }, 450);
+
+    return () => clearTimeout(timer);
+  }, [orderType, zipCode, address, subtotal, items.length]);
 
   useEffect(() => {
     if (items.length === 0) router.replace("/cart");
@@ -120,6 +176,7 @@ export default function CheckoutPage() {
             setCustomerName([p.first_name, p.last_name].filter(Boolean).join(" "));
           }
           if (p?.phone) setCustomerPhone(p.phone);
+          if (p?.role === "b2b_approved") setIsB2b(true);
         }
       }
     });
@@ -153,16 +210,19 @@ export default function CheckoutPage() {
       if (!deliveryDate) {
         return locale === "de" ? "Lieferdatum wählen" : "Teslimat tarihi seçin";
       }
-      if (!zone) {
-        return locale === "de" ? "Lieferung in diese PLZ nicht möglich" : "Bu posta koduna teslimat yok";
-      }
-      if (!isDeliveryDayAllowed(zone, deliveryDate)) {
+      if (zone && !isDeliveryDayAllowed(zone, deliveryDate)) {
         return locale === "de"
           ? `An diesem Tag keine Lieferung. Mögliche Tage: ${formatDeliveryDays(zone, locale)}`
           : `Bu gün teslimat yok. Uygun günler: ${formatDeliveryDays(zone, locale)}`;
       }
-      if (!minOrderOk) {
-        return t("minOrderWarning", { amount: formatPrice(zone.min_order_amount, locale) });
+      if (!zone && getWeekdayFromDate(deliveryDate) === 0) {
+        return locale === "de" ? "Sonntags keine Lieferung" : "Pazar günü teslimat yok";
+      }
+      if (quote && !quote.minOrderMet) {
+        return t("minOrderWarning", { amount: formatPrice(quote.minOrderAmount, locale) });
+      }
+      if (quote && !quote.withinRadius) {
+        return isB2b ? t("deliveryTooFarB2b") : t("deliveryTooFar");
       }
     } else {
       if (!pickupDate || !pickupSlot) {
@@ -170,6 +230,9 @@ export default function CheckoutPage() {
       }
       if (!isPickupDateAllowed(pickupDate)) {
         return locale === "de" ? "Abholung nur Mo–Sa möglich" : "Gel-al sadece Pzt–Cmt";
+      }
+      if (quote && !quote.minOrderMet) {
+        return t("minOrderWarning", { amount: formatPrice(quote.minOrderAmount, locale) });
       }
     }
     return null;
@@ -229,9 +292,15 @@ export default function CheckoutPage() {
   return (
     <div className="page-narrow py-6 sm:py-10 pb-32 sm:pb-10">
       <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-2 tracking-tight">{t("title")}</h1>
-      <p className="text-sm text-bosporus-muted mb-6">
+      <p className="text-sm text-bosporus-muted mb-4">
         {paypalConfig.enabled ? t("paymentNotePayPal") : t("noPaymentNote")}
       </p>
+      <Card className="mb-4 !bg-bosporus-light/40">
+        <p className="text-sm text-bosporus-gray-800 font-medium mb-1">{t("deliveryRulesTitle")}</p>
+        <p className="text-xs text-bosporus-muted leading-relaxed">
+          {isB2b ? t("deliveryRulesB2b") : t("deliveryRulesB2c")}
+        </p>
+      </Card>
 
       <div className="space-y-4">
         <Card>
@@ -303,10 +372,29 @@ export default function CheckoutPage() {
               />
               {zone && (
                 <p className="text-xs text-bosporus-muted -mt-2">
-                  {zoneDisplayName(zone, locale)} · Min. {formatPrice(zone.min_order_amount, locale)}
+                  {zoneDisplayName(zone, locale)}
                   <br />
                   {locale === "de" ? "Liefertage" : "Teslimat günleri"}: {formatDeliveryDays(zone, locale)}
                 </p>
+              )}
+              {quote && orderType === "delivery" && zipCode.length >= 4 && (
+                <div className="text-xs text-bosporus-muted space-y-1 rounded-xl bg-bosporus-light/50 p-3">
+                  {quoteLoading ? (
+                    <p>{locale === "de" ? "Entfernung wird berechnet…" : "Mesafe hesaplanıyor…"}</p>
+                  ) : (
+                    <>
+                      {quote.distanceKm != null && (
+                        <p>{t("distanceKm", { km: quote.distanceKm })}</p>
+                      )}
+                      {quote.freeDelivery ? (
+                        <p className="text-bosporus font-semibold">{t("freeDelivery")}</p>
+                      ) : quote.deliveryFee > 0 ? (
+                        <p>{t("deliveryFeeLine", { amount: formatPrice(quote.deliveryFee, locale) })}</p>
+                      ) : null}
+                      <p>{t("minOrderLine", { amount: formatPrice(quote.minOrderAmount, locale) })}</p>
+                    </>
+                  )}
+                </div>
               )}
               <Input
                 label={locale === "de" ? "Lieferdatum" : "Teslimat tarihi"}
@@ -340,14 +428,29 @@ export default function CheckoutPage() {
                   ))}
                 </select>
               </div>
+              {quote && (
+                <p className="text-xs text-bosporus-muted">
+                  {t("minOrderLine", { amount: formatPrice(quote.minOrderAmount, locale) })}
+                </p>
+              )}
             </div>
           )}
         </Card>
 
-        <Card className="hidden sm:block">
-          <div className="flex justify-between items-center text-xl font-extrabold">
+        <Card className="hidden sm:block space-y-2">
+          <div className="flex justify-between text-sm text-bosporus-muted">
+            <span>{locale === "de" ? "Warenwert" : "Ürünler"}</span>
+            <span>{formatPrice(subtotal, locale)}</span>
+          </div>
+          {orderType === "delivery" && deliveryFee > 0 && (
+            <div className="flex justify-between text-sm text-bosporus-muted">
+              <span>{locale === "de" ? "Liefergebühr" : "Teslimat ücreti"}</span>
+              <span>{formatPrice(deliveryFee, locale)}</span>
+            </div>
+          )}
+          <div className="flex justify-between items-center text-xl font-extrabold pt-2 border-t border-bosporus-gray-100">
             <span>{locale === "de" ? "Gesamt" : "Toplam"}</span>
-            <span className="text-bosporus">{formatPrice(total, locale)}</span>
+            <span className="text-bosporus">{formatPrice(grandTotal, locale)}</span>
           </div>
         </Card>
 
@@ -355,7 +458,13 @@ export default function CheckoutPage() {
           <p className="text-bosporus-red text-sm bg-red-50 p-4 rounded-xl border border-red-100">{error}</p>
         )}
 
-        {paypalConfig.enabled && paypalConfig.clientId && (
+        {paypalConfig.enabled && paypalConfig.ready === false && (
+          <p className="text-amber-800 text-sm bg-amber-50 p-4 rounded-xl border border-amber-100">
+            {t("paypalNotReady")}
+          </p>
+        )}
+
+        {paypalConfig.enabled && paypalConfig.ready !== false && paypalConfig.clientId && (
           <Card>
             <h2 className="font-bold text-bosporus-gray-800 mb-4">{t("paymentSection")}</h2>
             <PayPalCheckout
@@ -388,7 +497,7 @@ export default function CheckoutPage() {
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-xs text-bosporus-muted font-medium">{locale === "de" ? "Gesamt" : "Toplam"}</p>
-              <p className="text-xl font-extrabold text-bosporus">{formatPrice(total, locale)}</p>
+              <p className="text-xl font-extrabold text-bosporus">{formatPrice(grandTotal, locale)}</p>
             </div>
             <Button type="button" onClick={handleSubmit} loading={loading} size="lg" className="flex-1 max-w-[200px]">
               {paypalConfig.enabled ? t("placeOrderCash") : t("placeOrder")}

@@ -9,6 +9,7 @@ import {
   loadDeliveryZones,
   loadPickupSlots,
 } from "./delivery-data";
+import { quoteDelivery } from "./delivery-pricing";
 import { fetchProductsForOrder } from "./products-db";
 import { createAdminClient } from "./supabase/admin";
 
@@ -99,35 +100,76 @@ export async function validateAndPriceOrderItems(
 
 export async function validateDeliveryOrder(params: {
   zipCode?: string;
+  address?: string;
   deliveryDate?: string;
   totalGross: number;
-}): Promise<{ ok: true } | { ok: false; error: string }> {
+  isB2b?: boolean;
+}): Promise<
+  | { ok: true; deliveryFee: number; distanceKm: number | null; totalGross: number }
+  | { ok: false; error: string }
+> {
   if (!params.zipCode?.trim() || !params.deliveryDate) {
     return { ok: false, error: "DELIVERY_FIELDS_REQUIRED" };
   }
 
-  const zones = await loadDeliveryZones();
-  const zone = findZoneInList(zones, params.zipCode);
-  if (!zone) return { ok: false, error: "DELIVERY_ZONE_INVALID" };
-  if (!isDeliveryDayAllowed(zone, params.deliveryDate)) {
-    return { ok: false, error: "DELIVERY_DAY_INVALID" };
-  }
-  if (params.totalGross < zone.min_order_amount) {
+  const quote = await quoteDelivery({
+    orderType: "delivery",
+    isB2b: params.isB2b ?? false,
+    subtotalGross: params.totalGross,
+    zipCode: params.zipCode,
+    address: params.address,
+  });
+
+  if (!quote.minOrderMet) {
     return { ok: false, error: "MIN_ORDER_NOT_MET" };
   }
+  if (!quote.withinRadius) {
+    return params.isB2b
+      ? { ok: false, error: "DELIVERY_DISTANCE_EXCEEDED_B2B" }
+      : { ok: false, error: "DELIVERY_DISTANCE_EXCEEDED" };
+  }
+  if (quote.distanceKm == null) {
+    return { ok: false, error: "DELIVERY_ADDRESS_UNKNOWN" };
+  }
 
-  return { ok: true };
+  const zones = await loadDeliveryZones();
+  const zone = findZoneInList(zones, params.zipCode);
+  if (zone && !isDeliveryDayAllowed(zone, params.deliveryDate)) {
+    return { ok: false, error: "DELIVERY_DAY_INVALID" };
+  }
+  if (!zone) {
+    const wd = getWeekdayFromDate(params.deliveryDate);
+    if (wd === 0) return { ok: false, error: "DELIVERY_DAY_INVALID" };
+  }
+
+  return {
+    ok: true,
+    deliveryFee: quote.deliveryFee,
+    distanceKm: quote.distanceKm,
+    totalGross: quote.totalGross,
+  };
 }
 
 export async function validatePickupOrder(params: {
   pickupDate?: string;
   pickupSlot?: string;
+  totalGross: number;
+  isB2b?: boolean;
 }): Promise<{ ok: true; slotId?: string } | { ok: false; error: string }> {
   if (!params.pickupDate || !params.pickupSlot) {
     return { ok: false, error: "PICKUP_FIELDS_REQUIRED" };
   }
   if (!isPickupDateAllowed(params.pickupDate)) {
     return { ok: false, error: "PICKUP_DAY_INVALID" };
+  }
+
+  const quote = await quoteDelivery({
+    orderType: "click_collect",
+    isB2b: params.isB2b ?? false,
+    subtotalGross: params.totalGross,
+  });
+  if (!quote.minOrderMet) {
+    return { ok: false, error: "MIN_ORDER_NOT_MET" };
   }
 
   const slots = await loadPickupSlots();

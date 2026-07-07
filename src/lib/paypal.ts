@@ -6,10 +6,47 @@ export function getPayPalClientId(): string | null {
   return process.env.PAYPAL_CLIENT_ID?.trim() ?? null;
 }
 
+export function getPayPalMode(): "live" | "sandbox" {
+  return process.env.PAYPAL_MODE?.trim().toLowerCase() === "sandbox" ? "sandbox" : "live";
+}
+
 function apiBase(): string {
-  return process.env.PAYPAL_MODE === "sandbox"
+  return getPayPalMode() === "sandbox"
     ? "https://api-m.sandbox.paypal.com"
     : "https://api-m.paypal.com";
+}
+
+function parsePayPalErrorMessage(raw: string): string {
+  try {
+    const data = JSON.parse(raw) as {
+      error?: string;
+      message?: string;
+      details?: { issue?: string; description?: string }[];
+    };
+    if (data.error === "invalid_client") {
+      return "PAYPAL_AUTH_FAILED";
+    }
+    const detail = data.details?.[0];
+    if (detail?.description) return detail.description;
+    if (data.message) return data.message;
+    if (data.error) return data.error;
+  } catch {
+    // not JSON
+  }
+  return "PAYPAL_ERROR";
+}
+
+export async function verifyPayPalConnection(): Promise<{ ok: true } | { ok: false; code: string }> {
+  try {
+    await getAccessToken();
+    return { ok: true };
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    if (msg.includes("invalid_client") || msg.includes("PAYPAL_AUTH_FAILED")) {
+      return { ok: false, code: "PAYPAL_AUTH_FAILED" };
+    }
+    return { ok: false, code: "PAYPAL_ERROR" };
+  }
 }
 
 async function getAccessToken(): Promise<string> {
@@ -28,7 +65,7 @@ async function getAccessToken(): Promise<string> {
 
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`PayPal auth failed: ${err}`);
+    throw new Error(parsePayPalErrorMessage(err));
   }
 
   const data = (await res.json()) as { access_token: string };
@@ -60,7 +97,7 @@ export async function createPayPalOrder(amountEur: number): Promise<string> {
 
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`PayPal create order failed: ${err}`);
+    throw new Error(parsePayPalErrorMessage(err));
   }
 
   const data = (await res.json()) as { id: string };
@@ -82,7 +119,7 @@ export async function capturePayPalOrder(
 
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`PayPal capture failed: ${err}`);
+    throw new Error(parsePayPalErrorMessage(err));
   }
 
   const data = (await res.json()) as {
