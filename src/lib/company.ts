@@ -9,7 +9,7 @@ export const COMPANY = {
   countryEn: "Germany",
   phone: "+49 221 34098290",
   email: "info@bosporus-gmbh.com",
-  website: "https://bosporus-blue.vercel.app",
+  website: process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://bosporus-blue.vercel.app",
   taxNumber: "217/5713/2173",
   vatId: "DE317695485",
   registerCourt: "Amtsgericht Köln",

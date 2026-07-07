@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { createAdminClient, isSupabaseAdminConfigured } from "@/lib/supabase/admin";
 
 export async function POST(request: Request) {
+  if (process.env.VERCEL_ENV === "production" && !process.env.ADMIN_SETUP_SECRET) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
   const secret = request.headers.get("x-setup-key");
   const expected = process.env.ADMIN_SETUP_SECRET;
 

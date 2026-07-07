@@ -26,7 +26,7 @@ interface PayPalCheckoutProps {
 }
 
 function mapPayPalError(code: string, t: (key: string) => string): string {
-  if (code === "PAYPAL_AUTH_FAILED") return t("paypalAuthFailed");
+  if (code === "PAYPAL_AUTH_FAILED" || code === "PAYPAL_ERROR") return t("paypalError");
   if (code.startsWith("MIN_ORDER") || code.startsWith("DELIVERY") || code.startsWith("PICKUP") || code.startsWith("PRODUCT")) {
     return code;
   }

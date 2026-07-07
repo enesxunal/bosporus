@@ -66,6 +66,7 @@ export async function createOrder(input: CreateOrderInput) {
   }
 
   const orderNumber = generateOrderNumber();
+  const isPaidOnline = Boolean(input.paymentReference?.trim());
 
   const { data: order, error: orderError } = await admin
     .from("orders")
@@ -73,7 +74,7 @@ export async function createOrder(input: CreateOrderInput) {
       order_number: orderNumber,
       user_id: input.userId ?? null,
       order_type: input.orderType,
-      status: "pending",
+      status: isPaidOnline ? "paid" : "pending",
       is_b2b: input.isB2b ?? false,
       subtotal_net: subtotalNet,
       tax_amount: taxAmount,

@@ -8,47 +8,11 @@ import {
   validatePickupOrder,
 } from "@/lib/order-validation";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
+import { checkoutErrorMessage } from "@/lib/checkout-errors";
 import type { CartItem } from "@/lib/types";
 
-const ERROR_MSG: Record<string, { de: string; tr: string }> = {
-  PRICE_MISMATCH: {
-    de: "Preise haben sich geändert. Bitte Warenkorb prüfen.",
-    tr: "Fiyatlar değişti. Lütfen sepeti kontrol edin.",
-  },
-  PICKUP_SLOT_FULL: {
-    de: "Dieser Abholtermin ist ausgebucht. Bitte andere Zeit wählen.",
-    tr: "Bu gel-al saati dolu. Lütfen başka saat seçin.",
-  },
-  MIN_ORDER_NOT_MET: {
-    de: "Mindestbestellwert nicht erreicht.",
-    tr: "Minimum sipariş tutarına ulaşılmadı.",
-  },
-  DELIVERY_DISTANCE_EXCEEDED: {
-    de: "Lieferung nur bis 40 km möglich.",
-    tr: "Teslimat en fazla 40 km mesafeye yapılır.",
-  },
-  DELIVERY_DISTANCE_EXCEEDED_B2B: {
-    de: "Lieferung nur bis 50 km möglich.",
-    tr: "Teslimat en fazla 50 km mesafeye yapılır.",
-  },
-  DELIVERY_ADDRESS_UNKNOWN: {
-    de: "Adresse konnte nicht geprüft werden. Bitte PLZ und Adresse prüfen.",
-    tr: "Adres doğrulanamadı. Posta kodu ve adresi kontrol edin.",
-  },
-  DELIVERY_ZONE_INVALID: {
-    de: "Lieferung in diese PLZ nicht möglich.",
-    tr: "Bu posta koduna teslimat yok.",
-  },
-  DELIVERY_DAY_INVALID: {
-    de: "An diesem Tag keine Lieferung möglich.",
-    tr: "Bu gün teslimat yapılmıyor.",
-  },
-};
-
 function errorMessage(code: string, locale: "de" | "tr"): string {
-  const entry = ERROR_MSG[code];
-  if (entry) return locale === "tr" ? entry.tr : entry.de;
-  return locale === "tr" ? "Sipariş oluşturulamadı." : "Bestellung fehlgeschlagen.";
+  return checkoutErrorMessage(code, locale);
 }
 
 export async function POST(request: Request) {
@@ -200,7 +164,10 @@ export async function POST(request: Request) {
   });
 
   if (!result.ok) {
-    return NextResponse.json({ error: result.error }, { status: 500 });
+    return NextResponse.json(
+      { error: checkoutErrorMessage(result.error, locale), code: result.error },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({

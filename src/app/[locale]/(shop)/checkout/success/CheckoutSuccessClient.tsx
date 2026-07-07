@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useCart } from "@/stores/cart";
 
 export function CheckoutSuccessClient({ sessionId }: { sessionId?: string }) {
   const t = useTranslations("checkout");
+  const locale = useLocale() as "de" | "tr";
   const router = useRouter();
   const { clear } = useCart();
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
@@ -18,7 +19,7 @@ export function CheckoutSuccessClient({ sessionId }: { sessionId?: string }) {
     fetch("/api/stripe/complete-session", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId }),
+      body: JSON.stringify({ sessionId, locale }),
     })
       .then((r) => r.json())
       .then((data) => {

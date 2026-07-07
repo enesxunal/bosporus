@@ -35,8 +35,8 @@ export default async function AgbPage({
           <h2 className="font-semibold text-base mb-2">3. {de ? "Preise & Zahlung" : "Fiyat & ödeme"}</h2>
           <p>
             {de
-              ? "Alle Preise verstehen sich in Euro inkl. gesetzlicher MwSt. (B2B: zzgl. MwSt.). Zahlung erfolgt bei Lieferung oder Abholung in bar oder per EC-Karte, sofern nicht anders vereinbart."
-              : "Fiyatlar Euro cinsindendir (B2B: KDV hariç). Ödeme teslimat veya gel-al sırasında nakit veya EC kart ile yapılır."}
+              ? "Alle Preise verstehen sich in Euro inkl. gesetzlicher MwSt. (B2B: zzgl. MwSt.). Zahlung online per Karte, Klarna oder PayPal sowie bei Lieferung oder Abholung in bar oder per EC-Karte möglich."
+              : "Fiyatlar Euro cinsindendir (B2B: KDV hariç). Online ödeme (kart, Klarna, PayPal) veya teslimat/gel-al sırasında nakit/EC kart ile ödeme mümkündür."}
           </p>
         </section>
         <section>

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { CreditCard } from "lucide-react";
+import { checkoutErrorMessage } from "@/lib/checkout-errors";
 import { Button } from "@/components/ui/Button";
 import type { CartItem } from "@/lib/types";
 
@@ -26,6 +27,7 @@ interface StripeCheckoutProps {
 
 export function StripeCheckout({ disabled, getPayload, onError }: StripeCheckoutProps) {
   const t = useTranslations("checkout");
+  const locale = useLocale() as "de" | "tr";
   const [loading, setLoading] = useState(false);
 
   const startCheckout = async () => {
@@ -44,7 +46,11 @@ export function StripeCheckout({ disabled, getPayload, onError }: StripeCheckout
       });
       const data = await res.json();
       if (!res.ok) {
-        onError(data.error ?? t("stripeError"));
+        onError(
+          typeof data.error === "string" && data.error.length < 120
+            ? data.error
+            : checkoutErrorMessage(String(data.code ?? "STRIPE_ERROR"), locale)
+        );
         return;
       }
       if (data.url) {

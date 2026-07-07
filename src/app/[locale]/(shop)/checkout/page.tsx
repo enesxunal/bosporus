@@ -415,29 +415,6 @@ export default function CheckoutPage() {
           )}
         </Card>
 
-        <Card className="hidden sm:block space-y-2">
-          <div className="flex justify-between text-sm text-bosporus-muted">
-            <span>{locale === "de" ? "Warenwert" : "Ürünler"}</span>
-            <span>{formatPrice(subtotal, locale)}</span>
-          </div>
-          {orderType === "delivery" && deliveryFee > 0 && (
-            <div className="flex justify-between text-sm text-bosporus-muted">
-              <span>{locale === "de" ? "Liefergebühr" : "Teslimat ücreti"}</span>
-              <span>{formatPrice(deliveryFee, locale)}</span>
-            </div>
-          )}
-          {orderType === "delivery" && quote?.freeDelivery && (
-            <div className="flex justify-between text-sm text-bosporus">
-              <span>{locale === "de" ? "Liefergebühr" : "Teslimat ücreti"}</span>
-              <span>{locale === "de" ? "Kostenlos" : "Ücretsiz"}</span>
-            </div>
-          )}
-          <div className="flex justify-between items-center text-xl font-extrabold pt-2 border-t border-bosporus-gray-100">
-            <span>{locale === "de" ? "Gesamt" : "Toplam"}</span>
-            <span className="text-bosporus">{formatPrice(grandTotal, locale)}</span>
-          </div>
-        </Card>
-
         {error && (
           <p className="text-bosporus-red text-sm bg-red-50 p-4 rounded-xl border border-red-100">{error}</p>
         )}
@@ -474,6 +451,52 @@ export default function CheckoutPage() {
             </div>
           </Card>
         )}
+
+        <Card className="space-y-2 sm:hidden">
+          <div className="flex justify-between text-sm text-bosporus-muted">
+            <span>{locale === "de" ? "Warenwert" : "Ürünler"}</span>
+            <span>{formatPrice(subtotal, locale)}</span>
+          </div>
+          {orderType === "delivery" && deliveryFee > 0 && (
+            <div className="flex justify-between text-sm text-bosporus-muted">
+              <span>{locale === "de" ? "Liefergebühr" : "Teslimat ücreti"}</span>
+              <span>{formatPrice(deliveryFee, locale)}</span>
+            </div>
+          )}
+          {orderType === "delivery" && quote?.freeDelivery && (
+            <div className="flex justify-between text-sm text-bosporus">
+              <span>{locale === "de" ? "Liefergebühr" : "Teslimat ücreti"}</span>
+              <span>{locale === "de" ? "Kostenlos" : "Ücretsiz"}</span>
+            </div>
+          )}
+          <div className="flex justify-between items-center text-xl font-extrabold pt-2 border-t border-bosporus-gray-100">
+            <span>{locale === "de" ? "Gesamt" : "Toplam"}</span>
+            <span className="text-bosporus">{formatPrice(grandTotal, locale)}</span>
+          </div>
+        </Card>
+
+        <Card className="hidden sm:block space-y-2">
+          <div className="flex justify-between text-sm text-bosporus-muted">
+            <span>{locale === "de" ? "Warenwert" : "Ürünler"}</span>
+            <span>{formatPrice(subtotal, locale)}</span>
+          </div>
+          {orderType === "delivery" && deliveryFee > 0 && (
+            <div className="flex justify-between text-sm text-bosporus-muted">
+              <span>{locale === "de" ? "Liefergebühr" : "Teslimat ücreti"}</span>
+              <span>{formatPrice(deliveryFee, locale)}</span>
+            </div>
+          )}
+          {orderType === "delivery" && quote?.freeDelivery && (
+            <div className="flex justify-between text-sm text-bosporus">
+              <span>{locale === "de" ? "Liefergebühr" : "Teslimat ücreti"}</span>
+              <span>{locale === "de" ? "Kostenlos" : "Ücretsiz"}</span>
+            </div>
+          )}
+          <div className="flex justify-between items-center text-xl font-extrabold pt-2 border-t border-bosporus-gray-100">
+            <span>{locale === "de" ? "Gesamt" : "Toplam"}</span>
+            <span className="text-bosporus">{formatPrice(grandTotal, locale)}</span>
+          </div>
+        </Card>
 
         <Button type="button" onClick={handleSubmit} loading={loading} size="lg" fullWidth className="hidden sm:flex">
           {paypalConfig.enabled || stripeConfig.enabled ? t("placeOrderCash") : t("placeOrder")}
