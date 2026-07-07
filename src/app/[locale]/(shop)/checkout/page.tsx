@@ -431,7 +431,7 @@ export default function CheckoutPage() {
           <p className="text-bosporus-red text-sm bg-red-50 p-4 rounded-xl border border-red-100">{error}</p>
         )}
 
-        {paypalConfig.enabled && paypalConfig.ready !== false && paypalConfig.clientId && (
+        {paypalConfig.enabled && paypalConfig.clientId && (
           <Card>
             <h2 className="font-bold text-bosporus-gray-800 mb-4">{t("paymentSection")}</h2>
             <PayPalCheckout
