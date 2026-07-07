@@ -109,7 +109,12 @@
     "contactRequired": "Bitte Name und E-Mail eingeben.",
     "successTitle": "Bestellung eingegangen!",
     "successDesc": "Vielen Dank! Wir bereiten Ihre Bestellung vor und melden uns bei Ihnen.",
-    "minOrderWarning": "Mindestbestellwert für Ihre Zone: {amount}"
+    "minOrderWarning": "Mindestbestellwert für Ihre Zone: {amount}",
+    "paymentSection": "Online bezahlen",
+    "paymentNotePayPal": "Bezahlen Sie sicher mit PayPal oder wählen Sie Zahlung bei Lieferung/Abholung.",
+    "orPayOnDelivery": "oder",
+    "placeOrderCash": "Bei Lieferung/Abholung bezahlen",
+    "paypalError": "PayPal-Zahlung fehlgeschlagen. Bitte erneut versuchen."
   },
   "auth": {
     "registerTitle": "Konto erstellen",

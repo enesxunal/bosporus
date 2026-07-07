@@ -109,7 +109,12 @@
     "contactRequired": "Lütfen ad ve e-posta girin.",
     "successTitle": "Siparişiniz alındı!",
     "successDesc": "Teşekkürler! Siparişinizi hazırlıyoruz, sizinle iletişime geçeceğiz.",
-    "minOrderWarning": "Bölgeniz için minimum sipariş: {amount}"
+    "minOrderWarning": "Bölgeniz için minimum sipariş: {amount}",
+    "paymentSection": "Online ödeme",
+    "paymentNotePayPal": "PayPal ile güvenle ödeyin veya teslimatta/gel-al sırasında ödeme seçin.",
+    "orPayOnDelivery": "veya",
+    "placeOrderCash": "Teslimatta öde",
+    "paypalError": "PayPal ödemesi başarısız. Lütfen tekrar deneyin."
   },
   "auth": {
     "registerTitle": "Hesap oluştur",

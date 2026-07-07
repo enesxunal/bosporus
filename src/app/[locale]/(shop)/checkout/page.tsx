@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
+import { PayPalCheckout } from "@/components/checkout/PayPalCheckout";
 
 export default function CheckoutPage() {
   const t = useTranslations("checkout");
@@ -47,6 +48,11 @@ export default function CheckoutPage() {
     { id: string; label: string; street: string; zip_code: string; city: string; is_default: boolean }[]
   >([]);
   const [selectedAddressId, setSelectedAddressId] = useState<string>("");
+  const [paypalConfig, setPaypalConfig] = useState<{
+    enabled: boolean;
+    clientId?: string;
+    mode?: "live" | "sandbox";
+  }>({ enabled: false });
 
   const total = subtotalGross();
   const zone = zipCode.length >= 4 ? findZoneInList(zones, zipCode) : null;
@@ -62,6 +68,17 @@ export default function CheckoutPage() {
       .then((d) => {
         setZones(d.zones ?? []);
         setPickupSlots(d.pickupSlots ?? []);
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/paypal/create-order")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.enabled && d.clientId) {
+          setPaypalConfig({ enabled: true, clientId: d.clientId, mode: d.mode });
+        }
       })
       .catch(() => {});
   }, []);
@@ -125,46 +142,67 @@ export default function CheckoutPage() {
     );
   }
 
-  const handleSubmit = async () => {
-    setError("");
+  const validateCheckout = (): string | null => {
     if (!customerName.trim() || !customerEmail.trim()) {
-      setError(t("contactRequired"));
-      return;
+      return t("contactRequired");
     }
     if (orderType === "delivery") {
       if (!zipCode || !address) {
-        setError(locale === "de" ? "PLZ und Adresse erforderlich" : "Posta kodu ve adres gerekli");
-        return;
+        return locale === "de" ? "PLZ und Adresse erforderlich" : "Posta kodu ve adres gerekli";
       }
       if (!deliveryDate) {
-        setError(locale === "de" ? "Lieferdatum wählen" : "Teslimat tarihi seçin");
-        return;
+        return locale === "de" ? "Lieferdatum wählen" : "Teslimat tarihi seçin";
       }
       if (!zone) {
-        setError(locale === "de" ? "Lieferung in diese PLZ nicht möglich" : "Bu posta koduna teslimat yok");
-        return;
+        return locale === "de" ? "Lieferung in diese PLZ nicht möglich" : "Bu posta koduna teslimat yok";
       }
       if (!isDeliveryDayAllowed(zone, deliveryDate)) {
-        setError(
-          locale === "de"
-            ? `An diesem Tag keine Lieferung. Mögliche Tage: ${formatDeliveryDays(zone, locale)}`
-            : `Bu gün teslimat yok. Uygun günler: ${formatDeliveryDays(zone, locale)}`
-        );
-        return;
+        return locale === "de"
+          ? `An diesem Tag keine Lieferung. Mögliche Tage: ${formatDeliveryDays(zone, locale)}`
+          : `Bu gün teslimat yok. Uygun günler: ${formatDeliveryDays(zone, locale)}`;
       }
       if (!minOrderOk) {
-        setError(t("minOrderWarning", { amount: formatPrice(zone.min_order_amount, locale) }));
-        return;
+        return t("minOrderWarning", { amount: formatPrice(zone.min_order_amount, locale) });
       }
     } else {
       if (!pickupDate || !pickupSlot) {
-        setError(locale === "de" ? "Abholdatum und -zeit wählen" : "Alış tarihi ve saati seçin");
-        return;
+        return locale === "de" ? "Abholdatum und -zeit wählen" : "Alış tarihi ve saati seçin";
       }
       if (!isPickupDateAllowed(pickupDate)) {
-        setError(locale === "de" ? "Abholung nur Mo–Sa möglich" : "Gel-al sadece Pzt–Cmt");
-        return;
+        return locale === "de" ? "Abholung nur Mo–Sa möglich" : "Gel-al sadece Pzt–Cmt";
       }
+    }
+    return null;
+  };
+
+  const getOrderPayload = () => ({
+    items,
+    orderType,
+    customerName: customerName.trim(),
+    customerEmail: customerEmail.trim(),
+    customerPhone: customerPhone.trim() || undefined,
+    zipCode,
+    address,
+    deliveryDate: orderType === "delivery" ? deliveryDate : undefined,
+    pickupDate,
+    pickupSlot,
+    locale,
+  });
+
+  const handlePayPalSuccess = (orderNumber: string) => {
+    clear();
+    router.push(`/checkout/success?order=${encodeURIComponent(orderNumber)}`);
+  };
+
+  const checkoutValid = validateCheckout() === null;
+  const paypalDisabled = loading || !checkoutValid;
+
+  const handleSubmit = async () => {
+    setError("");
+    const validationError = validateCheckout();
+    if (validationError) {
+      setError(validationError);
+      return;
     }
 
     setLoading(true);
@@ -172,19 +210,7 @@ export default function CheckoutPage() {
       const res = await fetch("/api/orders/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items,
-          orderType,
-          customerName: customerName.trim(),
-          customerEmail: customerEmail.trim(),
-          customerPhone: customerPhone.trim() || undefined,
-          zipCode,
-          address,
-          deliveryDate: orderType === "delivery" ? deliveryDate : undefined,
-          pickupDate,
-          pickupSlot,
-          locale,
-        }),
+        body: JSON.stringify(getOrderPayload()),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -203,7 +229,9 @@ export default function CheckoutPage() {
   return (
     <div className="page-narrow py-6 sm:py-10 pb-32 sm:pb-10">
       <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-2 tracking-tight">{t("title")}</h1>
-      <p className="text-sm text-bosporus-muted mb-6">{t("noPaymentNote")}</p>
+      <p className="text-sm text-bosporus-muted mb-6">
+        {paypalConfig.enabled ? t("paymentNotePayPal") : t("noPaymentNote")}
+      </p>
 
       <div className="space-y-4">
         <Card>
@@ -327,8 +355,30 @@ export default function CheckoutPage() {
           <p className="text-bosporus-red text-sm bg-red-50 p-4 rounded-xl border border-red-100">{error}</p>
         )}
 
+        {paypalConfig.enabled && paypalConfig.clientId && (
+          <Card>
+            <h2 className="font-bold text-bosporus-gray-800 mb-4">{t("paymentSection")}</h2>
+            <PayPalCheckout
+              clientId={paypalConfig.clientId}
+              mode={paypalConfig.mode ?? "live"}
+              disabled={paypalDisabled}
+              getPayload={getOrderPayload}
+              onError={(msg) => setError(msg)}
+              onSuccess={handlePayPalSuccess}
+            />
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-bosporus-gray-200" />
+              </div>
+              <div className="relative flex justify-center text-xs">
+                <span className="bg-white px-3 text-bosporus-muted">{t("orPayOnDelivery")}</span>
+              </div>
+            </div>
+          </Card>
+        )}
+
         <Button type="button" onClick={handleSubmit} loading={loading} size="lg" fullWidth className="hidden sm:flex">
-          {t("placeOrder")}
+          {paypalConfig.enabled ? t("placeOrderCash") : t("placeOrder")}
         </Button>
       </div>
 
@@ -341,7 +391,7 @@ export default function CheckoutPage() {
               <p className="text-xl font-extrabold text-bosporus">{formatPrice(total, locale)}</p>
             </div>
             <Button type="button" onClick={handleSubmit} loading={loading} size="lg" className="flex-1 max-w-[200px]">
-              {t("placeOrder")}
+              {paypalConfig.enabled ? t("placeOrderCash") : t("placeOrder")}
             </Button>
           </div>
         </Card>

@@ -17,6 +17,7 @@ export interface CreateOrderInput {
   pickupSlotId?: string | null;
   notes?: string;
   locale?: "de" | "tr";
+  paymentReference?: string | null;
 }
 
 function generateOrderNumber(): string {
@@ -78,6 +79,7 @@ export async function createOrder(input: CreateOrderInput) {
       pickup_slot_id: input.pickupSlotId ?? null,
       pickup_slot_label: input.pickupSlot ?? null,
       notes: input.notes ?? null,
+      stripe_payment_intent_id: input.paymentReference ?? null,
     })
     .select("id, order_number")
     .single();
