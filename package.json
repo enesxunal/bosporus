@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "import:products": "tsx scripts/import-artikel.ts"
+    "import:products": "tsx scripts/import-artikel.ts",
+    "sync:catalog": "tsx scripts/sync-catalog.ts"
   },
   "dependencies": {
     "@paypal/react-paypal-js": "^10.1.1",

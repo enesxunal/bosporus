@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { Loader2, Search, ChevronRight, Plus, Percent } from "lucide-react";
+import { Loader2, Search, ChevronRight, Plus, Percent, RefreshCw } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
@@ -29,6 +29,8 @@ export default function AdminProductsPage() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const [syncMsg, setSyncMsg] = useState("");
 
   const PAGE_SIZE = 50;
 
@@ -56,6 +58,30 @@ export default function AdminProductsPage() {
     load(0, false);
   }, [load]);
 
+  const syncCatalog = async () => {
+    if (!confirm("CSV katalogunu veritabanına senkronize etmek istiyor musunuz? Görseller korunur.")) return;
+    setSyncing(true);
+    setSyncMsg("");
+    try {
+      const res = await fetch("/api/admin/products/sync", { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) {
+        setSyncMsg(data.error ?? "Senkron hatası");
+        return;
+      }
+      setSyncMsg(
+        `Senkron tamam: ${data.synced ?? 0} ürün` +
+          (data.deactivated ? `, ${data.deactivated} eski ürün pasife alındı` : "") +
+          (data.errors?.length ? ` — uyarı: ${data.errors.join("; ")}` : "")
+      );
+      await load(0, false);
+    } catch {
+      setSyncMsg("Bağlantı hatası");
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -64,6 +90,9 @@ export default function AdminProductsPage() {
           <p className="text-sm text-bosporus-muted">{total} ürün</p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <Button variant="outline" onClick={syncCatalog} loading={syncing}>
+            <RefreshCw className="w-4 h-4" /> Katalog senkron
+          </Button>
           <Link href="/admin/products/new">
             <Button><Plus className="w-4 h-4" />{t("addProduct")}</Button>
           </Link>
@@ -72,6 +101,10 @@ export default function AdminProductsPage() {
           </Link>
         </div>
       </div>
+
+      {syncMsg && (
+        <div className="mb-4 p-3 rounded-xl text-sm bg-bosporus-light text-bosporus-gray-800">{syncMsg}</div>
+      )}
 
       <form
         className="flex gap-2 mb-4"
