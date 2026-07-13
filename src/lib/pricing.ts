@@ -19,7 +19,14 @@ export function isPromoActive(product: Product, now = new Date()): boolean {
   const from = new Date(product.promo_from);
   const to = new Date(product.promo_to);
   to.setHours(23, 59, 59, 999);
-  return now >= from && now <= to;
+  if (!(now >= from && now <= to)) return false;
+
+  // Promo must actually be cheaper than the regular price
+  const promoGross = netToGross(product.promo_price, product.tax_rate);
+  if (product.price_b2c > 0 && promoGross >= product.price_b2c - 0.01) return false;
+  if (product.price_b2b > 0 && product.promo_price >= product.price_b2b - 0.01) return false;
+
+  return true;
 }
 
 export interface DisplayPrice {
@@ -40,12 +47,12 @@ export function getDisplayPrice(
 
   if (b2b) {
     const net = promo ? product.promo_price! : product.price_b2b;
-    const original = promo ? product.price_b2b : undefined;
+    const original = promo && product.price_b2b > net ? product.price_b2b : undefined;
     return {
       label: "netto",
       amount: net,
       originalAmount: original,
-      isPromo: promo,
+      isPromo: Boolean(original),
       taxRate: product.tax_rate,
       showTaxNote: true,
     };
@@ -54,13 +61,14 @@ export function getDisplayPrice(
   const gross = promo
     ? netToGross(product.promo_price!, product.tax_rate)
     : product.price_b2c;
-  const original = promo ? product.price_b2c : undefined;
+  const original =
+    promo && product.price_b2c > gross ? product.price_b2c : undefined;
 
   return {
     label: "brutto",
     amount: gross,
     originalAmount: original,
-    isPromo: promo,
+    isPromo: Boolean(original),
     taxRate: product.tax_rate,
     showTaxNote: false,
   };

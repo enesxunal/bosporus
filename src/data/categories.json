@@ -1,139 +1,139 @@
 [
   {
-    "id": "9b92de05-899f-4319-8eaa-0fb19c9bba6c",
+    "id": "a355ece5-d919-4ec8-801a-d7aadc80c5f2",
     "slug": "verpackung-reinigungsmittel-hygiene",
     "name_de": "Verpackung & Hygiene",
     "name_tr": "Ambalaj & Hijyen",
     "product_count": 318
   },
   {
-    "id": "c5ee72f5-09ef-4cdb-8976-3c8bb89bb62a",
+    "id": "f0c2c572-4572-42f4-88f1-c0546531b096",
     "slug": "lebensmittel",
     "name_de": "Lebensmittel",
     "name_tr": "Gıda",
     "product_count": 239
   },
   {
-    "id": "a9f4f732-d4e2-470b-ac4a-34b1e8cae427",
-    "slug": "getranke",
+    "id": "7d7b4c32-c460-41ff-9318-6f096fbac915",
+    "slug": "getraenke",
     "name_de": "Getränke",
     "name_tr": "İçecekler",
     "product_count": 166
   },
   {
-    "id": "60aedff3-5b46-447f-b10e-d5840437e025",
-    "slug": "snacks-susswaren",
+    "id": "78b300ca-3f4b-4a3e-b525-66d8d77063fe",
+    "slug": "snacks-suesswaren",
     "name_de": "Snacks & Süßwaren",
     "name_tr": "Atıştırmalık",
     "product_count": 117
   },
   {
-    "id": "eb0e0720-88b2-4d52-8674-81bb8179bcb5",
-    "slug": "tk-tiefkuhl",
+    "id": "487d6edd-ac7d-44ac-be17-c26f73c5fd53",
+    "slug": "tk-tiefkuehl",
     "name_de": "Tiefkühl",
     "name_tr": "Donmuş",
     "product_count": 109
   },
   {
-    "id": "f997762b-877b-4479-932c-e0a651d7612e",
+    "id": "c39df991-a8d2-4d86-b105-193832f46b50",
     "slug": "konserven",
     "name_de": "Konserven",
     "name_tr": "Konserve",
     "product_count": 85
   },
   {
-    "id": "16d26499-067c-4e43-b426-5f7f85614301",
-    "slug": "gewurze",
+    "id": "f055544f-deb0-456c-ac4a-ee887a93af5f",
+    "slug": "gewuerze",
     "name_de": "Gewürze",
     "name_tr": "Baharat",
     "product_count": 85
   },
   {
-    "id": "41218088-c655-4398-8c28-6242365fc803",
-    "slug": "gemuse",
+    "id": "16bd0312-343d-40e1-9082-9d13e82c803b",
+    "slug": "gemuese",
     "name_de": "Gemüse",
     "name_tr": "Sebze",
     "product_count": 77
   },
   {
-    "id": "d882cb54-de96-4f10-aeef-c7403d5d2d6e",
+    "id": "e5cf06e7-7fa8-4ccc-adf9-1dd285b76559",
     "slug": "saucen",
     "name_de": "Saucen",
     "name_tr": "Soslar",
     "product_count": 69
   },
   {
-    "id": "245280d0-aa34-444f-875e-7bb304441c54",
+    "id": "6b09f19b-6eb9-4698-a155-b7aa154ec41f",
     "slug": "alkohol",
     "name_de": "Alkohol",
     "name_tr": "Alkol",
     "product_count": 61
   },
   {
-    "id": "94b35e8f-2fc6-4025-b012-68f45dbcfb4e",
+    "id": "83a93eb0-ba8d-4979-a75b-958b557abcae",
     "slug": "asia",
     "name_de": "Asiatische Küche",
     "name_tr": "Asya Mutfağı",
     "product_count": 40
   },
   {
-    "id": "7a2d823b-b4a0-4146-8d03-a93715f1435d",
+    "id": "50e0e0bc-e554-4950-b9dd-d4b716f717c7",
     "slug": "molkerei",
     "name_de": "Molkerei",
     "name_tr": "Süt Ürünleri",
     "product_count": 38
   },
   {
-    "id": "670e3184-14ad-460e-9a9d-7cb7abfb5c22",
+    "id": "9b581d84-4b5c-40a7-b980-a8b370708c02",
     "slug": "pfand",
     "name_de": "Pfand",
     "name_tr": "Depozito",
     "product_count": 34
   },
   {
-    "id": "f301fb7e-4750-49b5-a1ab-ee3072181dc5",
+    "id": "829f4745-5ae9-4dbd-adb9-7ce9023950cb",
     "slug": "obst",
     "name_de": "Obst",
     "name_tr": "Meyve",
     "product_count": 25
   },
   {
-    "id": "49a6ccce-e75a-4998-acf1-c2c23476c4f1",
-    "slug": "kuhlschrankware",
+    "id": "e52cd080-8c94-4c73-ac69-c1d8d69f2930",
+    "slug": "kuehlschrankware",
     "name_de": "Kühlware",
     "name_tr": "Soğuk Ürünler",
     "product_count": 19
   },
   {
-    "id": "421aae5c-a28c-4352-a667-62e35d56999f",
-    "slug": "ole",
+    "id": "76d313b4-a656-4e38-bec6-be1b7493ffe0",
+    "slug": "oele",
     "name_de": "Öle",
     "name_tr": "Yağlar",
     "product_count": 10
   },
   {
-    "id": "45fb6c31-7a11-46c3-bb2d-713ca56941c2",
+    "id": "e1cdc7d1-f52a-49d0-ab7d-2da13d22e097",
     "slug": "sonstiges",
     "name_de": "Sonstiges",
     "name_tr": "Diğer",
     "product_count": 5
   },
   {
-    "id": "963910a2-33ff-4822-af5a-fa3e59ad1847",
+    "id": "aac6d6be-97da-4115-a30c-f4dfcc771ea6",
     "slug": "grillkohle",
     "name_de": "Grillkohle",
     "name_tr": "Mangal Kömürü",
     "product_count": 5
   },
   {
-    "id": "a75a8960-4e1b-47d9-aaec-786b6b2a42ec",
+    "id": "a8b3b1b1-7a5c-4527-af93-ece90c7bb22b",
     "slug": "lieferung-fracht",
     "name_de": "Lieferung",
     "name_tr": "Teslimat",
     "product_count": 2
   },
   {
-    "id": "50be9aeb-845b-4c8f-ac72-2c9d12ff4167",
+    "id": "468652c0-be0f-46c0-a6b7-c94e8a154f1c",
     "slug": "transportkosten",
     "name_de": "Transportkosten",
     "name_tr": "Nakliye",

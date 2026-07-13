@@ -4,7 +4,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Plus, ShoppingCart } from "lucide-react";
 import type { Product, UserProfile } from "@/lib/types";
 import { getDisplayPrice, formatUnit, formatPrice } from "@/lib/pricing";
-import { netToGross, isPromoActive } from "@/lib/pricing";
+import { netToGross } from "@/lib/pricing";
 import { getProductImageUrl, getAvailability } from "@/lib/category-images";
 import { getProductName, productDetailHref } from "@/lib/product-display";
 import { useCart } from "@/stores/cart";
@@ -28,7 +28,7 @@ export function ProductCard({ product, profile: profileProp = null, variant = "d
   const profile = profileProp ?? loadedProfile;
   const addItem = useCart((s) => s.addItem);
   const displayPrice = getDisplayPrice(product, profile);
-  const isDeal = isPromoActive(product) || variant === "deal";
+  const isDeal = displayPrice.isPromo;
   const name = getProductName(product, locale);
   const detailHref = productDetailHref(product.sku);
   const avail = getAvailability(product);
