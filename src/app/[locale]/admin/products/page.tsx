@@ -69,10 +69,15 @@ export default function AdminProductsPage() {
         setSyncMsg(data.error ?? "Senkron hatası");
         return;
       }
+      const errCount = data.errors?.length ?? 0;
+      if (errCount > 0 && (data.synced ?? 0) === 0) {
+        setSyncMsg(`Senkron başarısız: ${data.errors.slice(0, 3).join(" | ")}`);
+        return;
+      }
       setSyncMsg(
         `Senkron tamam: ${data.synced ?? 0} ürün` +
           (data.deactivated ? `, ${data.deactivated} eski ürün pasife alındı` : "") +
-          (data.errors?.length ? ` — uyarı: ${data.errors.join("; ")}` : "")
+          (errCount ? ` — ${errCount} uyarı` : "")
       );
       await load(0, false);
     } catch {

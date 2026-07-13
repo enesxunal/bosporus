@@ -3,11 +3,21 @@ import type { Product } from "./types";
 import { createAdminClient } from "./supabase/admin";
 import { clearProductsCache } from "./products-db";
 
-const BATCH = 200;
+const BATCH = 100;
+
+type ExistingRow = {
+  id: string;
+  sku: string;
+  image_url: string | null;
+  image_urls: unknown;
+  name_tr: string | null;
+  description_de: string | null;
+  description_tr: string | null;
+};
 
 /**
  * Sync catalog from products.json into Supabase.
- * Preserves DB images / TR names / descriptions when JSON has them empty.
+ * Keeps existing DB row ids (avoids PK conflict) and preserves images / TR texts.
  */
 export async function syncProductsFromJson(): Promise<{
   synced: number;
@@ -21,48 +31,45 @@ export async function syncProductsFromJson(): Promise<{
   const errors: string[] = [];
   let synced = 0;
 
-  const existingBySku = new Map<
-    string,
-    {
-      image_url: string | null;
-      image_urls: unknown;
-      name_tr: string | null;
-      description_de: string | null;
-      description_tr: string | null;
+  const existingBySku = new Map<string, ExistingRow>();
+  const { count } = await admin.from("products").select("id", { count: "exact", head: true });
+  const pageSize = 1000;
+  const total = count ?? 0;
+  for (let from = 0; from < total; from += pageSize) {
+    const { data } = await admin
+      .from("products")
+      .select("id, sku, image_url, image_urls, name_tr, description_de, description_tr")
+      .range(from, from + pageSize - 1);
+    for (const row of data ?? []) {
+      existingBySku.set(row.sku as string, {
+        id: row.id as string,
+        sku: row.sku as string,
+        image_url: (row.image_url as string) ?? null,
+        image_urls: row.image_urls,
+        name_tr: (row.name_tr as string) ?? null,
+        description_de: (row.description_de as string) ?? null,
+        description_tr: (row.description_tr as string) ?? null,
+      });
     }
-  >();
-
-  const { data: existingRows } = await admin
-    .from("products")
-    .select("sku, image_url, image_urls, name_tr, description_de, description_tr");
-
-  for (const row of existingRows ?? []) {
-    existingBySku.set(row.sku as string, {
-      image_url: (row.image_url as string) ?? null,
-      image_urls: row.image_urls,
-      name_tr: (row.name_tr as string) ?? null,
-      description_de: (row.description_de as string) ?? null,
-      description_tr: (row.description_tr as string) ?? null,
-    });
   }
 
   for (let i = 0; i < products.length; i += BATCH) {
-    const batch = products.slice(i, i + BATCH).map((p) => {
+    const slice = products.slice(i, i + BATCH);
+    const batch = slice.map((p) => {
       const prev = existingBySku.get(p.sku);
+      const extra = p as Product & {
+        description_de?: string | null;
+        description_tr?: string | null;
+      };
       return {
-        id: p.id,
+        // Keep DB id when SKU already exists — otherwise upsert fights the primary key
+        id: prev?.id ?? p.id,
         sku: p.sku,
         barcode: p.barcode,
         name_de: p.name_de,
         name_tr: p.name_tr?.trim() || prev?.name_tr || null,
-        description_de:
-          (p as Product & { description_de?: string | null }).description_de?.trim() ||
-          prev?.description_de ||
-          null,
-        description_tr:
-          (p as Product & { description_tr?: string | null }).description_tr?.trim() ||
-          prev?.description_tr ||
-          null,
+        description_de: extra.description_de?.trim() || prev?.description_de || null,
+        description_tr: extra.description_tr?.trim() || prev?.description_tr || null,
         category_slug: p.category_slug,
         image_url: p.image_url || prev?.image_url || null,
         image_urls:
@@ -86,7 +93,15 @@ export async function syncProductsFromJson(): Promise<{
 
     const { error } = await admin.from("products").upsert(batch, { onConflict: "sku" });
     if (error) {
-      errors.push(`Batch ${i}: ${error.message}`);
+      // Fallback: update one-by-one for clearer errors / partial progress
+      for (const row of batch) {
+        const { error: oneErr } = await admin.from("products").upsert(row, { onConflict: "sku" });
+        if (oneErr) {
+          errors.push(`${row.sku}: ${oneErr.message}`);
+        } else {
+          synced += 1;
+        }
+      }
     } else {
       synced += batch.length;
     }
@@ -94,7 +109,6 @@ export async function syncProductsFromJson(): Promise<{
 
   clearProductsCache();
 
-  // CSV’de olmayan ürünleri pasife al (katalog güncellemesi)
   const activeSkus = new Set(products.map((p) => p.sku));
   const { data: allDb } = await admin.from("products").select("sku, is_active");
   const toDisable = (allDb ?? [])
