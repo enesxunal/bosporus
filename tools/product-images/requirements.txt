@@ -1,0 +1,6 @@
+# Bosporus ürün görsel botu (lokal)
+Pillow>=10.0.0
+ddgs>=9.0.0
+requests>=2.31.0
+# İsteğe bağlı arka plan silme (ağır; ilk seferde AI modeli indirir):
+# rembg[cpu]>=2.0.0
