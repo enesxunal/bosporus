@@ -58,12 +58,23 @@ export default function AdminProductsPage() {
     load(0, false);
   }, [load]);
 
-  const syncCatalog = async () => {
-    if (!confirm("CSV katalogunu veritabanına senkronize etmek istiyor musunuz? Görseller korunur.")) return;
+  const syncCatalog = async (mode: "sync" | "replace" = "sync") => {
+    const ok =
+      mode === "replace"
+        ? confirm(
+            "DİKKAT: Tüm eski ürünler silinip Excel katalogundan yeniden yüklenecek.\n\nSipariş geçmişi kalır, ürün bağlantıları kopabilir.\nDevam edilsin mi?"
+          )
+        : confirm("CSV katalogunu veritabanına senkronize etmek istiyor musunuz? Görseller korunur.");
+    if (!ok) return;
+
     setSyncing(true);
     setSyncMsg("");
     try {
-      const res = await fetch("/api/admin/products/sync", { method: "POST" });
+      const res = await fetch("/api/admin/products/sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode }),
+      });
       const data = await res.json();
       if (!res.ok) {
         setSyncMsg(data.error ?? "Senkron hatası");
@@ -71,14 +82,21 @@ export default function AdminProductsPage() {
       }
       const errCount = data.errors?.length ?? 0;
       if (errCount > 0 && (data.synced ?? 0) === 0) {
-        setSyncMsg(`Senkron başarısız: ${data.errors.slice(0, 3).join(" | ")}`);
+        setSyncMsg(`İşlem başarısız: ${data.errors.slice(0, 3).join(" | ")}`);
         return;
       }
-      setSyncMsg(
-        `Senkron tamam: ${data.synced ?? 0} ürün` +
-          (data.deactivated ? `, ${data.deactivated} eski ürün pasife alındı` : "") +
-          (errCount ? ` — ${errCount} uyarı` : "")
-      );
+      if (mode === "replace") {
+        setSyncMsg(
+          `Tam yenileme tamam: ${data.deleted ?? 0} eski silindi, ${data.synced ?? 0} ürün yüklendi` +
+            (errCount ? ` — ${errCount} uyarı` : "")
+        );
+      } else {
+        setSyncMsg(
+          `Senkron tamam: ${data.synced ?? 0} ürün` +
+            (data.deactivated ? `, ${data.deactivated} eski ürün pasife alındı` : "") +
+            (errCount ? ` — ${errCount} uyarı` : "")
+        );
+      }
       await load(0, false);
     } catch {
       setSyncMsg("Bağlantı hatası");
@@ -95,8 +113,11 @@ export default function AdminProductsPage() {
           <p className="text-sm text-bosporus-muted">{total} ürün</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" onClick={syncCatalog} loading={syncing}>
+          <Button variant="outline" onClick={() => syncCatalog("sync")} loading={syncing}>
             <RefreshCw className="w-4 h-4" /> Katalog senkron
+          </Button>
+          <Button variant="secondary" onClick={() => syncCatalog("replace")} loading={syncing}>
+            Tam yenile (sil + yükle)
           </Button>
           <Link href="/admin/products/new">
             <Button><Plus className="w-4 h-4" />{t("addProduct")}</Button>
