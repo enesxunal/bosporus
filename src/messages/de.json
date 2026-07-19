@@ -126,6 +126,8 @@
     "remove": "Entfernen",
     "firstOrderFreeHint": "Ihre erste Bestellung: Lieferung kostenlos (Mindestbestellwert 100 €).",
     "thresholdFreeHint": "Ab 250 € Warenkorbwert ist die Lieferung kostenlos.",
+    "b2bDeliveryHint": "Gewerbe: Lieferung ab 1.000 € – ab 2.500 € versandkostenfrei.",
+    "b2bPendingHint": "Gewerbekonto wird geprüft. Bis zur Freigabe gelten die Privatkunden-Konditionen.",
     "loginForFreeDelivery": "Erste Lieferung gratis mit Konto:",
     "registerLink": "Registrieren",
     "loginLink": "Anmelden"

@@ -126,6 +126,8 @@
     "remove": "Kaldır",
     "firstOrderFreeHint": "İlk siparişinizde getirme ücretsiz (minimum 100 €).",
     "thresholdFreeHint": "Sepet 250 € ve üzeriyse teslimat ücretsiz.",
+    "b2bDeliveryHint": "Kurumsal: teslimat min. 1.000 € – 2.500 € üzeri ücretsiz.",
+    "b2bPendingHint": "Kurumsal hesabınız inceleniyor. Onaya kadar bireysel koşullar geçerlidir.",
     "loginForFreeDelivery": "İlk getirme ücretsiz olsun diye hesap açın:",
     "registerLink": "Kayıt ol",
     "loginLink": "Giriş yap"

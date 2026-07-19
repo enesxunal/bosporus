@@ -13,11 +13,13 @@ import { Button } from "@/components/ui/Button";
 import { QuantityControl } from "@/components/ui/QuantityControl";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
+type CartAudience = "guest" | "b2c" | "b2b" | "b2b_pending";
+
 export default function CartPage() {
   const t = useTranslations("cart");
   const locale = useLocale() as "de" | "tr";
   const { items, updateQuantity, removeItem, subtotalGross, totalItems } = useCart();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [audience, setAudience] = useState<CartAudience>("guest");
   const [firstOrderEligible, setFirstOrderEligible] = useState(false);
 
   useEffect(() => {
@@ -25,12 +27,30 @@ export default function CartPage() {
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (!user) {
-        setLoggedIn(false);
+        setAudience("guest");
         setFirstOrderEligible(false);
         return;
       }
-      setLoggedIn(true);
       try {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .single();
+
+        const role = profile?.role as string | undefined;
+        if (role === "b2b_approved") {
+          setAudience("b2b");
+          setFirstOrderEligible(false);
+          return;
+        }
+        if (role === "b2b_pending") {
+          setAudience("b2b_pending");
+          setFirstOrderEligible(false);
+          return;
+        }
+
+        setAudience("b2c");
         const res = await fetch("/api/delivery/quote", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -43,7 +63,7 @@ export default function CartPage() {
         const data = await res.json();
         setFirstOrderEligible(Boolean(data.firstOrderEligible) && !data.isB2b);
       } catch {
-        /* ignore */
+        setAudience("b2c");
       }
     });
   }, []);
@@ -66,6 +86,28 @@ export default function CartPage() {
     );
   }
 
+  const deliveryHint =
+    audience === "b2b" ? (
+      <p className="font-semibold">{t("b2bDeliveryHint")}</p>
+    ) : audience === "b2b_pending" ? (
+      <p className="font-semibold">{t("b2bPendingHint")}</p>
+    ) : audience === "b2c" && firstOrderEligible ? (
+      <p className="font-semibold">{t("firstOrderFreeHint")}</p>
+    ) : audience === "b2c" ? (
+      <p className="font-semibold">{t("thresholdFreeHint")}</p>
+    ) : (
+      <p>
+        <span className="font-semibold">{t("loginForFreeDelivery")} </span>
+        <Link href="/register" className="underline font-bold">
+          {t("registerLink")}
+        </Link>
+        {" · "}
+        <Link href="/login" className="underline font-bold">
+          {t("loginLink")}
+        </Link>
+      </p>
+    );
+
   return (
     <div className="page-narrow py-6 sm:py-10">
       <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-4 tracking-tight">
@@ -75,24 +117,7 @@ export default function CartPage() {
 
       <div className="mb-5 rounded-2xl bg-bosporus-yellow/90 text-bosporus-gray-800 px-4 py-3 flex gap-3 items-start">
         <Truck className="w-5 h-5 shrink-0 mt-0.5" aria-hidden />
-        <div className="min-w-0 text-sm">
-          {loggedIn && firstOrderEligible ? (
-            <p className="font-semibold">{t("firstOrderFreeHint")}</p>
-          ) : loggedIn ? (
-            <p className="font-semibold">{t("thresholdFreeHint")}</p>
-          ) : (
-            <p>
-              <span className="font-semibold">{t("loginForFreeDelivery")} </span>
-              <Link href="/register" className="underline font-bold">
-                {t("registerLink")}
-              </Link>
-              {" · "}
-              <Link href="/login" className="underline font-bold">
-                {t("loginLink")}
-              </Link>
-            </p>
-          )}
-        </div>
+        <div className="min-w-0 text-sm">{deliveryHint}</div>
       </div>
 
       <ul className="space-y-3 mb-6">
