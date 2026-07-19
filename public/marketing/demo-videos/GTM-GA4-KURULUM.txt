@@ -1,0 +1,76 @@
+Bosporus — GTM + Google Analytics 4 (GA4) kurulum
+================================================
+
+Sitede artık şu olaylar dataLayer’a gidiyor:
+  • whatsapp_click     — WhatsApp butonu
+  • sign_up            — Kayıt (method: b2c veya b2b)
+  • add_to_cart        — Sepete ekleme
+  • begin_checkout     — Kasa sayfası
+  • purchase           — Sipariş tamam (transaction_id = sipariş no)
+
+Siz GTM’de GA4’ü bağlayıp bu olayları dinleyeceksiniz.
+
+------------------------------------------------
+A) Google Analytics 4 hesabı
+------------------------------------------------
+1. https://analytics.google.com → Yönetici (dişli)
+2. Hesap / Mülk oluştur → “Google Analytics 4”
+3. Web stream: https://www.bosporus-gmbh.com
+4. “Ölçüm Kimliği” not edin: G-XXXXXXXXXX
+
+------------------------------------------------
+B) Tag Manager’da GA4 yapılandırma etiketi
+------------------------------------------------
+1. tagmanager.google.com → kapsayıcı GTM-TP6KXQHQ
+2. Etiketler → Yeni
+3. Etiket türü: Google Analytics → Google Etiketi (Google tag)
+   veya: GA4 Yapılandırma
+4. Ölçüm Kimliği: G-XXXXXXXXXX
+5. Tetikleyici: All Pages (Tüm Sayfalar)
+6. Kaydet
+
+------------------------------------------------
+C) Dönüşüm olayları (her biri için ayrı etiket)
+------------------------------------------------
+Her olay için:
+  Etiket türü: Google Analytics → GA4 Event
+  Yapılandırma etiketi: yukarıdaki GA4
+  Event Name: aşağıdakilerden biri (AYNEN yazın)
+
+  1) whatsapp_click
+  2) sign_up
+  3) add_to_cart
+  4) begin_checkout
+  5) purchase
+
+  Tetikleyici: Özel Olay (Custom Event)
+  Event adı: aynı isim (örn. whatsapp_click)
+
+İsteğe bağlı parametreler (GA4 Event’te):
+  • sign_up     → method
+  • add_to_cart → item_id, item_name, value, currency, quantity
+  • purchase    → transaction_id, value, currency
+
+------------------------------------------------
+D) Yayınla
+------------------------------------------------
+GTM sağ üst → Gönder / Publish
+
+------------------------------------------------
+E) GA4’te dönüşüm işaretle
+------------------------------------------------
+GA4 → Yönetici → Olaylar
+  Bir süre veri gelince whatsapp_click, sign_up, purchase görünür.
+  “Dönüşüm olarak işaretle” açın (özellikle purchase, sign_up, whatsapp_click).
+
+------------------------------------------------
+F) Test
+------------------------------------------------
+1. GTM → Önizleme → www.bosporus-gmbh.com
+2. WhatsApp’a tıkla → whatsapp_click görülmeli
+3. Sepete ekle → add_to_cart
+4. Kayıt ol → sign_up
+5. GA4 → Raporlar → Gerçek zamanlı: olaylar akmalı
+
+Not: Her tıklama değil; kritik dönüşümler + sayfa görüntüleme.
+    Her buton için ayrı etiket gerekmez; yukarıdakiler iş hedefleriniz için yeterli.

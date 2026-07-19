@@ -1,0 +1,6 @@
+tools/product-images/.venv
+tools/product-images/out
+tools/product-images/**/*.jpg
+tools/product-images/**/*.bin
+**/__pycache__
+.venv

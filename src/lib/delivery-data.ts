@@ -1,6 +1,7 @@
 import type { Locale } from "./types";
 import { createAdminClient } from "./supabase/admin";
 import { DELIVERY_ZONES as FALLBACK_ZONES, generatePickupSlots } from "./delivery";
+import { clearDeliveryPricingCache } from "./delivery-pricing";
 
 export interface DeliveryZoneData {
   id: string;
@@ -19,6 +20,13 @@ export interface PickupSlotData {
   start_time: string;
 }
 
+/** İlk etap: her gün 17:00–20:00 teslimat penceresi */
+export const DELIVERY_WINDOW_LABEL = "17:00 – 20:00";
+/** Avrupa/Berlin — bu saatten önce verilen sipariş aynı gün teslim edilebilir */
+export const SAME_DAY_ORDER_CUTOFF_HOUR = 12;
+/** Gel-al: slot başlangıcına en az bu kadar dakika kala seçilebilir */
+export const PICKUP_LEAD_MINUTES = 60;
+
 let zonesCache: DeliveryZoneData[] | null = null;
 let slotsCache: PickupSlotData[] | null = null;
 let cacheTime = 0;
@@ -26,6 +34,57 @@ const CACHE_MS = 300_000;
 
 function formatSlotLabel(start: string, end: string): string {
   return `${start.slice(0, 5)} – ${end.slice(0, 5)}`;
+}
+
+export function getBerlinDateParts(now = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Berlin",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(now);
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "0";
+  const year = get("year");
+  const month = get("month");
+  const day = get("day");
+  return {
+    year: Number(year),
+    month: Number(month),
+    day: Number(day),
+    hour: Number(get("hour")),
+    minute: Number(get("minute")),
+    iso: `${year}-${month}-${day}`,
+  };
+}
+
+/** En erken teslimat günü (12:00 öncesi → bugün, sonrası → yarın) */
+export function getEarliestDeliveryDateISO(now = new Date()): string {
+  const b = getBerlinDateParts(now);
+  if (b.hour < SAME_DAY_ORDER_CUTOFF_HOUR) return b.iso;
+  const d = new Date(Date.UTC(b.year, b.month - 1, b.day));
+  d.setUTCDate(d.getUTCDate() + 1);
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(d.getUTCDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+export function formatDeliveryWindowHint(locale: Locale, now = new Date()): string {
+  const earliest = getEarliestDeliveryDateISO(now);
+  const today = getBerlinDateParts(now).iso;
+  if (locale === "tr") {
+    if (earliest === today) {
+      return `Teslimat her gün ${DELIVERY_WINDOW_LABEL}. Saat 12:00’ye kadar sipariş → aynı gün.`;
+    }
+    return `Teslimat her gün ${DELIVERY_WINDOW_LABEL}. Aynı gün için sipariş saat 12:00’ye kadar verilmeli (şu an yarın ve sonrası).`;
+  }
+  if (earliest === today) {
+    return `Lieferung täglich ${DELIVERY_WINDOW_LABEL}. Bestellung bis 12:00 → noch heute.`;
+  }
+  return `Lieferung täglich ${DELIVERY_WINDOW_LABEL}. Same-Day nur bis 12:00 bestellbar (aktuell ab morgen).`;
 }
 
 export async function loadDeliveryZones(): Promise<DeliveryZoneData[]> {
@@ -42,7 +101,7 @@ export async function loadDeliveryZones(): Promise<DeliveryZoneData[]> {
         name_tr: (z.name_tr as string) ?? z.name_de,
         zip_prefixes: z.zip_prefixes as string[],
         min_order_amount: Number(z.min_order_amount),
-        delivery_days: (z.delivery_days as number[]) ?? [1, 2, 3, 4, 5, 6],
+        delivery_days: (z.delivery_days as number[]) ?? [0, 1, 2, 3, 4, 5, 6],
       }));
       cacheTime = now;
       return zonesCache;
@@ -127,10 +186,43 @@ export function isPickupDateAllowed(dateStr: string): boolean {
   return wd >= 1 && wd <= 6;
 }
 
-export function isDeliveryDayAllowed(zone: DeliveryZoneData, dateStr: string): boolean {
-  const wd = getWeekdayFromDate(dateStr);
-  if (wd === 0) return false;
-  return zone.delivery_days.includes(wd);
+/**
+ * İlk etap: her gün teslimat (17–20).
+ * Aynı gün sadece Köln saati 12:00’den önce seçilebilir.
+ */
+export function isDeliveryDayAllowed(_zone: DeliveryZoneData, dateStr: string, now = new Date()): boolean {
+  return dateStr >= getEarliestDeliveryDateISO(now);
+}
+
+/** Sonraki uygun teslimat günlerini ISO (YYYY-MM-DD) listesi olarak döner. */
+export function getNextDeliveryDates(
+  _zone: DeliveryZoneData,
+  count = 4,
+  fromDate = new Date()
+): string[] {
+  const out: string[] = [];
+  const earliest = getEarliestDeliveryDateISO(fromDate);
+  const [y0, m0, d0] = earliest.split("-").map(Number);
+  const d = new Date(y0!, m0! - 1, d0!, 12, 0, 0, 0);
+  for (let i = 0; i < 60 && out.length < count; i++) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    out.push(`${y}-${m}-${day}`);
+    d.setDate(d.getDate() + 1);
+  }
+  return out;
+}
+
+export function formatDisplayDate(iso: string, locale: Locale): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  if (!y || !m || !d) return iso;
+  const date = new Date(y, m - 1, d, 12);
+  return date.toLocaleDateString(locale === "tr" ? "tr-TR" : "de-DE", {
+    weekday: "short",
+    day: "2-digit",
+    month: "2-digit",
+  });
 }
 
 export function getPickupSlotsForDate(slots: PickupSlotData[], dateStr: string): PickupSlotData[] {
@@ -139,15 +231,39 @@ export function getPickupSlotsForDate(slots: PickupSlotData[], dateStr: string):
   return slots.filter((s) => s.weekday === wd);
 }
 
-export function formatDeliveryDays(zone: DeliveryZoneData, locale: Locale): string {
-  const names =
-    locale === "tr"
-      ? ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"]
-      : ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
-  return zone.delivery_days.map((d) => names[d] ?? String(d)).join(", ");
+/** Slot başlangıcı, şu andan leadMinutes sonra mı? (bugün için filtre) */
+export function isPickupSlotAvailable(
+  dateStr: string,
+  startTime: string,
+  now = new Date(),
+  leadMinutes = PICKUP_LEAD_MINUTES
+): boolean {
+  const berlin = getBerlinDateParts(now);
+  if (dateStr < berlin.iso) return false;
+  if (dateStr > berlin.iso) return true;
+  const hhmm = startTime.slice(0, 5);
+  const [hh, mm] = hhmm.split(":").map(Number);
+  if (!Number.isFinite(hh) || !Number.isFinite(mm)) return false;
+  const slotMinutes = hh! * 60 + mm!;
+  const nowMinutes = berlin.hour * 60 + berlin.minute;
+  return slotMinutes >= nowMinutes + leadMinutes;
 }
 
-import { clearDeliveryPricingCache } from "./delivery-pricing";
+export function getAvailablePickupSlotsForDate(
+  slots: PickupSlotData[],
+  dateStr: string,
+  now = new Date()
+): PickupSlotData[] {
+  return getPickupSlotsForDate(slots, dateStr).filter((s) =>
+    isPickupSlotAvailable(dateStr, s.start_time, now)
+  );
+}
+
+export function formatDeliveryDays(_zone: DeliveryZoneData, locale: Locale): string {
+  return locale === "tr"
+    ? `Her gün ${DELIVERY_WINDOW_LABEL}`
+    : `Täglich ${DELIVERY_WINDOW_LABEL}`;
+}
 
 export function clearDeliveryCache() {
   zonesCache = null;

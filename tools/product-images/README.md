@@ -43,7 +43,14 @@ python fetch_images.py
 
 ## Siteye yükleme (görseller hazır olunca)
 
-Supabase anahtarları gerekir (`NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`):
+**Kolay yol (önerilen):** Admin panelinden klasör yükleyin.
+
+1. Siteye admin olarak girin → **Ürünler**
+2. **Görsel klasörü yükle** butonuna tıklayın
+3. Bilgisayardan `tools/product-images/out/ready` klasörünü seçin
+4. Yükleme bitince Getränke kategorisinde kontrol edin
+
+**Alternatif (Terminal):** Supabase anahtarları gerekir:
 
 ```bash
 export NEXT_PUBLIC_SUPABASE_URL="https://...."

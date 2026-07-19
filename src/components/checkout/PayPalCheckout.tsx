@@ -3,6 +3,7 @@
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useTranslations, useLocale } from "next-intl";
 import type { CartItem } from "@/lib/types";
+import { checkoutErrorMessage } from "@/lib/checkout-errors";
 
 interface PayPalCheckoutProps {
   clientId: string;
@@ -25,10 +26,18 @@ interface PayPalCheckoutProps {
   onSuccess: (orderNumber: string) => void;
 }
 
-function mapPayPalError(code: string, t: (key: string) => string): string {
-  if (code === "PAYPAL_AUTH_FAILED" || code === "PAYPAL_ERROR") return t("paypalError");
-  if (code.startsWith("MIN_ORDER") || code.startsWith("DELIVERY") || code.startsWith("PICKUP") || code.startsWith("PRODUCT")) {
-    return code;
+function mapPayPalError(code: string, t: (key: string) => string, locale: "de" | "tr"): string {
+  if (code === "PAYPAL_AUTH_FAILED") return t("paypalAuthFailed");
+  if (code === "PAYPAL_ERROR" || code === "PayPal capture incomplete") return t("paypalError");
+  if (
+    code.startsWith("MIN_ORDER") ||
+    code.startsWith("DELIVERY") ||
+    code.startsWith("PICKUP") ||
+    code.startsWith("PRODUCT") ||
+    code.startsWith("PRICE") ||
+    code.startsWith("UNKNOWN")
+  ) {
+    return checkoutErrorMessage(code.split(":")[0]!, locale);
   }
   return t("paypalError");
 }
@@ -81,7 +90,7 @@ export function PayPalCheckout({
 
             const data = await res.json();
             if (!res.ok) {
-              const msg = mapPayPalError(String(data.error ?? ""), t);
+              const msg = mapPayPalError(String(data.error ?? ""), t, locale);
               onError(msg);
               throw new Error(msg);
             }
@@ -99,7 +108,7 @@ export function PayPalCheckout({
             });
             const result = await res.json();
             if (!res.ok) {
-              const msg = mapPayPalError(String(result.error ?? ""), t);
+              const msg = mapPayPalError(String(result.error ?? ""), t, locale);
               onError(msg);
               throw new Error(msg);
             }

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { Loader2, Search, ChevronRight, Plus, Percent, RefreshCw } from "lucide-react";
+import { Loader2, Search, ChevronRight, Plus, Percent, RefreshCw, ImagePlus } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
@@ -31,8 +31,12 @@ export default function AdminProductsPage() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [syncMsg, setSyncMsg] = useState("");
+  const [uploadingImages, setUploadingImages] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState("");
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const PAGE_SIZE = 50;
+  const IMAGE_BATCH = 12;
 
   const load = useCallback(async (fromOffset: number, append: boolean) => {
     if (fromOffset === 0) setLoading(true);
@@ -105,6 +109,63 @@ export default function AdminProductsPage() {
     }
   };
 
+  const uploadProductImages = async (fileList: FileList | null) => {
+    if (!fileList?.length) return;
+    const files = Array.from(fileList).filter((f) =>
+      /\.(jpe?g|png|webp)$/i.test(f.name)
+    );
+    if (files.length === 0) {
+      setSyncMsg("Seçilen klasörde görsel yok (.jpg / .png)");
+      return;
+    }
+
+    setUploadingImages(true);
+    setUploadProgress(`0 / ${files.length}`);
+    setSyncMsg("");
+    let ok = 0;
+    let fail = 0;
+    const errors: string[] = [];
+
+    try {
+      for (let i = 0; i < files.length; i += IMAGE_BATCH) {
+        const batch = files.slice(i, i + IMAGE_BATCH);
+        const fd = new FormData();
+        for (const f of batch) {
+          // Klasör seçiminde yol "ready/sku.jpg" olabilir — sadece dosya adı SKU olmalı
+          const name = f.name.split(/[/\\]/).pop() ?? f.name;
+          fd.append("files", f, name);
+        }
+        const res = await fetch("/api/admin/products/images/bulk", {
+          method: "POST",
+          body: fd,
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          fail += batch.length;
+          errors.push(data.error ?? "Yükleme hatası");
+        } else {
+          ok += data.ok ?? 0;
+          fail += data.fail ?? 0;
+          for (const r of data.results ?? []) {
+            if (!r.ok) errors.push(`${r.sku}: ${r.error}`);
+          }
+        }
+        setUploadProgress(`${Math.min(i + batch.length, files.length)} / ${files.length}`);
+      }
+      setSyncMsg(
+        `Görsel yükleme: ${ok} başarılı` +
+          (fail ? `, ${fail} hata` : "") +
+          (errors.length ? ` — ${errors.slice(0, 3).join(" | ")}` : "")
+      );
+    } catch {
+      setSyncMsg("Görsel yükleme bağlantı hatası");
+    } finally {
+      setUploadingImages(false);
+      setUploadProgress("");
+      if (imageInputRef.current) imageInputRef.current.value = "";
+    }
+  };
+
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -113,6 +174,24 @@ export default function AdminProductsPage() {
           <p className="text-sm text-bosporus-muted">{total} ürün</p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <input
+            ref={imageInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+            multiple
+            className="hidden"
+            {...({ webkitdirectory: "", directory: "" } as React.InputHTMLAttributes<HTMLInputElement>)}
+            onChange={(e) => uploadProductImages(e.target.files)}
+          />
+          <Button
+            variant="outline"
+            onClick={() => imageInputRef.current?.click()}
+            loading={uploadingImages}
+            disabled={syncing}
+          >
+            <ImagePlus className="w-4 h-4" />
+            {uploadingImages ? uploadProgress || "Yükleniyor..." : "Görsel klasörü yükle"}
+          </Button>
           <Button variant="outline" onClick={() => syncCatalog("sync")} loading={syncing}>
             <RefreshCw className="w-4 h-4" /> Katalog senkron
           </Button>
@@ -178,8 +257,12 @@ export default function AdminProductsPage() {
                       </p>
                     </div>
                     <div className="text-right shrink-0">
-                      <p className="font-bold text-bosporus">{Number(p.price_b2c).toFixed(2)} €</p>
-                      <p className="text-xs text-bosporus-muted">B2B: {Number(p.price_b2b).toFixed(2)} €</p>
+                      <p className="font-bold text-bosporus">
+                        Liste: {Number(p.price_b2b).toFixed(2)} €
+                      </p>
+                      <p className="text-xs text-bosporus-muted">
+                        Bireysel: {Number(p.price_b2c).toFixed(2)} €
+                      </p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-bosporus-muted shrink-0" />
                   </div>

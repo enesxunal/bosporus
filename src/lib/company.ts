@@ -8,8 +8,10 @@ export const COMPANY = {
   country: "Deutschland",
   countryEn: "Germany",
   phone: "+49 221 34098290",
+  /** Yüzen WhatsApp butonu / wa.me */
+  whatsappPhone: "+49 152 54381085",
   email: "info@bosporus-gmbh.com",
-  website: process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://bosporus-blue.vercel.app",
+  website: process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://www.bosporus-gmbh.com",
   taxNumber: "217/5713/2173",
   vatId: "DE317695485",
   registerCourt: "Amtsgericht Köln",

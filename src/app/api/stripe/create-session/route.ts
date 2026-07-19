@@ -13,6 +13,7 @@ import {
   isStripeConfigured,
 } from "@/lib/stripe";
 import type { CartItem } from "@/lib/types";
+import { cartLineTotalGross } from "@/lib/pfand";
 
 interface CheckoutBody {
   items: CartItem[];
@@ -71,7 +72,7 @@ export async function POST(request: Request) {
 
   let subtotalGross = 0;
   for (const item of priced.items) {
-    subtotalGross += item.priceGross * item.quantity;
+    subtotalGross += cartLineTotalGross(item);
   }
   subtotalGross = Math.round(subtotalGross * 100) / 100;
 
@@ -86,6 +87,7 @@ export async function POST(request: Request) {
       deliveryDate: body.deliveryDate,
       totalGross: subtotalGross,
       isB2b,
+      userId,
     });
     if (!deliveryCheck.ok) {
       return NextResponse.json({ error: deliveryCheck.error }, { status: 400 });
@@ -105,21 +107,26 @@ export async function POST(request: Request) {
     pickupSlotId = pickupCheck.slotId ?? null;
   }
 
-  const productLineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = priced.items.map((item) => ({
-    price_data: {
-      currency: "eur" as const,
-      product_data: {
-        name: item.name.slice(0, 120),
-        metadata: {
-          sku: item.sku,
-          productId: item.productId,
+  const productLineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = priced.items.map((item) => {
+    const unitGross = item.priceGross + (item.pfand?.priceGross ?? 0);
+    const name = item.pfand
+      ? `${item.name.slice(0, 90)} (+ Pfand)`
+      : item.name.slice(0, 120);
+    return {
+      price_data: {
+        currency: "eur" as const,
+        product_data: {
+          name,
+          metadata: {
+            sku: item.sku,
+            productId: item.productId,
+          },
         },
+        unit_amount: Math.round(unitGross * 100),
       },
-      unit_amount: Math.round(item.priceGross * 100),
-    },
-    quantity: Math.round(item.quantity),
-  }));
-
+      quantity: Math.round(item.quantity),
+    };
+  });
   const lineItems = [...productLineItems];
   if (deliveryFee > 0) {
     lineItems.push({
@@ -165,11 +172,6 @@ export async function POST(request: Request) {
       },
       success_url: checkoutSuccessUrl(locale),
       cancel_url: checkoutCancelUrl(locale),
-      ...(body.orderType === "delivery"
-        ? {
-            shipping_address_collection: { allowed_countries: ["DE"] as const },
-          }
-        : {}),
     });
 
     return NextResponse.json({ url: session.url, sessionId: session.id });

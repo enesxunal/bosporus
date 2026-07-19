@@ -33,6 +33,18 @@ export interface Product {
   promo_to: string | null;
   is_active: boolean;
   stock_status: string;
+  /** Bağlı depozito ürününün SKU’su (Excel Pfand sütunu) */
+  pfand_sku?: string | null;
+  /** Çalışma zamanında doldurulur */
+  pfand?: {
+    productId: string;
+    sku: string;
+    name_de: string;
+    name_tr: string | null;
+    price_b2c: number;
+    price_b2b: number;
+    tax_rate: number;
+  } | null;
 }
 
 export interface Category {
@@ -70,6 +82,15 @@ export interface CartItem {
   priceGross: number;
   taxRate: number;
   imageUrl?: string | null;
+  /** Ürünle birlikte otomatik gelen depozito (ayrı ürün değil) */
+  pfand?: {
+    productId: string;
+    sku: string;
+    name: string;
+    priceNet: number;
+    priceGross: number;
+    taxRate: number;
+  } | null;
 }
 
 export interface UserProfile {

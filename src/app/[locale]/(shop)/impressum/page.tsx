@@ -1,3 +1,15 @@
+import type { Metadata } from "next";
+import { shopPageMetadata } from "@/lib/page-seo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return shopPageMetadata("/impressum", locale);
+}
+
 import { setRequestLocale } from "next-intl/server";
 import { COMPANY, companyAddressLine } from "@/lib/company";
 

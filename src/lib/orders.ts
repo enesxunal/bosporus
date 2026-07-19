@@ -1,5 +1,6 @@
 import type { CartItem } from "./types";
 import { createAdminClient } from "./supabase/admin";
+import { expandCartItemsForOrder } from "./pfand";
 
 export interface CreateOrderInput {
   items: CartItem[];
@@ -40,11 +41,14 @@ export async function createOrder(input: CreateOrderInput) {
     return { ok: false as const, error: "SUPABASE_NOT_CONFIGURED" };
   }
 
+  // Pfand ayrı fatura satırı olarak genişletilir
+  const lineItems = expandCartItemsForOrder(input.items);
+
   let subtotalNet = 0;
   let taxAmount = 0;
   let totalGross = 0;
 
-  for (const item of input.items) {
+  for (const item of lineItems) {
     const lineNet = item.priceNet * item.quantity;
     const lineGross = item.priceGross * item.quantity;
     subtotalNet += lineNet;
@@ -110,14 +114,14 @@ export async function createOrder(input: CreateOrderInput) {
     return { ok: false as const, error: orderError?.message ?? "ORDER_FAILED" };
   }
 
-  const productIds = [...new Set(input.items.map((i) => i.productId).filter(Boolean))];
+  const productIds = [...new Set(lineItems.map((i) => i.productId).filter(Boolean))];
   let validProductIds = new Set<string>();
   if (productIds.length > 0) {
     const { data: existing } = await admin.from("products").select("id").in("id", productIds);
     validProductIds = new Set((existing ?? []).map((p) => p.id));
   }
 
-  const orderItems = input.items.map((item) => ({
+  const orderItems = lineItems.map((item) => ({
     order_id: order.id,
     product_id: validProductIds.has(item.productId) ? item.productId : null,
     product_name: item.name,
@@ -144,7 +148,7 @@ export async function createOrder(input: CreateOrderInput) {
     orderNumber: order.order_number,
     orderType: input.orderType,
     totalGross,
-    items: input.items,
+    items: lineItems,
     locale: input.locale ?? "de",
     zipCode: input.zipCode,
     address: input.address,

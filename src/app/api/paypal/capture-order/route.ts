@@ -7,9 +7,11 @@ import {
   validateDeliveryOrder,
   validatePickupOrder,
 } from "@/lib/order-validation";
-import { capturePayPalOrder, isPayPalConfigured } from "@/lib/paypal";
+import { capturePayPalOrder, isPayPalConfigured, refundPayPalCapture } from "@/lib/paypal";
+import { alertPaymentFulfillmentIssue } from "@/lib/payment-recovery";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 import type { CartItem } from "@/lib/types";
+import { cartLineTotalGross } from "@/lib/pfand";
 
 export async function POST(request: Request) {
   if (!isSupabaseAdminConfigured() || !isPayPalConfigured()) {
@@ -61,7 +63,9 @@ export async function POST(request: Request) {
 
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (user) {
       userId = user.id;
       const { data: profile } = await supabase
@@ -83,17 +87,23 @@ export async function POST(request: Request) {
 
   let totalGross = 0;
   for (const item of priced.items) {
-    totalGross += item.priceGross * item.quantity;
+    totalGross += cartLineTotalGross(item);
   }
   totalGross = Math.round(totalGross * 100) / 100;
 
   let pickupSlotId: string | null = null;
-
   let deliveryFee = 0;
   let distanceKm: number | null = null;
 
   if (orderType === "delivery") {
-    const deliveryCheck = await validateDeliveryOrder({ zipCode, address, deliveryDate, totalGross, isB2b });
+    const deliveryCheck = await validateDeliveryOrder({
+      zipCode,
+      address,
+      deliveryDate,
+      totalGross,
+      isB2b,
+      userId,
+    });
     if (!deliveryCheck.ok) {
       return NextResponse.json({ error: deliveryCheck.error }, { status: 400 });
     }
@@ -108,9 +118,25 @@ export async function POST(request: Request) {
     pickupSlotId = pickupCheck.slotId ?? null;
   }
 
+  let captureId: string | null = null;
+  let capturedAmount = 0;
+
   try {
     const capture = await capturePayPalOrder(paypalOrderId);
+    captureId = capture.captureId;
+    capturedAmount = capture.amount;
+
     if (Math.abs(capture.amount - totalGross) > 0.02) {
+      const refunded = (await refundPayPalCapture(capture.captureId, "AMOUNT_mismatch")).ok;
+      await alertPaymentFulfillmentIssue({
+        provider: "paypal",
+        reference: paypalOrderId,
+        customerEmail: customerEmail.trim(),
+        customerName: customerName.trim(),
+        amountEur: capture.amount,
+        error: `Amount mismatch: paid ${capture.amount} expected ${totalGross}`,
+        refunded,
+      });
       return NextResponse.json({ error: "Amount mismatch" }, { status: 400 });
     }
 
@@ -135,6 +161,16 @@ export async function POST(request: Request) {
     });
 
     if (!result.ok) {
+      const refunded = (await refundPayPalCapture(capture.captureId, result.error)).ok;
+      await alertPaymentFulfillmentIssue({
+        provider: "paypal",
+        reference: paypalOrderId,
+        customerEmail: customerEmail.trim(),
+        customerName: customerName.trim(),
+        amountEur: capture.amount,
+        error: result.error,
+        refunded,
+      });
       return NextResponse.json({ error: result.error }, { status: 500 });
     }
 
@@ -146,6 +182,18 @@ export async function POST(request: Request) {
     });
   } catch (e) {
     console.error("PayPal capture-order:", e);
+    if (captureId) {
+      const refunded = (await refundPayPalCapture(captureId, "capture_exception")).ok;
+      await alertPaymentFulfillmentIssue({
+        provider: "paypal",
+        reference: paypalOrderId,
+        customerEmail: customerEmail.trim(),
+        customerName: customerName.trim(),
+        amountEur: capturedAmount,
+        error: e instanceof Error ? e.message : "PayPal capture failed",
+        refunded,
+      });
+    }
     return NextResponse.json({ error: "PayPal capture failed" }, { status: 500 });
   }
 }

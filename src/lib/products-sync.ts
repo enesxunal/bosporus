@@ -50,6 +50,7 @@ function mapProductRow(
     promo_to: p.promo_to,
     is_active: p.is_active,
     stock_status: p.stock_status ?? "in_stock",
+    pfand_sku: p.pfand_sku ?? null,
     updated_at: new Date().toISOString(),
   };
 }
@@ -100,8 +101,23 @@ export async function syncProductsFromJson(): Promise<{
 
     const { error } = await admin.from("products").upsert(batch, { onConflict: "sku" });
     if (error) {
+      const needsPfandColumn =
+        error.message.includes("pfand_sku") || error.message.includes("schema cache");
+      if (needsPfandColumn) {
+        errors.push(
+          "Pfand sütunu yok — Supabase SQL: ALTER TABLE products ADD COLUMN IF NOT EXISTS pfand_sku TEXT;"
+        );
+      }
       for (const row of batch) {
-        const { error: oneErr } = await admin.from("products").upsert(row, { onConflict: "sku" });
+        const payload = needsPfandColumn
+          ? (() => {
+              const { pfand_sku: _drop, ...rest } = row as Record<string, unknown> & {
+                pfand_sku?: unknown;
+              };
+              return rest;
+            })()
+          : row;
+        const { error: oneErr } = await admin.from("products").upsert(payload, { onConflict: "sku" });
         if (oneErr) errors.push(`${row.sku}: ${oneErr.message}`);
         else synced += 1;
       }

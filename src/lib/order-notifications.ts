@@ -2,12 +2,19 @@ import type { CartItem } from "./types";
 import type { OrderStatus } from "./types";
 import { COMPANY } from "./company";
 import { sendOrderPlacedEmail, sendOrderStatusEmail } from "./email";
-import { sendWhatsAppText, sendWhatsAppToAdmins } from "./whatsapp";
+import {
+  sendWhatsAppCustomerNotify,
+  sendWhatsAppToAdmins,
+  getOrderPlacedTemplateName,
+  getOrderStatusTemplateName,
+} from "./whatsapp";
 import {
   whatsappCustomerOrderPlaced,
   whatsappAdminOrderPlaced,
   whatsappCustomerStatusUpdate,
   whatsappAdminStatusUpdate,
+  whatsappOrderPlacedTemplateParams,
+  whatsappOrderStatusTemplateParams,
 } from "./whatsapp-messages";
 
 export interface NotifyOrderPlacedParams {
@@ -59,7 +66,13 @@ export async function notifyOrderPlaced(params: NotifyOrderPlacedParams): Promis
       })
     ),
     params.customerPhone
-      ? sendWhatsAppText(params.customerPhone, whatsappCustomerOrderPlaced(base))
+      ? sendWhatsAppCustomerNotify({
+          to: params.customerPhone,
+          locale: params.locale,
+          fallbackText: whatsappCustomerOrderPlaced(base),
+          templateName: getOrderPlacedTemplateName(),
+          bodyParams: whatsappOrderPlacedTemplateParams(base),
+        })
       : Promise.resolve(),
   ]);
 }
@@ -142,7 +155,13 @@ export async function notifyOrderStatusChange(params: {
       pickupSlot: params.pickupSlot,
     }),
     customerWa && params.customerPhone
-      ? sendWhatsAppText(params.customerPhone, customerWa)
+      ? sendWhatsAppCustomerNotify({
+          to: params.customerPhone,
+          locale: params.locale,
+          fallbackText: customerWa,
+          templateName: getOrderStatusTemplateName(),
+          bodyParams: whatsappOrderStatusTemplateParams({ ...base, status: params.status }),
+        })
       : Promise.resolve(),
     adminWa ? sendWhatsAppToAdmins(adminWa) : Promise.resolve(),
   ]);

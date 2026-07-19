@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useCart } from "@/stores/cart";
+import { trackPurchase } from "@/lib/analytics";
 
 export function CheckoutSuccessClient({ sessionId }: { sessionId?: string }) {
   const t = useTranslations("checkout");
@@ -25,6 +26,7 @@ export function CheckoutSuccessClient({ sessionId }: { sessionId?: string }) {
       .then((data) => {
         if (data.success && data.orderNumber) {
           setOrderNumber(data.orderNumber as string);
+          trackPurchase(data.orderNumber as string);
           clear();
           router.replace(`/checkout/success?order=${encodeURIComponent(data.orderNumber)}`);
         } else {
@@ -32,7 +34,7 @@ export function CheckoutSuccessClient({ sessionId }: { sessionId?: string }) {
         }
       })
       .catch(() => setError(true));
-  }, [sessionId, clear, router]);
+  }, [sessionId, clear, router, locale]);
 
   if (!sessionId) return null;
 

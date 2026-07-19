@@ -1,24 +1,32 @@
 import type { CartItem, Product } from "./types";
 import { getAvailability } from "./category-images";
-import { grossToNet, isPromoActive, netToGross } from "./pricing";
+import {
+  getB2cGross,
+  getB2cNet,
+  getWholesaleNet,
+  isPromoActive,
+  netToGross,
+  B2C_MARKUP,
+} from "./pricing";
 import {
   findZoneInList,
   getWeekdayFromDate,
   isDeliveryDayAllowed,
   isPickupDateAllowed,
+  isPickupSlotAvailable,
   loadDeliveryZones,
   loadPickupSlots,
 } from "./delivery-data";
-import { quoteDelivery } from "./delivery-pricing";
+import { isB2cFirstOrderEligible, quoteDelivery } from "./delivery-pricing";
 import { fetchProductsForOrder } from "./products-db";
 import { createAdminClient } from "./supabase/admin";
-
-const PRICE_TOLERANCE = 0.03;
+import { isStandalonePfandProduct, resolvePfandForProduct } from "./pfand";
 
 export function buildValidatedCartLine(
   product: Product,
   quantity: number,
-  isB2b: boolean
+  isB2b: boolean,
+  lookup: Map<string, Product> = new Map()
 ): CartItem | { error: string } {
   if (!product.is_active) {
     return { error: `PRODUCT_INACTIVE:${product.sku}` };
@@ -29,21 +37,22 @@ export function buildValidatedCartLine(
   if (!Number.isFinite(quantity) || quantity <= 0 || quantity > 999) {
     return { error: `INVALID_QUANTITY:${product.sku}` };
   }
+  if (isStandalonePfandProduct(product)) {
+    return { error: "PFAND_NOT_STANDALONE" };
+  }
 
   const promo = isPromoActive(product);
   let priceNet: number;
   let priceGross: number;
 
   if (isB2b) {
-    priceNet = promo && product.promo_price ? product.promo_price : product.price_b2b;
+    priceNet = promo && product.promo_price ? product.promo_price : getWholesaleNet(product);
     if (priceNet <= 0) return { error: `NO_B2B_PRICE:${product.sku}` };
     priceGross = netToGross(priceNet, product.tax_rate);
   } else {
-    priceGross = promo && product.promo_price
-      ? netToGross(product.promo_price, product.tax_rate)
-      : product.price_b2c;
+    priceNet = getB2cNet(product, promo);
+    priceGross = getB2cGross(product, promo);
     if (priceGross <= 0) return { error: `NO_B2C_PRICE:${product.sku}` };
-    priceNet = grossToNet(priceGross, product.tax_rate);
   }
 
   return {
@@ -56,16 +65,8 @@ export function buildValidatedCartLine(
     priceGross: Math.round(priceGross * 100) / 100,
     taxRate: product.tax_rate,
     imageUrl: product.image_url,
+    pfand: resolvePfandForProduct(product, lookup, isB2b),
   };
-}
-
-function linesMatch(a: CartItem, b: CartItem): boolean {
-  return (
-    Math.abs(a.priceNet - b.priceNet) <= PRICE_TOLERANCE &&
-    Math.abs(a.priceGross - b.priceGross) <= PRICE_TOLERANCE &&
-    a.quantity === b.quantity &&
-    a.sku === b.sku
-  );
 }
 
 export async function validateAndPriceOrderItems(
@@ -85,14 +86,20 @@ export async function validateAndPriceOrderItems(
     const product = byId.get(clientItem.productId) ?? bySku.get(clientItem.sku);
     if (!product) return { ok: false, error: `UNKNOWN_PRODUCT:${clientItem.sku}` };
 
-    const built = buildValidatedCartLine(product, clientItem.quantity, isB2b);
-    if ("error" in built) return { ok: false, error: built.error };
-
-    if (!linesMatch(clientItem, built)) {
-      return { ok: false, error: "PRICE_MISMATCH" };
+    // Müşteri pfand’ı ayrı ürün olarak göndermişse atla (ürün satırından gelecek)
+    if (isStandalonePfandProduct(product)) {
+      continue;
     }
 
+    const built = buildValidatedCartLine(product, clientItem.quantity, isB2b, bySku);
+    if ("error" in built) return { ok: false, error: built.error };
+
+    // Her zaman sunucu fiyatı — müşteri fiyatı değiştiremez; eski sepet de çalışır
     validated.push(built);
+  }
+
+  if (validated.length === 0) {
+    return { ok: false, error: "EMPTY_CART" };
   }
 
   return { ok: true, items: validated };
@@ -104,27 +111,38 @@ export async function validateDeliveryOrder(params: {
   deliveryDate?: string;
   totalGross: number;
   isB2b?: boolean;
+  userId?: string | null;
 }): Promise<
-  | { ok: true; deliveryFee: number; distanceKm: number | null; totalGross: number }
+  | {
+      ok: true;
+      deliveryFee: number;
+      distanceKm: number | null;
+      totalGross: number;
+      freeReason: "threshold" | "first_order" | null;
+    }
   | { ok: false; error: string }
 > {
   if (!params.zipCode?.trim() || !params.deliveryDate) {
     return { ok: false, error: "DELIVERY_FIELDS_REQUIRED" };
   }
 
+  const isB2b = params.isB2b ?? false;
+  const firstOrderFree = await isB2cFirstOrderEligible(params.userId, isB2b);
+
   const quote = await quoteDelivery({
     orderType: "delivery",
-    isB2b: params.isB2b ?? false,
+    isB2b,
     subtotalGross: params.totalGross,
     zipCode: params.zipCode,
     address: params.address,
+    firstOrderFree,
   });
 
   if (!quote.minOrderMet) {
     return { ok: false, error: "MIN_ORDER_NOT_MET" };
   }
   if (!quote.withinRadius) {
-    return params.isB2b
+    return isB2b
       ? { ok: false, error: "DELIVERY_DISTANCE_EXCEEDED_B2B" }
       : { ok: false, error: "DELIVERY_DISTANCE_EXCEEDED" };
   }
@@ -134,12 +152,16 @@ export async function validateDeliveryOrder(params: {
 
   const zones = await loadDeliveryZones();
   const zone = findZoneInList(zones, params.zipCode);
-  if (zone && !isDeliveryDayAllowed(zone, params.deliveryDate)) {
+  const zoneOrEmpty = zone ?? {
+    id: "",
+    name_de: "",
+    name_tr: "",
+    zip_prefixes: [] as string[],
+    min_order_amount: 0,
+    delivery_days: [] as number[],
+  };
+  if (!isDeliveryDayAllowed(zoneOrEmpty, params.deliveryDate)) {
     return { ok: false, error: "DELIVERY_DAY_INVALID" };
-  }
-  if (!zone) {
-    const wd = getWeekdayFromDate(params.deliveryDate);
-    if (wd === 0) return { ok: false, error: "DELIVERY_DAY_INVALID" };
   }
 
   return {
@@ -147,6 +169,7 @@ export async function validateDeliveryOrder(params: {
     deliveryFee: quote.deliveryFee,
     distanceKm: quote.distanceKm,
     totalGross: quote.totalGross,
+    freeReason: quote.freeReason,
   };
 }
 
@@ -176,6 +199,9 @@ export async function validatePickupOrder(params: {
   const weekday = getWeekdayFromDate(params.pickupDate);
   const slot = slots.find((s) => s.weekday === weekday && s.label === params.pickupSlot);
   if (!slot) return { ok: false, error: "PICKUP_SLOT_INVALID" };
+  if (!isPickupSlotAvailable(params.pickupDate, slot.start_time)) {
+    return { ok: false, error: "PICKUP_SLOT_TOO_SOON" };
+  }
 
   const admin = createAdminClient();
   if (!admin) return { ok: false, error: "SUPABASE_NOT_CONFIGURED" };
@@ -213,6 +239,16 @@ async function getSlotMaxOrders(weekday: number, label: string): Promise<number>
   return data?.max_orders ? Number(data.max_orders) : 10;
 }
 
+/** Bireysel müşteriye toptan net’i gizle; B2C brütü taze hesaplayıp price_b2c’ye yaz. */
 export function stripB2bPrice(product: Product): Product {
-  return { ...product, price_b2b: 0 };
+  const b2cGross = getB2cGross(product, false);
+  let pfand = product.pfand;
+  if (pfand && pfand.price_b2b > 0) {
+    const pfGross = netToGross(
+      Math.round(pfand.price_b2b * B2C_MARKUP * 100) / 100,
+      pfand.tax_rate
+    );
+    pfand = { ...pfand, price_b2b: 0, price_b2c: pfGross };
+  }
+  return { ...product, price_b2b: 0, price_b2c: b2cGross, pfand };
 }

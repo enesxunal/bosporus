@@ -6,12 +6,17 @@ import { useTranslations, useLocale } from "next-intl";
 import { getCategories } from "@/lib/products";
 import type { Product } from "@/lib/types";
 import { ProductTable } from "@/components/b2b/ProductTable";
+import { ProductCard } from "@/components/b2c/ProductCard";
 import { B2bHeader } from "@/components/b2b/B2bHeader";
 import { B2bSidebar } from "@/components/b2b/B2bSidebar";
 import { B2bOrderPanel } from "@/components/b2b/B2bOrderPanel";
 import { B2bGate, useB2bProfile } from "@/components/b2b/B2bGate";
 import { useDebounce } from "@/hooks/useDebounce";
-import { Loader2 } from "lucide-react";
+import { Loader2, List, LayoutGrid } from "lucide-react";
+import { cn } from "@/lib/cn";
+
+const VIEW_KEY = "bosporus-b2b-view";
+type ViewMode = "list" | "grid";
 
 function GewerbeContent() {
   const t = useTranslations("b2b");
@@ -23,8 +28,27 @@ function GewerbeContent() {
   const debouncedQuery = useDebounce(query, 400);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [view, setView] = useState<ViewMode>("list");
 
   const categories = getCategories();
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(VIEW_KEY);
+      if (saved === "list" || saved === "grid") setView(saved);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const setViewMode = (mode: ViewMode) => {
+    setView(mode);
+    try {
+      localStorage.setItem(VIEW_KEY, mode);
+    } catch {
+      /* ignore */
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -57,11 +81,49 @@ function GewerbeContent() {
             productCount={products.length}
           />
           <div className="flex-1 min-w-0">
-            <div className="mb-3 flex items-center justify-between text-sm text-bosporus-muted">
+            <div className="mb-3 flex items-center justify-between gap-3 text-sm text-bosporus-muted">
               <span>{t("productCount", { count: products.length })}</span>
-              <span className="text-metro-navy bg-bosporus-yellow px-2 py-0.5 rounded-lg font-bold text-xs">
-                NETTO
-              </span>
+              <div className="flex items-center gap-2">
+                <div
+                  className="inline-flex rounded-lg border border-bosporus-gray-200 bg-white p-0.5"
+                  role="group"
+                  aria-label={locale === "de" ? "Ansicht" : "Görünüm"}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setViewMode("list")}
+                    title={t("viewListHint")}
+                    aria-pressed={view === "list"}
+                    className={cn(
+                      "inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-semibold transition-colors",
+                      view === "list"
+                        ? "bg-metro-navy text-white"
+                        : "text-bosporus-muted hover:text-metro-navy"
+                    )}
+                  >
+                    <List className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">{t("viewList")}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setViewMode("grid")}
+                    title={t("viewGridHint")}
+                    aria-pressed={view === "grid"}
+                    className={cn(
+                      "inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-semibold transition-colors",
+                      view === "grid"
+                        ? "bg-metro-navy text-white"
+                        : "text-bosporus-muted hover:text-metro-navy"
+                    )}
+                  >
+                    <LayoutGrid className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">{t("viewGrid")}</span>
+                  </button>
+                </div>
+                <span className="text-metro-navy bg-bosporus-yellow px-2 py-0.5 rounded-lg font-bold text-xs">
+                  NETTO
+                </span>
+              </div>
             </div>
             {loading ? (
               <div className="flex justify-center py-12">
@@ -71,8 +133,14 @@ function GewerbeContent() {
               <div className="text-center py-16 bg-white rounded-sm border border-bosporus-gray-200">
                 <p className="text-bosporus-muted">{t("noProducts")}</p>
               </div>
-            ) : (
+            ) : view === "list" ? (
               <ProductTable products={products} profile={profile} />
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
+                {products.map((p) => (
+                  <ProductCard key={p.id} product={p} profile={profile} />
+                ))}
+              </div>
             )}
           </div>
           <B2bOrderPanel />

@@ -28,8 +28,12 @@ const MESSAGES: Record<string, { de: string; tr: string }> = {
     tr: "Bu posta koduna teslimat yok.",
   },
   DELIVERY_DAY_INVALID: {
-    de: "An diesem Tag keine Lieferung möglich.",
-    tr: "Bu gün teslimat yapılmıyor.",
+    de: "Dieses Lieferdatum ist nicht möglich. Same-Day nur bis 12:00 (Lieferung 17–20 Uhr).",
+    tr: "Bu teslimat tarihi uygun değil. Aynı gün için sipariş saat 12:00’ye kadar (teslimat 17–20).",
+  },
+  PICKUP_SLOT_TOO_SOON: {
+    de: "Abholzeit zu nah. Bitte mindestens 1 Stunde im Voraus wählen.",
+    tr: "Gel-al saati çok yakın. Lütfen en az 1 saat sonrasını seçin.",
   },
   DELIVERY_FIELDS_REQUIRED: {
     de: "Bitte PLZ, Adresse und Lieferdatum angeben.",
@@ -51,6 +55,10 @@ const MESSAGES: Record<string, { de: string; tr: string }> = {
     de: "Zahlung noch nicht abgeschlossen.",
     tr: "Ödeme henüz tamamlanmadı.",
   },
+  ONLINE_PAYMENT_REQUIRED: {
+    de: "Bitte online bezahlen (Karte, Klarna oder PayPal). Zahlung bei Lieferung/Abholung ist nicht möglich.",
+    tr: "Lütfen online ödeme yapın (kart, Klarna veya PayPal). Teslimatta/gel-al ödeme yok.",
+  },
   STRIPE_ERROR: {
     de: "Online-Zahlung fehlgeschlagen. Bitte erneut versuchen.",
     tr: "Online ödeme başarısız. Lütfen tekrar deneyin.",
@@ -70,6 +78,14 @@ const MESSAGES: Record<string, { de: string; tr: string }> = {
   ORDER_FAILED: {
     de: "Bestellung fehlgeschlagen. Bitte später erneut versuchen.",
     tr: "Sipariş oluşturulamadı. Lütfen daha sonra tekrar deneyin.",
+  },
+  CHECKOUT_INCOMPLETE: {
+    de: "Bitte alle Pflichtfelder ausfüllen (Adresse oder Abholtermin), dann online bezahlen.",
+    tr: "Lütfen zorunlu alanları doldurun (adres veya gel-al saati), sonra online ödeyin.",
+  },
+  PFAND_NOT_STANDALONE: {
+    de: "Pfand wird automatisch mit dem Getränk hinzugefügt und kann nicht einzeln bestellt werden.",
+    tr: "Depozito (Pfand) içecekle otomatik eklenir, tek başına sipariş edilemez.",
   },
 };
 

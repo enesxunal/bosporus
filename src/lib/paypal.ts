@@ -141,3 +141,32 @@ export async function capturePayPalOrder(
     amount: Number(capture.amount?.value ?? 0),
   };
 }
+
+export async function refundPayPalCapture(
+  captureId: string,
+  reason = "ORDER_FULFILLMENT_FAILED"
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  try {
+    const token = await getAccessToken();
+    const res = await fetch(`${apiBase()}/v2/payments/captures/${captureId}/refund`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        note_to_payer: reason.slice(0, 255),
+      }),
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      console.error("PayPal refund failed:", err);
+      return { ok: false, error: parsePayPalErrorMessage(err) };
+    }
+    return { ok: true };
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "REFUND_FAILED";
+    console.error("PayPal refund error:", e);
+    return { ok: false, error: msg };
+  }
+}

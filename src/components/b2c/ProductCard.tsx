@@ -14,6 +14,10 @@ import { ProductImage } from "@/components/b2c/ProductImage";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
+import { isB2BApproved } from "@/lib/types";
+import { WholesalePriceHint } from "@/components/b2c/WholesalePriceHint";
+import { buildCartItemFromProduct } from "@/lib/pfand";
+import { trackAddToCart, trackViewItem } from "@/lib/analytics";
 
 interface ProductCardProps {
   product: Product;
@@ -39,25 +43,18 @@ export function ProductCard({ product, profile: profileProp = null, variant = "d
     e.preventDefault();
     e.stopPropagation();
     if (outOfStock) return;
-    const net =
-      displayPrice.label === "netto"
-        ? displayPrice.amount
-        : displayPrice.amount / (1 + product.tax_rate / 100);
-    const gross =
-      displayPrice.label === "brutto"
-        ? displayPrice.amount
-        : netToGross(displayPrice.amount, product.tax_rate);
-
-    addItem({
-      productId: product.id,
-      sku: product.sku,
-      name,
+    // Kapalı GA hunisi için view_item → add_to_cart sırası
+    trackViewItem({
+      item_id: product.sku,
+      item_name: name,
+      price: displayPrice.amount,
+    });
+    addItem(buildCartItemFromProduct(product, 1, profile, name));
+    trackAddToCart({
+      item_id: product.sku,
+      item_name: name,
+      price: displayPrice.amount,
       quantity: 1,
-      unit: product.base_unit,
-      priceNet: Math.round(net * 100) / 100,
-      priceGross: Math.round(gross * 100) / 100,
-      taxRate: product.tax_rate,
-      imageUrl: img,
     });
   };
 
@@ -114,6 +111,19 @@ export function ProductCard({ product, profile: profileProp = null, variant = "d
             <span className="text-[11px] text-bosporus-muted font-medium">
               {displayPrice.label === "brutto" ? t("brutto") : t("netto")}
             </span>
+            {product.pfand && (
+              <p className="text-[11px] text-bosporus-muted mt-1">
+                {t("plusPfand", {
+                  amount: formatPrice(
+                    isB2BApproved(profile)
+                      ? netToGross(product.pfand.price_b2b, product.pfand.tax_rate)
+                      : product.pfand.price_b2c,
+                    locale
+                  ),
+                })}
+              </p>
+            )}
+            <WholesalePriceHint profile={profile} compact />
           </div>
 
           <Button type="button" onClick={handleAdd} fullWidth size="md" disabled={outOfStock}>

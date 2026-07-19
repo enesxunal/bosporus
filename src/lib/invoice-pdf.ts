@@ -204,7 +204,7 @@ export function generateInvoicePdf(data: InvoiceData): Buffer {
   doc.setFontSize(8.5);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(...BRAND.white);
-  doc.text("Zahlung bei Lieferung / Abholung  ·  Bar oder EC-Karte vor Ort", margin + 5, noteY + 7.5);
+  doc.text("Zahlung online (Karte / Klarna / PayPal)", margin + 5, noteY + 7.5);
 
   // — Footer
   const footerY = doc.internal.pageSize.getHeight() - 22;

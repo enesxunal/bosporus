@@ -15,15 +15,33 @@ export default function VerifyEmailPage() {
   const initialEmail = searchParams.get("email") ?? "";
   const [email, setEmail] = useState(initialEmail);
   const [msg, setMsg] = useState("");
+  const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const resend = async () => {
-    if (!email.trim()) return;
-    const res = await fetch("/api/auth/resend-verification", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, locale }),
-    });
-    setMsg(res.ok ? t("verifyResent") : t("connectionError"));
+    if (!email.trim() || loading) return;
+    setLoading(true);
+    setMsg("");
+    setErr("");
+    try {
+      const res = await fetch("/api/auth/resend-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, locale }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setMsg(t("verifyResent"));
+      } else if (res.status === 429) {
+        setErr(locale === "tr" ? "Lütfen bir dakika bekleyin." : "Bitte warten Sie eine Minute.");
+      } else {
+        setErr(data.error ?? t("connectionError"));
+      }
+    } catch {
+      setErr(t("connectionError"));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -31,11 +49,22 @@ export default function VerifyEmailPage() {
       <h1 className="text-2xl font-extrabold text-bosporus-gray-800 mb-6">{t("verifyTitle")}</h1>
       <Card className="space-y-4">
         <p className="text-bosporus-muted">{t("verifyDesc")}</p>
-        <Input label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <Button onClick={resend}>{t("verifyResend")}</Button>
+        <Input
+          label="E-Mail"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={loading}
+        />
+        <Button onClick={resend} disabled={loading || !email.trim()}>
+          {loading ? "…" : t("verifyResend")}
+        </Button>
         {msg && <p className="text-sm text-green-700">{msg}</p>}
+        {err && <p className="text-sm text-red-600">{err}</p>}
         <p className="text-sm">
-          <Link href="/login" className="text-bosporus font-bold hover:underline">{t("loginLink")}</Link>
+          <Link href="/login" className="text-bosporus font-bold hover:underline">
+            {t("loginLink")}
+          </Link>
         </p>
       </Card>
     </div>

@@ -3,6 +3,7 @@ import productsData from "@/data/products.json";
 import categoriesData from "@/data/categories.json";
 import { createAdminClient } from "./supabase/admin";
 import { parseImageUrls } from "./product-images";
+import { enrichProductsWithPfand } from "./pfand";
 
 const jsonProducts = productsData as Product[];
 const jsonCategories = categoriesData as Category[];
@@ -29,12 +30,18 @@ export function mapDbRow(row: Record<string, unknown>): Product {
     promo_to: (row.promo_to as string) ?? null,
     is_active: Boolean(row.is_active),
     stock_status: (row.stock_status as string) ?? "in_stock",
+    pfand_sku: (row.pfand_sku as string) ?? null,
+    pfand: null,
   };
 }
 
 let dbCache: Product[] | null = null;
 let dbCacheTime = 0;
-const CACHE_MS = 60_000;
+const CACHE_MS = 5 * 60_000;
+const NAV_CACHE_MS = 120_000;
+let shopNavCache: { categories: Category[]; hasPromos: boolean; at: number } | null = null;
+
+const LIST_COLS = "*";
 
 export async function loadProductsFromDb(): Promise<Product[] | null> {
   const now = Date.now();
@@ -49,13 +56,82 @@ export async function loadProductsFromDb(): Promise<Product[] | null> {
   const all: Product[] = [];
   const pageSize = 1000;
   for (let from = 0; from < count; from += pageSize) {
-    const { data } = await admin.from("products").select("*").range(from, from + pageSize - 1);
+    const { data } = await admin
+      .from("products")
+      .select(LIST_COLS)
+      .range(from, from + pageSize - 1);
     if (data) all.push(...data.map((r) => mapDbRow(r)));
   }
 
-  dbCache = all;
+  dbCache = enrichProductsWithPfand(all);
   dbCacheTime = now;
-  return all;
+  return dbCache;
+}
+
+/** Ana sayfa / liste için sınırlı sorgu — tüm kataloğu çekmez */
+export async function fetchProductsPage(options?: {
+  category?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<Product[] | null> {
+  const admin = createAdminClient();
+  if (!admin) return null;
+
+  const limit = options?.limit ?? 24;
+  const offset = options?.offset ?? 0;
+
+  let query = admin
+    .from("products")
+    .select(LIST_COLS)
+    .eq("is_active", true)
+    .gt("price_b2c", 0)
+    .neq("name_de", "#")
+    .neq("category_slug", "pfand")
+    .order("name_de", { ascending: true });
+
+  if (options?.category) query = query.eq("category_slug", options.category);
+
+  const { data, error } = await query.range(offset, offset + limit - 1);
+  if (error || !data) return null;
+
+  // Pfand fiyatları için bağlı satırları da çek
+  const page = data.map((r) => mapDbRow(r));
+  const pfandSkus = [...new Set(page.map((p) => p.pfand_sku).filter(Boolean))] as string[];
+  if (pfandSkus.length === 0) return enrichProductsWithPfand(page);
+
+  const { data: pfandRows } = await admin.from("products").select("*").in("sku", pfandSkus);
+  const pfandProducts = (pfandRows ?? []).map((r) => mapDbRow(r));
+  return enrichProductsWithPfand([...page, ...pfandProducts]).filter((p) => p.category_slug !== "pfand");
+}
+
+/** Aktif kampanyalı ürünler — sınırlı DB sorgusu */
+export async function fetchPromoProductsPage(limit = 8): Promise<Product[] | null> {
+  const admin = createAdminClient();
+  if (!admin) return null;
+
+  const today = new Date().toISOString().slice(0, 10);
+  const { data, error } = await admin
+    .from("products")
+    .select(LIST_COLS)
+    .eq("is_active", true)
+    .gt("price_b2c", 0)
+    .neq("name_de", "#")
+    .neq("category_slug", "pfand")
+    .not("promo_price", "is", null)
+    .gt("promo_price", 0)
+    .lte("promo_from", today)
+    .gte("promo_to", today)
+    .order("promo_price", { ascending: true })
+    .limit(Math.max(limit * 3, 24));
+
+  if (error || !data) return null;
+  const page = data.map((r) => mapDbRow(r));
+  const pfandSkus = [...new Set(page.map((p) => p.pfand_sku).filter(Boolean))] as string[];
+  if (pfandSkus.length === 0) return enrichProductsWithPfand(page);
+  const { data: pfandRows } = await admin.from("products").select("*").in("sku", pfandSkus);
+  return enrichProductsWithPfand([...page, ...(pfandRows ?? []).map((r) => mapDbRow(r))]).filter(
+    (p) => p.category_slug !== "pfand"
+  );
 }
 
 export async function fetchProductsForOrder(ids: string[], skus: string[]): Promise<Product[]> {
@@ -75,11 +151,21 @@ export async function fetchProductsForOrder(ids: string[], skus: string[]): Prom
     for (const row of data ?? []) map.set(row.id as string, mapDbRow(row));
   }
 
-  return [...map.values()];
+  // Bağlı pfand ürünlerini de yükle
+  const pfandSkus = [...map.values()]
+    .map((p) => p.pfand_sku)
+    .filter((s): s is string => Boolean(s) && ![...map.values()].some((p) => p.sku === s));
+  if (pfandSkus.length > 0) {
+    const { data } = await admin.from("products").select("*").in("sku", pfandSkus);
+    for (const row of data ?? []) map.set(row.id as string, mapDbRow(row));
+  }
+
+  return enrichProductsWithPfand([...map.values()]);
 }
 
 export function clearProductsCache() {
   dbCache = null;
+  shopNavCache = null;
 }
 
 export async function getProductsAsync(options?: {
@@ -89,11 +175,28 @@ export async function getProductsAsync(options?: {
   offset?: number;
   activeOnly?: boolean;
 }): Promise<Product[]> {
+  const limit = options?.limit;
+  const offset = options?.offset ?? 0;
+  const wantsSearch = Boolean(options?.search);
+  const activeOnly = options?.activeOnly !== false;
+
+  // Hızlı yol: sınırlı liste, arama yok → tüm kataloğu indirme
+  if (!wantsSearch && activeOnly && limit != null && limit <= 48) {
+    const page = await fetchProductsPage({
+      category: options?.category,
+      limit,
+      offset,
+    });
+    if (page) return page;
+  }
+
   const db = await loadProductsFromDb();
   if (db) {
     let result = [...db];
-    if (options?.activeOnly !== false) {
-      result = result.filter((p) => p.is_active && p.price_b2c > 0);
+    if (activeOnly) {
+      result = result.filter(
+        (p) => p.is_active && p.price_b2c > 0 && p.name_de !== "#" && p.category_slug !== "pfand"
+      );
     }
     if (options?.category) result = result.filter((p) => p.category_slug === options.category);
     if (options?.search) {
@@ -106,15 +209,16 @@ export async function getProductsAsync(options?: {
           (p.barcode && p.barcode.includes(q))
       );
     }
-    const offset = options?.offset ?? 0;
-    const limit = options?.limit ?? result.length;
-    return result.slice(offset, offset + limit);
+    const lim = limit ?? result.length;
+    return result.slice(offset, offset + lim);
   }
 
-  let result = [...jsonProducts];
+  let result = enrichProductsWithPfand(jsonProducts as Product[]);
 
-  if (options?.activeOnly !== false) {
-    result = result.filter((p) => p.is_active && p.price_b2c > 0);
+  if (activeOnly) {
+    result = result.filter(
+      (p) => p.is_active && p.price_b2c > 0 && p.name_de !== "#" && p.category_slug !== "pfand"
+    );
   }
   if (options?.category) {
     result = result.filter((p) => p.category_slug === options.category);
@@ -129,13 +233,77 @@ export async function getProductsAsync(options?: {
         (p.barcode && p.barcode.includes(q))
     );
   }
-  const offset = options?.offset ?? 0;
-  const limit = options?.limit ?? result.length;
-  return result.slice(offset, offset + limit);
+  const lim = limit ?? result.length;
+  return result.slice(offset, offset + lim);
 }
 
 export function getCategoriesSync(): Category[] {
   return jsonCategories;
+}
+
+/** Nav / vitrin: gerçekten satılan ürünü olan kategoriler + kampanya var mı */
+export async function getShopNavData(): Promise<{
+  categories: Category[];
+  hasPromos: boolean;
+}> {
+  const now = Date.now();
+  if (shopNavCache && now - shopNavCache.at < NAV_CACHE_MS) {
+    return { categories: shopNavCache.categories, hasPromos: shopNavCache.hasPromos };
+  }
+
+  const { isPromoActive } = await import("./pricing");
+  const admin = createAdminClient();
+  let categories: Category[] = [];
+  let hasPromos = false;
+
+  if (admin) {
+    const promoPage = await fetchPromoProductsPage(24);
+    if (promoPage) {
+      hasPromos = promoPage.some((p) => isPromoActive(p));
+    }
+
+    const counts = new Map<string, number>();
+    const pageSize = 1000;
+    let from = 0;
+    for (;;) {
+      const { data, error } = await admin
+        .from("products")
+        .select("category_slug")
+        .eq("is_active", true)
+        .gt("price_b2c", 0)
+        .neq("name_de", "#")
+        .range(from, from + pageSize - 1);
+      if (error || !data?.length) break;
+      for (const row of data) {
+        const slug = row.category_slug as string | null;
+        if (!slug) continue;
+        counts.set(slug, (counts.get(slug) ?? 0) + 1);
+      }
+      if (data.length < pageSize) break;
+      from += pageSize;
+    }
+
+    if (counts.size > 0) {
+      categories = jsonCategories
+        .map((c) => ({ ...c, product_count: counts.get(c.slug) ?? 0 }))
+        .filter((c) => c.slug !== "pfand" && (c.product_count ?? 0) > 0)
+        .sort((a, b) => (b.product_count ?? 0) - (a.product_count ?? 0));
+    }
+  }
+
+  if (categories.length === 0) {
+    categories = jsonCategories
+      .filter((c) => c.slug !== "pfand" && (c.product_count ?? 0) > 0)
+      .map((c) => ({ ...c }));
+    if (!hasPromos) {
+      hasPromos = jsonProducts.some(
+        (p) => p.is_active && p.price_b2c > 0 && p.name_de.trim() !== "#" && isPromoActive(p)
+      );
+    }
+  }
+
+  shopNavCache = { categories, hasPromos, at: now };
+  return { categories, hasPromos };
 }
 
 export async function countProductsAsync(options?: {

@@ -1,24 +1,32 @@
 "use client";
 
-import { useTranslations, useLocale } from "next-intl";
+import { useLocale } from "next-intl";
 
 const DEALS_DE = [
-  "🔥 Wochenangebote – bis zu -30% auf Getränke",
-  "❄️ Tiefkühl-Aktion diese Woche",
-  "🍕 Italienische Küche – Sonderpreise für Gastronomie",
-  "📍 Abholmarkt Köln Ossendorf – Mo.–Sa. 00–18 Uhr",
+  "Erste Bestellung: Lieferung kostenlos – mit Kundenkonto",
+  "Lieferung Köln & Umgebung – täglich frisch",
+  "Abholmarkt Köln Ossendorf – Mo.–Sa. 00–18 Uhr",
+  "Gewerbe: Nettopreise nach Freigabe im Portal",
 ];
 
 const DEALS_TR = [
-  "🔥 Haftalık fırsatlar – içeceklerde %30'a varan indirim",
-  "❄️ Bu hafta donmuş ürün kampanyası",
-  "🍕 İtalyan mutfağı – gastronomi özel fiyatları",
-  "📍 Köln Ossendorf Gel-Al – Pzt.–Cmt. 00–18",
+  "İlk siparişte getirme ücretsiz – hesap ile",
+  "Köln ve çevreye teslimat – her gün taze",
+  "Köln Ossendorf Gel-Al – Pzt.–Cmt. 00–18",
+  "Kurumsal: onay sonrası net fiyat portalı",
 ];
 
-export function DealTicker() {
+export function DealTicker({ hasPromos = false }: { hasPromos?: boolean }) {
   const locale = useLocale();
-  const deals = locale === "tr" ? DEALS_TR : DEALS_DE;
+  const base = locale === "tr" ? DEALS_TR : DEALS_DE;
+  const deals =
+    hasPromos
+      ? [
+          base[0],
+          locale === "tr" ? "Bu haftanın kampanya ürünleri – ana sayfada" : "Wochenangebote – jetzt auf der Startseite",
+          ...base.slice(1),
+        ]
+      : base;
   const items = [...deals, ...deals];
 
   return (

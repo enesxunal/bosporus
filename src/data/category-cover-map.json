@@ -1,0 +1,82 @@
+{
+  "verpackung-reinigungsmittel-hygiene": {
+    "sku": "pizza-karton-30x30x4-braun-nyc-100st",
+    "name": "Pizza-Karton 30x30x4 Braun NYC 100st"
+  },
+  "lebensmittel": {
+    "sku": "arabian-garden-basmati-reis-sella-4-5kg",
+    "name": "Arabian Garden Basmati Reis Sella 4,5kg"
+  },
+  "getraenke": {
+    "sku": "coca-cola-1lt-12er-pet",
+    "name": "Coca Cola  1Lt  12er PET"
+  },
+  "snacks-suesswaren": {
+    "sku": "haribo-veggie-pasta-frutta-85g",
+    "name": "HARIBO Veggie Pasta Frutta 85g"
+  },
+  "tk-tiefkuehl": {
+    "sku": "andu-gambas-b-t-6-8-1kg",
+    "name": "ANDU Gambas B/T 6/8 - 1kg"
+  },
+  "konserven": {
+    "sku": "gulcan-tomaten-paprikapaste-glas-650g",
+    "name": "Gülcan Tomaten-Paprikapaste Glas 650g"
+  },
+  "gewuerze": {
+    "sku": "larissa-paprikapulver-mild-800kg",
+    "name": "Larissa Paprikapulver mild 800kg"
+  },
+  "gemuese": {
+    "sku": "speisekartoffeln-belana-festkochend-qualitat-1-2-5kg",
+    "name": "Speisekartoffeln Belana Festkochend Qualität 1  2,5kg"
+  },
+  "saucen": {
+    "sku": "wulfert-paprikasauce-balkanart-10kg",
+    "name": "Wulfert - Paprikasauce Balkanart - 10kg"
+  },
+  "alkohol": {
+    "sku": "erdinger-hefe-weissbier-0-5l-20er-kiste",
+    "name": "Erdinger Hefe Weißbier 0,5l 20er Kiste"
+  },
+  "asia": {
+    "sku": "sushi-reis-samurai-ichiban-9-08kg-asia",
+    "name": "Sushi Reis , Samurai Ichiban  9,08kg - ASIA"
+  },
+  "molkerei": {
+    "sku": "milram-raspel-gouda-mozzarella-mix-2kg",
+    "name": "Milram Raspel Gouda-Mozzarella-Mix - 2kg"
+  },
+  "pfand": {
+    "sku": "dpg-pfand-bierkiste-24er-3-42",
+    "name": "DPG Pfand Bierkiste 24er 3,42"
+  },
+  "obst": {
+    "sku": "apfelsinen-valencia-15kg-pressorangen",
+    "name": "Apfelsinen Valencia 15Kg - Pressorangen"
+  },
+  "kuehlschrankware": {
+    "sku": "aviko-frisch-super-crunch-fresh-11mm-2x4500g",
+    "name": "Aviko Frisch Super Crunch Fresh 11mm 2x4500g"
+  },
+  "oele": {
+    "sku": "kuchenchef-rapsol-10lt-100-rein",
+    "name": "KÜCHENCHEF  Rapsöl  10Lt - %100 rein"
+  },
+  "sonstiges": {
+    "sku": "tute",
+    "name": "Tüte"
+  },
+  "grillkohle": {
+    "sku": "premium-paraguay-holzkohle-10kg",
+    "name": "Premium Paraguay Holzkohle  10kg"
+  },
+  "lieferung-fracht": {
+    "sku": "transportkosten",
+    "name": "fallback"
+  },
+  "transportkosten": {
+    "sku": "transportkosten",
+    "name": "transportkosten"
+  }
+}

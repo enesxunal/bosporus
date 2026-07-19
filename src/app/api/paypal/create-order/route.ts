@@ -13,6 +13,7 @@ import {
   verifyPayPalConnection,
 } from "@/lib/paypal";
 import type { CartItem } from "@/lib/types";
+import { cartLineTotalGross } from "@/lib/pfand";
 
 export async function GET() {
   if (!isPayPalConfigured()) {
@@ -38,13 +39,13 @@ interface CheckoutBody {
   pickupSlot?: string;
 }
 
-async function resolveTotal(body: CheckoutBody, isB2b: boolean) {
+async function resolveTotal(body: CheckoutBody, isB2b: boolean, userId: string | null) {
   const priced = await validateAndPriceOrderItems(body.items, isB2b);
   if (!priced.ok) return { ok: false as const, error: priced.error };
 
   let subtotalGross = 0;
   for (const item of priced.items) {
-    subtotalGross += item.priceGross * item.quantity;
+    subtotalGross += cartLineTotalGross(item);
   }
   subtotalGross = Math.round(subtotalGross * 100) / 100;
 
@@ -59,6 +60,7 @@ async function resolveTotal(body: CheckoutBody, isB2b: boolean) {
       deliveryDate: body.deliveryDate,
       totalGross: subtotalGross,
       isB2b,
+      userId,
     });
     if (!deliveryCheck.ok) return { ok: false as const, error: deliveryCheck.error };
     deliveryFee = deliveryCheck.deliveryFee;
@@ -88,10 +90,14 @@ export async function POST(request: Request) {
   }
 
   let isB2b = false;
+  let userId: string | null = null;
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (user) {
+      userId = user.id;
       const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
       isB2b = profile?.role === "b2b_approved";
     }
@@ -99,7 +105,7 @@ export async function POST(request: Request) {
     // guest
   }
 
-  const resolved = await resolveTotal(body, isB2b);
+  const resolved = await resolveTotal(body, isB2b, userId);
   if (!resolved.ok) {
     return NextResponse.json({ error: resolved.error }, { status: 400 });
   }

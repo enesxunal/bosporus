@@ -113,7 +113,7 @@ export function templateOrderPlaced(data: OrderEmailData): { subject: string; ht
     ${deliveryInfo(data, de)}
     ${itemsTable(data.items, de)}
     <p style="font-size:18px;font-weight:800;color:#1D71B8">${de ? "Gesamt" : "Toplam"}: ${formatEuro(data.totalGross)}</p>
-    <p style="color:#5c6573;font-size:13px">${de ? "Zahlung bei Lieferung / Abholung." : "Ödeme teslimat veya gel-al sırasında yapılır."}</p>`;
+    <p style="color:#5c6573;font-size:13px">${de ? "Zahlung online erhalten." : "Ödeme online alındı."}</p>`;
   return {
     subject,
     html: emailLayout({
@@ -236,20 +236,28 @@ export function templateB2bApproved(params: {
   locale?: "de" | "tr";
 }): { subject: string; html: string } {
   const de = params.locale !== "tr";
-  const subject = de ? "Gewerbekonto freigeschaltet – Bosporus" : "Kurumsal hesabınız onaylandı – Bosporus";
+  const subject = de
+    ? "Gewerbekonto freigeschaltet – Sie können sich anmelden"
+    : "Kurumsal hesabınız onaylandı – Giriş yapabilirsiniz";
   const bodyHtml = `
     <p>${de ? "Guten Tag" : "Merhaba"},</p>
     <p>${de
-      ? `Ihr Gewerbekonto für <strong>${params.companyName}</strong> wurde freigeschaltet. Sie können sich jetzt im B2B-Portal anmelden und zu Nettopreisen bestellen.`
-      : `<strong>${params.companyName}</strong> için kurumsal hesabınız onaylandı. B2B portalına giriş yapıp net fiyatlarla sipariş verebilirsiniz.`}</p>`;
+      ? `Ihr Gewerbekonto für <strong>${params.companyName}</strong> wurde freigeschaltet.`
+      : `<strong>${params.companyName}</strong> için kurumsal hesabınız onaylanmıştır.`}</p>
+    <p>${de
+      ? "Sie können sich jetzt anmelden und zu Nettopreisen (B2B) bestellen."
+      : "Artık giriş yapabilir ve toptan (B2B) fiyatlarla sipariş verebilirsiniz."}</p>
+    <p style="color:#5c6573;font-size:14px">${de
+      ? "Nutzen Sie die E-Mail-Adresse und das Passwort Ihrer Registrierung."
+      : "Kayıt sırasında kullandığınız e-posta ve şifre ile giriş yapın."}</p>`;
   return {
     subject,
     html: emailLayout({
       locale: params.locale,
-      title: de ? "Konto freigeschaltet" : "Hesap onaylandı",
+      title: de ? "Konto freigeschaltet" : "Hesabınız onaylandı",
       bodyHtml,
-      ctaLabel: de ? "Zum Gewerbe-Portal" : "Kurumsal portala git",
-      ctaUrl: `${emailSiteUrl()}/gewerbe`,
+      ctaLabel: de ? "Jetzt anmelden" : "Giriş yap",
+      ctaUrl: `${emailSiteUrl()}/login`,
     }),
   };
 }
@@ -290,6 +298,66 @@ export function templatePromotion(params: {
       bodyHtml: params.bodyHtml,
       ctaLabel: params.ctaLabel,
       ctaUrl: params.ctaUrl ?? `${emailSiteUrl()}/products?filter=aktion`,
+    }),
+  };
+}
+
+/** Kayıt / e-posta onay maili (kurumsal şablon) */
+export function templateEmailVerify(params: {
+  link: string;
+  locale?: "de" | "tr";
+  fullName?: string | null;
+  variant?: "b2c" | "b2b";
+}): { subject: string; html: string } {
+  const de = params.locale !== "tr";
+  const name = params.fullName?.trim();
+  const greet = name
+    ? de
+      ? `Guten Tag ${name},`
+      : `Merhaba ${name},`
+    : de
+      ? "Guten Tag,"
+      : "Merhaba,";
+
+  const isB2b = params.variant === "b2b";
+  const subject = isB2b
+    ? de
+      ? "E-Mail bestätigen – Bosporus Gewerbekonto"
+      : "E-postanızı onaylayın – Bosporus kurumsal hesap"
+    : de
+      ? "E-Mail bestätigen – Ihr Bosporus-Konto"
+      : "E-postanızı onaylayın – Bosporus hesabınız";
+
+  const title = de ? "E-Mail-Adresse bestätigen" : "E-posta adresinizi onaylayın";
+
+  const bodyHtml = `
+    <p>${greet}</p>
+    <p>${
+      de
+        ? isB2b
+          ? "vielen Dank für Ihre Gewerbeanmeldung bei Bosporus. Bitte bestätigen Sie Ihre E-Mail-Adresse, damit wir Ihren Antrag prüfen können."
+          : "willkommen bei Bosporus. Bitte bestätigen Sie Ihre E-Mail-Adresse, um Ihr Kundenkonto zu aktivieren."
+        : isB2b
+          ? "Bosporus kurumsal başvurunuz için teşekkürler. Başvurunuzu inceleyebilmemiz için lütfen e-posta adresinizi onaylayın."
+          : "Bosporus’a hoş geldiniz. Hesabınızı etkinleştirmek için lütfen e-posta adresinizi onaylayın."
+    }</p>
+    <p style="color:#5c6573;font-size:13px">${
+      de
+        ? "Der Link ist aus Sicherheitsgründen nur begrenzte Zeit gültig."
+        : "Güvenlik nedeniyle link sınırlı süre geçerlidir."
+    }</p>
+    <p style="font-size:12px;color:#8a93a3;margin-top:24px;word-break:break-all">${
+      de ? "Button funktioniert nicht? Link öffnen:" : "Buton çalışmazsa şu linki açın:"
+    }<br>${params.link}</p>`;
+
+  return {
+    subject,
+    html: emailLayout({
+      locale: params.locale,
+      title,
+      bodyHtml,
+      ctaLabel: de ? "E-Mail jetzt bestätigen" : "E-postayı şimdi onayla",
+      ctaUrl: params.link,
     }),
   };
 }

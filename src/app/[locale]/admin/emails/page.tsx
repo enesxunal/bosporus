@@ -20,6 +20,14 @@ export default function AdminEmailsPage() {
   const [previewHtml, setPreviewHtml] = useState("");
   const [previewOpen, setPreviewOpen] = useState(false);
   const [smtpTesting, setSmtpTesting] = useState(false);
+  const [waStatus, setWaStatus] = useState<{
+    configured: boolean;
+    adminCount: number;
+    orderTemplate: string | null;
+    statusTemplate: string | null;
+  } | null>(null);
+  const [waPhone, setWaPhone] = useState("");
+  const [waTesting, setWaTesting] = useState(false);
 
   const testSmtp = async () => {
     setSmtpTesting(true);
@@ -32,13 +40,29 @@ export default function AdminEmailsPage() {
     load();
   };
 
+  const testWhatsApp = async (mode: "text" | "template") => {
+    setWaTesting(true);
+    setMsg("");
+    const res = await fetch("/api/admin/whatsapp/test", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ to: waPhone, mode }),
+    });
+    const data = await res.json();
+    setWaTesting(false);
+    if (res.ok) setMsg(`WhatsApp testi gitti (${mode}) → ${data.to}`);
+    else setMsg(data.error ?? "WhatsApp testi başarısız");
+  };
+
   const load = () => {
     Promise.all([
       fetch("/api/admin/campaigns").then((r) => r.json()),
       fetch("/api/admin/email-logs").then((r) => r.json()),
-    ]).then(([c, l]) => {
+      fetch("/api/admin/whatsapp/test").then((r) => r.json()).catch(() => null),
+    ]).then(([c, l, wa]) => {
       setCampaigns(c.campaigns ?? []);
       setEmailLogs(l.logs ?? []);
+      if (wa && typeof wa.configured === "boolean") setWaStatus(wa);
       setLoading(false);
     });
   };
@@ -95,7 +119,48 @@ export default function AdminEmailsPage() {
   return (
     <div>
       <h1 className="text-2xl font-extrabold text-metro-navy mb-6">E-posta & Kampanyalar</h1>
-      {msg && <div className="mb-4 p-3 bg-green-50 text-green-800 rounded-xl text-sm">{msg}</div>}
+      {msg && <div className="mb-4 p-3 bg-green-50 text-green-800 rounded-xl text-sm whitespace-pre-wrap">{msg}</div>}
+
+      <Card className="!rounded-2xl mb-6">
+        <h2 className="font-bold text-lg mb-2">WhatsApp bildirimleri</h2>
+        <p className="text-sm text-bosporus-muted mb-4">
+          Sipariş gelince mağaza telefonlarına ve (numara verdiyse) müşteriye otomatik mesaj gider.
+        </p>
+        {waStatus && (
+          <ul className="text-sm mb-4 space-y-1">
+            <li>
+              Bağlantı:{" "}
+              <strong className={waStatus.configured ? "text-green-700" : "text-bosporus-red"}>
+                {waStatus.configured ? "Hazır" : "Henüz bağlı değil"}
+              </strong>
+            </li>
+            <li>Yönetici numarası: {waStatus.adminCount}</li>
+            <li>Sipariş şablonu: {waStatus.orderTemplate ?? "— (Vercel: WHATSAPP_TEMPLATE_ORDER_PLACED)"}</li>
+            <li>Durum şablonu: {waStatus.statusTemplate ?? "— (opsiyonel)"}</li>
+          </ul>
+        )}
+        <div className="flex flex-col sm:flex-row gap-3 sm:items-end">
+          <div className="flex-1">
+            <Input
+              label="Test telefonu"
+              value={waPhone}
+              onChange={(e) => setWaPhone(e.target.value)}
+              placeholder="+49 221 ..."
+            />
+          </div>
+          <Button variant="outline" onClick={() => testWhatsApp("text")} loading={waTesting} disabled={!waPhone.trim()}>
+            Metin test
+          </Button>
+          <Button onClick={() => testWhatsApp("template")} loading={waTesting} disabled={!waPhone.trim()}>
+            Şablon test
+          </Button>
+        </div>
+        <p className="text-xs text-bosporus-muted mt-3">
+          Vercel: WHATSAPP_ACCESS_TOKEN, WHATSAPP_PHONE_NUMBER_ID, WHATSAPP_ADMIN_PHONES
+          <br />
+          Müşteri mesajı için Meta’da onaylı şablon + WHATSAPP_TEMPLATE_ORDER_PLACED gerekir.
+        </p>
+      </Card>
 
       <div className="grid lg:grid-cols-2 gap-6">
         <Card className="!rounded-2xl">

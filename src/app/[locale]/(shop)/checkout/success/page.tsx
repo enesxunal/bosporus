@@ -1,8 +1,16 @@
+import type { Metadata } from "next";
+import { shopPageMetadata } from "@/lib/page-seo";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return shopPageMetadata("/checkout/success", "de");
+}
+
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { CheckCircle, ArrowRight, Search } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { CheckoutSuccessClient } from "./CheckoutSuccessClient";
+import { PurchaseTracker } from "@/components/analytics/PurchaseTracker";
 
 export default async function CheckoutSuccessPage({
   searchParams,
@@ -16,6 +24,7 @@ export default async function CheckoutSuccessPage({
 
   return (
     <div className="page-narrow py-16 sm:py-24 text-center">
+      <PurchaseTracker orderNumber={order} />
       <CheckoutSuccessClient sessionId={sessionId} />
       <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-50 mb-6">
         <CheckCircle className="w-10 h-10 text-green-600" />

@@ -7,7 +7,7 @@ export const DELIVERY_ZONES = [
     name_tr: "Köln Merkez",
     zip_prefixes: ["50667", "50668", "50670", "50672", "50674", "50676", "50677", "50678", "50679", "50733", "50735", "50737", "50739"],
     min_order_amount: 150,
-    delivery_days: [1, 2, 3, 4, 5, 6],
+    delivery_days: [0, 1, 2, 3, 4, 5, 6],
   },
   {
     id: "zone-2",
@@ -15,7 +15,7 @@ export const DELIVERY_ZONES = [
     name_tr: "Köln Çevresi",
     zip_prefixes: ["50", "51"],
     min_order_amount: 300,
-    delivery_days: [1, 3, 5],
+    delivery_days: [0, 1, 2, 3, 4, 5, 6],
   },
   {
     id: "zone-3",
@@ -23,7 +23,7 @@ export const DELIVERY_ZONES = [
     name_tr: "Geniş NRW",
     zip_prefixes: ["52", "53", "54", "55", "56", "57", "58", "59"],
     min_order_amount: 500,
-    delivery_days: [2, 5],
+    delivery_days: [0, 1, 2, 3, 4, 5, 6],
   },
 ] as const;
 

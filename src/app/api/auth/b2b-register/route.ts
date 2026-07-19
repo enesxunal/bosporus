@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 import { authErrorMessage } from "@/lib/auth-errors";
 import { createAdminClient, isSupabaseAdminConfigured } from "@/lib/supabase/admin";
 import { validateVatId } from "@/lib/vies";
-import { getSiteUrl } from "@/lib/site-url";
-import { sendEmail } from "@/lib/email/smtp";
+import { sendAccountVerificationEmail } from "@/lib/auth-verification-email";
 
 export async function POST(request: Request) {
   if (!isSupabaseAdminConfigured()) {
@@ -14,7 +13,8 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { companyName, companyAddress, vatId, email, password } = body;
+  const { companyName, companyAddress, vatId, email, password, locale: bodyLocale } = body;
+  const locale: "de" | "tr" = bodyLocale === "tr" ? "tr" : "de";
 
   if (!companyName || !companyAddress || !vatId || !email || !password) {
     return NextResponse.json({ error: "Alle Felder sind Pflicht" }, { status: 400 });
@@ -62,6 +62,7 @@ export async function POST(request: Request) {
         company_address: companyAddress,
         vat_id: normalizedVatId,
         vat_verified: true,
+        locale,
       },
       { onConflict: "id" }
     );
@@ -71,29 +72,50 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: profileError.message }, { status: 500 });
     }
 
-    const { data: linkData } = await admin.auth.admin.generateLink({
-      type: "signup",
+    const mail = await sendAccountVerificationEmail({
       email: normalizedEmail,
       password,
-      options: { redirectTo: `${getSiteUrl()}/auth/callback?next=/login` },
+      fullName: companyName,
+      locale,
+      variant: "b2b",
     });
-
-    if (linkData?.properties?.action_link) {
-      sendEmail({
-        to: normalizedEmail,
-        subject: "E-Mail bestätigen – Bosporus Gewerbe",
-        html: `<p>Bitte bestätigen Sie Ihre E-Mail: <a href="${linkData.properties.action_link}">Bestätigen</a></p>`,
-        templateType: "campaign",
-        referenceId: "b2b-verify",
-      }).catch((e) => console.error("B2B verify email:", e));
+    if (!mail.ok) {
+      console.error("B2B verify email failed:", mail.error);
+      return NextResponse.json({
+        success: true,
+        needsVerification: true,
+        emailSent: false,
+        message:
+          locale === "tr"
+            ? "Hesap oluşturuldu ama doğrulama e-postası gönderilemedi. Lütfen daha sonra tekrar gönderin."
+            : "Konto erstellt, aber die Bestätigungs-E-Mail konnte nicht gesendet werden. Bitte später erneut senden.",
+        userId: data.user.id,
+      });
     }
+
+    void import("@/lib/whatsapp")
+      .then(({ sendWhatsAppToAdmins }) =>
+        import("@/lib/whatsapp-messages").then(({ whatsappAdminSignUp }) =>
+          sendWhatsAppToAdmins(
+            whatsappAdminSignUp({
+              type: "b2b",
+              email: normalizedEmail,
+              companyName,
+            })
+          )
+        )
+      )
+      .catch((e) => console.error("WhatsApp B2B signup notify:", e));
   }
 
   return NextResponse.json({
     success: true,
     needsVerification: true,
+    emailSent: true,
     message:
-      "Gewerbeanfrage eingegangen! Bitte bestätigen Sie Ihre E-Mail. Wir prüfen Ihre Daten und schalten Ihr Konto frei.",
+      locale === "tr"
+        ? "Kurumsal başvuru alındı! Lütfen e-postanızı doğrulayın. Verilerinizi kontrol edip hesabınızı açacağız."
+        : "Gewerbeanfrage eingegangen! Bitte bestätigen Sie Ihre E-Mail. Wir prüfen Ihre Daten und schalten Ihr Konto frei.",
     viesName: vies.name,
   });
 }

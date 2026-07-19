@@ -1,3 +1,3 @@
 export function getSiteUrl(): string {
-  return process.env.NEXT_PUBLIC_SITE_URL ?? "https://bosporus-blue.vercel.app";
+  return (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.bosporus-gmbh.com").replace(/\/$/, "");
 }

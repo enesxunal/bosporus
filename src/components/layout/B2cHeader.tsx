@@ -7,13 +7,19 @@ import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useCart } from "@/stores/cart";
 import { HeaderSearch } from "@/components/b2c/HeaderSearch";
 import { AuthNav } from "@/components/layout/AuthNav";
-import { getCategories } from "@/lib/products";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/cn";
+import type { Category } from "@/lib/types";
 
 const HEADER_CATEGORY_LIMIT = 12;
 
-export function B2cHeader() {
+export function B2cHeader({
+  categories: navCategories = [],
+  hasPromos = false,
+}: {
+  categories?: Category[];
+  hasPromos?: boolean;
+}) {
   const t = useTranslations("nav");
   const locale = useLocale();
   const pathname = usePathname();
@@ -21,7 +27,7 @@ export function B2cHeader() {
   const cartCount = useCart((s) => s.totalItems());
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const categories = useMemo(() => getCategories().slice(0, HEADER_CATEGORY_LIMIT), []);
+  const categories = navCategories.slice(0, HEADER_CATEGORY_LIMIT);
 
   const switchLocale = () => {
     router.replace(pathname, { locale: locale === "de" ? "tr" : "de" });
@@ -113,12 +119,14 @@ export function B2cHeader() {
 
       <nav className="border-t border-bosporus-gray-100 bg-white hidden md:block">
         <div className="page-container flex items-center gap-1 overflow-x-auto scrollbar-hide py-1">
-          <Link
-            href="/products?filter=aktion"
-            className="shrink-0 px-3 py-2 mr-1 text-sm font-bold text-bosporus-red bg-red-50 rounded-xl hover:bg-red-100 transition-colors"
-          >
-            % {locale === "de" ? "Aktionen" : "Kampanyalar"}
-          </Link>
+          {hasPromos && (
+            <Link
+              href="/products?filter=aktion"
+              className="shrink-0 px-3 py-2 mr-1 text-sm font-bold text-bosporus-red bg-red-50 rounded-xl hover:bg-red-100 transition-colors"
+            >
+              % {locale === "de" ? "Aktionen" : "Kampanyalar"}
+            </Link>
+          )}
           {categories.map((cat) => (
             <Link
               key={cat.slug}
@@ -147,13 +155,15 @@ export function B2cHeader() {
 
       {mobileOpen && (
         <nav className="md:hidden border-t border-bosporus-gray-200 bg-white max-h-[70vh] overflow-y-auto">
-          <Link
-            href="/products?filter=aktion"
-            className="block px-4 py-3.5 text-sm font-bold text-bosporus-red bg-red-50 border-b border-bosporus-gray-100"
-            onClick={() => setMobileOpen(false)}
-          >
-            % {locale === "de" ? "Aktionen" : "Kampanyalar"}
-          </Link>
+          {hasPromos && (
+            <Link
+              href="/products?filter=aktion"
+              className="block px-4 py-3.5 text-sm font-bold text-bosporus-red bg-red-50 border-b border-bosporus-gray-100"
+              onClick={() => setMobileOpen(false)}
+            >
+              % {locale === "de" ? "Aktionen" : "Kampanyalar"}
+            </Link>
+          )}
           {categories.map((cat) => (
             <Link
               key={cat.slug}

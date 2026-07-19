@@ -35,8 +35,23 @@ export default function AdminB2bPage() {
       body: JSON.stringify({ action }),
     });
     if (res.ok) {
-      setMsg(action === "approve" ? "Gewerbe hesabı onaylandı" : "Başvuru reddedildi");
+      const data = await res.json().catch(() => ({}));
+      if (action === "approve") {
+        setMsg(
+          data.emailSent
+            ? `Onaylandı — bilgilendirme maili gönderildi${data.emailTo ? ` (${data.emailTo})` : ""}`
+            : "Onaylandı — mail gönderilemedi (SMTP / e-posta adresini kontrol edin)"
+        );
+      } else {
+        setMsg(
+          data.emailSent
+            ? "Başvuru reddedildi — bilgilendirme maili gönderildi"
+            : "Başvuru reddedildi"
+        );
+      }
       load();
+    } else {
+      setMsg("İşlem başarısız");
     }
   };
 

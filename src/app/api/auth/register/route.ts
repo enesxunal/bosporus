@@ -1,24 +1,7 @@
 import { NextResponse } from "next/server";
 import { authErrorMessage } from "@/lib/auth-errors";
 import { createAdminClient, isSupabaseAdminConfigured } from "@/lib/supabase/admin";
-import { getSiteUrl } from "@/lib/site-url";
-import { sendEmail } from "@/lib/email/smtp";
-
-async function sendConfirmEmail(email: string, link: string) {
-  const html = `
-    <p>Guten Tag,</p>
-    <p>Bitte bestätigen Sie Ihre E-Mail-Adresse für Ihr Bosporus-Konto:</p>
-    <p><a href="${link}" style="display:inline-block;padding:12px 24px;background:#1D71B8;color:#fff;text-decoration:none;border-radius:8px;font-weight:bold">E-Mail bestätigen</a></p>
-    <p style="font-size:12px;color:#666">${link}</p>
-  `;
-  return sendEmail({
-    to: email,
-    subject: "E-Mail bestätigen – Bosporus",
-    html,
-    templateType: "campaign",
-    referenceId: "register-verify",
-  });
-}
+import { sendAccountVerificationEmail } from "@/lib/auth-verification-email";
 
 export async function POST(request: Request) {
   if (!isSupabaseAdminConfigured()) {
@@ -28,7 +11,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const { email, password, firstName, lastName } = await request.json();
+  const { email, password, firstName, lastName, locale: bodyLocale } = await request.json();
 
   if (!email || !password) {
     return NextResponse.json({ error: "E-Mail und Passwort erforderlich" }, { status: 400 });
@@ -37,6 +20,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Passwort mindestens 6 Zeichen" }, { status: 400 });
   }
 
+  const locale: "de" | "tr" = bodyLocale === "tr" ? "tr" : "de";
   const admin = createAdminClient();
   if (!admin) {
     return NextResponse.json({ error: "Supabase nicht konfiguriert" }, { status: 503 });
@@ -49,7 +33,7 @@ export async function POST(request: Request) {
     email: normalizedEmail,
     password,
     email_confirm: false,
-    user_metadata: { full_name: fullName, role: "b2c" },
+    user_metadata: { full_name: fullName, role: "b2c", locale },
   });
 
   if (error) {
@@ -65,6 +49,7 @@ export async function POST(request: Request) {
         role: "b2c",
         first_name: firstName?.trim() || null,
         last_name: lastName?.trim() || null,
+        locale,
       },
       { onConflict: "id" }
     );
@@ -73,24 +58,50 @@ export async function POST(request: Request) {
       console.error("B2C profile upsert error:", profileError);
     }
 
-    const { data: linkData } = await admin.auth.admin.generateLink({
-      type: "signup",
+    const mail = await sendAccountVerificationEmail({
       email: normalizedEmail,
       password,
-      options: { redirectTo: `${getSiteUrl()}/auth/callback?next=/login` },
+      fullName,
+      locale,
+      variant: "b2c",
     });
-
-    if (linkData?.properties?.action_link) {
-      sendConfirmEmail(normalizedEmail, linkData.properties.action_link).catch((e) =>
-        console.error("Verify email send:", e)
-      );
+    if (!mail.ok) {
+      console.error("B2C verify email failed:", mail.error);
+      return NextResponse.json({
+        success: true,
+        needsVerification: true,
+        emailSent: false,
+        message:
+          locale === "tr"
+            ? "Hesap oluşturuldu ama doğrulama e-postası gönderilemedi. Lütfen daha sonra tekrar gönderin."
+            : "Konto erstellt, aber die Bestätigungs-E-Mail konnte nicht gesendet werden. Bitte später erneut senden.",
+        userId: data.user.id,
+      });
     }
+
+    void import("@/lib/whatsapp")
+      .then(({ sendWhatsAppToAdmins }) =>
+        import("@/lib/whatsapp-messages").then(({ whatsappAdminSignUp }) =>
+          sendWhatsAppToAdmins(
+            whatsappAdminSignUp({
+              type: "b2c",
+              email: normalizedEmail,
+              name: fullName,
+            })
+          )
+        )
+      )
+      .catch((e) => console.error("WhatsApp signup notify:", e));
   }
 
   return NextResponse.json({
     success: true,
     needsVerification: true,
-    message: "Konto erstellt! Bitte bestätigen Sie Ihre E-Mail-Adresse (Link wurde gesendet).",
+    emailSent: true,
+    message:
+      locale === "tr"
+        ? "Hesap oluşturuldu! Lütfen e-posta adresinizi doğrulayın (link gönderildi)."
+        : "Konto erstellt! Bitte bestätigen Sie Ihre E-Mail-Adresse (Link wurde gesendet).",
     userId: data.user?.id,
   });
 }

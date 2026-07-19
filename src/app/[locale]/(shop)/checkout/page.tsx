@@ -8,12 +8,15 @@ import { useCart } from "@/stores/cart";
 import { formatPrice } from "@/lib/pricing";
 import {
   findZoneInList,
-  getPickupSlotsForDate,
+  getAvailablePickupSlotsForDate,
   isDeliveryDayAllowed,
   isPickupDateAllowed,
-  getWeekdayFromDate,
   zoneDisplayName,
-  formatDeliveryDays,
+  getNextDeliveryDates,
+  formatDisplayDate,
+  formatDeliveryWindowHint,
+  getEarliestDeliveryDateISO,
+  DELIVERY_WINDOW_LABEL,
   type DeliveryZoneData,
   type PickupSlotData,
 } from "@/lib/delivery-data";
@@ -26,6 +29,7 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { PayPalCheckout } from "@/components/checkout/PayPalCheckout";
 import { StripeCheckout } from "@/components/checkout/StripeCheckout";
+import { BeginCheckoutTracker } from "@/components/analytics/BeginCheckoutTracker";
 
 interface DeliveryQuoteView {
   minOrderAmount: number;
@@ -37,6 +41,7 @@ interface DeliveryQuoteView {
   minOrderMet: boolean;
   withinRadius: boolean;
   freeDelivery: boolean;
+  freeReason?: "threshold" | "first_order" | null;
   subtotalGross: number;
 }
 
@@ -73,14 +78,24 @@ export default function CheckoutPage() {
   const [stripeConfig, setStripeConfig] = useState<{ enabled: boolean }>({ enabled: false });
   const [isB2b, setIsB2b] = useState(false);
   const [quote, setQuote] = useState<DeliveryQuoteView | null>(null);
+  const [firstOrderEligible, setFirstOrderEligible] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const subtotal = subtotalGross();
   const zone = zipCode.length >= 4 ? findZoneInList(zones, zipCode) : null;
   const deliveryFee = orderType === "delivery" ? (quote?.deliveryFee ?? 0) : 0;
   const grandTotal = quote?.totalGross ?? subtotal;
   const availablePickupSlots = useMemo(
-    () => (pickupDate ? getPickupSlotsForDate(pickupSlots, pickupDate) : []),
+    () => (pickupDate ? getAvailablePickupSlotsForDate(pickupSlots, pickupDate) : []),
     [pickupSlots, pickupDate]
+  );
+  const earliestDeliveryDate = getEarliestDeliveryDateISO();
+  const suggestedDeliveryDates = useMemo(
+    () => (zone ? getNextDeliveryDates(zone, 4) : getNextDeliveryDates(
+      { id: "", name_de: "", name_tr: "", zip_prefixes: [], min_order_amount: 0, delivery_days: [] },
+      4
+    )),
+    [zone]
   );
 
   useEffect(() => {
@@ -124,6 +139,12 @@ export default function CheckoutPage() {
   }, [pickupDate]);
 
   useEffect(() => {
+    if (pickupSlot && !availablePickupSlots.some((s) => s.label === pickupSlot)) {
+      setPickupSlot("");
+    }
+  }, [availablePickupSlots, pickupSlot]);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       if (orderType === "delivery" && zipCode.replace(/\s/g, "").length < 4) {
         setQuote(null);
@@ -143,6 +164,7 @@ export default function CheckoutPage() {
         .then((r) => r.json())
         .then((d) => {
           if (d.isB2b != null) setIsB2b(Boolean(d.isB2b));
+          setFirstOrderEligible(Boolean(d.firstOrderEligible));
           setQuote(d.quote ?? null);
         })
         .catch(() => setQuote(null));
@@ -159,6 +181,7 @@ export default function CheckoutPage() {
     if (!isSupabaseConfigured()) return;
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data: { user } }) => {
+      setLoggedIn(Boolean(user));
       if (user?.email) setCustomerEmail(user.email);
       const name = user?.user_metadata?.full_name as string | undefined;
       if (name) setCustomerName(name);
@@ -211,6 +234,9 @@ export default function CheckoutPage() {
     if (!customerName.trim() || !customerEmail.trim()) {
       return t("contactRequired");
     }
+    if (!customerPhone.trim() || customerPhone.replace(/\D/g, "").length < 8) {
+      return t("phoneRequired");
+    }
     if (orderType === "delivery") {
       if (!zipCode || !address) {
         return locale === "de" ? "PLZ und Adresse erforderlich" : "Posta kodu ve adres gerekli";
@@ -218,13 +244,15 @@ export default function CheckoutPage() {
       if (!deliveryDate) {
         return locale === "de" ? "Lieferdatum wählen" : "Teslimat tarihi seçin";
       }
+      if (deliveryDate < earliestDeliveryDate) {
+        return locale === "de"
+          ? `Lieferung ab ${earliestDeliveryDate} möglich (Same-Day bis 12:00, Fenster ${DELIVERY_WINDOW_LABEL})`
+          : `Teslimat en erken ${earliestDeliveryDate} (aynı gün için 12:00’ye kadar, saat ${DELIVERY_WINDOW_LABEL})`;
+      }
       if (zone && !isDeliveryDayAllowed(zone, deliveryDate)) {
         return locale === "de"
-          ? `An diesem Tag keine Lieferung. Mögliche Tage: ${formatDeliveryDays(zone, locale)}`
-          : `Bu gün teslimat yok. Uygun günler: ${formatDeliveryDays(zone, locale)}`;
-      }
-      if (!zone && getWeekdayFromDate(deliveryDate) === 0) {
-        return locale === "de" ? "Sonntags keine Lieferung" : "Pazar günü teslimat yok";
+          ? `Dieses Datum ist nicht möglich. Fenster: ${DELIVERY_WINDOW_LABEL}`
+          : `Bu tarih uygun değil. Teslimat saati: ${DELIVERY_WINDOW_LABEL}`;
       }
       if (quote && !quote.minOrderMet) {
         return t("minOrderWarning", { amount: formatPrice(quote.minOrderAmount, locale) });
@@ -238,6 +266,11 @@ export default function CheckoutPage() {
       }
       if (!isPickupDateAllowed(pickupDate)) {
         return locale === "de" ? "Abholung nur Mo–Sa möglich" : "Gel-al sadece Pzt–Cmt";
+      }
+      if (!availablePickupSlots.some((s) => s.label === pickupSlot)) {
+        return locale === "de"
+          ? "Abholzeit zu nah oder ungültig — bitte mindestens 1 Stunde im Voraus wählen."
+          : "Gel-al saati çok yakın veya geçersiz — en az 1 saat sonrasını seçin.";
       }
       if (quote && !quote.minOrderMet) {
         return t("minOrderWarning", { amount: formatPrice(quote.minOrderAmount, locale) });
@@ -265,43 +298,35 @@ export default function CheckoutPage() {
     router.push(`/checkout/success?order=${encodeURIComponent(orderNumber)}`);
   };
 
-  const checkoutValid = validateCheckout() === null;
+  const validationMessage = validateCheckout();
+  const checkoutValid = validationMessage === null;
+  const paypalReady = paypalConfig.enabled && paypalConfig.ready !== false && Boolean(paypalConfig.clientId);
   const paypalDisabled = loading || !checkoutValid;
+  const onlinePaymentEnabled = paypalReady || stripeConfig.enabled;
+  const deliveryDateInvalid =
+    orderType === "delivery" &&
+    Boolean(deliveryDate) &&
+    deliveryDate < earliestDeliveryDate;
 
-  const handleSubmit = async () => {
-    setError("");
-    const validationError = validateCheckout();
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
-
-    setLoading(true);
+  const openDatePicker = (el: HTMLInputElement | null) => {
+    if (!el) return;
     try {
-      const res = await fetch("/api/orders/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(getOrderPayload()),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error ?? "Fehler");
-        return;
-      }
-      clear();
-      router.push(`/checkout/success?order=${encodeURIComponent(data.orderNumber)}`);
+      el.showPicker?.();
     } catch {
-      setError("Verbindungsfehler");
-    } finally {
-      setLoading(false);
+      // Bazı tarayıcılarda showPicker kısıtlı olabilir
     }
   };
 
   return (
     <div className="page-narrow py-6 sm:py-10 pb-32 sm:pb-10">
+      <BeginCheckoutTracker value={subtotal} />
       <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-2 tracking-tight">{t("title")}</h1>
       <p className="text-sm text-bosporus-muted mb-6">
-        {paypalConfig.enabled || stripeConfig.enabled ? t("paymentNoteOnline") : t("noPaymentNote")}
+        {onlinePaymentEnabled
+          ? paypalReady
+            ? t("paymentNoteOnline")
+            : t("paymentNoteOnlineStripeOnly")
+          : t("noPaymentNote")}
       </p>
 
       <div className="space-y-4">
@@ -315,7 +340,8 @@ export default function CheckoutPage() {
               type="tel"
               value={customerPhone}
               onChange={(e) => setCustomerPhone(e.target.value)}
-              placeholder={locale === "de" ? "+49 221 ..." : "+49 221 ..."}
+              placeholder={locale === "de" ? "+49 152 ..." : "+49 152 ..."}
+              required
             />
             <p className="text-xs text-bosporus-muted -mt-2">{t("phoneHint")}</p>
           </div>
@@ -376,16 +402,55 @@ export default function CheckoutPage() {
                 <p className="text-xs text-bosporus-muted -mt-2">
                   {zoneDisplayName(zone, locale)}
                   <br />
-                  {locale === "de" ? "Liefertage" : "Teslimat günleri"}: {formatDeliveryDays(zone, locale)}
+                  {formatDeliveryWindowHint(locale)}
                 </p>
               )}
-              <Input
-                label={locale === "de" ? "Lieferdatum" : "Teslimat tarihi"}
-                type="date"
-                value={deliveryDate}
-                onChange={(e) => setDeliveryDate(e.target.value)}
-                min={new Date().toISOString().split("T")[0]}
-              />
+              {!zone && zipCode.length >= 4 && (
+                <p className="text-xs text-bosporus-muted -mt-2">{formatDeliveryWindowHint(locale)}</p>
+              )}
+              <div>
+                <Input
+                  label={locale === "de" ? "Lieferdatum" : "Teslimat tarihi"}
+                  type="date"
+                  value={deliveryDate}
+                  onChange={(e) => setDeliveryDate(e.target.value)}
+                  onClick={(e) => openDatePicker(e.currentTarget)}
+                  onFocus={(e) => openDatePicker(e.currentTarget)}
+                  min={earliestDeliveryDate}
+                  className="cursor-pointer"
+                  error={deliveryDateInvalid ? t("invalidDeliveryDateShort") : undefined}
+                />
+                <p className="text-xs text-bosporus-muted mt-1">
+                  {locale === "de"
+                    ? `Lieferfenster: ${DELIVERY_WINDOW_LABEL}`
+                    : `Teslimat saati: ${DELIVERY_WINDOW_LABEL}`}
+                </p>
+                {suggestedDeliveryDates.length > 0 && (
+                  <div className="mt-3">
+                    <p className="text-xs text-bosporus-muted mb-2">{t("suggestedDeliveryDates")}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {suggestedDeliveryDates.map((iso) => {
+                        const active = deliveryDate === iso;
+                        return (
+                          <button
+                            key={iso}
+                            type="button"
+                            onClick={() => setDeliveryDate(iso)}
+                            className={cn(
+                              "px-3 py-1.5 rounded-xl text-sm font-semibold border transition-colors",
+                              active
+                                ? "border-bosporus bg-bosporus text-white"
+                                : "border-bosporus-gray-200 bg-white text-bosporus-gray-800 hover:border-bosporus/40"
+                            )}
+                          >
+                            {formatDisplayDate(iso, locale)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
               <Textarea
                 label={t("address")}
                 value={address}
@@ -400,7 +465,10 @@ export default function CheckoutPage() {
                 type="date"
                 value={pickupDate}
                 onChange={(e) => setPickupDate(e.target.value)}
+                onClick={(e) => openDatePicker(e.currentTarget)}
+                onFocus={(e) => openDatePicker(e.currentTarget)}
                 min={new Date().toISOString().split("T")[0]}
+                className="cursor-pointer"
               />
               <div>
                 <label className="field-label">{t("pickupSlot")}</label>
@@ -410,6 +478,18 @@ export default function CheckoutPage() {
                     <option key={s.id} value={s.label}>{s.label}</option>
                   ))}
                 </select>
+                <p className="text-xs text-bosporus-muted mt-1">
+                  {locale === "de"
+                    ? "Nur Termine ab jetzt + 1 Stunde"
+                    : "Sadece şu andan en az 1 saat sonrası"}
+                </p>
+                {pickupDate && availablePickupSlots.length === 0 && (
+                  <p className="text-sm text-amber-800 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2 mt-2">
+                    {locale === "de"
+                      ? "Für dieses Datum keine Abholzeit mehr frei — bitte anderen Tag wählen."
+                      : "Bu gün için uygun gel-al saati kalmadı — lütfen başka gün seçin."}
+                  </p>
+                )}
               </div>
             </div>
           )}
@@ -419,9 +499,22 @@ export default function CheckoutPage() {
           <p className="text-bosporus-red text-sm bg-red-50 p-4 rounded-xl border border-red-100">{error}</p>
         )}
 
-        {(paypalConfig.enabled || stripeConfig.enabled) && (
+        {(paypalReady || stripeConfig.enabled) && (
           <Card>
-            <h2 className="font-bold text-bosporus-gray-800 mb-4">{t("paymentSection")}</h2>
+            <h2 className="font-bold text-bosporus-gray-800 mb-2">{t("paymentSection")}</h2>
+            <p className="text-sm text-bosporus-muted mb-4">
+              {paypalReady ? t("paymentNoteOnline") : t("paymentNoteOnlineStripeOnly")}
+            </p>
+            {!checkoutValid && (
+              <p className="text-sm text-amber-800 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2 mb-4">
+                {validationMessage || t("completeDetailsHint")}
+              </p>
+            )}
+            {paypalConfig.enabled && !paypalReady && (
+              <p className="text-sm text-bosporus-muted bg-bosporus-gray-50 border border-bosporus-gray-100 rounded-xl px-3 py-2 mb-4">
+                {t("paypalNotReady")}
+              </p>
+            )}
             <div className="space-y-4">
               {stripeConfig.enabled && (
                 <StripeCheckout
@@ -430,7 +523,7 @@ export default function CheckoutPage() {
                   onError={(msg) => setError(msg)}
                 />
               )}
-              {paypalConfig.enabled && paypalConfig.clientId && (
+              {paypalReady && paypalConfig.clientId && (
                 <PayPalCheckout
                   clientId={paypalConfig.clientId}
                   mode={paypalConfig.mode ?? "live"}
@@ -440,14 +533,6 @@ export default function CheckoutPage() {
                   onSuccess={handlePayPalSuccess}
                 />
               )}
-            </div>
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-bosporus-gray-200" />
-              </div>
-              <div className="relative flex justify-center text-xs">
-                <span className="bg-white px-3 text-bosporus-muted">{t("orPayOnDelivery")}</span>
-              </div>
             </div>
           </Card>
         )}
@@ -465,9 +550,19 @@ export default function CheckoutPage() {
           )}
           {orderType === "delivery" && quote?.freeDelivery && (
             <div className="flex justify-between text-sm text-bosporus">
-              <span>{locale === "de" ? "Liefergebühr" : "Teslimat ücreti"}</span>
-              <span>{locale === "de" ? "Kostenlos" : "Ücretsiz"}</span>
+              <span>{t("deliveryFeeLabel")}</span>
+              <span>
+                {quote.freeReason === "first_order" ? t("freeDeliveryFirstOrder") : t("freeDelivery")}
+              </span>
             </div>
+          )}
+          {orderType === "delivery" && !loggedIn && !isB2b && (
+            <p className="text-xs text-bosporus-muted pt-1">
+              {t("loginForFirstOrderFree")}{" "}
+              <Link href="/register" className="text-bosporus font-semibold underline">
+                {t("registerShort")}
+              </Link>
+            </p>
           )}
           <div className="flex justify-between items-center text-xl font-extrabold pt-2 border-t border-bosporus-gray-100">
             <span>{locale === "de" ? "Gesamt" : "Toplam"}</span>
@@ -488,9 +583,22 @@ export default function CheckoutPage() {
           )}
           {orderType === "delivery" && quote?.freeDelivery && (
             <div className="flex justify-between text-sm text-bosporus">
-              <span>{locale === "de" ? "Liefergebühr" : "Teslimat ücreti"}</span>
-              <span>{locale === "de" ? "Kostenlos" : "Ücretsiz"}</span>
+              <span>{t("deliveryFeeLabel")}</span>
+              <span>
+                {quote.freeReason === "first_order" ? t("freeDeliveryFirstOrder") : t("freeDelivery")}
+              </span>
             </div>
+          )}
+          {orderType === "delivery" && !loggedIn && !isB2b && (
+            <p className="text-xs text-bosporus-muted pt-1">
+              {t("loginForFirstOrderFree")}{" "}
+              <Link href="/register" className="text-bosporus font-semibold underline">
+                {t("registerShort")}
+              </Link>
+            </p>
+          )}
+          {orderType === "delivery" && loggedIn && firstOrderEligible && !quote?.freeDelivery && (
+            <p className="text-xs text-bosporus font-medium pt-1">{t("firstOrderPendingAddress")}</p>
           )}
           <div className="flex justify-between items-center text-xl font-extrabold pt-2 border-t border-bosporus-gray-100">
             <span>{locale === "de" ? "Gesamt" : "Toplam"}</span>
@@ -498,25 +606,94 @@ export default function CheckoutPage() {
           </div>
         </Card>
 
-        <Button type="button" onClick={handleSubmit} loading={loading} size="lg" fullWidth className="hidden sm:flex">
-          {paypalConfig.enabled || stripeConfig.enabled ? t("placeOrderCash") : t("placeOrder")}
-        </Button>
+        {!onlinePaymentEnabled && (
+          <Button
+            type="button"
+            onClick={async () => {
+              setError("");
+              const validationError = validateCheckout();
+              if (validationError) {
+                setError(validationError);
+                return;
+              }
+              setLoading(true);
+              try {
+                const res = await fetch("/api/orders/create", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(getOrderPayload()),
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                  setError(data.error ?? "Fehler");
+                  return;
+                }
+                clear();
+                router.push(`/checkout/success?order=${encodeURIComponent(data.orderNumber)}`);
+              } catch {
+                setError("Verbindungsfehler");
+              } finally {
+                setLoading(false);
+              }
+            }}
+            loading={loading}
+            size="lg"
+            fullWidth
+            className="hidden sm:flex"
+          >
+            {t("placeOrder")}
+          </Button>
+        )}
       </div>
 
-      {/* Mobile sticky order bar */}
-      <div className="sm:hidden fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] inset-x-0 z-40 px-4 pb-2">
-        <Card padding="sm" className="!rounded-2xl shadow-lg">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <p className="text-xs text-bosporus-muted font-medium">{locale === "de" ? "Gesamt" : "Toplam"}</p>
-              <p className="text-xl font-extrabold text-bosporus">{formatPrice(grandTotal, locale)}</p>
+      {/* Mobile sticky — sadece online ödeme yoksa klasik sipariş */}
+      {!onlinePaymentEnabled && (
+        <div className="sm:hidden fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] inset-x-0 z-40 px-4 pb-2">
+          <Card padding="sm" className="!rounded-2xl shadow-lg">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="text-xs text-bosporus-muted font-medium">{locale === "de" ? "Gesamt" : "Toplam"}</p>
+                <p className="text-xl font-extrabold text-bosporus">{formatPrice(grandTotal, locale)}</p>
+              </div>
+              <Button
+                type="button"
+                onClick={async () => {
+                  setError("");
+                  const validationError = validateCheckout();
+                  if (validationError) {
+                    setError(validationError);
+                    return;
+                  }
+                  setLoading(true);
+                  try {
+                    const res = await fetch("/api/orders/create", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(getOrderPayload()),
+                    });
+                    const data = await res.json();
+                    if (!res.ok) {
+                      setError(data.error ?? "Fehler");
+                      return;
+                    }
+                    clear();
+                    router.push(`/checkout/success?order=${encodeURIComponent(data.orderNumber)}`);
+                  } catch {
+                    setError("Verbindungsfehler");
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+                loading={loading}
+                size="lg"
+                className="flex-1 max-w-[200px]"
+              >
+                {t("placeOrder")}
+              </Button>
             </div>
-            <Button type="button" onClick={handleSubmit} loading={loading} size="lg" className="flex-1 max-w-[200px]">
-              {paypalConfig.enabled || stripeConfig.enabled ? t("placeOrderCash") : t("placeOrder")}
-            </Button>
-          </div>
-        </Card>
-      </div>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }

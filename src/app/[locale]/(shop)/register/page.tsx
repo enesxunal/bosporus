@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useRouter, Link } from "@/i18n/navigation";
 import { User, Building2, CheckCircle, XCircle } from "lucide-react";
 import { Card } from "@/components/ui/Card";
@@ -10,12 +10,14 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
+import { trackSignUp } from "@/lib/analytics";
 
 type Tab = "b2c" | "b2b";
 
 function RegisterForm() {
   const t = useTranslations("auth");
   const tb = useTranslations("b2b");
+  const locale = useLocale() as "de" | "tr";
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialTab = searchParams.get("tab") === "gewerbe" ? "b2b" : "b2c";
@@ -45,7 +47,7 @@ function RegisterForm() {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(b2cForm),
+        body: JSON.stringify({ ...b2cForm, locale }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -58,6 +60,7 @@ function RegisterForm() {
       }
       setStatus("success");
       setMessage(data.message);
+      trackSignUp("b2c");
       if (data.needsVerification) {
         setTimeout(() => router.push(`/verify-email?email=${encodeURIComponent(b2cForm.email)}`), 1500);
       } else {
@@ -76,7 +79,7 @@ function RegisterForm() {
       const res = await fetch("/api/auth/b2b-register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(b2bForm),
+        body: JSON.stringify({ ...b2bForm, locale }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -89,6 +92,7 @@ function RegisterForm() {
       }
       setStatus("success");
       setMessage(data.message);
+      trackSignUp("b2b");
       if (data.needsVerification) {
         setTimeout(() => router.push(`/verify-email?email=${encodeURIComponent(b2bForm.email)}`), 1500);
       } else {

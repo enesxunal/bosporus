@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/Button";
 import { BarcodeScanner } from "@/components/shared/BarcodeScanner";
 import { ProductImageGallery } from "@/components/admin/ProductImageGallery";
 import { cn } from "@/lib/cn";
+import { B2C_MARKUP, getB2cGross, netToGross } from "@/lib/pricing";
+import type { Product } from "@/lib/types";
 
 interface Category {
   id: string;
@@ -152,10 +154,16 @@ export function AdminProductForm({ productId }: { productId?: string }) {
     const url = isNew ? "/api/admin/products" : `/api/admin/products/${productId}`;
     const method = isNew ? "POST" : "PATCH";
 
+    // Liste fiyatı toptan (net); bireysel brüt = net × %20 × KDV — kayda yazılır (referans)
+    const payload = {
+      ...product,
+      price_b2c: getB2cGross(product as Product, false),
+    };
+
     const res = await fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(product),
+      body: JSON.stringify(payload),
     });
     setSaving(false);
 
@@ -315,14 +323,6 @@ export function AdminProductForm({ productId }: { productId?: string }) {
             <SectionTitle step={4} title={t("prices")} icon={Euro} />
             <div className="space-y-4">
               <Input
-                label={t("priceB2c")}
-                type="number"
-                step="0.01"
-                min="0"
-                value={product.price_b2c}
-                onChange={(e) => update("price_b2c", Number(e.target.value))}
-              />
-              <Input
                 label={t("priceB2b")}
                 type="number"
                 step="0.01"
@@ -336,6 +336,17 @@ export function AdminProductForm({ productId }: { productId?: string }) {
                 value={product.tax_rate}
                 onChange={(e) => update("tax_rate", Number(e.target.value))}
               />
+              <div className="rounded-xl bg-bosporus-gray-50 border border-bosporus-gray-100 px-3 py-3">
+                <p className="text-xs font-semibold text-bosporus-muted mb-1">{t("priceB2c")}</p>
+                <p className="text-lg font-extrabold text-bosporus">
+                  {getB2cGross(product as Product, false).toFixed(2)} €
+                </p>
+                <p className="text-xs text-bosporus-muted mt-1">
+                  {product.price_b2b.toFixed(2)} × {Math.round((B2C_MARKUP - 1) * 100)}% +{" "}
+                  {product.tax_rate}% MwSt. ={" "}
+                  {netToGross(product.price_b2b * B2C_MARKUP, product.tax_rate).toFixed(2)} €
+                </p>
+              </div>
 
               <div className="pt-3 border-t border-bosporus-gray-100">
                 <p className="text-sm font-bold text-metro-navy mb-3">{t("promoOptional")}</p>

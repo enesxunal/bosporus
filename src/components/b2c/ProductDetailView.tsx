@@ -17,6 +17,9 @@ import { RecommendedProducts } from "@/components/b2c/RecommendedProducts";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
+import { buildCartItemFromProduct } from "@/lib/pfand";
+import { isB2BApproved } from "@/lib/types";
+import { trackAddToCart, trackViewItem } from "@/lib/analytics";
 
 interface ProductDetailViewProps {
   product: Product;
@@ -38,29 +41,21 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
 
   useEffect(() => {
     trackRecentProduct(product.sku);
-  }, [product.sku]);
+    trackViewItem({
+      item_id: product.sku,
+      item_name: name,
+      price: displayPrice.amount,
+    });
+  }, [product.sku, name, displayPrice.amount]);
 
   const handleAdd = () => {
     if (outOfStock) return;
-    const net =
-      displayPrice.label === "netto"
-        ? displayPrice.amount
-        : displayPrice.amount / (1 + product.tax_rate / 100);
-    const gross =
-      displayPrice.label === "brutto"
-        ? displayPrice.amount
-        : netToGross(displayPrice.amount, product.tax_rate);
-
-    addItem({
-      productId: product.id,
-      sku: product.sku,
-      name,
+    addItem(buildCartItemFromProduct(product, 1, profile, name));
+    trackAddToCart({
+      item_id: product.sku,
+      item_name: name,
+      price: getDisplayPrice(product, profile).amount,
       quantity: 1,
-      unit: product.base_unit,
-      priceNet: Math.round(net * 100) / 100,
-      priceGross: Math.round(gross * 100) / 100,
-      taxRate: product.tax_rate,
-      imageUrl: images[0],
     });
   };
 
@@ -153,6 +148,26 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
                 {displayPrice.label === "brutto" ? t("brutto") : t("netto")}
               </span>
             </div>
+            {product.pfand && (
+              <p className="text-sm text-bosporus-muted mt-2">
+                {t("plusPfand", {
+                  amount: formatPrice(
+                    isB2BApproved(profile)
+                      ? netToGross(product.pfand.price_b2b, product.pfand.tax_rate)
+                      : product.pfand.price_b2c,
+                    locale
+                  ),
+                })}
+              </p>
+            )}
+            {!isB2BApproved(profile) && (
+              <p className="text-xs text-bosporus-muted mt-3 max-w-md leading-relaxed">
+                {t("wholesaleHintDetail")}{" "}
+                <Link href="/register?tab=gewerbe" className="font-semibold text-bosporus hover:underline">
+                  {locale === "de" ? "Jetzt anfragen →" : "Başvur →"}
+                </Link>
+              </p>
+            )}
           </div>
 
           <Button type="button" onClick={handleAdd} size="lg" disabled={outOfStock} className="w-full sm:w-auto mb-8">

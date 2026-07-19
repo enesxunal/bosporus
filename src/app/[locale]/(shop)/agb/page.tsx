@@ -1,3 +1,15 @@
+import type { Metadata } from "next";
+import { shopPageMetadata } from "@/lib/page-seo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return shopPageMetadata("/agb", locale);
+}
+
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { COMPANY, companyAddressLine } from "@/lib/company";
 
@@ -35,8 +47,8 @@ export default async function AgbPage({
           <h2 className="font-semibold text-base mb-2">3. {de ? "Preise & Zahlung" : "Fiyat & ödeme"}</h2>
           <p>
             {de
-              ? "Alle Preise verstehen sich in Euro inkl. gesetzlicher MwSt. (B2B: zzgl. MwSt.). Zahlung online per Karte, Klarna oder PayPal sowie bei Lieferung oder Abholung in bar oder per EC-Karte möglich."
-              : "Fiyatlar Euro cinsindendir (B2B: KDV hariç). Online ödeme (kart, Klarna, PayPal) veya teslimat/gel-al sırasında nakit/EC kart ile ödeme mümkündür."}
+              ? "Alle Preise verstehen sich in Euro inkl. gesetzlicher MwSt. (B2B: zzgl. MwSt.). Die Zahlung erfolgt online per Karte, Klarna oder PayPal — auch bei Abholung. Eine Zahlung bei Lieferung/Abholung ist nicht vorgesehen."
+              : "Fiyatlar Euro cinsindendir (B2B: KDV hariç). Ödeme online yapılır (kart, Klarna veya PayPal) — gel-al dahil. Teslimatta/gel-al nakit veya kartla ödeme yoktur."}
           </p>
         </section>
         <section>

@@ -10,7 +10,17 @@ import { cn } from "@/lib/cn";
 
 const SLIDES = [
   {
-    image: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&h=480&fit=crop",
+    image: "/home/home-banner-frische.jpg",
+    titleDe: "Erste Bestellung: Lieferung gratis",
+    titleTr: "İlk siparişte getirme ücretsiz",
+    subtitleDe: "Als Privatkunde registrieren – Mindestbestellwert 100 € gilt weiter",
+    subtitleTr: "Özel müşteri olarak kayıt olun – 100 € minimum sipariş geçerli",
+    ctaDe: "Jetzt registrieren",
+    ctaTr: "Hemen kayıt ol",
+    href: "/register",
+  },
+  {
+    image: "/home/home-banner-frische.jpg",
     titleDe: "Frische vom Großmarkt",
     titleTr: "Haldan taze ürünler",
     subtitleDe: "Obst, Gemüse & mehr – täglich frisch in Köln",
@@ -20,7 +30,7 @@ const SLIDES = [
     href: "/products/gemuese",
   },
   {
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&h=480&fit=crop",
+    image: "/home/home-banner-gastronomie.jpg",
     titleDe: "Für Ihre Gastronomie",
     titleTr: "Gastronominiz için",
     subtitleDe: "Großhandelspreise – Netto für Gewerbekunden",
@@ -30,7 +40,7 @@ const SLIDES = [
     href: "/gewerbe",
   },
   {
-    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200&h=480&fit=crop",
+    image: "/home/home-banner-grill.jpg",
     titleDe: "Grill-Saison ist da",
     titleTr: "Mangal sezonu başladı",
     subtitleDe: "Fleisch, Kohle & Zubehör – alles aus einer Hand",
@@ -63,10 +73,21 @@ export function PromoBanner() {
             key={i}
             className={cn(
               "absolute inset-0 transition-opacity duration-700",
-              i === current ? "opacity-100" : "opacity-0"
+              i === current ? "opacity-100" : "opacity-0 pointer-events-none"
             )}
+            aria-hidden={i !== current}
           >
-            <Image src={s.image} alt="" fill className="object-cover" priority={i === 0} sizes="100vw" />
+            {(i === current || i === (current + 1) % SLIDES.length) && (
+              <Image
+                src={s.image}
+                alt=""
+                fill
+                className="object-cover"
+                priority={i === 0 && current === 0}
+                sizes="100vw"
+                quality={65}
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/10" />
           </div>
         ))}
@@ -75,7 +96,7 @@ export function PromoBanner() {
             <span className="inline-block w-fit px-3 py-1 bg-bosporus-yellow text-bosporus-gray-800 text-[10px] sm:text-xs font-bold uppercase mb-2 sm:mb-3 rounded-lg">
               {locale === "de" ? "Top-Angebot" : "Fırsat"}
             </span>
-            <h2 className="text-xl sm:text-3xl md:text-5xl font-extrabold text-white mb-2 sm:mb-3 leading-tight tracking-tight">
+            <h2 className="text-xl sm:text-3xl md:text-5xl font-bold text-white mb-2 sm:mb-3 leading-tight tracking-tight">
               {title}
             </h2>
             <p className="text-white/85 text-sm sm:text-base md:text-lg mb-4 sm:mb-6 line-clamp-2 sm:line-clamp-none">

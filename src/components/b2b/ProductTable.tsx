@@ -6,10 +6,11 @@ import { Plus, Minus } from "lucide-react";
 import Image from "next/image";
 import type { Product, UserProfile } from "@/lib/types";
 import { getDisplayPrice, formatPrice, formatUnit } from "@/lib/pricing";
-import { netToGross } from "@/lib/pricing";
 import { useCart } from "@/stores/cart";
 import { getProductImageUrl, getAvailability } from "@/lib/category-images";
 import { getProductName } from "@/lib/product-display";
+import { buildCartItemFromProduct } from "@/lib/pfand";
+import { trackAddToCart, trackViewItem } from "@/lib/analytics";
 
 interface ProductTableProps {
   products: Product[];
@@ -41,20 +42,19 @@ export function ProductTable({ products, profile = null }: ProductTableProps) {
   const handleAdd = (product: Product) => {
     if (getAvailability(product) === "out_of_stock") return;
     const qty = getQty(product.id);
-    const displayPrice = getDisplayPrice(product, profile);
-    const net = displayPrice.amount;
-    const gross = netToGross(net, product.tax_rate);
-
-    addItem({
-      productId: product.id,
-      sku: product.sku,
-      name: getProductName(product, locale),
+    const name = getProductName(product, locale);
+    const dp = getDisplayPrice(product, profile);
+    trackViewItem({
+      item_id: product.sku,
+      item_name: name,
+      price: dp.amount,
+    });
+    addItem(buildCartItemFromProduct(product, qty, profile, name));
+    trackAddToCart({
+      item_id: product.sku,
+      item_name: name,
+      price: dp.amount,
       quantity: qty,
-      unit: product.base_unit,
-      priceNet: net,
-      priceGross: gross,
-      taxRate: product.tax_rate,
-      imageUrl: getProductImageUrl(product),
     });
     setQuantities((q) => ({ ...q, [product.id]: 1 }));
   };

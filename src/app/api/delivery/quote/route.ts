@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { quoteDelivery } from "@/lib/delivery-pricing";
+import { isB2cFirstOrderEligible, quoteDelivery } from "@/lib/delivery-pricing";
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -21,10 +21,14 @@ export async function POST(request: Request) {
   }
 
   let isB2b = false;
+  let userId: string | null = null;
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (user) {
+      userId = user.id;
       const { data: profile } = await supabase
         .from("profiles")
         .select("role")
@@ -36,13 +40,16 @@ export async function POST(request: Request) {
     // guest
   }
 
+  const firstOrderEligible = await isB2cFirstOrderEligible(userId, isB2b);
+
   const quote = await quoteDelivery({
     orderType,
     isB2b,
     subtotalGross,
     zipCode,
     address,
+    firstOrderFree: firstOrderEligible,
   });
 
-  return NextResponse.json({ quote, isB2b });
+  return NextResponse.json({ quote, isB2b, firstOrderEligible });
 }

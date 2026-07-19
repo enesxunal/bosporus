@@ -18,11 +18,21 @@ export async function PATCH(
 
   const { data: before } = await admin
     .from("profiles")
-    .select("email, company_name, locale, role")
+    .select("email, company_name, locale, role, phone")
     .eq("id", id)
     .single();
 
   if (!before) return NextResponse.json({ error: "Profil nicht gefunden" }, { status: 404 });
+
+  let recipientEmail = (before.email ?? "").trim().toLowerCase();
+  if (!recipientEmail) {
+    const { data: authUser } = await admin.auth.admin.getUserById(id);
+    recipientEmail = (authUser.user?.email ?? "").trim().toLowerCase();
+  }
+
+  const companyName = before.company_name ?? "Ihr Unternehmen";
+  const locale: "de" | "tr" = before.locale === "tr" ? "tr" : "de";
+  const phone = (before.phone as string | null)?.trim() || null;
 
   if (action === "approve") {
     const { data, error } = await admin
@@ -35,16 +45,47 @@ export async function PATCH(
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-    if (before.email) {
-      sendB2bStatusEmail({
-        to: before.email,
-        action: "approve",
-        companyName: before.company_name ?? "Ihr Unternehmen",
-        locale: (before.locale as "de" | "tr") ?? "de",
-      }).catch((e) => console.error("B2B approve email:", e));
+    let emailSent = false;
+    if (recipientEmail) {
+      try {
+        const result = await sendB2bStatusEmail({
+          to: recipientEmail,
+          action: "approve",
+          companyName,
+          locale,
+        });
+        emailSent = result.ok === true;
+      } catch (e) {
+        console.error("B2B approve email:", e);
+      }
     }
 
-    return NextResponse.json({ profile: data });
+    void import("@/lib/whatsapp")
+      .then(({ sendWhatsAppToAdmins, sendWhatsAppCustomerNotify, getB2bApprovedTemplateName }) =>
+        import("@/lib/whatsapp-messages").then(
+          async ({
+            whatsappAdminB2bApproved,
+            whatsappCustomerB2bApproved,
+            whatsappB2bApprovedTemplateParams,
+          }) => {
+            await sendWhatsAppToAdmins(
+              whatsappAdminB2bApproved({ companyName, email: recipientEmail || "—" })
+            );
+            if (phone) {
+              await sendWhatsAppCustomerNotify({
+                to: phone,
+                locale,
+                fallbackText: whatsappCustomerB2bApproved({ companyName, locale }),
+                templateName: getB2bApprovedTemplateName(),
+                bodyParams: whatsappB2bApprovedTemplateParams(companyName),
+              });
+            }
+          }
+        )
+      )
+      .catch((e) => console.error("WhatsApp B2B approve notify:", e));
+
+    return NextResponse.json({ profile: data, emailSent, emailTo: recipientEmail || null });
   }
 
   if (action === "reject") {
@@ -56,16 +97,22 @@ export async function PATCH(
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-    if (before.email) {
-      sendB2bStatusEmail({
-        to: before.email,
-        action: "reject",
-        companyName: before.company_name ?? "Ihr Unternehmen",
-        locale: (before.locale as "de" | "tr") ?? "de",
-      }).catch((e) => console.error("B2B reject email:", e));
+    let emailSent = false;
+    if (recipientEmail) {
+      try {
+        const result = await sendB2bStatusEmail({
+          to: recipientEmail,
+          action: "reject",
+          companyName,
+          locale,
+        });
+        emailSent = result.ok === true;
+      } catch (e) {
+        console.error("B2B reject email:", e);
+      }
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, emailSent, emailTo: recipientEmail || null });
   }
 
   return NextResponse.json({ error: "Ungültige Aktion" }, { status: 400 });

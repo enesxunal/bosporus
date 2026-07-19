@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { getProductsAsync, countProductsAsync } from "@/lib/products-db";
+import {
+  getProductsAsync,
+  countProductsAsync,
+  fetchPromoProductsPage,
+} from "@/lib/products-db";
 import { isPromoActive } from "@/lib/pricing";
 import { stripB2bPrice } from "@/lib/order-validation";
 import { createClient } from "@/lib/supabase/server";
@@ -16,7 +20,9 @@ export async function GET(request: Request) {
   let isB2bApproved = false;
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (user) {
       const { data: profile } = await supabase
         .from("profiles")
@@ -33,8 +39,8 @@ export async function GET(request: Request) {
     isB2bApproved ? list : list.map(stripB2bPrice);
 
   if (filter === "aktion") {
-    const all = await getProductsAsync({ limit: 9999, activeOnly: true });
-    const promos = all.filter((p) => isPromoActive(p));
+    const fromDb = await fetchPromoProductsPage(offset + limit);
+    const promos = (fromDb ?? []).filter((p) => isPromoActive(p));
     const sliced = promos.slice(offset, offset + limit);
     return NextResponse.json({
       products: sanitize(sliced),

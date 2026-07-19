@@ -7,7 +7,9 @@ import {
   validatePickupOrder,
 } from "./order-validation";
 import { getStripeClient, stripePaymentReference } from "./stripe";
+import { alertPaymentFulfillmentIssue } from "./payment-recovery";
 import type { CartItem } from "./types";
+import { cartLineTotalGross } from "./pfand";
 
 function lineItemsToCart(lines: Stripe.LineItem[]): CartItem[] {
   const items: CartItem[] = [];
@@ -48,6 +50,25 @@ async function orderExistsForSession(sessionId: string): Promise<string | null> 
   return data?.order_number ?? null;
 }
 
+async function refundStripeSession(
+  stripe: Stripe,
+  session: Stripe.Checkout.Session
+): Promise<boolean> {
+  const pi = session.payment_intent;
+  const paymentIntentId = typeof pi === "string" ? pi : pi?.id;
+  if (!paymentIntentId) return false;
+  try {
+    await stripe.refunds.create({
+      payment_intent: paymentIntentId,
+      reason: "requested_by_customer",
+    });
+    return true;
+  } catch (e) {
+    console.error("Stripe refund failed:", e);
+    return false;
+  }
+}
+
 export async function fulfillStripeCheckoutSession(
   sessionId: string
 ): Promise<{ ok: true; orderNumber: string } | { ok: false; error: string }> {
@@ -80,22 +101,39 @@ export async function fulfillStripeCheckoutSession(
   const userId = meta.userId || null;
   const deliveryFee = Number(meta.deliveryFee ?? 0);
   const distanceKm = meta.distanceKm ? Number(meta.distanceKm) : null;
+  const paidAmount = (session.amount_total ?? 0) / 100;
+
+  const fail = async (error: string) => {
+    const refunded = await refundStripeSession(stripe, session);
+    await alertPaymentFulfillmentIssue({
+      provider: "stripe",
+      reference: sessionId,
+      customerEmail,
+      customerName,
+      amountEur: paidAmount,
+      error,
+      refunded,
+    });
+    return { ok: false as const, error };
+  };
 
   const lines = session.line_items?.data ?? [];
   const clientItems = lineItemsToCart(lines);
-  if (!clientItems.length) return { ok: false, error: "EMPTY_CART" };
+  if (!clientItems.length) return fail("EMPTY_CART");
 
   const priced = await validateAndPriceOrderItems(clientItems, isB2b);
-  if (!priced.ok) return { ok: false, error: priced.error };
+  if (!priced.ok) return fail(priced.error);
 
   let subtotalGross = 0;
   for (const item of priced.items) {
-    subtotalGross += item.priceGross * item.quantity;
+    subtotalGross += cartLineTotalGross(item);
   }
   subtotalGross = Math.round(subtotalGross * 100) / 100;
 
-  let pickupSlotId: string | null = null;
+  let pickupSlotId: string | null = meta.pickupSlotId || null;
 
+  // Ödeme zaten alındı: teslimat/slot yeniden sıkı kontrol edilmez; metadata ücreti kullanılır.
+  // Slot ID yoksa soft dene.
   if (orderType === "delivery") {
     const deliveryCheck = await validateDeliveryOrder({
       zipCode,
@@ -103,22 +141,36 @@ export async function fulfillStripeCheckoutSession(
       deliveryDate,
       totalGross: subtotalGross,
       isB2b,
+      userId,
     });
-    if (!deliveryCheck.ok) return { ok: false, error: deliveryCheck.error };
-  } else {
+    if (!deliveryCheck.ok) {
+      console.warn("Stripe fulfill delivery soft-fail:", deliveryCheck.error, sessionId);
+    } else if (Math.abs(deliveryCheck.deliveryFee - deliveryFee) > 0.02) {
+      console.warn(
+        "Stripe fulfill fee drift (using paid metadata):",
+        deliveryCheck.deliveryFee,
+        "vs",
+        deliveryFee,
+        sessionId
+      );
+    }
+  } else if (!pickupSlotId) {
     const pickupCheck = await validatePickupOrder({
       pickupDate,
       pickupSlot,
       totalGross: subtotalGross,
       isB2b,
     });
-    if (!pickupCheck.ok) return { ok: false, error: pickupCheck.error };
-    pickupSlotId = pickupCheck.slotId ?? null;
+    if (pickupCheck.ok) {
+      pickupSlotId = pickupCheck.slotId ?? null;
+    } else {
+      console.warn("Stripe fulfill pickup soft-fail:", pickupCheck.error, sessionId);
+    }
   }
 
   const expectedTotal = Math.round((subtotalGross + deliveryFee) * 100);
   if (session.amount_total != null && Math.abs(session.amount_total - expectedTotal) > 2) {
-    return { ok: false, error: "AMOUNT_MISMATCH" };
+    return fail("AMOUNT_MISMATCH");
   }
 
   const result = await createOrder({
@@ -141,6 +193,6 @@ export async function fulfillStripeCheckoutSession(
     distanceKm,
   });
 
-  if (!result.ok) return { ok: false, error: result.error };
+  if (!result.ok) return fail(result.error);
   return { ok: true, orderNumber: result.orderNumber };
 }

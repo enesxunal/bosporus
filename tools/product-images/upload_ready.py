@@ -55,8 +55,12 @@ def main() -> None:
     parser.add_argument("--sleep", type=float, default=0.2)
     args = parser.parse_args()
 
-    base = env("NEXT_PUBLIC_SUPABASE_URL")
-    key = env("SUPABASE_SERVICE_ROLE_KEY")
+    base = (os.environ.get("NEXT_PUBLIC_SUPABASE_URL") or os.environ.get("SUPABASE_URL") or "").strip().rstrip("/")
+    key = (os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("SUPABASE_SECRET_KEY") or "").strip()
+    if not base:
+        raise SystemExit("Eksik env: NEXT_PUBLIC_SUPABASE_URL (veya SUPABASE_URL)")
+    if not key:
+        raise SystemExit("Eksik env: SUPABASE_SERVICE_ROLE_KEY (veya SUPABASE_SECRET_KEY)")
     headers = {
         "apikey": key,
         "Authorization": f"Bearer {key}",

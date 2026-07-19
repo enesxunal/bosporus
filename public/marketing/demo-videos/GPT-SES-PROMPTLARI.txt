@@ -1,0 +1,145 @@
+Bosporus — 5 Video Ses Promptları (GPT)
+========================================
+Kullanım: Her bloğu ayrı sohbette / ayrı istekte GPT’ye yapıştırın.
+Hedef: Tam 20,00 saniye ses dosyası (WAV veya MP3), kırpmaya gerek kalmasın.
+Ses: Profesyonel Almanca (net, sıcak, reklam spikeri — robotik olmasın).
+Müzik: Hafif, modern, telifsiz hisli ambient; sesin ALTINDA kalsın (müzik ≈ %15–20).
+Çıktı: Tek dosya = seslendirme + müzik karışık. Sessiz başı/sonu olmasın; 0.00’da başlasın, 20.00’de bitsin.
+
+----------------------------------------------------------------------
+PROMPT 1 — Privatkunde bestellt (01)
+----------------------------------------------------------------------
+
+Erstelle eine fertige Audiodatei von GENAU 20,00 Sekunden (nicht länger, nicht kürzer).
+Inhalt: Deutscher Werbesprecher (männlich oder weiblich, klar, warm, professionell) + leise moderne Ambient-Musik darunter (Musik leise, ca. 15–20 % Lautstärke). Export als WAV oder MP3, bereits gemischt, kein Trimmen nötig. Start bei 0:00, Ende bei 0:20.
+
+Sekunden-genaue Regie + Text (Sprecher liest nur den Text, Zeitangaben sind Regie):
+
+0:00–0:03
+Willkommen bei Bosporus in Köln.
+
+0:03–0:08
+Als Privatkunde bestellen Sie so: Produkt wählen, in den Warenkorb legen.
+
+0:08–0:14
+Dann Lieferung nach Hause — oder Abholung am Standort.
+
+0:14–0:18
+Online bezahlen — und fertig.
+
+0:18–0:20
+bosporus-gmbh.com
+
+Musik: durchgehend sanft, bei 0:18–0:20 leicht ausfaden. Keine Stille am Anfang oder Ende.
+
+----------------------------------------------------------------------
+PROMPT 2 — Zahlung (02)
+----------------------------------------------------------------------
+
+Erstelle eine fertige Audiodatei von GENAU 20,00 Sekunden (nicht länger, nicht kürzer).
+Deutscher Werbesprecher + leise Ambient-Musik (Musik ca. 15–20 %). WAV/MP3, gemischt, Start 0:00, Ende 0:20.
+
+Sekunden-genaue Regie + Text:
+
+0:00–0:03
+Sicher bezahlen bei Bosporus.
+
+0:03–0:09
+An der Kasse zahlen Sie online: mit Karte,
+
+0:09–0:14
+mit Klarna — oder mit PayPal.
+
+0:14–0:18
+Auch bei Abholung: Onlinezahlung ist erforderlich.
+
+0:18–0:20
+bosporus-gmbh.com
+
+Musik sanft durchgehend, Ende leicht ausfaden. Keine Stille.
+
+----------------------------------------------------------------------
+PROMPT 3 — Lieferung oder Abholung (03)
+----------------------------------------------------------------------
+
+Erstelle eine fertige Audiodatei von GENAU 20,00 Sekunden (nicht länger, nicht kürzer).
+Deutscher Werbesprecher + leise Ambient-Musik (Musik ca. 15–20 %). WAV/MP3, gemischt, Start 0:00, Ende 0:20.
+
+Sekunden-genaue Regie + Text:
+
+0:00–0:03
+Lieferung oder Abholung — Sie wählen.
+
+0:03–0:09
+Wir liefern in Köln und Umgebung nach Hause.
+
+0:09–0:14
+Oder Sie holen Ihre Bestellung selbst ab — Click and Collect.
+
+0:14–0:18
+Privatkunden: Lieferung ab einhundert Euro. Abholung ab fünfzig Euro.
+
+0:18–0:20
+bosporus-gmbh.com
+
+Wichtig: Zahlen ausgeschrieben sprechen (einhundert, fünfzig). Musik sanft, Ende ausfaden.
+
+----------------------------------------------------------------------
+PROMPT 4 — Gewerbe Registrierung (04)
+----------------------------------------------------------------------
+
+Erstelle eine fertige Audiodatei von GENAU 20,00 Sekunden (nicht länger, nicht kürzer).
+Deutscher Werbesprecher + leise Ambient-Musik (Musik ca. 15–20 %). WAV/MP3, gemischt, Start 0:00, Ende 0:20.
+
+Sekunden-genaue Regie + Text:
+
+0:00–0:04
+Nettopreise für Gastronomie und Gewerbe.
+
+0:04–0:09
+Registrieren Sie Ihr Unternehmen mit USt-IdNummer.
+
+0:09–0:14
+Bosporus prüft und schaltet Ihr Konto frei.
+
+0:14–0:18
+Danach einloggen — und zu Nettopreisen bestellen.
+
+0:18–0:20
+bosporus-gmbh.com
+
+„USt-IdNummer“ klar aussprechen. Musik sanft, Ende ausfaden.
+
+----------------------------------------------------------------------
+PROMPT 5 — Gewerbe Listenbestellung (05)
+----------------------------------------------------------------------
+
+Erstelle eine fertige Audiodatei von GENAU 20,00 Sekunden (nicht länger, nicht kürzer).
+Deutscher Werbesprecher + leise Ambient-Musik (Musik ca. 15–20 %). WAV/MP3, gemischt, Start 0:00, Ende 0:20.
+
+Sekunden-genaue Regie + Text:
+
+0:00–0:04
+Gewerbe bestellt bei Bosporus listenweise.
+
+0:04–0:09
+Einloggen, Mengen direkt in der Produktliste setzen.
+
+0:09–0:14
+In den Warenkorb — Lieferung oder Abholung wählen.
+
+0:14–0:18
+Online bezahlen. Schnell, klar, netto.
+
+0:18–0:20
+bosporus-gmbh.com
+
+Musik etwas energischer als bei den Privat-Videos, aber weiterhin leise unter der Stimme. Ende ausfaden.
+
+----------------------------------------------------------------------
+Video’ye ekleme (sizin için not)
+----------------------------------------------------------------------
+Dosya adları önerisi:
+01-vo.mp3 … 05-vo.mp3
+Her biri 20.00 sn olmalı. Videolar da 20 sn — CapCut/QuickTime’ta hizalamak için trim gerekmez.
+Bana dosyaları verirseniz projeye gömebilirim.

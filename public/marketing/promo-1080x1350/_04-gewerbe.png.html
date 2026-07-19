@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<style>
+  @font-face {
+    font-family: "InterVar";
+    src: local("Inter"), local("SF Pro Display"), local("Helvetica Neue"), local("Arial");
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1350px; overflow: hidden; }
+  body {
+    font-family: "InterVar", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    color: #0f172a;
+  }
+  
+    .wrap { width: 100%; height: 100%; position: relative; background: #0b1c2e; color: #fff; }
+    .bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(115deg, rgba(11,28,46,0.94) 0%, rgba(11,28,46,0.78) 42%, rgba(11,28,46,0.55) 100%),
+        url("file:///Users/enesxunal/Desktop/3%20Kare%20Ajans/Cursor/Bosporus/public/home/home-banner-gastronomie.jpg") center/cover no-repeat;
+    }
+    .content {
+      position: relative; z-index: 1; height: 100%;
+      display: grid; grid-template-rows: auto 1fr auto;
+      padding: 56px;
+    }
+    .top { display: flex; justify-content: space-between; align-items: center; }
+    .pill {
+      background: #F5C518; color: #0b1c2e; font-weight: 800;
+      font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 12px 18px;
+    }
+    .brand { font-size: 22px; font-weight: 700; letter-spacing: 0.16em; color: rgba(255,255,255,0.85); }
+    .mid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 36px; align-items: end; padding: 48px 0; }
+    h1 {
+      font-size: 76px; line-height: 1.02; font-weight: 800;
+      letter-spacing: -0.03em; margin-bottom: 24px;
+    }
+    .lead { font-size: 28px; line-height: 1.4; color: rgba(255,255,255,0.86); margin-bottom: 32px; max-width: 480px; }
+    .points { display: flex; flex-direction: column; gap: 14px; }
+    .point {
+      font-size: 22px; font-weight: 600; color: #fff;
+      padding-left: 18px; border-left: 3px solid #F5C518;
+    }
+    .phone-wrap {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      padding: 16px; border-radius: 24px;
+    }
+    .phone-wrap img {
+      width: 100%; height: 620px; object-fit: cover; object-position: top;
+      border-radius: 16px; display: block;
+    }
+    .bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.18); padding-top: 28px;
+    }
+    .cta {
+      background: #F5C518; color: #0b1c2e; font-size: 26px; font-weight: 800;
+      padding: 20px 32px;
+    }
+    .hint { font-size: 22px; color: rgba(255,255,255,0.75); }
+    
+</style>
+</head>
+<body><div class="wrap"><div class="bg"></div>
+          <div class="content">
+            <div class="top">
+              <div class="brand">BOSPORUS</div>
+              <div class="pill">B2B</div>
+            </div>
+            <div class="mid">
+              <div>
+                <h1>Nettopreise<br/>für Betriebe</h1>
+                <p class="lead">Gastronomie, Einzelhandel &amp; Gewerbe: registrieren, freischalten, zu Nettopreisen bestellen.</p>
+                <div class="points">
+                  <div class="point">Gewerbe-Konto mit USt-IdNr.</div>
+                  <div class="point">Freischaltung durch Bosporus</div>
+                  <div class="point">Zugang zu Nettopreisen</div>
+                </div>
+              </div>
+              <div class="phone-wrap">
+                <img src="file:///Users/enesxunal/Desktop/3%20Kare%20Ajans/Cursor/Bosporus/public/marketing/_clean-shots/register.png" alt=""/>
+              </div>
+            </div>
+            <div class="bottom">
+              <div class="hint">gewerbe / register</div>
+              <div class="cta">Jetzt registrieren</div>
+            </div>
+          </div>
+        </div></body>
+</html>

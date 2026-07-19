@@ -1,19 +1,52 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
-import { Trash2, ShoppingBag, ArrowRight } from "lucide-react";
+import { Trash2, ShoppingBag, ArrowRight, Truck } from "lucide-react";
 import { useCart } from "@/stores/cart";
 import { formatPrice } from "@/lib/pricing";
+import { cartLineTotalGross } from "@/lib/pfand";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { QuantityControl } from "@/components/ui/QuantityControl";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
 export default function CartPage() {
   const t = useTranslations("cart");
   const locale = useLocale() as "de" | "tr";
   const { items, updateQuantity, removeItem, subtotalGross, totalItems } = useCart();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [firstOrderEligible, setFirstOrderEligible] = useState(false);
+
+  useEffect(() => {
+    if (!isSupabaseConfigured()) return;
+    const supabase = createClient();
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!user) {
+        setLoggedIn(false);
+        setFirstOrderEligible(false);
+        return;
+      }
+      setLoggedIn(true);
+      try {
+        const res = await fetch("/api/delivery/quote", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            orderType: "click_collect",
+            subtotalGross: 0,
+          }),
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        setFirstOrderEligible(Boolean(data.firstOrderEligible) && !data.isB2b);
+      } catch {
+        /* ignore */
+      }
+    });
+  }, []);
 
   if (items.length === 0) {
     return (
@@ -35,10 +68,32 @@ export default function CartPage() {
 
   return (
     <div className="page-narrow py-6 sm:py-10">
-      <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-6 tracking-tight">
+      <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-4 tracking-tight">
         {t("title")}
         <span className="text-bosporus-muted font-semibold text-lg ml-2">({totalItems()})</span>
       </h1>
+
+      <div className="mb-5 rounded-2xl bg-bosporus-yellow/90 text-bosporus-gray-800 px-4 py-3 flex gap-3 items-start">
+        <Truck className="w-5 h-5 shrink-0 mt-0.5" aria-hidden />
+        <div className="min-w-0 text-sm">
+          {loggedIn && firstOrderEligible ? (
+            <p className="font-semibold">{t("firstOrderFreeHint")}</p>
+          ) : loggedIn ? (
+            <p className="font-semibold">{t("thresholdFreeHint")}</p>
+          ) : (
+            <p>
+              <span className="font-semibold">{t("loginForFreeDelivery")} </span>
+              <Link href="/register" className="underline font-bold">
+                {t("registerLink")}
+              </Link>
+              {" · "}
+              <Link href="/login" className="underline font-bold">
+                {t("loginLink")}
+              </Link>
+            </p>
+          )}
+        </div>
+      </div>
 
       <ul className="space-y-3 mb-6">
         {items.map((item) => (
@@ -56,9 +111,14 @@ export default function CartPage() {
                 )}
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-bosporus-gray-800 text-sm sm:text-base line-clamp-2">{item.name}</h3>
-                  <p className="text-xs text-bosporus-muted mt-0.5">{item.sku}</p>
+                  {item.pfand && (
+                    <p className="text-xs text-bosporus-muted mt-1">
+                      + {locale === "de" ? "Pfand" : "Depozito"}:{" "}
+                      {formatPrice(item.pfand.priceGross * item.quantity, locale)}
+                    </p>
+                  )}
                   <p className="text-bosporus font-bold mt-2 text-lg">
-                    {formatPrice(item.priceGross * item.quantity, locale)}
+                    {formatPrice(cartLineTotalGross(item), locale)}
                   </p>
                 </div>
                 <div className="flex flex-col items-end justify-between gap-2">
@@ -83,7 +143,6 @@ export default function CartPage() {
         ))}
       </ul>
 
-      {/* Desktop summary */}
       <Card className="hidden sm:block !rounded-2xl">
         <div className="flex justify-between items-center text-xl font-extrabold mb-5">
           <span>{t("total")}</span>
@@ -97,7 +156,6 @@ export default function CartPage() {
         </Link>
       </Card>
 
-      {/* Mobile sticky checkout bar */}
       <div className="sm:hidden fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] inset-x-0 z-40 px-4 pb-2">
         <Card padding="sm" className="!rounded-2xl shadow-lg">
           <div className="flex items-center justify-between gap-4">

@@ -48,6 +48,33 @@ PROGRESS_FILE = OUT / "progress.json"
 CANVAS = 1080
 USER_AGENT = "BosporusImageBot/1.0 (local catalog prep; contact info@bosporus-gmbh.com)"
 
+# Filigran / stok önizleme / rakip site — bu kaynakları atla
+BLOCKED_URL_PARTS = (
+    "alamy",
+    "shutterstock",
+    "gettyimages",
+    "istockphoto",
+    "dreamstime",
+    "depositphotos",
+    "123rf",
+    "fotolia",
+    "stock.adobe",
+    "adobe.stock",
+    "vectorstock",
+    "pond5",
+    "freepik",
+    "rawpixel",
+    "vecteezy",
+    "tgh24",
+    "deloma",  # sıkça filigranlı rakip görselleri yeniden barındırıyor
+    "watermark",
+)
+
+
+def url_blocked(url: str) -> bool:
+    u = url.lower()
+    return any(part in u for part in BLOCKED_URL_PARTS)
+
 
 def ensure_dirs() -> None:
     for d in (DIR_RAW, DIR_READY, DIR_FAILED):
@@ -71,15 +98,19 @@ def save_progress(progress: dict[str, Any]) -> None:
 
 def search_queries(name: str) -> list[str]:
     clean = re.sub(r"\s+", " ", name).strip()
+    # Marka + ürün odaklı alternatifler (placeholder sonuçları azaltır)
+    brand = clean.split()[0] if clean else clean
     return [
         f'{clean} produktfoto weiß hintergrund',
         f'{clean} packshot white background',
+        f'{clean} product packaging',
+        f'{brand} {clean} produktbild',
         f'{clean} product photo',
         clean,
     ]
 
 
-def search_image_urls(query: str, max_results: int = 5) -> list[str]:
+def search_image_urls(query: str, max_results: int = 8) -> list[str]:
     urls: list[str] = []
     try:
         from ddgs import DDGS  # type: ignore
@@ -101,11 +132,15 @@ def search_image_urls(query: str, max_results: int = 5) -> list[str]:
         for item in results or []:
             url = item.get("image") or item.get("url")
             if url and isinstance(url, str) and url.startswith("http"):
+                if url_blocked(url):
+                    continue
                 urls.append(url)
     return urls
 
 
 def download_image(url: str, timeout: int = 20) -> Optional[bytes]:
+    if url_blocked(url):
+        return None
     try:
         host = urlparse(url).netloc
         r = requests.get(
@@ -120,7 +155,8 @@ def download_image(url: str, timeout: int = 20) -> Optional[bytes]:
         if "image" not in ctype and not url.lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
             return None
         data = r.content
-        if len(data) < 2000 or len(data) > 8_000_000:
+        # Placeholder / ikonlar genelde çok küçük
+        if len(data) < 5000 or len(data) > 8_000_000:
             return None
         return data
     except Exception:
@@ -148,6 +184,34 @@ def fit_on_white(img: Image.Image, size: int = CANVAS, padding: float = 0.08) ->
     y = (size - nh) // 2
     canvas.paste(resized, (x, y))
     return canvas
+
+
+def is_low_content(img: Image.Image) -> bool:
+    """Boş / placeholder / neredeyse beyaz görselleri ele."""
+    sample = img.convert("RGB").resize((72, 72))
+    pixels = list(sample.getdata())
+    means = [sum(px) / 3 for px in pixels]
+    avg = sum(means) / len(means)
+    var = sum((m - avg) ** 2 for m in means) / len(means)
+    # Çok beyaz + düşük çeşitlilik = placeholder veya boş
+    if var < 120 and avg > 220:
+        return True
+    if var < 40:
+        return True
+    return False
+
+
+def has_watermark_bar(img: Image.Image) -> bool:
+    """Alamy tarzı alt siyah şerit / koyu bar tespiti."""
+    rgb = img.convert("RGB")
+    w, h = rgb.size
+    # Alt %8 şerit
+    band = rgb.crop((0, int(h * 0.92), w, h))
+    pixels = list(band.resize((80, 8)).getdata())
+    dark = sum(1 for r, g, b in pixels if (r + g + b) / 3 < 40)
+    if dark / max(1, len(pixels)) > 0.45:
+        return True
+    return False
 
 
 def maybe_rembg(img: Image.Image) -> Image.Image:
@@ -205,6 +269,12 @@ def fetch_one(product: dict[str, Any], use_rembg: bool, sleep_s: float, progress
             try:
                 (DIR_RAW / f"{sku}.bin").write_bytes(data)
                 final = process_bytes(data, use_rembg=use_rembg)
+                if is_low_content(final):
+                    last_err = "low_content_placeholder"
+                    continue
+                if has_watermark_bar(final):
+                    last_err = "watermark_bar"
+                    continue
                 final.save(ready_path, format="JPEG", quality=90, optimize=True)
                 progress["ok"][sku] = {"query": q, "url": url}
                 progress["failed"].pop(sku, None)
@@ -232,11 +302,20 @@ def main() -> None:
     parser.add_argument("--sleep", type=float, default=1.5, help="Arama arası bekleme (sn)")
     parser.add_argument("--only-missing", action="store_true", default=True, help="image_url boş olanlar")
     parser.add_argument("--include-with-image", action="store_true", help="Görseli olanları da dene")
+    parser.add_argument("--sku-file", type=str, default="", help="Yeniden denenecek SKU listesi (satır satır)")
+    parser.add_argument("--force", action="store_true", help="Var olan ready dosyasını silip yeniden çek")
     args = parser.parse_args()
 
     ensure_dirs()
     products = load_products()
     products = [p for p in products if p.get("is_active") and (p.get("price_b2c") or 0) > 0]
+
+    sku_filter: set[str] | None = None
+    if args.sku_file:
+        lines = Path(args.sku_file).read_text(encoding="utf-8").splitlines()
+        sku_filter = {ln.strip() for ln in lines if ln.strip() and not ln.strip().startswith("#")}
+        products = [p for p in products if p["sku"] in sku_filter]
+        args.include_with_image = True
 
     if args.category:
         products = [p for p in products if p.get("category_slug") == args.category]
@@ -253,15 +332,22 @@ def main() -> None:
     print(f"Çıktı klasörü: {DIR_READY}")
     if args.rembg:
         print("rembg AÇIK — daha yavaş")
+    if args.force:
+        print("FORCE: mevcut ready dosyaları silinip yeniden çekilecek")
 
     ok = fail = skip = 0
     for i, p in enumerate(products, 1):
         sku = p["sku"]
         ready = DIR_READY / f"{sku}.jpg"
-        if ready.exists():
+        if ready.exists() and not args.force:
             skip += 1
             print(f"[{i}/{len(products)}] SKIP {sku}")
             continue
+        if ready.exists() and args.force:
+            ready.unlink()
+            progress.get("ok", {}).pop(sku, None)
+            progress.get("skipped", {}).pop(sku, None)
+            save_progress(progress)
 
         print(f"[{i}/{len(products)}] {p.get('name_de', sku)[:70]}")
         try:

@@ -11,5 +11,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/(de|tr)/:path*", "/((?!api|_next|.*\\..*).*)"],
+  // /auth/* locale middleware dışında kalsın (kayıt onay linki 404 olmasın)
+  matcher: ["/", "/(de|tr)/:path*", "/((?!api|auth|_next|.*\\..*).*)"],
 };

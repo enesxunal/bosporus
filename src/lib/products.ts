@@ -2,7 +2,14 @@ import type { Category, Product } from "./types";
 import { isPromoActive } from "./pricing";
 import productsData from "@/data/products.json";
 import categoriesData from "@/data/categories.json";
-import { getProductsAsync as getProductsFromDb } from "./products-db";
+import {
+  getProductsAsync as getProductsFromDb,
+  fetchPromoProductsPage,
+  countProductsAsync,
+} from "./products-db";
+import { createAdminClient } from "./supabase/admin";
+import { mapDbRow } from "./products-db";
+import { enrichProductsWithPfand } from "./pfand";
 
 const jsonProducts = productsData as Product[];
 const categories = categoriesData as Category[];
@@ -36,7 +43,7 @@ export function getProductsSync(options?: {
 }): Product[] {
   let result = [...jsonProducts];
   if (options?.activeOnly !== false) {
-    result = result.filter((p) => p.is_active && p.price_b2c > 0);
+    result = result.filter((p) => p.is_active && p.price_b2c > 0 && p.name_de !== "#");
   }
   if (options?.category) result = result.filter((p) => p.category_slug === options.category);
   if (options?.search) {
@@ -55,20 +62,55 @@ export function getProductsSync(options?: {
 }
 
 export async function getProductBySku(sku: string): Promise<Product | undefined> {
-  const list = await getProducts({ search: sku, limit: 1, activeOnly: false });
-  return list.find((p) => p.sku === sku) ?? jsonProducts.find((p) => p.sku === sku);
+  const admin = createAdminClient();
+  if (admin) {
+    const { data } = await admin.from("products").select("*").eq("sku", sku).maybeSingle();
+    if (data) {
+      const product = mapDbRow(data);
+      if (product.pfand_sku) {
+        const { data: pf } = await admin
+          .from("products")
+          .select("*")
+          .eq("sku", product.pfand_sku)
+          .maybeSingle();
+        if (pf) {
+          return enrichProductsWithPfand([product, mapDbRow(pf)])[0];
+        }
+      }
+      return product;
+    }
+  }
+  const fromJson = (jsonProducts as Product[]).find((p) => p.sku === sku);
+  if (!fromJson) return undefined;
+  return enrichProductsWithPfand(jsonProducts as Product[]).find((p) => p.sku === sku);
 }
 
 export async function getProductCount(category?: string): Promise<number> {
-  const list = await getProducts({ category, limit: 99999 });
-  return list.length;
+  return countProductsAsync({ category });
 }
 
 export function getFeaturedCategories(limit = 8): Category[] {
-  return categories.slice(0, limit);
+  return categories.filter((c) => (c.product_count ?? 0) > 0).slice(0, limit);
+}
+
+export async function getFeaturedCategoriesAsync(limit = 8): Promise<Category[]> {
+  const { getShopNavData } = await import("./products-db");
+  const { categories: withProducts } = await getShopNavData();
+  return withProducts.slice(0, limit);
 }
 
 export async function getPromoProducts(limit = 8): Promise<Product[]> {
-  const all = await getProducts({ limit: 9999 });
-  return all.filter((p) => isPromoActive(p)).slice(0, limit);
+  const fromDb = await fetchPromoProductsPage(limit);
+  if (fromDb) {
+    return fromDb.filter((p) => isPromoActive(p)).slice(0, limit);
+  }
+  return getProductsSync({ activeOnly: true })
+    .filter((p) => isPromoActive(p))
+    .slice(0, limit);
+}
+
+export async function hasActivePromos(): Promise<boolean> {
+  const { getShopNavData } = await import("./products-db");
+  const { hasPromos } = await getShopNavData();
+  return hasPromos;
 }

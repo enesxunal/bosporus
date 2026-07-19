@@ -1,0 +1,1525 @@
+Artikelnummer;Barcode;Artikeltext1;KoliBarcode;Artikelgruppe;Steuersatz;EKPreis;VKPreis;Lagerbestand;AktionNetto;AktionVon;AktionBis;Pfand;PfandID;Pfandartikel
+1;;DPG Pfand EINWEG 0,15 - 1er 0,15 Euro;;Pfand;19;0,15;0,15;-1;0;19.05.2026;19.05.2026;;0;1
+2;;DPG Pfand EINWEG 0,25 - 6er 1,50 Euro;;Pfand;19;0,25;1,5;26.067,00;0;18.05.2026;18.05.2026;;0;1
+3;;DPG Pfand Kiste Getränke 24er - 5,10€;;Pfand;19;5,1;5,1;2.301,00;0;18.05.2026;18.05.2026;;0;1
+4;;DPG Pfand Bierkiste 24er 3,42;;Pfand;19;3,42;3,42;1.075,00;0;21.05.2026;21.05.2026;;0;1
+5;;DPG Pfand Bierkiste 20er 3,10;;Pfand;19;3,1;3,1;733;0;21.05.2026;21.05.2026;;0;1
+6;;DPG Pfand Kiste 12er 2,46;;Pfand;19;2,46;2,46;16;0;21.05.2026;21.05.2026;;0;1
+7;;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;;Pfand;19;6;6;602;0;21.05.2026;21.05.2026;;0;1
+8;;DPG Pfand Glas-Mehrweg 0,08 Euro;;Pfand;19;0,08;0,08;0;0;21.05.2026;21.05.2026;;0;1
+9;;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;;Pfand;19;3;3;1.215,00;0;22.05.2026;22.05.2026;;0;1
+10;;Europalette 8,50€;;Pfand;19;8,5;8,5;40;0;18.05.2026;18.05.2026;;0;0
+11;;EUROPALETTE   7,50€;;Pfand;19;7,5;7,5;256;0;18.05.2026;18.05.2026;;0;0
+12;;Europalette 15,00 Euro;;Pfand;19;15;15;44;0;21.05.2026;21.05.2026;;0;1
+13;;DPG Pfand Bierkiste 28er - 3,74 Euro;;Pfand;19;3,74;3,74;10;0;22.05.2026;22.05.2026;;0;1
+14;;DPG Pfand Kiste Getränke 20er - 4,50 Euro;;Pfand;19;4,5;4,5;315;0;22.05.2026;22.05.2026;;0;0
+15;;DPG Pfand Kiste Getränke 6er - 2,40 Euro;;Pfand;19;2,4;2,4;128;0;22.05.2026;22.05.2026;;0;1
+16;;DPG Pfand Getränke 20er Kiste - 4,50 Euro;;Pfand;19;4,5;4,5;0;0;22.05.2026;22.05.2026;;0;1
+17;;DPG Pfand Kiste Getränke 12er - 3,30 Euro;;Pfand;19;3,3;3,3;1.341,00;0;22.05.2026;22.05.2026;;0;1
+18;;Grüne Klappkiste / Steigen - 3,86;;Pfand;19;3,86;3,86;211;0;02.06.2026;02.06.2026;;0;1
+19;;Europalette 10€;;Pfand;19;10;0;32;0;02.06.2026;02.06.2026;;0;0
+20;;EPS-186;;Pfand;19;3,86;0;56;0;02.06.2026;02.06.2026;;0;0
+21;;Einmalige Palette;;Pfand;19;0;0;10;0;02.06.2026;02.06.2026;;0;0
+22;;DPG Pfand MEHRWEG 0,25€;;Pfand;19;0,25;0,25;-262;0;02.06.2026;02.06.2026;;0;1
+23;;Stellplatz;;Pfand;19;0;0;6.000,00;0;02.06.2026;02.06.2026;;0;0
+24;;Europaletten;;Pfand;19;8;0;7.040,00;0;02.06.2026;02.06.2026;;0;0
+25;;Chep Palette Blau;;Pfand;19;0;0;9;0;07.06.2026;07.06.2026;;0;0
+26;;Leergut  0,60€;;Pfand;19;0,6;0,6;30;0;08.06.2026;08.06.2026;;0;0
+27;;Leergut  0,90€;;Pfand;19;0,9;0,9;99;0;08.06.2026;08.06.2026;;0;0
+28;;Leergut  3,86€;;Pfand;19;3,86;3,86;-41;0;08.06.2026;08.06.2026;;0;0
+29;;Sojakiste - Soja Kasasi;;Pfand;19;10;10;-5;0;12.06.2026;12.06.2026;;0;0
+30;;Tüte;;;19;0,01;0,1;0;0;18.06.2026;18.06.2026;;0;0
+31;;DD - Paletten;;Pfand;19;6,5;0;0;0;18.06.2026;18.06.2026;;0;0
+32;;Evers  Palette;;Pfand;19;0;0;1;0;01.07.2026;01.07.2026;;0;0
+33;;Evers  Kiste;;Pfand;19;0;0;50;0;01.07.2026;01.07.2026;;0;0
+34;;Äquivalente  Palettenpositionen;;Pfand;19;0;0;1;0;01.07.2026;01.07.2026;;0;0
+35;;Leergut  0,36€;;Pfand;19;0,36;0;7;0;05.07.2026;05.07.2026;;0;0
+50;;Transport / Lieferung / Fracht;;Lieferung/Fracht;19;2.913,50;0;5;0;25.05.2026;25.05.2026;;0;0
+51;;Müllcontainer;;;19;431,98;0;1;0;14.06.2026;14.06.2026;;0;0
+52;;Kühlschrank;;;19;0;0;3;0;16.06.2026;16.06.2026;;0;0
+53;;PFAND Glasflasche 24x0,03 Euro - 0,72 Euro;;Pfand;19;0,72;0,72;119;0;10.07.2026;10.07.2026;;0;1
+54;4383;REGAL- Regalboden/Regalfüße u.s.w.;4384;Pfand;19;0;0;199;0;10.07.2026;10.07.2026;;0;0
+11000000;;Avocado Hass 5kg Kiste/Karton - 16 Stück;;Obst;7;2,5;0;62;0;27.05.2026;27.05.2026;;0;0
+13000000;;Hot Blood Ice Tea Pfirsisch 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;45.193,00;7,49;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000001;;Hot Blood Ice Tea Zitrone 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;2.146,00;0;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000002;;Hot Blood Ice Tea Wassermelone 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,68;7,99;2.158,00;8,99;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000003;;Hot Blood Gazoz 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;2.151,00;0;18.05.2026;03.07.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000004;;Hot Blood Coffee Latte 0,33l Dose 24er Pack;4,26E+12;Getränke;7;14,4;15,49;2.875,00;15,49;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000005;;Z Mojito Energydrink 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;2.879,00;7,49;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000006;;Z Exotic Tropicana 033l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;2.160,00;7,49;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000007;;Z Multivitaminsaft 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;2.142,00;7,49;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000008;;Z Orange Juicy Dream 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;2.159,00;7,49;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000009;;Hot Blood Ice Tea Waldfrucht 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;1.195,00;0;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000010;;Hot Blood Apfelschorle 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,68;7,99;1.200,00;7,99;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000011;;Hot Blood Energy Classic 0,25l Dose 24er Pack;4,27E+12;Getränke;19;7,2;7,49;28.276,00;7,49;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000012;;Hot Blood  Energy Pfirsich 0,25l Dosen 24er Pack;4,26E+12;Getränke;19;7,2;7,49;1.440,00;7,49;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000013;;Hot Blood  Energy Mango-Ananas 0,25l Dose 24er Pack;4,27E+12;Getränke;19;7,2;7,49;1.439,00;7,49;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000014;;BEY Ice Tea Pfirsich 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;8.559,00;0;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000015;;BEY Ice Tea Zitrone 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;4.291,00;7,49;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000016;;BEY Ice Tea Waldfrucht 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;4.283,00;7,49;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000017;;BEY Gazoz 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;14.978,00;7,49;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000018;;BEY Gazoz Zero 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;6.411,00;7,49;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000019;;BEY Gazoz Kirsch 0,33l Dose 24er Pack;4,26E+12;Getränke;19;7,2;7,49;2.133,00;7,49;18.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000020;;YURT Natürliches Mineralwasser Still 0,5l Flasche 24er Pack;4,26E+12;Getränke;19;2,95;3,99;904;0;18.05.2026;18.05.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000021;;YURT Natürliches Mineralwasser Spritzig 0,5l Flasche 24er Pack;4,26E+12;Getränke;19;3,6;4,49;151;0;18.05.2026;18.05.2026;DPG Pfand EINWEG 0,25 - 24er 19% - 6,00 Euro;113;0
+13000022;;YURT Quellwasser Still 1,5l 6er Pack;4,26E+12;Getränke;19;1,85;2,49;171;0;18.05.2026;18.05.2026;DPG Pfand EINWEG 0,25 - 6er 1,50 Euro;11;0
+13000023;4,26E+12;YURT Quellwasser Still 5l Flasche;8,68E+12;Getränke;19;1;1,99;1.144,00;0;18.05.2026;18.05.2026;;0;0
+13000024;5,00E+12;Coca-Cola 0,33l Dose 24er Pack;5,00E+12;Getränke;19;9,67;9,99;12.346,00;9,88;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000025;;Coke Zero 0,33l Dose 24er Pack;5,00E+12;Getränke;19;9,67;9,99;12.418,00;9,88;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000026;;Coca-Cola 0,2l Glasflasche 24er Kiste;54490000;Getränke;19;9,21;10,49;233;0;19.05.2026;19.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000027;;Coca-Cola 0,33l Glasflasche 24er Kiste;87126853;Getränke;19;12,92;14,99;1.082,00;0;19.05.2026;19.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000028;;SPRITE 0,33l Glasflasche 24er Kiste;50112135;Getränke;19;12,92;14,99;57;0;19.05.2026;19.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000029;;MEZZO MIX 0,33l Glasflasche 24er Kiste;40822952;Getränke;19;12,92;14,99;78;0;19.05.2026;19.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000030;;FANTA ORANGE 0,33l Glasflasche 24er Kiste;87126860;Getränke;19;12,92;14,99;115;0;19.05.2026;19.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000031;;FANTA ORANGE 0,2l Glasflasche 24er Kiste;90495090;Getränke;19;9,21;10,49;0;0;19.05.2026;19.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000032;;MEZZO MIX 0,2l Glasflasche 24er Kiste;42116899;Getränke;19;9,21;10,49;35;0;19.05.2026;19.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000033;;COKE ZERO 0,2l Glasflasche 24er Kiste;50112012;Getränke;19;9,21;10,49;226;0;19.05.2026;19.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000034;;COKE ZERO 0,33l Glasflasche 24er Kiste;90357879;Getränke;19;12,92;14,99;190;0;19.05.2026;19.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000035;;FANTA EXOTIC 0,33l Glasflasche 24er Kiste;90494680;Getränke;19;12,92;14,99;40;0;19.05.2026;19.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000036;;COKE CHERRY 0,33l Glasflasche 24er Kiste;54035546;Getränke;19;12,92;14,99;40;0;19.05.2026;19.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000037;;SPRITE 0,2l Glasflasche 24er Kiste;90495502;Getränke;19;9,21;10,49;949;0;19.05.2026;19.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000038;;COKE ZERO 0,5l PET-Einwegflasche 12er Pack;5,45E+12;Getränke;19;8,35;10,49;271;8,79;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+13000039;;Coca-Cola 0,5l PET 12er Pack;5,45E+12;Getränke;19;8,35;10,49;1.613,00;8,79;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+13000040;;LIFT Apfelschorle 0,5l PET-Einwegflasche 12er Pack;5,45E+12;Getränke;19;8,35;10,49;0;8,79;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+13000041;;Monster Energy 0,5l Dose 12er Pack;5,06E+12;Getränke;19;11,12;11,99;1.438,00;11,99;19.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+13000042;;Monster Rehab Tea 0,5l Dose 12er Pack;5,06E+12;Getränke;19;11,12;11,99;1.440,00;11,99;19.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+13000043;;Monster Mango Loco 0,5l Dose 12er Pack;5,06E+12;Getränke;19;11,12;11,99;1.440,00;11,99;19.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+13000044;;FANTA Lemon Elderflower 0,33l Dose 24er Pack;5,00E+12;Getränke;19;9,67;9,99;2.361,00;9,88;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000045;;FANTA Exotic 0,33l Dose 24er Pack;5,00E+12;Getränke;19;9,67;9,99;4.885,00;9,88;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000046;;FANTA Lemon 0,33l Dose 24er Pack;5,00E+12;Getränke;19;9,67;9,99;778;9,88;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000047;;FANTA Orange 0,33l Dose 24er Pack;5,00E+12;Getränke;19;9,67;9,99;2.554,00;9,88;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000048;;SPRITE 0,33l  Dose 24er Pack;5,00E+12;Getränke;19;9,67;9,99;2.454,00;9,88;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000049;;MEZZO MIX  0,33l  Dose 24er Pack;5,00E+12;Getränke;19;9,67;11,29;2.593,00;9,88;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000050;;Monster Energy Green Zero 0,5l Dose 12er Pack;5,06E+12;Getränke;19;11,12;11,99;1.440,00;11,99;19.05.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+13000051;5,00E+12;Coca-Cola Zero Koffeinfrei 0,33l Dose 24er Pack;5,00E+12;Getränke;19;9,67;9,88;1.956,00;0;19.05.2026;19.05.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000052;;Monster Energy Lando Norris 0,5l Dose 12er Pack;5,06E+12;Getränke;19;11,12;11,99;1.440,00;0;19.05.2026;19.05.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+13000053;;Fanta Tutti Frutti Zero 0,33l Dose 24er Pack;5,00E+12;Getränke;19;9,67;9,99;2.370,00;9,88;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000054;;Bionade Holunder 0,33l 12er Kiste;4,01E+12;Getränke;19;7,99;9,99;2;0;21.05.2026;21.05.2026;DPG Pfand Kiste 12er 2,46;112;0
+13000055;;Bionade Litschi 0,33l 12er Kiste;4,01E+12;Getränke;19;7,99;9,99;2;0;21.05.2026;21.05.2026;DPG Pfand Kiste 12er 2,46;112;0
+13000056;;Bionade Ingwer-Orange 0,33l 12er Kiste;4,01E+12;Getränke;19;7,99;9,99;2;0;21.05.2026;21.05.2026;DPG Pfand Kiste 12er 2,46;112;0
+13000057;;Bionade Kräuter 0,33l 12er Kiste;4,01E+12;Getränke;19;7,99;9,99;2;0;21.05.2026;21.05.2026;DPG Pfand Kiste 12er 2,46;112;0
+13000058;;fritz-limo Zitrone 0,33l 24er Kiste;4,26E+12;Getränke;19;15,29;17,99;18;16,79;29.06.2026;11.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000059;;firtz-limo Orange0,33l 24er Kiste;4,26E+12;Getränke;19;15,29;17,99;18;16,79;29.06.2026;11.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000060;;fritz-limo Honigmelone 0,33l 24er Kiste;4,26E+12;Getränke;19;15,29;17,99;20;16,79;29.06.2026;11.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000061;;fritz mischmasch Cola mit Orange 0,33l 24er Kiste;4,26E+12;Getränke;19;15,29;17,99;16;16,79;29.06.2026;11.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000062;;fritz-kola super zero 0,33l 24er Kiste;4,26E+12;Getränke;19;15,29;17,99;8;16,79;29.06.2026;11.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000063;;fritz-kola 0,33l 24er Kiste;4,26E+12;Getränke;19;15,29;17,99;27;16,79;29.06.2026;11.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000064;;7Up 0,33l 24er Kiste;87177077;Getränke;19;11,85;13,49;0;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000065;;Schwip Schwap Original 0,33l 20er Kiste;40608655;Getränke;19;11,85;13,49;20;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000066;;Schwip Schwap Orange 0,33l 24er Kiste;4,06E+12;Getränke;19;11,85;13,49;20;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000067;;California Pomegranat Eistee 0,33l 24er Kiste;4,00E+12;Getränke;19;15,5;17,99;48;16,79;22.05.2026;22.05.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000068;;California Blueberry Eistee 0,33l 24er Kiste;4,00E+12;Getränke;19;15,5;17,99;49;16,79;29.06.2026;11.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000069;;California Lemon Eistee 0,33l 24er Kiste;4,00E+12;Getränke;19;15,5;17,99;47;16,79;29.06.2026;11.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000070;;California Peach Eistee 0,33l 24er Kiste;4,00E+12;Getränke;19;15,5;17,99;49;16,79;29.06.2026;11.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000071;;California Passionfruit Eistee 0,33l 24er Kiste;4,00E+12;Getränke;19;15,5;17,99;29;16,79;29.06.2026;11.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000072;;California Ananas Eistee 0,33l 24er Kiste;4,00E+12;Getränke;19;15,5;17,99;29;16,79;29.06.2026;11.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000073;;California Cherry Eistee 0,33l 24er Kiste;4,00E+12;Getränke;19;15,5;17,99;29;16,79;29.06.2026;11.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000074;;California Apricot Eistee 0,33l 24er Kiste;4,00E+12;Getränke;19;15,5;17,99;29;16,79;29.06.2026;11.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+13000075;;Deace Bio Maracuja Schorle 0,33l 24er Kiste;4,00E+12;Getränke;19;17,85;20,49;10;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000076;;Deace Bio Apfelschorle trüb 0,33l 24er Kiste;4,00E+12;Getränke;19;15,5;17,99;9;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000077;;Deace Bio Rhabarberschorle trüb 0,33l 24er Kiste;4,00E+12;Getränke;19;17,85;20,49;10;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000078;;Deace Bio Johannisbeerschorle 0,33l 24er Kiste;4,00E+12;Getränke;19;16,85;18,99;10;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000079;;Deace Multivitaminnektar 50% 0,33l 24er Kiste;9,78E+12;Getränke;19;14,5;16,99;15;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000080;;Deace Apfelsaft 100% trüb 1l 6er Kiste;4,00E+12;Getränke;19;6,7;7,99;16;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 6er - 2,40 Euro;303;0
+13000081;;Deace Orangensaft 100% 1l 6er Kiste;4,00E+12;Getränke;19;10,45;12,49;16;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 6er - 2,40 Euro;303;0
+13000082;;Deace Ananassaft 100% 1l 6er Kiste;4,00E+12;Getränke;19;9,85;11,49;16;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 6er - 2,40 Euro;303;0
+13000083;;Deace Bananennektar 25% 1l 6er Kiste;4,00E+12;Getränke;19;7,85;8,99;16;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 6er - 2,40 Euro;303;0
+13000084;;Deace Maracujanektar 25% 1l 6er Kiste;4,00E+12;Getränke;19;10,65;12,49;16;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 6er - 2,40 Euro;303;0
+13000085;;Deace Kirschnektar 50% 1l 6er Kiste;3,08E+11;Getränke;19;12,35;14,99;16;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 6er - 2,40 Euro;303;0
+13000086;;Deace Rhabarbernektar 50% trüb 1l 6er Kiste;4,00E+12;Getränke;19;12,25;14,99;16;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 6er - 2,40 Euro;303;0
+13000087;;Deace Multivitaminnektar 50% 1l 6er Kiste;4,00E+12;Getränke;19;7,6;9,99;16;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 6er - 2,40 Euro;303;0
+13000088;;Deace Apfelsaft 100% klar 0,2l 24er Kiste;4,00E+12;Getränke;19;9,85;11,99;2;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000089;;Deace Orangensaft 100% 0,2l 24er Kiste;4,00E+12;Getränke;19;14,85;17,99;10;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000090;;Deace Multivitaminnektar 50% 0,2l 24er Kiste;4,00E+12;Getränke;19;9,85;11,99;10;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000091;;Deace Bananennektar 25% 0,2l 24er Kiste;4,00E+12;Getränke;19;10,85;12,99;10;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000092;;Deace Sauerkirschennektar 50% 0,2l 24er Kiste;4,00E+12;Getränke;19;14,95;17,99;9;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000093;;Deace Pfirsischnektar 50% 0,2l 24er Kiste;4,00E+12;Getränke;19;11,85;14,99;8;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000094;;Deace Maracujanektar 25% 0,2l 24er Kiste;4,00E+12;Getränke;19;13,85;16,99;9;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000095;;Akpinar Apfelschorle Gourmet 0,25l 20er Kiste;;Getränke;19;9,75;11,99;45;0;22.05.2026;22.05.2026;DPG Pfand Getränke 20er Kiste - 4,50 Euro;328;0
+13000096;;Acqua Fonte Pura Naturale 0,75l 12er Kiste;;Getränke;19;6,85;8,99;108;7,99;29.06.2026;11.07.2026;DPG Pfand Kiste Getränke 12er - 3,30 Euro;331;0
+13000097;;Acqua Fonte Pura Frizzante 0,75l 12er Kiste;;Getränke;19;6,85;8,99;108;7,99;29.06.2026;11.07.2026;DPG Pfand Kiste Getränke 12er - 3,30 Euro;331;0
+13000098;;Schwip Schwap Orange 0,2l 24er Kiste;;Getränke;19;8,95;10,99;20;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000099;;Pepsi Cola 0,2l 24er Kiste;40608037;Getränke;19;8,95;10,99;0;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000100;;Pepsi Zero 0,2l 24er Kiste;4,05E+12;Getränke;19;8,95;10,99;40;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000101;;7 UP 0,2l 24er Kiste;;Getränke;19;8,95;10,99;0;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000102;;Pepsi Cola 0,33l 24er Kiste;40608051;Getränke;19;11,85;14,49;40;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000103;;Pepsi Zero 0,33l 24er Kiste;41007211;Getränke;19;11,85;14,49;40;0;22.05.2026;22.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000104;;Selters Culinarea Gastro Classic 0,25l 24er Kiste;;Getränke;19;7,29;8,99;142;8,79;29.06.2026;11.07.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000105;;Selters Naturell Gastro 0,25l 24er Kiste;;Getränke;19;7,29;8,99;138;8,79;29.06.2026;11.07.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000106;;Selters Culinarea Gastro Classic 0,75l 12er Kiste;;Getränke;19;6,75;8,99;43;8,49;29.06.2026;11.07.2026;DPG Pfand Kiste Getränke 12er - 3,30 Euro;331;0
+13000107;;Selters Naturale Gastro 0,75l 12er Kiste;;Getränke;19;6,75;7,99;108;8,49;29.06.2026;11.07.2026;DPG Pfand Kiste Getränke 12er - 3,30 Euro;331;0
+13000108;;Akpinar Classic Gourmet 0,75l 12er Kiste;;Getränke;19;6,25;7,99;108;7,49;29.06.2026;11.07.2026;DPG Pfand Kiste Getränke 12er - 3,30 Euro;331;0
+13000109;;Akpinar Naturell Gourmet 0,75l 12er Kiste;;Getränke;19;6,25;8,49;108;7,49;29.06.2026;11.07.2026;DPG Pfand Kiste Getränke 12er - 3,30 Euro;331;0
+13000110;;Akpinar Classic Gourmet 0,25l 20er Kiste;;Getränke;19;5,95;7,49;135;6,99;29.06.2026;11.07.2026;DPG Pfand Getränke 20er Kiste - 4,50 Euro;328;0
+13000111;;Akpinar Naturell Gourmet 0,25l 20er Kiste;;Getränke;19;5,95;7,49;135;6,99;29.06.2026;11.07.2026;DPG Pfand Getränke 20er Kiste - 4,50 Euro;328;0
+13000112;;Acqua Fonte Pura Naturale 0,25l 24er Kiste;;Getränke;19;6,85;7,99;120;7,99;29.06.2026;11.07.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000113;;Acqua Fonte Pura Frizzante 0,25l 24er Kiste;;Getränke;19;6,85;7,99;120;7,99;29.06.2026;11.07.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000114;;FuzeTea Pfirsisch 0,25l Glasflasche 24 er Pack;54020870;Getränke;19;14,43;15,49;34;0;24.05.2026;24.05.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000115;42116455;FuzeTea Pfirsisch 0,4l PET 12er Pack;5,45E+12;Getränke;19;8,48;9,99;112;0;24.05.2026;24.05.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+13000116;5,00E+12;FuzeTea Zitrone 0,4l PET 12er Pack;5,00E+12;Getränke;19;8,48;9,99;119;0;24.05.2026;24.05.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+13000117;;HabibTea Zitrone 0,5l 12er Pack;4,04E+12;Getränke;19;9,24;10,49;105;0;25.05.2026;25.05.2026;;0;0
+13000118;;HabibTea Pfirsisch 0,5l 12er Pack;4,04E+12;Getränke;19;9,24;10,49;104;0;25.05.2026;25.05.2026;;0;0
+13000119;;HabibTea DoppelApfel 0,5l 12er Pack;4,04E+12;Getränke;19;9,24;10,49;110;0;25.05.2026;25.05.2026;;0;0
+13000120;;HabibTea Wassermelone 0,5l 12er Pack;4,04E+12;Getränke;19;9,24;10,49;106;0;25.05.2026;25.05.2026;;0;0
+13000121;;HabibTea Traube Minze 0,5l 12er Pack;4,04E+12;Getränke;19;9,24;10,49;115;0;25.05.2026;25.05.2026;;0;0
+13000122;;HabibTea Energy Classic 0,25l 24er Pack;4,04E+12;Getränke;19;18,48;22,99;126;0;25.05.2026;25.05.2026;DPG Pfand EINWEG 0,25 - 24er 19% - 6,00 Euro;113;0
+13000123;;Fire of Istanbul Gazoz 0,33l 24er Pack;8,69E+12;Getränke;19;8,16;9,99;30;0;27.05.2026;27.05.2026;DPG Pfand EINWEG 0,25 - 24er 19% - 6,00 Euro;113;0
+13000124;;Fire of Istanbul Portakal 0,33l 24er Pack;8,69E+12;Getränke;19;8,16;9,99;54;0;27.05.2026;27.05.2026;DPG Pfand EINWEG 0,25 - 24er 19% - 6,00 Euro;113;0
+13000125;4,00E+12;Capri Sun Cola 10x200 ml;;Getränke;19;2,46;2,99;64;0;30.05.2026;30.05.2026;;0;0
+13000126;4,00E+12;Capri Sun Elfentrank 10x200ml Karton;4,00E+12;Getränke;19;2,46;2,99;72;0;30.05.2026;30.05.2026;;0;0
+13000127;4,00E+12;Capri Sun Jungle Drink 10x200ml Karton;4,00E+12;Getränke;19;2,46;2,99;72;0;30.05.2026;30.05.2026;;0;0
+13000128;4,00E+12;Capri Sun Kirsche 10x200ml Karton;4,00E+12;Getränke;19;2,46;2,99;38;0;30.05.2026;30.05.2026;;0;0
+13000129;4,00E+12;Capri Sun Monster Alarm 10x200ml Karton;4,00E+12;Getränke;19;2,46;2,99;60;0;30.05.2026;30.05.2026;;0;0
+13000130;4,00E+12;Capri Sun Multivitamin 10x200ml Karton;4,00E+12;Getränke;19;2,46;2,99;26;0;30.05.2026;30.05.2026;;0;0
+13000131;4,00E+12;Capri Sun Multivitamin Zero 10x200ml Karton;;Getränke;19;2,46;2,99;60;0;30.05.2026;30.05.2026;;0;0
+13000132;4,00E+12;Capri Sun Mystic Dragon 10x200ml Karton;;Getränke;19;2,46;2,99;68;0;30.05.2026;30.05.2026;;0;0
+13000133;4,00E+12;Capri Sun Orange 10x200ml Karton;4,00E+12;Getränke;19;2,46;2,99;46;0;30.05.2026;30.05.2026;;0;0
+13000134;4,00E+12;Capri Sun Safari 10x200ml Karton;4,00E+12;Getränke;19;2,46;2,99;72;0;30.05.2026;30.05.2026;;0;0
+13000135;4,10E+12;Durstlöscher Waldmeister 500ml 12er Pack;4,10E+12;Getränke;19;0,44;0,5;364;0;30.05.2026;30.05.2026;;0;0
+13000136;4,10E+12;Durstlöscher Banane Sauerkirsche 500ml 12er Pack;;Getränke;19;0,44;0,5;241;0;30.05.2026;30.05.2026;;0;0
+13000137;4,10E+12;Durstlöscher Apfel Orange 500ml 12er Pack;;Getränke;19;0,44;0,5;144;0;30.05.2026;30.05.2026;;0;0
+13000138;4,10E+12;Durstlöscher Bubble Gum 500ml 12er Pack;;Getränke;19;0,44;0,5;336;0;30.05.2026;30.05.2026;;0;0
+13000139;4,10E+12;Durstlöscher Blueberry-Vanille 500ml x 12;;Getränke;19;0,44;0,5;344;0;30.05.2026;30.05.2026;;0;0
+13000140;4,10E+12;Durstlöscher Black Mystery 500ml 12er Pack;;Getränke;19;0,44;0,5;384;0;30.05.2026;30.05.2026;;0;0
+13000141;4,10E+12;Durstlöscher Honigmelone-Zitrone 500ml x 12 ;;Getränke;19;0,44;0,5;423;0;30.05.2026;30.05.2026;;0;0
+13000142;4,10E+12;Durstlöscher Erdbeer-Rhabarber 500ml x 12;4,10E+12;Getränke;19;0,44;0,5;22;0;30.05.2026;30.05.2026;;0;0
+13000143;4,10E+12;Durstlöscher Mango Eistee 500ml x 12;;Getränke;19;0,44;0,5;318;0;30.05.2026;30.05.2026;;0;0
+13000144;4,10E+12;Durstlöscher Cola 500ml x 12;;Getränke;19;0,44;0,5;384;0;30.05.2026;30.05.2026;;0;0
+13000145;5,45E+12;FANTA Orange 0,5l PET 12er Pack;5,45E+12;Getränke;19;8,35;10,49;104;8,79;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+13000146;;Mezzo Mix 0,5l PET 12er Pack;;Getränke;19;8,35;10,49;108;8,79;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+13000147;;Coke Light  0,5l PET-Einwegflasche 12er Pack;;Getränke;19;8,35;10,49;106;9,49;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+13000148;5,45E+12;Coca Cola  1Lt  12er PET;;Getränke;19;11,57;11,69;221;11,69;28.06.2026;01.08.2026;DPG Pfand Kiste Getränke 12er - 3,30 Euro;331;0
+13000149;5,45E+12;FANTA Orange  1Lt  - 12er PET;;Getränke;19;11,57;11,69;114;0;28.06.2026;28.06.2026;DPG Pfand Kiste Getränke 12er - 3,30 Euro;331;0
+13000150;5,45E+12;SPRITE  1Lt  - 12er PET;;Getränke;19;11,57;11,69;115;0;28.06.2026;28.06.2026;DPG Pfand Kiste Getränke 12er - 3,30 Euro;331;0
+13000151;5,45E+12;Mezzo Mix  1Lt  - 12er PET;;Getränke;19;11,57;11,69;118;0;28.06.2026;28.06.2026;DPG Pfand Kiste Getränke 12er - 3,30 Euro;331;0
+13000152;5,45E+12;Coke Zero  1Lt  - 12er PET;;Getränke;19;11,57;11,69;196;0;28.06.2026;28.06.2026;DPG Pfand Kiste Getränke 12er - 3,30 Euro;331;0
+13000153;5,00E+12;FANTA  Mango Dragon  0,33Lt  Dose - 24er Pack;;Getränke;19;9,67;9,99;81;9,88;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000154;5,00E+12;FANTA  Cassis  0,33Lt  Dose - 24er Pack;;Getränke;19;9,67;9,99;97;9,88;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000155;5,00E+12;FANTA  Apfel Cherry  0,33Lt  Dose - 24er Pack;;Getränke;19;9,67;9,99;99;9,88;29.06.2026;01.08.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000156;5,00E+12;FuzeTea  Pfirsisch  0,33l Dose - 24er Pack;;Getränke;19;11,7;12,49;86;0;02.07.2026;02.07.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000157;5,00E+12;FuzeTea  Zitrone  0,33l Dose - 24er Pack;;Getränke;19;11,7;12,49;17;0;02.07.2026;02.07.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+13000158;5,45E+12;VIO  0,25l  Glasflasche - 24er Kiste;;Getränke;19;6,71;7,49;180;0;02.07.2026;02.07.2026;DPG Pfand Kiste Getränke 24er - 5,10€;45;0
+13000159;5,00E+12;POWERADE BLAU  0,5l  PET - 12er Pack;;Getränke;19;10,79;11,79;108;0;02.07.2026;02.07.2026;DPG Pfand EINWEG 0,25 - 12er 3,00 Euro;224;0
+14000000;;Gaffel Wiess 0,33l 24er Kiste;4,00E+12;Alkohol;19;13,75;16,99;5;14,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000001;;Mühlen Kölsch 0,5l 20er Kiste;4,00E+12;Alkohol;19;14,5;17,49;5;14,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000003;;Mühlen Kölsch 0,33l 20er Kiste;4,00E+12;Alkohol;19;11,95;14,49;5;12,79;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000004;;Reissdorf Kölsch 0,5l 20er Kiste;4,01E+12;Alkohol;19;12,45;15,49;39;12,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000005;;Reissdorf Kölsch 0,33l 24er Kiste;4,01E+12;Alkohol;19;11,95;14,49;39;12,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000006;;Bitburger Pils 0,5l Glasflasche 20er Kiste;4,10E+12;Alkohol;19;14,75;17,99;5;15,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000007;;Tyskie Pils 0,5l Glasflasche 20er Kiste;5,90E+12;Alkohol;19;14,75;17,99;10;15,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000008;;Lech Pils 0,5l 20er Kiste;5,90E+12;Alkohol;19;14,75;17,99;5;15,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000009;;Augustiner Hell 0,5l 20er Kiste;4,11E+12;Alkohol;19;15,65;18,95;2;15,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000010;;Karlsberg Mixery Cola 0,5l 20er Kiste;4,00E+12;Alkohol;19;16,45;19,99;5;16,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000011;;Karlsberg Mixery Cola 0,33l 24er Kiste;4,00E+12;Alkohol;19;14,95;18,29;5;15,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000012;;Vitamalz 0,5l 20er Kiste;4,00E+12;Alkohol;19;10,25;12,49;5;10,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000013;;Vitamalz 0,33l 24er Kiste;4,00E+12;Alkohol;19;9,95;12,49;5;10,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000014;;Krombacher Pils 0,5l 20er Kiste;4,01E+12;Alkohol;19;14,45;17,49;5;14,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000015;;Krombacher Pils 0,33l 24er Kiste;4,01E+12;Alkohol;19;14,1;17,29;5;14,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000016;;Warsteiner Pils 0,5l 20er Kiste;4,00E+12;Alkohol;19;15,45;18,99;5;15,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000017;;Veltins Pils 0,5l 20er Kiste;4,01E+12;Alkohol;19;14,95;18,49;5;15,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000018;;Veltins Pils 0,33l 24er Kiste;4,01E+12;Alkohol;19;14,45;17,99;5;14,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000019;;Erdinger Hefe Weißbier 0,5l 20er Kiste;4,00E+12;Alkohol;19;16,95;20,99;5;17,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000020;;Erdinger alkoholfrei 0,5l 20er Kiste;4,00E+13;Alkohol;19;16,95;20,99;5;17,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000021;;Paulaner Hefe Weißbier naturtrüb 0,5l 20er Kiste;4,07E+12;Alkohol;19;15,85;19,99;5;16,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000022;;Paulaner alkoholfrei 0,5l 20er Kiste;4,07E+12;Alkohol;19;15,85;19,99;5;16,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000023;;Sion Kölsch 0,33l 24er Kiste;4,01E+12;Alkohol;19;10,58;12,99;5;10,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000024;;Jever Pils 0,5l 20er Kiste;4,01E+12;Alkohol;19;14,5;17,99;5;14,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000025;;Jever Pils 0,33l 24er Kiste;4,01E+12;Alkohol;19;14,25;17,49;5;14,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000026;;Budweiser Pils 0,5l 20er Kiste;8,59E+12;Alkohol;19;16,25;19,95;10;16,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000027;;Budweiser Pils 0,33l 24er Kiste;8,59E+12;Alkohol;19;16,25;19,95;10;16,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000028;;Spaten Münchner Hell 0,5l 20er Kiste;4,07E+12;Alkohol;19;14,99;18,49;10;15,79;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000029;;Beck´s Pils 0,5l 20er Kiste;41001318;Alkohol;19;14,95;17,95;5;15,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000030;;Beck´s Pils 0,33l 24er Kiste;41001301;Alkohol;19;13,99;17,49;4;14,79;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000031;;Corona Extra 0,355l 24er Pack;75033927;Alkohol;19;19,99;24,95;10;20,79;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000032;;Peroni Nastro Azzurro 24er Kiste;8,01E+12;Alkohol;19;18,49;22,49;10;18,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000033;;Gilden Kölsch 0,5l 20er Kiste;4,00E+12;Alkohol;19;11,29;13,79;5;11,79;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000034;;Warsteiner Pils 0,33l 24er Kiste;4,01E+11;Alkohol;19;14,29;17,49;5;14,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000035;;Bitburger Pils 0,33l 24er Kiste;4,10E+12;Alkohol;19;15,29;18,69;5;15,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000036;;Gaffel Kölsch 0,5l 20er Kiste;4,00E+12;Alkohol;19;14,29;17,49;10;14,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000037;;Gaffel Kölsch 0,33l 24er Kiste;4,00E+12;Alkohol;19;13,69;16,49;10;14,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000038;;San Miguel 0,33l 24er Kiste;8,41E+12;Alkohol;19;15,95;19,49;10;16,79;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000039;;Klüngels 0,33l 5,10% Vol. 24er Kiste;4,04E+12;Alkohol;19;10,86;13,49;20;11,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000040;;Heineken Pils 0,33l 24er Kiste;8,71E+12;Alkohol;19;16,99;20,49;8;17,79;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000041;;Heineken Pils 0,25l 28er Kiste;8,71E+12;Alkohol;19;15,49;18,75;10;16,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 28er - 3,74 Euro;273;0
+14000042;;Desperados 0,33l 24er Kiste;3,16E+12;Alkohol;19;24,85;29,99;10;25,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000043;;Birra Moretti 0,33l 24er Kiste;9,03E+12;Alkohol;19;16,49;19,79;10;16,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000044;;Früh Kölsch 0,5l Glasflasche 20er Kiste;4,00E+12;Alkohol;19;12,15;14,95;160;12,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000045;;Früh Kölsch 0,33l Glasflasche 24er Kiste;4,00E+12;Alkohol;19;11,63;14,29;160;12,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000046;;Früh Kölsch 0,0% 0,33l 24er Kiste;4,00E+12;Alkohol;19;11,63;13,99;40;12,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000047;;Früh Kölsch 0,33l 4x6 24er Kiste;4,00E+12;Alkohol;19;12,51;14,99;40;12,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000048;;Früh Sport Zitrone 0,33l 24er Kiste;4,00E+12;Alkohol;19;10,98;13,49;40;11,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000049;;Früh NaturRadler 0,33l 24er Kiste;4,00E+12;Alkohol;19;11,63;14,29;40;12,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 24er 3,42;110;0
+14000050;;Schreckenskammer Kölsch 0,5l 20er Kiste;4,00E+12;Alkohol;19;12,63;15,49;120;13,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000051;;Schreckenskammer Kölsch 0,33l 20er Kiste;4,00E+12;Alkohol;19;10,95;13,49;96;11,99;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+14000052;;Schreckenskammer alkoholfrei 0,33l 20er Kiste;4,00E+12;Alkohol;19;10,95;13,49;48;11,49;22.06.2026;31.07.2026;DPG Pfand Bierkiste 20er 3,10;111;0
+18000000;4,04E+12;Milram Vollmilchjoghurt 3,5% natur - 5kg;4,04E+12;Molkerei;7;5,2;6,49;0;0;27.05.2026;27.05.2026;;0;0
+18000001;4,04E+12;Milram Vollmilchjoghurt 3,5% natur - 10kg;4,04E+12;Molkerei;7;10,4;12,49;26;0;27.05.2026;27.05.2026;;0;0
+18000002;2,82E+12;Milram Gouda 48% - 15kg;;Molkerei;7;4,08;4,19;2.162,45;4,09;13.07.2026;01.08.2026;;0;0
+18000003;2,82E+12;Milram Edamer 40% - 15kg;4,01E+12;Molkerei;7;4,08;4,19;560,79;0;27.05.2026;27.05.2026;;0;0
+18000004;2,82E+12;Milram Edamer 30% - 15kg;4,01E+12;Molkerei;7;4,08;4,19;609,25;0;27.05.2026;27.05.2026;;0;0
+18000005;2,81E+12;Milram Mozzarella 40% - 15kg;4,04E+12;Molkerei;7;4,5;5,19;635,44;4,59;29.06.2026;01.08.2026;;0;0
+18000006;2,86E+12;Milram Gouda Schnittkäse 45% Fett - 3kg;4,04E+12;Molkerei;7;4,3;4,99;340,18;0;27.05.2026;27.05.2026;;0;0
+18000007;2,86E+12;Milram Mozzarella 40% - 2,5 kg;2,86E+12;Molkerei;7;4,6;5,29;295,85;0;27.05.2026;27.05.2026;;0;0
+18000008;4,04E+12;Milram Raspel Gouda 48% - 2kg;;Molkerei;7;4,87;5,79;197;4,89;29.06.2026;01.08.2026;;0;0
+18000009;4,04E+12;Milram Raspel Mozzarella 40% - 2kg;4,04E+12;Molkerei;7;5;5,79;97;5;29.06.2026;11.07.2026;;0;0
+18000010;4,04E+12;Milram Raspel Gouda-Mozzarella-Mix - 2kg;4,04E+12;Molkerei;7;4,95;5,99;100;4,99;29.06.2026;01.08.2026;;0;0
+18000011;4,04E+12;Milram Würfel Mozzarella 40% - 2kg;4,04E+12;Molkerei;7;5;5,79;100;5;29.06.2026;01.08.2026;;0;0
+18000012;4,04E+12;Milram H-Sahne 30% - 1kg;4,04E+12;Molkerei;7;2,5;2,89;535;0;27.05.2026;27.05.2026;;0;0
+18000013;4,04E+12;Milram Küchensahne 20% - 1kg;4,03E+13;Molkerei;7;1,93;2,19;718;1,99;29.06.2026;01.08.2026;;0;0
+18000014;4,04E+12;Milram Speisequark 40% - 5kg;4,04E+12;Molkerei;7;10,6;12,99;20;0;27.05.2026;27.05.2026;;0;0
+18000015;;Milram Speisequark mager - 5kg;4,04E+12;Molkerei;7;7,4;8,49;19;0;27.05.2026;27.05.2026;;0;0
+18000016;;Milram Speisequark mager - 10kg;4,04E+12;Molkerei;7;14,8;16,99;20;0;27.05.2026;27.05.2026;;0;0
+18000017;;Milram Schlagsahne 33% (360) - 5kg;4,04E+12;Molkerei;7;13,95;15,99;20;0;27.05.2026;27.05.2026;;0;0
+18000018;;Milram Schlagsahne 30% - 5kg;4,04E+12;Molkerei;7;13,15;15,29;20;0;27.05.2026;27.05.2026;;0;0
+18000019;4,01E+12;Körfez Ayran 250ml;4,01E+12;Molkerei;7;4;4,79;86;0;27.05.2026;27.05.2026;;0;0
+18000020;;Körfez Ayran 500ml;4,01E+12;Molkerei;7;5,2;6,19;857;0;27.05.2026;27.05.2026;;0;0
+18000021;4,01E+12;Körfez Joghurt 3,8% 10kg;4,01E+12;Molkerei;7;9,9;12,49;77;0;27.05.2026;27.05.2026;;0;0
+18000022;4,01E+12;Körfez Joghurt 3,8% 5kg;4,01E+12;Molkerei;7;5,4;6,49;98;0;27.05.2026;27.05.2026;;0;0
+18000023;4,01E+12;Körfez Joghurt 10% 1kg;4,01E+12;Molkerei;7;1,35;1,79;41;0;27.05.2026;27.05.2026;;0;0
+18000024;4,01E+12;Körfez Joghurt 3,5% 1kg;4,01E+12;Molkerei;7;1,2;1,49;0;0;27.05.2026;27.05.2026;;0;0
+18000025;4,27E+12;By Cesmeli  Ayran - 250 ml - 20 Stück;;Molkerei;7;4,8;5,79;62;0;27.05.2026;27.05.2026;;0;0
+18000026;4,27E+12;By Cesmeli Yoghurt - 10kg;;Molkerei;7;10,8;13,99;52;0;27.05.2026;27.05.2026;;0;0
+28000000;8,69E+12;HARIBO Helal Happy Sour Cola 100g;4,00E+12;Snacks & Süßwaren;7;0,59;0,69;672;0;27.05.2026;27.05.2026;;0;0
+28000001;8,69E+12;HARIBO Helal Chamallow Pink&White 70g;8,69E+12;Snacks & Süßwaren;7;0,59;0,69;0;0;27.05.2026;27.05.2026;;0;0
+28000002;8,69E+12;HARIBO Helal Chamallows Party 70g;8,69E+12;Snacks & Süßwaren;7;0,59;0,69;360;0;27.05.2026;27.05.2026;;0;0
+28000003;8,69E+12;HARIBO Chamallows Rubino 70g;8,69E+12;Snacks & Süßwaren;7;0,59;0,69;623;0;27.05.2026;27.05.2026;;0;0
+28000004;4,00E+12;HARIBO Helal Croco 100g;4,00E+12;Snacks & Süßwaren;7;0,59;0,69;497;0;27.05.2026;27.05.2026;;0;0
+28000005;4,00E+12;HARIBO Helal Worms Sour 80g;4,00E+12;Snacks & Süßwaren;7;0,59;0,69;835;0;27.05.2026;27.05.2026;;0;0
+28000006;4,00E+12;HARIBO Helal Goldbären 100g;4,00E+12;Snacks & Süßwaren;7;0,59;0,69;827;0;27.05.2026;27.05.2026;;0;0
+28000007;4,00E+12;HARIBO Helal Happy Cherries 100g;4,00E+12;Snacks & Süßwaren;7;0,59;0,69;830;0;27.05.2026;27.05.2026;;0;0
+28000008;4,00E+12;HARIBO Helal Happy Cola 100g;4,00E+12;Snacks & Süßwaren;7;0,59;0,69;831;0;29.05.2026;29.05.2026;;0;0
+28000009;9,00E+12;HARIBO Helal Pommes Sauer 100g;9,00E+12;Snacks & Süßwaren;7;0,59;0,69;672;0;29.05.2026;29.05.2026;;0;0
+28000010;4,00E+12;HARIBO Helal Primavera Strawberries 80g;4,00E+12;Snacks & Süßwaren;7;0,59;0,69;494;0;29.05.2026;29.05.2026;;0;0
+28000011;4,00E+12;HARIBO Helal Tropi Frutti Aroma Karisik Tropik Meyve 100g;4,00E+12;Snacks & Süßwaren;7;0,59;0,69;830;0;29.05.2026;29.05.2026;;0;0
+28000012;4,00E+12;HARIBO Helal Worms Solucan 100g;4,00E+12;Snacks & Süßwaren;7;0,59;0,69;840;0;29.05.2026;29.05.2026;;0;0
+28000013;4,00E+12;HARIBO Veggie Bunte Tüte 100g;4,00E+12;Snacks & Süßwaren;7;0,56;0,69;778;0;30.05.2026;30.05.2026;;0;0
+28000014;4,00E+12;HARIBO Veggie Miami Sauer 85g;4,00E+12;Snacks & Süßwaren;7;0,56;0,69;654;0;30.05.2026;30.05.2026;;0;0
+28000015;4,00E+12;HARIBO Veggie Schlümpfe 100g;4,00E+12;Snacks & Süßwaren;7;0,56;0,69;897;0;30.05.2026;30.05.2026;;0;0
+28000016;4,00E+12;HARIBO Veggie Pasta Frutta 85g;4,00E+12;Snacks & Süßwaren;7;0,56;0,69;660;0;30.05.2026;30.05.2026;;0;0
+28000017;4,00E+12;HARIBO Veggie Spaghetti Rot Sauer 85g;4,00E+12;Snacks & Süßwaren;7;0,56;0,69;596;0;30.05.2026;30.05.2026;;0;0
+28000027;4,04E+12;SUNTAT Labneh 12x500g Schale;4,04E+12;Molkerei;7;2,45;2,99;60;0;27.05.2026;27.05.2026;;0;0
+30000000;4,04E+12;TOP Papierhandtücher 2lg Weiss 3200 st 25/21;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;14,16;16,99;31;0;19.05.2026;19.05.2026;;0;0
+30000001;4,04E+12;TOP Papierhandtücher 1Lg 4000 st 25/23;;Verpackung/Reinigungsmittel/Hygiene;19;11,8;13,49;31;0;19.05.2026;19.05.2026;;0;0
+30000002;4,03E+12;Handwaschlotion Neutral 5L Kanister;;Verpackung/Reinigungsmittel/Hygiene;19;6,81;8,49;5;0;19.05.2026;19.05.2026;;0;0
+30000003;4,03E+12;ZetClean Handwaschlotion Premium 5L Kanister;;Verpackung/Reinigungsmittel/Hygiene;19;7,44;8,99;10;0;19.05.2026;19.05.2026;;0;0
+30000004;4,03E+12;Müllbeutel 60L Weiss;;Verpackung/Reinigungsmittel/Hygiene;19;13,55;16,49;795;0;19.05.2026;19.05.2026;;0;0
+30000005;4,03E+12;ZetClean Handspülmittel Ohne Duft 1L;;Verpackung/Reinigungsmittel/Hygiene;19;2,01;2,49;120;0;19.05.2026;19.05.2026;;0;0
+30000006;4,03E+12;ZetClean Allzweckreiniger AZ citro 1L;;Verpackung/Reinigungsmittel/Hygiene;19;1,51;1,79;120;0;19.05.2026;19.05.2026;;0;0
+30000007;5,90E+12;Mehrweg-Löffel Transperant 20x100st;;Verpackung/Reinigungsmittel/Hygiene;19;0,82;1,29;399;0;21.05.2026;21.05.2026;;0;0
+30000008;4,25E+12;WECO Spülmittel 10l Kanister;;Verpackung/Reinigungsmittel/Hygiene;19;7,99;9,49;39;0;25.05.2026;25.05.2026;;0;0
+30000009;4,25E+12;WECO Allzweckreiniger  Salmiak 10l Kanister;;Verpackung/Reinigungsmittel/Hygiene;19;7,49;8,99;30;0;25.05.2026;25.05.2026;;0;0
+30000010;4,25E+12;WECO Geschirreiniger flüssig für Gewerbemaschinen 10l Kanister;;Verpackung/Reinigungsmittel/Hygiene;19;25,99;29,99;30;0;25.05.2026;25.05.2026;;0;0
+30000011;4,25E+12;WECO Fettlöser 10l Kanister;;Verpackung/Reinigungsmittel/Hygiene;19;7,31;9,99;27;0;25.05.2026;25.05.2026;;0;0
+30000012;4,25E+12;WECO Klarspüler 10l Kanister;;Verpackung/Reinigungsmittel/Hygiene;19;9,99;11,49;30;0;25.05.2026;25.05.2026;;0;0
+30000013;4,25E+12;WECO Essigreiniger 10l Kanister;;Verpackung/Reinigungsmittel/Hygiene;19;6,28;8,49;14;0;25.05.2026;25.05.2026;;0;0
+30000014;4,25E+12;WECO Allesreiniger Citrusfrisch 10l Kanister;;Verpackung/Reinigungsmittel/Hygiene;19;7,59;8,99;30;0;25.05.2026;25.05.2026;;0;0
+30000015;4,25E+12;WECO Cremeseife rosa 10l Kanister;;Verpackung/Reinigungsmittel/Hygiene;19;7,89;8,99;30;0;25.05.2026;25.05.2026;;0;0
+30000016;4,25E+12;WECO Geschirrreiniger Pulver 10kg nur für Gewerbe!;;Verpackung/Reinigungsmittel/Hygiene;19;14,89;17,49;6;0;25.05.2026;25.05.2026;;0;0
+30000017;4,25E+12;Largo Gechirrreiniger Tabs 5in1 450er Karton;;Verpackung/Reinigungsmittel/Hygiene;19;21,99;25,99;10;0;25.05.2026;25.05.2026;;0;0
+30000018;4,25E+12;WECO Glasreiniger Sprühflasche 1l;;Verpackung/Reinigungsmittel/Hygiene;19;0,95;1,19;40;0;25.05.2026;25.05.2026;;0;0
+30000019;4,25E+12;Largo Klarspüler 1Lt;;Verpackung/Reinigungsmittel/Hygiene;19;0,84;1,19;32;0;25.05.2026;25.05.2026;;0;0
+30000020;4,25E+12;WECO Rohrfrei Granulat Streudose 1kg ÄTZEND! Begrenzte Menge!;;Verpackung/Reinigungsmittel/Hygiene;19;1,78;2,49;27;0;25.05.2026;25.05.2026;;0;0
+30000021;4,25E+12;Largo Spülmittel Ultra Blau 500ml;;Verpackung/Reinigungsmittel/Hygiene;19;0,5;0,79;58;0;25.05.2026;25.05.2026;;0;0
+30000022;4,03E+12;eco-fix Fettlöser 750ml Sprühflasche;;Verpackung/Reinigungsmittel/Hygiene;19;1,45;1,95;36;0;25.05.2026;25.05.2026;;0;0
+30000023;9,00E+12;DUSO Javelwasser 2l Henkelflasche;;Verpackung/Reinigungsmittel/Hygiene;19;1,79;2,69;40;0;25.05.2026;25.05.2026;;0;0
+30000024;4,25E+11;LargoSpülmaschinensalz 2kg Faltschachtel;;Verpackung/Reinigungsmittel/Hygiene;19;1,09;1,49;30;0;25.05.2026;25.05.2026;;0;0
+30000025;4,25E+12;LARGO Geschirr Reiniger Tabs All in One 40er Faltschachtel;;Verpackung/Reinigungsmittel/Hygiene;19;2,42;3,19;35;0;25.05.2026;25.05.2026;;0;0
+30000026;4,25E+12;Largo kalkreiniger 500ml Sprühflasche;;Verpackung/Reinigungsmittel/Hygiene;19;0,95;1,29;23;0;25.05.2026;25.05.2026;;0;0
+30000027;4,25E+12;Largo Pflegereiniger für Spülmaschinen 250ml;;Verpackung/Reinigungsmittel/Hygiene;19;0,74;0,99;40;0;25.05.2026;25.05.2026;;0;0
+30000028;4,25E+12;WECO Glaskeramikreiniger 250ml;;Verpackung/Reinigungsmittel/Hygiene;19;0,79;0,99;36;0;25.05.2026;25.05.2026;;0;0
+30000029;4,25E+12;WECO Urinsteinlöser 1l Schräghalsflasche ÄTZEND! Begrenzte Menge!;;Verpackung/Reinigungsmittel/Hygiene;19;1,39;1,79;35;0;25.05.2026;25.05.2026;;0;0
+30000030;4,25E+12;WECO Geschirr-Reiniger flüssig ohne Chlor 10l Kanister;;Verpackung/Reinigungsmittel/Hygiene;19;25,99;29,99;30;0;25.05.2026;25.05.2026;;0;0
+30000031;4,25E+12;WECO Entkalker Konzentrat 250ml;;Verpackung/Reinigungsmittel/Hygiene;19;0,62;0,99;57;0;25.05.2026;25.05.2026;;0;0
+30000032;9,00E+12;formany Geschirspülmittel citro fresh GRÜN 1l;;Verpackung/Reinigungsmittel/Hygiene;19;0,94;1,39;32;0;25.05.2026;25.05.2026;;0;0
+31000000;8,71E+12;Oliehoorn Saladesaus 50% Glutenfrei 10L;;Saucen;7;17,6;21,99;30;0;19.05.2026;19.05.2026;;0;0
+31000001;8,71E+12;Oliehoorn Mayonnaise 80% Tube 900ml;8,71E+12;Saucen;7;2,91;3,49;60;0;19.05.2026;19.05.2026;;0;0
+31000002;8,71E+12;Oliehoorn Tomatenketchup 10 kg;;Saucen;7;20,82;24,99;30;20,99;29.06.2026;01.08.2026;;0;0
+31000003;8,71E+12;Oliehoorn Tomatenketchup 900ml Tube;8,71E+12;Saucen;7;2,49;3,19;58;0;19.05.2026;19.05.2026;;0;0
+31000004;8,71E+12;Oliehoorn Currysauce 10kg;;Saucen;7;20,82;24,99;30;0;19.05.2026;19.05.2026;;0;0
+31000005;8,71E+12;Oliehoorn Currysauce 900ml Tube;8,71E+12;Saucen;7;2,49;3,19;60;0;19.05.2026;19.05.2026;;0;0
+31000006;8,71E+12;Oliehoorn Senf Tube 900ml;;Saucen;7;2,12;3,19;30;0;19.05.2026;19.05.2026;;0;0
+31000007;8,71E+12;Oliehoorn Knoblauchsauce 900ml Tube;8,71E+12;Saucen;7;2,95;3,69;30;0;19.05.2026;19.05.2026;;0;0
+31000008;8,71E+12;Oliehoorn Mayonnaise 10 L 80%;;Saucen;7;23,41;27,99;24;23,49;29.06.2026;01.08.2026;;0;0
+31000009;8,71E+12;Oliehoorn Mayonnaise 80% 198x20ml 198 Portionen;;Saucen;19;18,36;22,49;8;0;19.05.2026;19.05.2026;;0;0
+31000010;8,71E+12;Oliehoorn Tometenketchup 150x15ml 150 Portionen;;Saucen;7;13,13;16,49;8;0;19.05.2026;19.05.2026;;0;0
+31000011;8,71E+12;Oliehoorn Currysauce 150x15ml 150 Portionen;;Saucen;7;13,13;16,49;0;0;19.05.2026;19.05.2026;;0;0
+31000012;8,71E+12;Oliehoorn Senf 2,5L;;Saucen;7;7,39;9,49;44;0;19.05.2026;19.05.2026;;0;0
+31000013;8,71E+12;Oliehoorn Senf 300x10ml Portionen;;Saucen;7;14,95;17,99;10;0;19.05.2026;19.05.2026;;0;0
+31000019;5,90E+12;Mehrweg-Gabel 18cm Transparent 100St;5,90E+12;Verpackung/Reinigungsmittel/Hygiene;19;0,81;1,29;554;0;21.05.2026;21.05.2026;;0;0
+31000020;4,04E+12;TOP Kaffebecher 0,1 - 100 Stück Art Nr 230617;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,69;2,09;1.570,00;0;21.05.2026;21.05.2026;;0;0
+31000021;4,04E+12;TOP Kaffebecher 0,2 - 50 Stück Art Nr 230527;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,43;1,79;592;0;21.05.2026;21.05.2026;;0;0
+31000022;4,04E+12;TOP Kaffeebecher 0,3 - 50 Stück  Art Nr 230528;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,83;2,29;57;0;21.05.2026;21.05.2026;;0;0
+31000023;4,04E+12;TOP Kaffeebecher 0,4 - 50Stück  Art Nr 230840;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;2,33;2,89;360;0;21.05.2026;21.05.2026;;0;0
+31000024;4,04E+12;TOP Kaffeb-Deckel, weiß 80mm 0,2-0,3l 100 St 230621;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,65;1,99;120;0;21.05.2026;21.05.2026;;0;0
+31000025;4,04E+12;TOP Kaffeb-Deckel, weiß 90mm 100St 230641;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;2,09;2,49;90;0;21.05.2026;21.05.2026;;0;0
+31000026;4,03E+12;Menüteller- Plastik Ungeteilt Weiss;;Verpackung/Reinigungsmittel/Hygiene;19;4,26;5,29;161;4,39;29.06.2026;01.08.2026;;0;0
+31000027;4,03E+12;Menüteller- Plastik 2get. Weiss 100 Stück;;Verpackung/Reinigungsmittel/Hygiene;19;4,3;5,29;174;4,39;29.06.2026;01.08.2026;;0;0
+31000028;4,03E+12;Menüteller- Plastik 3get. Weiss;;Verpackung/Reinigungsmittel/Hygiene;19;4,26;5,29;166;4,39;29.06.2026;01.08.2026;;0;0
+31000029;5,90E+12;Messer Mehrweg Transperant 100st;5,90E+12;Verpackung/Reinigungsmittel/Hygiene;19;0,81;1,29;643;0;21.05.2026;21.05.2026;;0;0
+31000030;4,03E+12;Trinkbecher 0,2 Weiss 100er Pack;4,03E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,45;1,75;501;0;21.05.2026;21.05.2026;;0;0
+31000031;4,04E+12;Holz-Gabel Gebogen 100er Pack;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,45;1,79;995;0;21.05.2026;21.05.2026;;0;0
+31000032;4,04E+12;TOP Pommes-Frites-Gabel Holz 1000 St;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;2,65;3,19;210;0;21.05.2026;21.05.2026;;0;0
+31000033;5,90E+12;Menü-Box 2get Weiss;5,90E+12;Verpackung/Reinigungsmittel/Hygiene;19;11,41;13,99;19;0;21.05.2026;21.05.2026;;0;0
+31000036;5,90E+12;Menü-Box Ungeteilt Weiss;5,90E+12;Verpackung/Reinigungsmittel/Hygiene;19;11,41;13,99;22;0;21.05.2026;21.05.2026;;0;0
+31000038;5,90E+12;Menü- Box 3 geteilt Weiss;5,90E+12;Verpackung/Reinigungsmittel/Hygiene;19;11,41;13,99;23;0;21.05.2026;21.05.2026;;0;0
+31000039;4,04E+12;TOP Salatschale Braune Pappe 500ml 50er Pack;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;3,45;4,19;13;3,59;29.06.2026;01.08.2026;;0;0
+31000040;4,04E+12;TOP Salatschale Braune Pappe 750ml  50er Pack;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;3,65;4,49;16;3,79;29.06.2026;01.08.2026;;0;0
+31000041;4,04E+12;All Natural Salatschale-Deckel 15cm 500/750ml 50er Pack;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;2,1;2,59;36;2,19;29.06.2026;11.07.2026;;0;0
+31000042;4,04E+12;TOP Salatschale Braune Pappe 1000ml 50er Pack;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;4,75;5,79;8;4,89;29.06.2026;01.08.2026;;0;0
+31000044;4,04E+12;All Natural Salatschale Braun 1200ml Pappe 50er Pack;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;5,4;6,29;11;5,49;29.06.2026;11.07.2026;;0;0
+31000045;4,04E+12;All Natural Salatschale- Deckel 1000/12000ml 50er Pack;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;2,95;3,59;20;3,09;29.06.2026;11.07.2026;;0;0
+31000047;4,04E+11;Hähnchenbeutel 1/1 3-Lg;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;9;11,69;127;0;21.05.2026;21.05.2026;;0;0
+31000048;4,04E+12;Hähnchenbeutel 1/2 3lg;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;6,13;7,49;160;0;21.05.2026;21.05.2026;;0;0
+31000049;4,04E+12;Top Alufolie 30cm (14my) Extra Stark 4st 750g;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;4,36;21,49;201;0;21.05.2026;21.05.2026;;0;0
+31000050;7,30E+12;Alufolie 1000g 30cm 14mx 4er Pack;7,30E+12;Verpackung/Reinigungsmittel/Hygiene;19;22,76;26,99;174;0;21.05.2026;21.05.2026;;0;0
+31000051;6,27E+12; Gude Serv.Gepr.33x33cm 1/4 3,6kg;6,21E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,02;1,29;162;0;21.05.2026;21.05.2026;;0;0
+31000052;4,04E+12;TOP Frischhaltefolie 30cm 4er Pack;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;9,66;11,99;87;0;21.05.2026;21.05.2026;;0;0
+31000053;4,04E+12;TOP Frischhaltefolie 45cm lose 4er Pack;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;3,58;17,79;237;0;21.05.2026;21.05.2026;;0;0
+31000055;9,51E+12;Döner-Kebab Beutel 16x16xm 4kg;9,51E+12;Verpackung/Reinigungsmittel/Hygiene;19;8,54;9,99;80;0;22.05.2026;22.05.2026;;0;0
+31000057;4,04E+12;TOP Döner-Box Pappe 16OZ 480ml;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;4,7;5,49;49;0;22.05.2026;22.05.2026;;0;0
+31000058;4,04E+12;TOP Döner-Box Pappe 26OZ 710ml 50er Pack;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;5,8;6,49;48;0;22.05.2026;22.05.2026;;0;0
+31000059;;Dressing-Boxx Verp-Becher weiß, 80ml 500st;4,03E+12;Verpackung/Reinigungsmittel/Hygiene;19;10,75;12,79;75;0;22.05.2026;22.05.2026;;0;0
+31000060;;Dressing-Boxx Verp-Becher weiß, 100ml 500st;4,03E+12;Verpackung/Reinigungsmittel/Hygiene;19;11;12,99;81;0;22.05.2026;22.05.2026;;0;0
+31000061;4,03E+12;Salad Boxx - Verpackungsbecher 250CC 5X50 250Stück;4,03E+12;Verpackung/Reinigungsmittel/Hygiene;19;8,15;9,99;80;0;22.05.2026;22.05.2026;;0;0
+31000062;4,03E+12;Saladboxx mit Deckel 5X50 250 Stück;4,03E+12;Verpackung/Reinigungsmittel/Hygiene;19;11,23;13,29;48;0;22.05.2026;22.05.2026;;0;0
+31000064;4,03E+12;Micro Boxx Buttertöpfchen 30ml weiss mit Deckel (500st Karton) Art.No.: 10332;4,03E+12;Verpackung/Reinigungsmittel/Hygiene;19;16,5;19,49;40;0;22.05.2026;22.05.2026;;0;0
+31000066;4,04E+12;Buttertöpfchen 30ml mit Deckel Weiss (1000st Karton);4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;18,5;21,99;200;0;22.05.2026;22.05.2026;;0;0
+31000067;4,04E+12;Pizza-Karton 20x20x4 Braun NYC 100st;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;5,72;7,99;81;5,79;29.06.2026;01.08.2026;;0;0
+31000068;4,04E+12;Pizza-Karton 24x24x4 Braun NYC 100st;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;7,37;9,49;84;7,49;29.06.2026;01.08.2026;;0;0
+31000069;4,04E+12;Pizza-Karton 26x26x4 Braun NYC 100st;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;8,44;10,49;36;8,49;29.06.2026;01.08.2026;;0;0
+31000070;4,04E+12;Pizza- Karton 28x28x4 Braun NYC 100st;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;9,31;11,49;42;9,49;29.06.2026;01.08.2026;;0;0
+31000071;4,04E+12;Pizza-Karton 29x29x4 Braun NYC 100st;;Verpackung/Reinigungsmittel/Hygiene;19;9,89;11,99;42;9,89;29.06.2026;01.08.2026;;0;0
+31000072;4,04E+12;Pizza-Karton 30x30x4 Braun NYC 100st;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;10,62;12,99;37;0;22.05.2026;22.05.2026;;0;0
+31000073;4,04E+12;Pizza- Karton Kraft 20x20x4 100st;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;8,7;9,99;5;0;22.05.2026;22.05.2026;;0;0
+31000074;4,04E+12;Pizza-Karton 24x24x4 Kraft 100st;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;10,28;12,99;56;0;22.05.2026;22.05.2026;;0;0
+31000075;4,04E+12;Pizza-Karton 26x26x4 Kraft 100st;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;11,25;13,99;52;0;22.05.2026;22.05.2026;;0;0
+31000076;4,04E+12;Pizza-Karton 28x28x4 Kraft NYC HAPPY PIZZA 100st;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;13,4;14,99;39;0;22.05.2026;22.05.2026;;0;0
+31000077;4,04E+12;Pizza-Karton 29x29x4 Kraft 100st;;Verpackung/Reinigungsmittel/Hygiene;19;13,77;16,49;39;0;22.05.2026;22.05.2026;;0;0
+31000078;4,04E+12;Pizza- Karton 30x30x4 Kraft 100st;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;14,16;12,99;33;0;22.05.2026;22.05.2026;;0;0
+31000080;4,04E+12;Pizza- Karton 32x32x4 Weiss Kraft  - 100 St;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;11,9;18,99;37;0;22.05.2026;22.05.2026;;0;0
+31000082;4,04E+12;Aluschale 240846/ R1;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;7,32;9,29;160;0;22.05.2026;22.05.2026;;0;0
+31000083;4,04E+12;Aluschale-Deckel 240845/ R1;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,92;2,49;160;0;22.05.2026;22.05.2026;;0;0
+31000085;4,04E+12;Aluschale 240651/187/ R65;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;6,41;8,29;231;0;22.05.2026;22.05.2026;;0;0
+31000086;4,04E+12;Alu-Deckel 240650/187 R65;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,53;1,99;230;0;22.05.2026;22.05.2026;;0;0
+31000087;4,02E+12;Salatschale B2/G2 1796 100ER Pack IP;;Verpackung/Reinigungsmittel/Hygiene;19;4,2;5,29;60;0;22.05.2026;22.05.2026;;0;0
+31000088;4,04E+12;Salatschale B3;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;7,96;10,69;43;0;22.05.2026;22.05.2026;;0;0
+31000089;4,04E+12;Salatschale- Deckel B3;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;9,33;12,19;0;0;22.05.2026;22.05.2026;;0;0
+31000090;4,04E+12;Gude Serviette Geprägt 1/4 33x33  (500St);4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;4,98;5,79;88;0;22.05.2026;22.05.2026;;0;0
+31000091;4,04E+12;Salatschale- Deckel B3;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;6,74;9,19;58;0;22.05.2026;22.05.2026;;0;0
+31000092;4,26E+12;Pizza-Karton 24x24x4,2 Doppelkraft Pijama AK1024;;Verpackung/Reinigungsmittel/Hygiene;19;8,6;11,29;90;0;22.05.2026;22.05.2026;;0;0
+31000093;4,26E+12;Pizza-Karton 26x26x4,2 Doppelkraft Pijama AK1026;;Verpackung/Reinigungsmittel/Hygiene;19;9,2;11,99;90;0;22.05.2026;22.05.2026;;0;0
+31000094;4,26E+12;Pizza-Karton 28x28x4,2 Doppelkraft Pijama AK1028;;Verpackung/Reinigungsmittel/Hygiene;19;9,9;12,99;88;0;22.05.2026;22.05.2026;;0;0
+31000095;4,26E+12;Pizza- karton 29x29x4,2 Doppelkraft Pijama AK1029;;Verpackung/Reinigungsmittel/Hygiene;19;10,5;13,69;88;0;22.05.2026;22.05.2026;;0;0
+31000096;4,26E+12;Pizza-Karton 30x30x4,2 Doppelkraft Pijama AK10302;;Verpackung/Reinigungsmittel/Hygiene;19;11,3;14,69;90;0;22.05.2026;22.05.2026;;0;0
+31000097;4,26E+12;Pizza-Karton 32x32x4,2 Doppelkraft Pijama AK1032;;Verpackung/Reinigungsmittel/Hygiene;19;12,7;16,69;43;0;22.05.2026;22.05.2026;;0;0
+31000098;4,26E+12;Pizza- Karton 40x60x5 Doppelkraft Pijama AK4060;;Verpackung/Reinigungsmittel/Hygiene;19;20,5;26,99;60;0;22.05.2026;22.05.2026;;0;0
+31000099;;Küchenrolle 6er AK415 Jumborolle WELPA;;Verpackung/Reinigungsmittel/Hygiene;19;8,4;10,99;64;8,49;26.06.2026;01.08.2026;;0;0
+31000100;8,68E+12;Toilettenpapier 3lagig TP100 Aqua;8,68E+12;Verpackung/Reinigungsmittel/Hygiene;19;8,64;10,49;4.896,00;0;22.05.2026;22.05.2026;;0;0
+31000101;;Tragetasche 25x12x45cm Extra Stark 1000er Pack AK47;;Verpackung/Reinigungsmittel/Hygiene;19;11,8;14,29;57;0;22.05.2026;22.05.2026;;0;0
+31000102;;Tragetasche Extra Stark 28x14x48cm 1000er Pck;;Verpackung/Reinigungsmittel/Hygiene;19;14,5;17,49;56;0;22.05.2026;22.05.2026;;0;0
+31000103;4,26E+12;Tragetasche Extra Stark 30x18x55cm 1000er Pack;;Verpackung/Reinigungsmittel/Hygiene;19;16,8;21,99;60;0;22.05.2026;22.05.2026;;0;0
+31000104;;Tragetasche 30x20x60;;Verpackung/Reinigungsmittel/Hygiene;19;13,9;17,99;60;0;22.05.2026;22.05.2026;;0;0
+31000105;4,26E+12;Menüteller Ungeteilt Plastik 100er Pack;4,03E+12;Verpackung/Reinigungsmittel/Hygiene;19;4,3;5,19;200;0;22.05.2026;22.05.2026;;0;0
+31000106;4,26E+12;Menüteller 2get. Plastik;;Verpackung/Reinigungsmittel/Hygiene;19;3,65;4,99;200;0;22.05.2026;22.05.2026;;0;0
+31000109;4,26E+12;Menüteller 3get. Plastik;;Verpackung/Reinigungsmittel/Hygiene;19;3,65;4,99;200;0;22.05.2026;22.05.2026;;0;0
+31000110;4,26E+12;Suppenteller Plastik, weiß 100er Pack AK235 WELPA;4,26E+12;Verpackung/Reinigungsmittel/Hygiene;19;3,29;4,49;200;0;22.05.2026;22.05.2026;;0;0
+31000111;7,30E+12;Alufolie Extra Stark 700gr 4er;4,26E+12;Verpackung/Reinigungsmittel/Hygiene;19;11,5;13,79;106;0;22.05.2026;22.05.2026;;0;0
+31000112;4,26E+12;Alufolie Extra Stark 1200gr 4er Pack;4,26E+12;Verpackung/Reinigungsmittel/Hygiene;19;19,8;25,69;107;0;22.05.2026;22.05.2026;;0;0
+31000113;4,26E+12;Bella Nonna Gemüsemais 340g;4,26E+12;Konserven;7;0,55;0,79;2.126,00;0;22.05.2026;22.05.2026;;0;0
+31000115;4,26E+12;Bella Nonna Gemüsemais 2125gr;4,26E+12;Konserven;7;3,75;4,69;330;0;22.05.2026;22.05.2026;;0;0
+31000116;4,26E+12;Bella Nonna Rapsöl 10L;;Konserven;7;12,59;12,99;-49;12,99;29.06.2026;01.08.2026;;0;0
+31000119;4,04E+12;GO Serviette 33cm 8x250 1/8 2000Stk;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;19,9;22,79;68;0;22.05.2026;22.05.2026;;0;0
+31000122;4,04E+12;Erfrischungstücher 70x50 6x250;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;3,15;4,49;141;0;22.05.2026;22.05.2026;;0;0
+31000124;4,03E+12;Vlies-Allzwecktuch grün 38x38 10St;;Verpackung/Reinigungsmittel/Hygiene;19;1,6;2,49;311;0;22.05.2026;22.05.2026;;0;0
+31000126;4,03E+12;Vlies- Allzwecktuch Rosa;;Verpackung/Reinigungsmittel/Hygiene;19;1,6;2,49;320;0;22.05.2026;22.05.2026;;0;0
+31000128;4,03E+12;Vlies- Allzwecktuch Gelb 38x38 10St;;Verpackung/Reinigungsmittel/Hygiene;19;1,6;2,49;320;0;22.05.2026;22.05.2026;;0;0
+31000130;4,03E+12;Vlies- Allzwecktuch Blau;;Verpackung/Reinigungsmittel/Hygiene;19;1,6;2,49;319;0;22.05.2026;22.05.2026;;0;0
+31000132;4,03E+12;Nitril Handschuh Blau Grösse M 100st;;Verpackung/Reinigungsmittel/Hygiene;19;3,87;4,49;500;0;22.05.2026;22.05.2026;;0;0
+31000134;4,25E+12;Nitril Handschuh Puderfrei Blau Grösse L;;Verpackung/Reinigungsmittel/Hygiene;19;3,87;4,49;499;0;22.05.2026;22.05.2026;;0;0
+31000137;4,01E+12;Servietten 2-lagig Interfold Weiss 250st;4,01E+12;Verpackung/Reinigungsmittel/Hygiene;19;54,31;61,99;48;0;24.05.2026;24.05.2026;;0;0
+31000138;8,08E+12;Barilla Spaghetti Nr. 5 500g;8,08E+12;Lebensmittel;7;0,8;0,95;1.290,00;0,85;29.06.2026;01.08.2026;;0;0
+31000139;8,08E+12;Barilla Penne rigate Nr. 73 500g;8,08E+12;Lebensmittel;7;0,79;0,95;1.101,00;0,85;29.06.2026;01.08.2026;;0;0
+31000140;8,08E+12;Barilla Spaghetti CLASSICA Nr. 5 5kg;8,08E+12;Lebensmittel;7;7;8,99;144;0;24.05.2026;24.05.2026;;0;0
+31000141;8,08E+12;Barilla  Penne Rigate Nr.73 5kg;8,08E+12;Lebensmittel;7;7;8,99;54;0;24.05.2026;24.05.2026;;0;0
+31000142;8,08E+12;Barilla Tortiglioni Nr.83 5kg;8,08E+12;Lebensmittel;7;7;8,99;53;0;24.05.2026;24.05.2026;;0;0
+31000143;8,72E+12;LYDA Pizza Mehl Type 00 25kg;;Lebensmittel;7;16,95;19,99;32;18;24.05.2026;01.08.2026;;0;0
+31000144;8,72E+12;LYDIA Weizenmehl Type 405 1kg;;Lebensmittel;7;0,6;0,89;770;0;24.05.2026;24.05.2026;;0;0
+31000145;8,72E+12;LYDA Weizenmehl Type 405 10kg;;Lebensmittel;7;6,5;9,9;72;0;24.05.2026;24.05.2026;;0;0
+31000146;8,72E+12;LYDIA Oliven-Scheiben Schwarz 4250g;;Lebensmittel;7;7,8;9,99;195;0;24.05.2026;24.05.2026;;0;0
+31000147;8,72E+12;LYDIA Oliven- Schwarz Ohne Kern 28-30 4250ml;;Lebensmittel;7;7,8;9,99;182;0;24.05.2026;24.05.2026;;0;0
+31000148;8,72E+12;LYDIA Oliven- Grün Ohne Kern 28-30 4250ml;8,72E+12;Lebensmittel;7;7,95;9,99;189;6,79;24.05.2026;24.05.2026;;0;0
+31000149;8,72E+12;LYDIA Peperoni Griechisch Mild 6kg- Eimer;;Lebensmittel;7;13,96;17,49;51;0;24.05.2026;24.05.2026;;0;0
+31000150;4,01E+12;La Perla Sardellenfilets In Sonnenblumenöl;4,01E+12;Konserven;7;7,8;9,49;60;0;24.05.2026;24.05.2026;;0;0
+31000151;3,08E+12;Bonduelle Mais 1775g;3,08E+12;Konserven;7;4,1;4,99;261;0;24.05.2026;24.05.2026;;0;0
+31000152;8,72E+12;LYDIA Halb-Flüssig Fritieröl 10L;;Konserven;7;18,95;21,99;56;0;24.05.2026;24.05.2026;;0;0
+31000153;8,72E+12;Tafelessig 5% weiss 10L;;Konserven;7;4,4;5,49;52;0;24.05.2026;24.05.2026;;0;0
+31000154;4,00E+12;Hollandaise Sauce 1L Lukull;4,00E+12;Konserven;7;3,67;3,99;662;3,69;24.05.2026;01.08.2026;;0;0
+31000155;2,87E+12;Royal Hollandia Gouda 48% ca. 15kg;2,87E+12;Lebensmittel;7;3,7;4,29;657,92;0;24.05.2026;24.05.2026;;0;0
+31000156;8,72E+12;LYDIA Geraspelter Käse Edame 40% Halal 2kg;8,72E+12;Lebensmittel;7;9,89;11,99;40;0;24.05.2026;24.05.2026;;0;0
+31000157;8,72E+12;Lydia Geriebelter Gouda Käse 48% Halal 2kg;;Lebensmittel;7;9,89;11,49;40;0;24.05.2026;24.05.2026;;0;0
+31000158;8,72E+12;Lydia Gouda Scheiben Käse 48% Halal 1kg;8,72E+12;Kühlschrankware;7;5,05;5,99;42;0;24.05.2026;24.05.2026;;0;0
+31000159;8,72E+12;Lydia Mozzarella 40+ Geriebelt 2kg;8,72E+12;Kühlschrankware;7;10,31;11,99;40;0;24.05.2026;24.05.2026;;0;0
+31000160;;Combi Rot Weisskäse 40% 16kg;;Konserven;7;43,99;49,99;45;0;24.05.2026;24.05.2026;;0;0
+31000161;7,64E+12;Lydia Mozzarella 42% 1kg Stange;7,64E+12;Kühlschrankware;7;5,96;4;35;0;24.05.2026;24.05.2026;;0;0
+31000162;2,99E+12;Lydia Gorgonzola DOP ca. 1,5kg;2,99E+12;Kühlschrankware;7;8,96;10,49;86,03;0;24.05.2026;24.05.2026;;0;0
+31000163;4,05E+12;Frischli Küchensahne 20% 1L;4,05E+12;Konserven;7;1,9;2,19;344;1,79;29.06.2026;01.08.2026;;0;0
+31000164;8,72E+12;Lydia Kochsahne 20% Halal 1L;8,72E+12;Konserven;7;1,9;2,19;864;0;24.05.2026;24.05.2026;;0;0
+31000165;8,72E+12;Truthahnsalami geschnitten Halal 500g;8,72E+12;Kühlschrankware;7;4,74;5,49;52;0;24.05.2026;24.05.2026;;0;0
+31000166;8,72E+12;KILLIFEY Tiger Garnelen geschält 200/300 TK 1kg;;TK Tiefkühl;7;6,4;7,69;90;6,99;27.06.2026;01.08.2026;;0;0
+31000167;8,72E+12;KILLIFEY Tiger Garnelen geschält 100/200 TK 1kg;;TK Tiefkühl;7;6,8;8,29;90;6,99;27.06.2026;01.08.2026;;0;0
+31000168;8,72E+12;KILLIFEY Tiger Garnelen geschält 80/120 TK 1kg;;TK Tiefkühl;7;6,96;8,49;86;6,99;29.06.2026;01.08.2026;;0;0
+31000169;8,71E+12;KILLIFEY Meeresfrüchtemischung TK 1kg;;TK Tiefkühl;7;6,4;7,69;77;6,49;27.06.2026;01.08.2026;;0;0
+31000170;3,08E+12;Bonduelle Blattspinat Portioniert TK 2,5kg;;TK Tiefkühl;7;4,6;5,49;52;0;24.05.2026;24.05.2026;;0;0
+31000171;8,72E+12;TK Lydia Knoblauchzehen geschält 1kg;;TK Tiefkühl;7;3;3,69;73;0;24.05.2026;24.05.2026;;0;0
+31000172;;REAL American Hamburgerbrötchen Sesam 80g TK 30st;;TK Tiefkühl;7;6,8;8,59;72;0;24.05.2026;24.05.2026;;0;0
+31000173;;REAL American Hamburgerbrötchen Sesam 125g 20st;;TK Tiefkühl;7;7,8;9,69;72;0;24.05.2026;24.05.2026;;0;0
+31000174;8,72E+12;La Mirabella Pizzasauce Classic Glutenfrei Halal  4250ml;;Konserven;7;6;7,49;165;0;24.05.2026;24.05.2026;;0;0
+31000175;8,72E+12;Real American Crispy Hotwings Halal 1kg TK;;TK Tiefkühl;7;7,32;8,79;40;7,39;29.06.2026;01.08.2026;;0;0
+31000176;8,72E+12;Real American Hamburger Gewürzt 110g Halal 5kg TK;;TK Tiefkühl;7;47,32;55,99;16;0;24.05.2026;24.05.2026;;0;0
+31000177;8,72E+12;Lydia Blumenkohl 35-60m 2,5kg TK;;TK Tiefkühl;7;4,2;4,99;36;0;24.05.2026;24.05.2026;;0;0
+31000178;8,72E+12;Real American Chicken Buffalo gegart Halal 1kg TK;8,72E+12;TK Tiefkühl;7;5,22;6,29;38;5,29;29.06.2026;01.08.2026;;0;0
+31000180;8,72E+12;Lydia Formtruthan Schinken Silberfilie 93% Halal 5kg;8,72E+12;TK Tiefkühl;7;33,64;39,99;32;0;24.05.2026;24.05.2026;;0;0
+31000181;8,72E+12;Real American Hähnchenbruststreifen Gegrillt Halal  2,5kg TK;;TK Tiefkühl;7;13,64;14,19;54;13,69;29.06.2026;11.07.2026;;0;0
+31000182;8,72E+12;Real American Crispy Chicken Burger 100g 2,5kg TK;;TK Tiefkühl;7;15,74;18,99;34;15,79;29.06.2026;11.07.2026;;0;0
+31000183;8,01E+12;Mutti Geschälte Tomaten 2650ml;8,01E+12;Konserven;7;3,96;4,49;327;0;24.05.2026;24.05.2026;;0;0
+31000184;8,72E+12;Real American Chicken Nuggets Halal 1kg Halal;;TK Tiefkühl;7;5,68;6,99;188;5,79;29.06.2026;01.08.2026;;0;0
+31000185;8,72E+12;LA Mirabella Tomaten Pulpe Fine 10kg;;Konserven;7;10,96;12,99;60;0;24.05.2026;24.05.2026;;0;0
+31000187;8,72E+12;Lydia Thunfischstücke in Öl 1705g;;Konserven;7;6,8;7,19;370;0;24.05.2026;24.05.2026;;0;0
+31000188;8,72E+12;Goldmann Frittieröl 10L Pet;;Öle;7;15;17,99;45;0;24.05.2026;24.05.2026;;0;0
+31000189;;Feinkostschale mit Deckel  PP 125CC 5X50  250 stück;8,72E+12;Verpackung/Reinigungsmittel/Hygiene;19;7,5;8,99;79;0;24.05.2026;24.05.2026;;0;0
+31000190;;transportkosten;;Transportkosten;19;50;50;10;0;24.05.2026;24.05.2026;;0;0
+31000191;8,72E+12;Lydia Röstzwiebeln 1kg;;Lebensmittel;7;4,53;5,29;80;0;24.05.2026;24.05.2026;;0;0
+31000192;8,72E+12;LYDIA Artischockenherzen in Wasser 425ml;8,72E+12;Konserven;7;1,68;1,89;432;0;24.05.2026;24.05.2026;;0;0
+31000193;8,72E+12;LYDIA Tomaten Paprikastreifen ROT 4250ml;8,72E+12;Konserven;7;5,79;6,29;222;0;24.05.2026;24.05.2026;;0;0
+31000194;8,72E+12;La Mirabella Geschälte Tomaten 2500g;;Konserven;7;2,8;3,49;360;2,85;29.06.2026;11.07.2026;;0;0
+31000195;8,72E+12;LYDIA Thunfischstücke in Öl 185g;;Konserven;7;1,05;1,19;474;0;24.05.2026;24.05.2026;;0;0
+31000196;8,72E+12;LYDIA Ananasstücke leicht gezuckert 3000g;8,72E+12;Konserven;7;5,53;6,49;54;0;24.05.2026;02.07.2026;;0;0
+31000197;8,72E+12;LYDIA Ananasstücke leicht gezuckert 850ml;;Konserven;7;1,89;2,19;82;0;24.05.2026;24.05.2026;;0;0
+31000198;;LYDIA Kapern 9-11m 700g;6,11E+12;Konserven;7;2,84;3,49;54;0;24.05.2026;24.05.2026;;0;0
+31000199;8,72E+13;Lydia Mais Dose 425g;;Konserven;7;0,74;0,89;324;0;24.05.2026;24.05.2026;;0;0
+31000200;8,02E+11;GIMOKA Rot Ital. Kaffeebohnen 1kg;;Lebensmittel;7;10,5;12,99;35;0;24.05.2026;24.05.2026;;0;0
+31000201;8,00E+12;SEGAFREDO Intermezzo espresso ital. Kaffeebohnen 1kg;;Lebensmittel;7;10,96;13,99;14;0;24.05.2026;24.05.2026;;0;0
+31000202;8,00E+12;SEGAFREDO Casa Espresso ital. Kaffeebohnen 1kg;8,00E+12;Lebensmittel;7;11,96;14,99;32;0;24.05.2026;24.05.2026;;0;0
+31000203;9,00E+12;SEGAFREDO Selezione Espresso ital. Kaffeebohnen 1kg;0109001810815557152802281033L01042;Lebensmittel;7;13,96;16,99;32;0;24.05.2026;24.05.2026;;0;0
+31000204;8,00E+12;LAVVAZA Crema Ital. Kaffeebohnen 1kg;;Lebensmittel;7;17,96;21,99;27;0;24.05.2026;24.05.2026;;0;0
+31000205;8,72E+12;D.P. Calzonebox 27x16x7cm Kraft 200st;;Verpackung/Reinigungsmittel/Hygiene;19;23,11;26,99;12;0;24.05.2026;24.05.2026;;0;0
+31000206;8,72E+12;D.P. Calzonebox Deliziosa 30x16x10cm Kraft 100st;;Verpackung/Reinigungsmittel/Hygiene;19;17,36;20,99;12;0;24.05.2026;24.05.2026;;0;0
+31000207;;D.P Feinkostschale und Deckel PP Tansparant 5X50 250 Stück;8,72E+12;Verpackung/Reinigungsmittel/Hygiene;19;7,7;9,19;80;0;24.05.2026;24.05.2026;;0;0
+31000208;;D.P. Saucenbecher mit Deckel 50cc Transparant Pet 20x50;8,72E+12;Verpackung/Reinigungsmittel/Hygiene;19;16,95;19,99;41;0;24.05.2026;24.05.2026;;0;0
+31000209;;D.P. Saucenbecher mit Deckel 80CC Transparant PET 20X50  1000Stück;8,72E+12;Verpackung/Reinigungsmittel/Hygiene;19;16,95;19,99;42;0;24.05.2026;24.05.2026;;0;0
+31000210;8,72E+12;Salatschalen B2 weiss  100St;4,02E+12;Verpackung/Reinigungsmittel/Hygiene;19;3,4;3,99;119;0;24.05.2026;24.05.2026;;0;0
+31000211;4,02E+12;Salatschale B3 Weiss 100 Stück;4,02E+12;Verpackung/Reinigungsmittel/Hygiene;19;4,9;5,79;87;0;24.05.2026;24.05.2026;;0;0
+31000212;4,02E+12;Salatschale Deckel B3/G3 100St 1747 IP;4,02E+12;Verpackung/Reinigungsmittel/Hygiene;19;5,6;6,49;88;0;24.05.2026;24.05.2026;;0;0
+31000213;8,72E+12;La Mirabella Blau Pizzamehl Premium Tipo 00 25kg;;Lebensmittel;7;19,96;21,9;40;0;24.05.2026;24.05.2026;;0;0
+31000215;8,72E+12;D.P. Pizzabox italia 26x26x4cm Braun Kraft 100st;;Verpackung/Reinigungsmittel/Hygiene;19;8,96;11,49;45;0;24.05.2026;24.05.2026;;0;0
+31000216;8,72E+12;Larissa Knoblauchpulver 1kg;;Gewürze;7;4,9;6,09;42;0;24.05.2026;24.05.2026;;0;0
+31000218;8,72E+12;Larissa Petersilie getrocknet 700g;;Gewürze;19;5,8;7,19;42;0;24.05.2026;24.05.2026;;0;0
+31000219;8,72E+12;Larissa Chili grob (Pul Biber ) 800g;;Gewürze;7;5,96;7,29;84;0;24.05.2026;24.05.2026;;0;0
+31000221;1622991242;UNI EAGL Sriracha Scharf Chilisauce 815g;;Saucen;7;3,05;3,79;56;0;24.05.2026;24.05.2026;;0;0
+31000223;8,72E+12;Larissa Pommes Gewürz 2kg;;Gewürze;7;3,4;4,29;39;0;24.05.2026;24.05.2026;;0;0
+31000224;8,72E+12;D.P. Pizzabox B&W Vollfarbe 28x28x4cm 100st;;Verpackung/Reinigungsmittel/Hygiene;19;11,5;14,29;45;0;24.05.2026;24.05.2026;;0;0
+31000225;4,00E+12;P&W Burger Dressing Dänisch 900ml;4,00E+12;Saucen;7;3,05;3,79;45;0;24.05.2026;24.05.2026;;0;0
+31000226;8,72E+12;D.P. Pizzabox B&W Vollfarbe 32x32x4cm 100st;;Verpackung/Reinigungsmittel/Hygiene;19;13,95;17,49;45;0;24.05.2026;24.05.2026;;0;0
+31000227;8,72E+12;D.P. Pizzabox B&W Vollfarbe 26x26x4cm 100st;;Verpackung/Reinigungsmittel/Hygiene;19;10,96;13,79;45;0;24.05.2026;24.05.2026;;0;0
+31000228;8,72E+12;D.P. Pizzabox B&W Vollfarbe 30x30x4cm 100st;;Verpackung/Reinigungsmittel/Hygiene;19;12,8;15,99;45;0;24.05.2026;24.05.2026;;0;0
+31000229;8,72E+12;Larissa Oregano 1kg;;Gewürze;7;6;7,49;60;0;24.05.2026;24.05.2026;;0;0
+31000230;5,91E+12;Podravka Vegeta Würzmischung 3kg Eimer;;Gewürze;7;12,59;15,49;18;0;24.05.2026;24.05.2026;;0;0
+31000231;8,72E+12;Larissa Paprikapulver mild 800kg;;Gewürze;7;3,9;4,79;58;0;27.05.2026;27.05.2026;;0;0
+31000234;4,07E+12;Naarmann H-Milch 3,5% 1L;;Molkerei;7;0,75;0,94;336;0;25.05.2026;25.05.2026;;0;0
+31000235;4,07E+12;Narmann H-Milch 1,5% 1L;;Molkerei;7;0,67;0,84;396;0;25.05.2026;25.05.2026;;0;0
+31000236;4,07E+12;Narmann Küchensahne 20% 1L;;Molkerei;7;2,02;2,49;850;2,19;29.06.2026;01.08.2026;;0;0
+31000237;4,07E+12;Narmann H-Sahne 30% 1L;;Molkerei;7;2,56;2,89;851;0;25.05.2026;25.05.2026;;0;0
+31000238;4,07E+12;Narmann Küchensahne 15% 1L;4,07E+12;Molkerei;7;1,84;2,29;863;0;25.05.2026;25.05.2026;;0;0
+31000240;4,04E+12;Toilettenpapier 8x250 3lg Premium - Topa Tissue;;Verpackung/Reinigungsmittel/Hygiene;19;2,2;2,79;33;2,29;29.06.2026;01.08.2026;;0;0
+31000241;4,04E+12;Toilettenpapier 8x250 2lg Premium - Topa Tissue;;Verpackung/Reinigungsmittel/Hygiene;19;1,69;2,29;24;1,79;29.06.2026;01.08.2026;;0;0
+31000242;8,01E+12;Graziosa Küchenrolle 8x4er 3lg;;Verpackung/Reinigungsmittel/Hygiene;19;2;2,52;2;0;26.05.2026;26.05.2026;;0;0
+31000248;;Pizzakarton 32x32x4 Braun NYC 100st;4,04E+12;Verpackung/Reinigungsmittel/Hygiene;19;11,9;14,99;41;0;27.05.2026;27.05.2026;;0;0
+31000257;8,69E+12;SUNTAT Tosia Pilavlik Pirinc (Loto) 5kg;8,69E+12;Lebensmittel;7;5,25;6,59;158;0;27.05.2026;27.05.2026;;0;0
+31000258;8,69E+12;SUNTAT DomatesSalcasi 4200g Dose;8,69E+12;Lebensmittel;7;4,2;5,19;84;0;27.05.2026;27.05.2026;;0;0
+31000260;8,69E+12;ESMA Tatli Biber Salcasi 1650g PET;;Lebensmittel;7;4,25;5,19;216;0;27.05.2026;27.05.2026;;0;0
+31000261;8,69E+12;ESMA Aci Biber Salcasi 1650g;8,69E+12;Lebensmittel;7;4,25;5,19;216;0;27.05.2026;27.05.2026;;0;0
+31000262;8,69E+12;SUNTAT Domates Salcasi Premium 28-30% 800g;8,69E+12;Lebensmittel;7;1,15;1,29;1.006,00;0;27.05.2026;27.05.2026;;0;0
+31000263;8,69E+12;SUNTAT Fasülye Haslama 12x850ml Dose;8,69E+12;Lebensmittel;7;0,89;0,99;857;0;27.05.2026;27.05.2026;;0;0
+31000264;8,69E+12;SUNTAT Nohut Haslama 850ml Dose 12er Pack;8,69E+12;Lebensmittel;7;0,8;0,99;837;0;27.05.2026;27.05.2026;;0;0
+31000265;4,04E+12;KERVAN Erzincan Beyaz Peynir 55% 800g;4,04E+12;Kühlschrankware;7;4,39;5,49;144;0;27.05.2026;27.05.2026;;0;0
+31000266;4,04E+12;KERVAN Erzincan Beyaz Peynir 60% 800g;4,04E+12;Kühlschrankware;7;4,39;5,49;118;0;27.05.2026;27.05.2026;;0;0
+31000267;4,04E+12;KERVAN Kombi Extra 20 % 800 g;;Kühlschrankware;7;1,95;2,49;432;0;27.05.2026;27.05.2026;;0;0
+31000269;8,69E+12;SUNTAT Kirmizi Mercimek 2,5kg;8,69E+12;Lebensmittel;7;3,35;3,99;190;0;27.05.2026;27.05.2026;;0;0
+31000270;8,69E+12;SUNTAT Pilavlik Bulgur  5kg;8,69E+12;Lebensmittel;7;6,95;8,69;48;0;27.05.2026;27.05.2026;;0;0
+31000271;8,69E+12;SUNTAT  Köftelik Bulgur 2,5kg;8,69E+12;Lebensmittel;7;3,35;4,29;192;0;27.05.2026;27.05.2026;;0;0
+31000273;8,69E+12;SUNTAT Alice Ceylon Cay 1kg;8,69E+12;Lebensmittel;7;6,99;8,69;87;0;27.05.2026;27.05.2026;;0;0
+31000274;8,69E+12;SUNTAT Alice Ceylon Cay 500g;8,69E+12;Lebensmittel;7;4,15;5,29;120;0;27.05.2026;27.05.2026;;0;0
+31000278;8,72E+12;COUNTRY CUISINE Gegart Gebratene Hähnchenbrustfilet 2kg;;TK Tiefkühl;7;12,3;14,99;275;0;27.05.2026;27.05.2026;;0;0
+31000279;8,69E+12;SUNTAT Baldo Pirinc 2x5kg;8,69E+12;Lebensmittel;7;3;3,6;48;0;27.05.2026;27.05.2026;;0;0
+31000280;8,69E+12;SUNTAT Sivri Pirinc 5kg;8,69E+12;Lebensmittel;7;6;7,49;16;0;27.05.2026;27.05.2026;;0;0
+31000281;;Gegart Gebratene IF - 1kg;;TK Tiefkühl;7;6,05;7,49;560;0;27.05.2026;27.05.2026;;0;0
+31000282;4,26E+12;Chicken Nuggets im Backteig Halal - 1kg;;TK Tiefkühl;7;3,75;4,69;560;0;27.05.2026;27.05.2026;;0;0
+31000283;4,01E+12;GYMA Eco Ketchup Klassiker 10kg Eimer;;Saucen;7;10,04;12,49;48;12,49;29.06.2026;01.08.2026;;0;0
+31000284;4,01E+12;GYMA Eco Tomatenketchup 10kg Eimer;;Saucen;7;12,93;15,99;47;12,99;29.06.2026;01.08.2026;;0;0
+31000285;4,01E+12;GYMA Eco Gewürzketchup  Curry 10kg Eimer;;Saucen;7;10,16;12,49;47;0;27.05.2026;27.05.2026;;0;0
+31000286;4,01E+12;GYMA Eco Gewürzketchup Curry Pikant 10kg Eimer;;Saucen;7;12,36;14,99;52;0;27.05.2026;27.05.2026;;0;0
+31000287;4,01E+12;GYMA Eco Gewürzketchup Schaschlik 10kg Eimer;;Saucen;7;11,43;13,99;26;0;27.05.2026;27.05.2026;;0;0
+31000288;4,01E+12;GYMA Eco Salatmayonnaise 50% Fett 10l Eimer;;Saucen;7;16,77;20,49;56;17,89;29.06.2026;01.08.2026;;0;0
+31000289;4,01E+12;GYMA PREMIUM Tomatenketchup 10kg;;Saucen;7;12,8;15,49;52;0;27.05.2026;27.05.2026;;0;0
+31000290;4,01E+12;GYMA PREMIUM Gewürzketchup Classic 10kg Eimer;;Saucen;7;14,67;17,99;52;0;27.05.2026;27.05.2026;;0;0
+31000291;4,01E+12;GYMA PREMIUM Currywurstsauce rot 10kg;;Saucen;7;15,63;18,99;26;0;27.05.2026;27.05.2026;;0;0
+31000293;4,01E+12;GYMA PREMIUM Salatmayonnaise 10l Eimer;;Saucen;7;17,81;21,49;37;0;27.05.2026;27.05.2026;;0;0
+31000294;4,01E+12;GYMA PREMIUM Mayonnaise 80% 10l Eimer;;Saucen;7;22,97;27,99;59;0;27.05.2026;27.05.2026;;0;0
+31000296;4,01E+12;GYMA Sweet BBQ FREE Sauce 5kg;;Saucen;7;8,21;9,99;60;0;27.05.2026;27.05.2026;;0;0
+31000297;8,72E+12;Lydia tomato Ketchup   100x20ml;;Saucen;7;7,79;9,49;5;0;27.05.2026;27.05.2026;;0;0
+31000298;4,01E+12;GYMA Remoulade Vegan 4,7kg Eimer;;Saucen;7;9,57;11,49;60;0;27.05.2026;27.05.2026;;0;0
+31000300;3,50E+12;GYMA Tomatenketchup 150x15g Portionsbeutel;;Saucen;7;7,4;8,99;3;0;27.05.2026;27.05.2026;;0;0
+31000301;3,50E+12;GYMA Salatmayonnaise 150x20g Portionsbeutel;;Saucen;7;10,73;12,99;1;0;27.05.2026;27.05.2026;;0;0
+31000302;3,50E+12;GYMA Senf 250x10g Portionsbeutel;;Saucen;7;9,19;11,49;3;0;27.05.2026;27.05.2026;;0;0
+31000303;3,50E+12;GYMA Samuraisauce 950gr Portionierflasche;;Saucen;7;2,75;3,49;35;0;27.05.2026;27.05.2026;;0;0
+31000304;3,50E+12;GYMA Algerienne Sauce 950gr Portionierflasche;;Saucen;7;3,06;3,49;23;0;27.05.2026;27.05.2026;;0;0
+31000305;3,50E+12;GYMA Andalouse Sauce 950gr Portionierflasche;;Saucen;7;3,31;3,79;14;0;27.05.2026;27.05.2026;;0;0
+31000306;3,50E+12;GYMA Cajun 950gr Portionierflasche;1,35E+13;Saucen;7;3,06;3,49;24;0;27.05.2026;27.05.2026;;0;0
+31000307;3,50E+12;GYMA Sojapan Sauce 950gr Portionierflasche;1,35E+13;Saucen;7;2,85;3,49;24;0;27.05.2026;27.05.2026;;0;0
+31000308;3,50E+12;GYMA Chipotle Sauce 950gr Portionierflasche;1,35E+13;Saucen;7;3,01;3,99;24;0;27.05.2026;27.05.2026;;0;0
+31000309;3,50E+12;GYMA Kebab Sauce 4,5kg Eimer;;Saucen;7;11,18;13,49;20;0;27.05.2026;27.05.2026;;0;0
+31000310;3,50E+12;GYMA Supreme Burger Sauce 4,75kg Eimer;;Saucen;7;14,97;17,99;20;0;27.05.2026;27.05.2026;;0;0
+31000311;8,69E+12;SUNTAT Kirmizi Mercimek 5kg;8,69E+12;Lebensmittel;7;6,6;7,79;32;0;27.05.2026;27.05.2026;;0;0
+31000312;4,26E+12;SULTAN Pul Biber 5kg Eimer;;Gewürze;7;18,62;23,49;37;0;27.05.2026;27.05.2026;;0;0
+31000313;4,26E+12;SULTAN Susam 800g Beutel;;Gewürze;7;2,94;3,69;21;0;27.05.2026;27.05.2026;;0;0
+31000314;4,26E+12;SULTAN Maydanoz 600g Beutel;;Gewürze;7;4,9;5,99;40;0;27.05.2026;27.05.2026;;0;0
+31000315;4,26E+12;SULTAN Karabiber Tozu 800g Beutel;;Gewürze;7;7,35;8,79;24;0;28.05.2026;28.05.2026;;0;0
+31000316;4,26E+12;SULTAN SarimsakGranulat 800g Beutel;;Gewürze;7;4,41;5,49;22;0;28.05.2026;28.05.2026;;0;0
+31000317;4,26E+12;SULTAN Corek Otu  800g Beutel;;Gewürze;7;4,21;5,19;48;0;28.05.2026;28.05.2026;;0;0
+31000318;4,26E+12;SULTAN Dag Kekik 800g Beutel;;Gewürze;7;6,37;7,89;9;0;28.05.2026;28.05.2026;;0;0
+31000319;4,26E+12;SULTAN Dere Otu 750g Beutel;;Gewürze;7;9,56;11,49;16;0;28.05.2026;28.05.2026;;0;0
+31000320;4,26E+12;SULTAN Nane 800g Beutel;;Gewürze;7;4,66;5,69;0;0;28.05.2026;28.05.2026;;0;0
+31000321;4,26E+12;SULTAN Pommes Baharat 800g Beutel;;Gewürze;7;1,76;2,19;60;0;28.05.2026;28.05.2026;;0;0
+31000322;4,26E+12;SULTAN Sumak 800g Beutel;;Gewürze;7;6,62;7,99;19;0;28.05.2026;28.05.2026;;0;0
+31000323;4,26E+12;SULTAN Aci Pul Biber  800g Beutel;;Gewürze;7;3,33;4,09;17;0;28.05.2026;28.05.2026;;0;0
+31000324;4,26E+12;SULTAN Tatli Toz Biber 800g Beutel;;Gewürze;7;3,43;4,19;19;0;28.05.2026;28.05.2026;;0;0
+31000325;4,26E+12;SULTAN  Isot 800g Beutel;;Gewürze;7;4,8;5,79;20;0;28.05.2026;28.05.2026;;0;0
+31000326;4,26E+12;SULTAN Limon Tuzu 800g Beutel;;Gewürze;19;2,16;2,69;22;0;28.05.2026;28.05.2026;;0;0
+31000327;4,26E+12;SULTAN Tavuk Baharat  800g Beutel;;Gewürze;7;1,76;2,19;27;0;28.05.2026;28.05.2026;;0;0
+31000328;4,04E+12;ANDU Wolfsbarschfilets 80/120 - 800g  Beutel;4,04E+12;TK Tiefkühl;7;13,25;16,49;25;13,49;26.06.2026;01.08.2026;;0;0
+31000329;4037198 900610;ANDU Zanderfilet  M/H  120/170 - 5kg IQF;4037198 900610;TK Tiefkühl;7;9,15;11,49;25;0;28.05.2026;28.05.2026;;0;0
+31000330;4,04E+12;ANDU Zanderfilet M/H  170/230 - 5kg  IQF;4,04E+12;TK Tiefkühl;7;9,95;13,49;25;0;28.05.2026;28.05.2026;;0;0
+31000331;4,04E+12;ANDU Rotbarschfilet  o/H 160/180 Netto 800g - 1kg Beutel;4,04E+12;TK Tiefkühl;7;5,45;7,99;50;0;28.05.2026;28.05.2026;;0;0
+31000332;4,04E+12;ANDU Rotbarschfilet  o/H 180/220 - 10x1kg Beutel;4,04E+12;TK Tiefkühl;7;5,45;7,99;50;0;28.05.2026;28.05.2026;;0;0
+31000333;4,04E+12;ANDU Kabeljau Loins, ohne Haut  180/220 - 1kg;4,04E+12;TK Tiefkühl;7;8,95;11,49;49;0;28.05.2026;28.05.2026;;0;0
+31000334;;ANDU Nordseezungen ganz 400/500 - 10 Colli;;TK Tiefkühl;7;16,95;22,99;50;0;28.05.2026;28.05.2026;;0;0
+31000335;4,04E+12;ANDU Pangasiusfilet Premium 170/230 - 1kg;4,04E+12;TK Tiefkühl;7;4,35;5,99;50;0;28.05.2026;28.05.2026;;0;0
+31000336;8,44E+12;ANDU Seehechtsscheiben Medium - 1kg;1,84E+13;TK Tiefkühl;7;5,75;7,49;29;0;28.05.2026;28.05.2026;;0;0
+31000337;8,44E+12;ANDU Seehechtfilet - 1kg Beutel;;TK Tiefkühl;7;6,95;8,99;30;0;28.05.2026;28.05.2026;;0;0
+31000338;4,04E+12;ANDU Calamar Tuben U/10 - 1kg - Frocean China;4,04E+12;TK Tiefkühl;7;5,25;7,49;49;0;28.05.2026;28.05.2026;;0;0
+31000339;4,04E+12;ANDU Calamar Tuben U/5 - 10x1kg - Frocean;4,04E+12;TK Tiefkühl;7;5,35;7,49;50;0;28.05.2026;28.05.2026;;0;0
+31000340;4,04E+12;ANDU Calamar Tuben 21/40 - 6x2kg - Formosana;4,04E+12;TK Tiefkühl;7;11,95;14,99;60;0;28.05.2026;28.05.2026;;0;0
+31000341;4,04E+12;ANDU Jakobsmuscheln 1/2 Schale 20/40 Peru - 1kg;4,04E+12;TK Tiefkühl;7;10,95;13,99;50;0;28.05.2026;28.05.2026;;0;0
+31000342;4,04E+12;ANDU Venusmuscheln (Meretrix) 60/80 ganz - 1kg;4,04E+12;TK Tiefkühl;7;2,95;4,69;50;0;28.05.2026;28.05.2026;;0;0
+31000343;4,04E+12;ANDU Venusmuschelfleisch Netto 800g Beutel;4,04E+12;TK Tiefkühl;7;4,55;6,49;50;0;28.05.2026;28.05.2026;;0;0
+31000344;4,04E+12;ANDU Sepia gereinigt U/5 - 1kg Beutel;4,04E+12;TK Tiefkühl;7;7,85;10,49;50;0;28.05.2026;28.05.2026;;0;0
+31000345;4,04E+12;ANDU Sepia gereinigt U/10 - 1kg Beutel;4,04E+12;TK Tiefkühl;7;7,45;9,49;49;0;28.05.2026;28.05.2026;;0;0
+31000346;4,04E+12;ANDU Gambas B/T 4/6 - 1kg Platinium;4,04E+12;TK Tiefkühl;7;19,95;23,49;50;19,99;27.06.2026;01.08.2026;;0;0
+31000347;4,04E+12;ANDU Gambas B/T 6/8 - 1kg;4,04E+12;TK Tiefkühl;7;12,95;15,49;50;12,99;27.06.2026;01.08.2026;;0;0
+31000348;4,04E+12;ANDU Gambas B/T 8/12 - 1kg Frocean;4,04E+12;TK Tiefkühl;7;8,95;11,49;50;8,99;27.06.2026;01.08.2026;;0;0
+31000349;4,04E+12;ANDU Gambas B/T 13/15 - 1kg Frocean;4,04E+12;TK Tiefkühl;7;7,95;10,99;50;7,99;27.06.2026;01.08.2026;;0;0
+31000350;4,04E+12;ANDU Gambas B/T 16/20 - 1kg Frocean;4,04E+12;TK Tiefkühl;7;6,95;9,99;44;6,99;27.06.2026;01.08.2026;;0;0
+31000351;4,04E+12;ANDU Gambas B/T 21/30 - 1kg Frocean;4,04E+12;TK Tiefkühl;7;5,95;9,99;49;5,99;27.06.2026;01.08.2026;;0;0
+31000352;4,04E+12;ANDU Gambas B/T 31/40 - 1kg Frocean;4,04E+12;TK Tiefkühl;7;5,8;7,49;50;5,89;27.06.2026;01.08.2026;;0;0
+31000353;4,04E+12;ANDU Black Tiger 8/12 EZP Premium 800gr beutel;4,04E+12;TK Tiefkühl;7;10,75;12,79;48;0;28.05.2026;28.05.2026;;0;0
+31000354;4,04E+12;ANDU VN Gambas 8/12 ohne Kopf EZP - 1kg 750g;4,04E+12;TK Tiefkühl;7;7,95;11,99;42;0;28.05.2026;28.05.2026;;0;0
+31000355;;ANDU VN Gambas 8/12 o/K EZP - 10x1kg %20 Premium;;TK Tiefkühl;7;8,95;0;50;0;28.05.2026;28.05.2026;;0;0
+31000356;4,04E+12;ANDU Black Tiger Garn 16/20 - 1kg EZP 800gr;4,04E+12;TK Tiefkühl;7;8,75;11,99;50;8,79;27.06.2026;01.08.2026;;0;0
+31000357;4,04E+12;ANDU Black Tiger 8/12 - 1,8kg;4,04E+12;TK Tiefkühl;7;14,95;17,99;54;14,99;27.06.2026;01.08.2026;;0;0
+31000358;4,04E+12;ANDU Black Tiger 13/15 - 1,8kg;4,04E+12;TK Tiefkühl;7;13,5;17,99;54;13,59;27.06.2026;01.08.2026;;0;0
+31000359;4,04E+12;ANDU Black Tiger 16/20 - 1,8kg;4,04E+12;TK Tiefkühl;7;10,95;15,49;52;10,99;27.06.2026;01.08.2026;;0;0
+31000360;4,04E+12;ANDU Black Tiger 21/25 - 1,8kg;4,04E+12;TK Tiefkühl;7;9,75;13,99;54;9,79;27.06.2026;01.08.2026;;0;0
+31000361;4,04E+12;ANDU VN Garnelen 21/25 - 1kg EZP 750gr;4,04E+12;TK Tiefkühl;7;6,45;7,79;47;0;28.05.2026;01.08.2026;;0;0
+31000362;4,04E+12;ANDU VN Garnelen 31/40 EZP - 1kg;4,04E+12;TK Tiefkühl;7;5,75;6,79;50;0;28.05.2026;28.05.2026;;0;0
+31000363;4,04E+12;ANDU Vannamei Garnelen ohne Kopf 26/30 EZP - 1kg;4,04E+12;TK Tiefkühl;7;5,95;6,99;47;0;28.05.2026;28.05.2026;;0;0
+31000364;4,04E+12;ANDU White Tiger shrimps gekocht  90/120 - 10x1kg;4,04E+12;TK Tiefkühl;7;6,95;8,99;50;0;28.05.2026;28.05.2026;;0;0
+31000365;4,04E+12;ANDU Premium BT Shrimps 71/90 - 1kg;4,04E+12;TK Tiefkühl;7;8,25;9,99;48;0;28.05.2026;28.05.2026;;0;0
+31000366;4,04E+12;ANDU Premium BT Shrimps 90/120 - 1kg;;TK Tiefkühl;7;7,85;9,99;50;0;28.05.2026;28.05.2026;;0;0
+31000367;4,04E+12;ANDU Black Tiger roh geschält  6/8 - 1kg;4,04E+12;TK Tiefkühl;7;14,5;18,99;49;0;28.05.2026;28.05.2026;;0;0
+31000368;4,04E+12;ANDU Black Tiger roh geschält  16/20 - 10x1kg;4,04E+12;TK Tiefkühl;7;9,25;11,99;48;0;28.05.2026;28.05.2026;;0;0
+31000369;4,04E+12;ANDU Vannamei roh geschält  16/20 - 1kg;4,04E+12;TK Tiefkühl;7;7,65;8,99;50;0;28.05.2026;28.05.2026;;0;0
+31000370;4,04E+12;ANDU Black Tiger roh geschält  13/15 - 1kg;4,04E+12;TK Tiefkühl;7;10,65;13,99;50;0;28.05.2026;28.05.2026;;0;0
+31000371;4,04E+12;ANDU VN roh geschält  41/50 - 1kg;4,04E+12;TK Tiefkühl;7;6,25;7,99;50;0;28.05.2026;28.05.2026;;0;0
+31000374;4,01E+12;La Perla Thunfisch Stücke im eigenen Saft und Aufguss 1705g;4,01E+12;Konserven;7;7,69;7,99;388;7,79;29.06.2026;01.08.2026;;0;0
+31000375;4,01E+12;La Perla Thunfisch Stücke 1705g In Öl;4,01E+12;Konserven;7;7,69;7,99;380;7,79;29.06.2026;01.08.2026;;0;0
+31000376;4,01E+12;La Perla Grün Jalapenos in Scheiben 3kg;;Konserven;7;3,25;3,99;138;3,29;26.06.2026;01.08.2026;;0;0
+31000377;4,01E+12;La Perla Ananas Scheiben leicht gezuckert 3.035g;4,01E+12;Konserven;7;4,92;5,79;270;4,99;29.06.2026;01.08.2026;;0;0
+31000378;4,01E+12;La Perla Kichererbsen 2,5 kg;4,01E+12;Konserven;7;2,67;3,19;150;0;28.05.2026;28.05.2026;;0;0
+31000379;4,01E+12;La Perla Kidney-Bohnen 2,5kg;4,01E+12;Konserven;7;3,27;3,79;148;0;28.05.2026;28.05.2026;;0;0
+31000380;4,01E+12;La Perla Artischockenherzen 2,5kg;4,01E+12;Konserven;7;6,04;7,19;150;6,09;29.06.2026;01.08.2026;;0;0
+31000381;4,01E+12;La Perla Grün Oliven Ohne Stein 4150kg;;Konserven;7;7,73;8,49;184;6,69;29.06.2026;01.08.2026;;0;0
+31000382;4,01E+12;La Perla Oliven schwarz ohne Stein 4100g;;Konserven;7;7,28;8,49;182;6,69;29.06.2026;01.08.2026;;0;0
+31000383;4,01E+12;La Perla Oliven Schwarz geschnitten 4100g;;Konserven;7;6,62;8,49;177;6,69;29.06.2026;01.08.2026;;0;0
+31000384;4,01E+12;La Perla Ananas Stücke 3.035g;;Konserven;7;4,73;5,49;270;4,79;29.06.2026;01.08.2026;;0;0
+31000385;8,71E+12;Aviko Frisch Super Crunch Fresh 11mm 2x4500g;8,71E+12;Kühlschrankware;7;14,79;16,05;106;0;29.05.2026;29.05.2026;;0;0
+31000386;5,41E+12;Lutosa Pommes Frisch 7mm 2x5kg;1,54E+13;Kühlschrankware;7;12,59;12,79;56;0;29.05.2026;29.05.2026;;0;0
+31000387;5,41E+12;Lutosa Frisch Pommes 10mm 2x5kg;1,54E+13;Kühlschrankware;7;12,59;12,79;0;0;29.05.2026;29.05.2026;;0;0
+31000388;8,71E+12;Aviko Pommes PLUS 10mm 2x5kg;8,71E+12;Kühlschrankware;7;13,69;13,79;22;0;29.05.2026;29.05.2026;;0;0
+31000389;8,71E+12;Aviko Pommes PLUS Fresch  7mm  2x5kg;8,71E+12;Kühlschrankware;7;13,69;13,79;12;0;29.05.2026;29.05.2026;;0;0
+31000390;;Aviko  Pommy PLUS  14mm;;Kühlschrankware;7;14,79;16,49;0;0;29.05.2026;29.05.2026;;0;0
+31000391;8,71E+12;TK Aviko Steakhouse Pommes 10x20mm - 2,5kg;8,71E+12;Kühlschrankware;7;19,79;21,99;7;0;29.05.2026;29.05.2026;;0;0
+31000392;8,71E+12;TK Aviko Wedges Spicy 2,5kg;8,71E+12;TK Tiefkühl;7;4,79;5,29;35;0;29.05.2026;29.05.2026;;0;0
+31000393;4,03E+12;TK Foodworks Chicken Nuggets Backteig ca.22g 1kg;;TK Tiefkühl;7;5,49;6,29;542;0;29.05.2026;29.05.2026;;0;0
+31000394;4,00E+12;TK Sprehe Hähnchen Brust Filet paniert 160g 3kg;4,00E+12;TK Tiefkühl;7;19,65;22,99;5;19,99;29.06.2026;11.07.2026;;0;0
+31000395;4,00E+12;TK Sprehe Hähnchen Brust Filet natur 120g 3kg;4,00E+12;TK Tiefkühl;7;23,07;26,49;5;23,19;29.06.2026;01.08.2026;;0;0
+31000396;4,00E+12;TK Sprehe Hähnchen Brust Filet paniert 180g 3kg;4,00E+12;TK Tiefkühl;7;19,95;22,99;5;19,99;29.06.2026;11.07.2026;;0;0
+31000397;4,00E+12;TK Sprehe Hähnchen Brust Filet natur 160g 3kg;4,00E+12;TK Tiefkühl;7;23,07;26,49;5;23,19;29.06.2026;11.07.2026;;0;0
+31000398;4,00E+12;TK Salomon Knusperschnitzel 200g;4,00E+12;TK Tiefkühl;7;42;49,99;6;0;29.05.2026;29.05.2026;;0;0
+31000399;4,00E+12;TK Salomon Schnitzel Gold 40x200g - 8kg;4,00E+12;TK Tiefkühl;7;38,8;44,99;6;0;29.05.2026;29.05.2026;;0;0
+31000400;4,00E+12;TK Sprehe Hähnchen Brust Filet paniert 140g 3kg;;TK Tiefkühl;7;19,65;22,99;5;19,99;29.06.2026;01.08.2026;;0;0
+31000401;4,01E+12;Wernsing Salat-Mayonnaise Gold 50% 10kg;;Saucen;7;22,75;26,29;46;0;29.05.2026;29.05.2026;;0;0
+31000402;4,01E+12;Wernsing Curry-Ketchup Gold 10kg;;Saucen;7;19,1;20,29;18;0;29.05.2026;29.05.2026;;0;0
+31000403;4,01E+12;Wernsing Tomaten-Ketchup Portionen 100st;;Saucen;7;7,05;8,49;5;0;29.05.2026;29.05.2026;;0;0
+31000404;4,01E+12;Wersing Curry-Gewürz Ketchup scharf 10kg;;Saucen;7;19,59;23,49;13;0;29.05.2026;29.05.2026;;0;0
+31000405;8,02E+12;Balsamico Bianco Condimento 500ml;;Saucen;7;5,5;6,99;8;0;29.05.2026;29.05.2026;;0;0
+31000406;8,01E+12;Balsamico Essig dunkel 12x500ml;;Saucen;7;3,25;4,09;12;0;29.05.2026;29.05.2026;;0;0
+31000407;4,04E+12;Palmetta Stangen-Fett 4x2,5;4,04E+12;Lebensmittel;7;21,65;24,99;60;0;29.05.2026;29.05.2026;;0;0
+31000408;4,04E+12;Walter Rau Flürin Classic 10L;;Öle;7;23,89;27,49;60;0;29.05.2026;29.05.2026;;0;0
+31000409;4,04E+12;OPTIMA Frittier Fit  PRO 60 10L;;Öle;7;19,99;24,99;68;0;29.05.2026;29.05.2026;;0;0
+31000410;4,26E+12;Hogriflex halbflüssig 10L;;Öle;7;19,49;24,99;62;0;29.05.2026;29.05.2026;;0;0
+31000411;;Goldaue Geflügel Bratwurst 120g ESC Darm;;Kühlschrankware;7;9,9;10,99;6;0;29.05.2026;29.05.2026;;0;0
+31000412;4,00E+12;TK Salomon Sunny Veggie Burger 1,3kg;4,00E+12;TK Tiefkühl;7;7,49;8,99;32;0;29.05.2026;29.05.2026;;0;0
+31000413;4,00E+12;TK Ranch Master Hamburger 25x180g - 4,5kg;4,00E+12;TK Tiefkühl;7;47,93;54,99;5;0;29.05.2026;29.05.2026;;0;0
+31000414;4,00E+12;TK Ranch Master Hamburger 80 St. 62,5g;4,00E+12;TK Tiefkühl;7;53,25;59,99;5;0;29.05.2026;29.05.2026;;0;0
+31000415;4,00E+12;TK Ranch Master Hamburger 50st 100g;4,00E+12;TK Tiefkühl;7;53,25;60,99;5;0;29.05.2026;29.05.2026;;0;0
+31000416;;TK Ranch Master Hamburger 40St 125g;;TK Tiefkühl;7;53,25;60,99;0;0;29.05.2026;29.05.2026;;0;0
+31000417;4,00E+12;TK Salomon Crunchy Chicken Burger 135g 1,5kg Beutel;4,00E+12;TK Tiefkühl;7;13,45;15,49;23;0;29.05.2026;29.05.2026;;0;0
+31000418;;TK Hogrimex Kroketten  5kg;;TK Tiefkühl;7;6,99;7,99;5;0;29.05.2026;29.05.2026;;0;0
+31000419;;TK Aviko Kroketten Lang  4x2,5;;TK Tiefkühl;7;4,79;5,49;36;0;29.05.2026;29.05.2026;;0;0
+31000420;5,41E+12;TK Lutosa Backofen Kroketten 2,5kg;;TK Tiefkühl;7;4,15;4,79;16;0;29.05.2026;29.05.2026;;0;0
+31000421;8,71E+12;TK McCain Kroketten lang 2,5kg;;TK Tiefkühl;7;5,39;6,29;8;0;29.05.2026;29.05.2026;;0;0
+31000422;4,00E+12;TK Salomon Cevapcici Roh Ranch Master 25g 1kg;4,00E+12;TK Tiefkühl;7;13,29;15,49;39;0;29.05.2026;29.05.2026;;0;0
+31000423;8,71E+12;TK Bamischeibe36x100g Mora - 3,6kg;8,71E+12;TK Tiefkühl;7;14,45;16,99;5;0;29.05.2026;29.05.2026;;0;0
+31000424;4,03E+12;Hela Curry-Gewürz Ketchup Delikat Tube 800ml;;Saucen;7;2,45;2,99;12;0;29.05.2026;29.05.2026;;0;0
+31000425;4,01E+12;Wernsing Curry Gewürz Ketchup 800ml Tube;;Saucen;7;2,35;2,99;11;0;29.05.2026;29.05.2026;;0;0
+31000426;4,03E+12;Hela Curry-Gewürz Ketchup leicht scharf 800ml Tube;;Saucen;7;2,45;2,99;12;0;29.05.2026;29.05.2026;;0;0
+31000427;4,26E+12;Citadel Pizza-Sauce 4200g;;Saucen;7;6,09;7,69;60;5,99;29.06.2026;01.08.2026;;0;0
+31000428;4,00E+12;Kraft Joghurt Dressing 5kg;;Saucen;7;11,95;14,49;5;0;29.05.2026;29.05.2026;;0;0
+31000429;4,00E+12;Kraft french Dressing 5kg;4,00E+12;Saucen;7;15,95;18,49;5;0;29.05.2026;29.05.2026;;0;0
+31000430;8,72E+12;Champignon geschnitten 3.Wahl 2650ml;;Konserven;7;4,99;6,29;10;0;29.05.2026;29.05.2026;;0;0
+31000431;1121013584;Tabasco 350ml;;Saucen;7;9,49;10,99;12;0;29.05.2026;29.05.2026;;0;0
+31000432;1121000217;Tabasco 57ml;;Saucen;7;2,09;2,69;20;0;29.05.2026;29.05.2026;;0;0
+31000433;4,03E+12;"FUCHS Curry Goldelefant"" 1Kg""";;Gewürze;7;8,95;11,49;10;0;29.05.2026;29.05.2026;;0;0
+31000435;4,03E+12;FUCHS Paprika Edelsüss 1Kg;;Gewürze;7;9,95;12,79;10;0;29.05.2026;29.05.2026;;0;0
+31000436;4,03E+12;FUCHS paprika Rosenscharf 1Kg;;Gewürze;7;9,69;12,49;10;0;29.05.2026;29.05.2026;;0;0
+31000437;4,03E+12;FUCHS Pfeffer Weiss Gemalen 1Kg;;Gewürze;7;24,99;30,99;10;0;29.05.2026;29.05.2026;;0;0
+31000438;4,03E+12;FUCHS Pommes Frites Salz 2Kg ;;Gewürze;7;5,75;7,29;9;0;29.05.2026;29.05.2026;;0;0
+31000439;4,03E+12;FUCHS Hähnchen-Gewürz 2Kg;;Gewürze;7;6,79;8,49;10;0;29.05.2026;29.05.2026;;0;0
+31000440;4,03E+12;FUCHS Knoblauchpulver 1Kg ;;Gewürze;7;13,99;16,99;10;0;29.05.2026;29.05.2026;;0;0
+31000441;4,01E+12;Ajvar mild 2500g;;Saucen;7;7,79;8,99;2;0;29.05.2026;29.05.2026;;0;0
+31000442;4,00E+12;Puma Peynir (Käse) Rot 40% 16kg;;Kühlschrankware;7;48,99;59,99;30;0;29.05.2026;29.05.2026;;0;0
+31000443;4,00E+12;Joghurt Proto 10% 10kg;;Kühlschrankware;7;17,99;21,69;24;0;29.05.2026;29.05.2026;;0;0
+31000444;4,00E+12;TK Salomon Buffalo Chicken Wings extra hot 2,5kg;4,00E+12;TK Tiefkühl;7;18,49;18,99;18;0;29.05.2026;29.05.2026;;0;0
+31000445;4,00E+12;TK Salomon Chicken Wing Virginia BBQ  2,5kg;;TK Tiefkühl;7;4,62;5,69;12;4,79;29.06.2026;01.08.2026;;0;0
+31000446;4,00E+12;TK Salomon Onion-Ring Thick Cut 1kg;4,00E+12;TK Tiefkühl;7;5,89;6,79;48;5,99;29.06.2026;01.08.2026;;0;0
+31000447;4,00E+12;TK Salomon Chili Cheese Nuggets 1kg;4,00E+12;TK Tiefkühl;7;7,85;9,09;45;7,89;29.06.2026;01.08.2026;;0;0
+31000448;4,00E+12;TK Salomon Mozzarella-Sticks 8cm 1kg;4,00E+12;TK Tiefkühl;7;8,75;9,99;44;8,79;29.06.2026;01.08.2026;;0;0
+31000449;4,03E+12;Hela Gewürz-Ketchup Curry Delikat 300ml;;Saucen;7;1,49;1,99;14;0;29.05.2026;29.05.2026;;0;0
+31000450;4,03E+12;Hela Curry-Gewürz Ketchup leicht scharf 300ml;;Saucen;7;1,49;1,99;14;0;29.05.2026;29.05.2026;;0;0
+31000451;;Weißkohl;;Gemüse;7;8,5;9,99;57;0;29.05.2026;29.05.2026;;0;0
+31000452;;Rotkohl 25kg Sack;;Gemüse;7;17,5;0;42;0;29.05.2026;29.05.2026;;0;0
+31000453;;Möhren 10 Kg Sack;;Gemüse;7;4,2;0;119;0;29.05.2026;29.05.2026;;0;0
+31000454;;Möhren 12,5 Kg;;Gemüse;7;11;15,6;0;0;29.05.2026;29.05.2026;;0;0
+31000455;;Eisbergsalat 10St;;Gemüse;7;6;0;94;0;29.05.2026;01.08.2026;;0;0
+31000456;;Rote Zwiebeln Größe 70-90  10 Kg;;Gemüse;7;4,8;0;390;0;29.05.2026;29.05.2026;;0;0
+31000457;;Paprika Gelb 5 Kg;;Gemüse;7;7,85;0;54;0;29.05.2026;29.05.2026;;0;0
+31000458;;Paprika Grün 5 Kg;;Gemüse;7;7,5;0;82;0;29.05.2026;29.05.2026;;0;0
+31000459;;Paprika Rot 5 Kg;;Gemüse;7;7;12,6;133;0;29.05.2026;29.05.2026;;0;0
+31000460;;Ananas 10kg;;Obst;7;13;0;0;0;29.05.2026;29.05.2026;;0;0
+31000461;;Strauchtomaten / Baum  5 Kg;;Gemüse;7;4;4,99;280;4,99;29.05.2026;01.08.2026;;0;0
+31000462;;Melone Piel de Sapo 7St (Zuckermelone grün spitz);;Obst;7;6,5;0;32;0;29.05.2026;29.05.2026;;0;0
+31000463;;Nektarinen 10x500g;;Obst;7;4,5;0;1;0;29.05.2026;29.05.2026;;0;0
+31000464;;Honigmelone;;Obst;7;12;0;17;0;29.05.2026;29.05.2026;;0;0
+31000465;;China Kohl 10kg;;Gemüse;7;7;8,75;10;0;29.05.2026;29.05.2026;;0;0
+31000466;;Grün  Zucchini 5kg;;Gemüse;7;4;0;111;0;29.05.2026;29.05.2026;;0;0
+31000467;;Auberginen NL  5 Kg;;Gemüse;7;7;4,99;79;0;29.05.2026;29.05.2026;;0;0
+31000468;;Blumenkohl;;Gemüse;7;7,5;9,37;12;0;29.05.2026;29.05.2026;;0;0
+31000469;;Grapefruit Premium 55St;;Obst;7;12,65;0;24;0;29.05.2026;29.05.2026;;0;0
+31000471;;Bananen 18 Kg;;Obst;7;9,5;0;45;0;29.05.2026;29.05.2026;;0;0
+31000472;4,01E+12;La Perla Schältomaten 2500g 3/1 Dose;;Konserven;7;2,92;2,99;585;0;29.05.2026;29.05.2026;;0;0
+31000473;;Cherry-Strauchtomaten mini 3kg;;Gemüse;7;10,5;0;70;0;29.05.2026;29.05.2026;;0;0
+31000474;;Ingwer 12,5 Kg;;Gemüse;7;18;0;73;0;29.05.2026;29.05.2026;;0;0
+31000475;;Zitronen;;Obst;7;30;0;58;0;29.05.2026;29.05.2026;;0;0
+31000476;;Tomaten BB (67-70)  6kg;;Gemüse;7;5,6;0;120;0;29.05.2026;29.05.2026;;0;0
+31000477;;Dates Medjoul Delight (LARGE)  5Kg;;Obst;7;28,5;35,49;110;0;29.05.2026;29.05.2026;;0;0
+31000478;7,29E+12;Dates Medjoul Premium (JUMBO)  5Kg;7,29E+12;Obst;7;37,5;55,99;100;0;29.05.2026;29.05.2026;;0;0
+31000479;4,06E+12;Dates Medjoul Premium KARAS (LARGE)  5Kg;4,06E+12;Obst;7;37;55,99;86;0;29.05.2026;29.05.2026;;0;0
+31000480;7,29E+12;Dates Medjoul Superior  (MEDIUM) 5 Kg;7,29E+12;Obst;7;24;37,99;100;0;29.05.2026;29.05.2026;;0;0
+31000482;7,29E+12;Dates Medjoul Superior (LARGE)  2 Kg;7,29E+12;Obst;7;11,5;17,99;238;0;29.05.2026;29.05.2026;;0;0
+31000483;7,29E+12;Dates Medjoul Superior (LARGE)  8x1 kg;7,29E+12;Obst;7;48;8,49;55;0;29.05.2026;29.05.2026;;0;0
+31000486;8,68E+12;Mr Oxy Feuchttücher Easy Clean vers. Sorten 100er Pack;8,68E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;404;0;29.05.2026;29.05.2026;;0;0
+31000487;8,68E+12;Mr Oxy Feuchttücher Easy Clean Zitronenduft 100er Pack;;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;385;0;29.05.2026;29.05.2026;;0;0
+31000489;8,68E+12;Mr Oxy Feuchttücher Easy Clean Bleiche Blau;;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;311;0;29.05.2026;29.05.2026;;0;0
+31000490;8,68E+12;Mr Oxy Feuchttücher Easy Clean Weiße Seife 100er Pack;8,68E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;323;0;29.05.2026;29.05.2026;;0;0
+31000491;8,68E+12;Mr Oxy Feuchttücher Easy Clean Kirschblüte 100er Pack;8,68E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;319;0;29.05.2026;29.05.2026;;0;0
+31000492;8,68E+12;Mr Oxy Feuchttücher Easy Clean Weiße Seife & Natron 100er Pack;8,68E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;337;0;29.05.2026;29.05.2026;;0;0
+31000493;8,68E+12;Mr Oxy Maxima Spülmittel Weiße Seife & Natron 650ml;;Verpackung/Reinigungsmittel/Hygiene;19;1,2;1,49;0;0;29.05.2026;29.05.2026;;0;0
+31000494;8,68E+12;Mr Oxy Maxima Spülmittel Limon Kokulu 650ml;;Verpackung/Reinigungsmittel/Hygiene;19;1,2;1,49;180;0;29.05.2026;29.05.2026;;0;0
+31000496;8,68E+12;Mr Oxy Maxima Spülmittel Elma Kokulu 650ml;;Verpackung/Reinigungsmittel/Hygiene;19;1,2;1,49;180;0;29.05.2026;29.05.2026;;0;0
+31000497;8,68E+12;Mr Oxy Maxima Spülmittel Yaban Mersini Blau 650ml;;Verpackung/Reinigungsmittel/Hygiene;19;1,2;1,49;178;0;29.05.2026;29.05.2026;;0;0
+31000498;8,68E+12;Mr Oxy Vollwaschmittel Color XXXL 85W 5,1kg + GRATIS Mr Oxy Weichspüler 1l;8,68E+12;Verpackung/Reinigungsmittel/Hygiene;19;6,5;7,89;95;0;29.05.2026;29.05.2026;;0;0
+31000499;8,68E+12;Mr Oxy Vollwaschmittel  XXXL 85 W 5,1kg + GRATIS Mr Oxy Weichspüler 1l;8,68E+12;Verpackung/Reinigungsmittel/Hygiene;19;6,5;7,89;92;0;29.05.2026;29.05.2026;;0;0
+31000500;8,68E+12;Mr Oxy Weichspüler Konzentrat Lavanta Manolya 1440ml;8,68E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,7;2,19;152;0;29.05.2026;29.05.2026;;0;0
+31000501;8,68E+12;Mr Oxy Weichspüler Konzentrat Lilyum & Mavi Lotus 1440ml;8,68E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,7;2,19;171;0;29.05.2026;29.05.2026;;0;0
+31000502;8,68E+12;Mr Oxy Weichspüler Konzentrat Sakayik & Müge 1440ml;8,68E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,7;1,19;180;0;29.05.2026;29.05.2026;;0;0
+31000503;8,69E+12;PorCöz Backofenreiniger 750ml Spray;8,69E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;120;0;29.05.2026;29.05.2026;;0;0
+31000504;8,69E+12;PorCöz Badezimmerreiniger 750ml Spray;8,69E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,3;1,59;120;0;29.05.2026;29.05.2026;;0;0
+31000505;8,69E+12;PorCöz Bleichmittel Dickflüssig Camasir Suyu Bahar Tazeligi 750ml;8,69E+12;Verpackung/Reinigungsmittel/Hygiene;19;0,8;0,99;150;0;29.05.2026;29.05.2026;;0;0
+31000506;8,69E+12;PorCöz Bleichmittel dickflüssig Camasir Suyu Yaz Yagmuru 750ml;8,69E+12;Verpackung/Reinigungsmittel/Hygiene;19;0,8;0,99;150;0;29.05.2026;29.05.2026;;0;0
+31000507;8,69E+12;PorCöz Fettlöser Yag Cözücü 1l;8,69E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,3;1,59;180;0;29.05.2026;29.05.2026;;0;0
+31000508;8,69E+12;PorCöz Fettlöser Yag Cözücü 750ml Spray;8,69E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;120;0;29.05.2026;29.05.2026;;0;0
+31000509;8,69E+12;PorCöz Rohrfrei Gel, Lavabo Acici Jel 1l;8,69E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,3;1,59;179;0;29.05.2026;29.05.2026;;0;0
+31000510;8,69E+12;PorCöz Rohrfrei Granulat, Lavabo Acici Granül 100g;8,69E+12;Verpackung/Reinigungsmittel/Hygiene;19;1;1,19;240;0;29.05.2026;29.05.2026;;0;0
+31000511;8,69E+12;PorCöz Rost- & Kalklöser, Pas ve Kirec Cözücü 1l;8,69E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;176;0;29.05.2026;29.05.2026;;0;0
+31000512;8,69E+12;PorCöz Rost- & Kalklöser, Pas ve Kirec Cözücü 750ml Spray;8,69E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;120;0;29.05.2026;29.05.2026;;0;0
+31000513;8,69E+12;PorCöz Waschmittelpulver Weiß- & Buntwäsche 3kg;;Verpackung/Reinigungsmittel/Hygiene;19;2,69;3,29;10;0;29.05.2026;29.05.2026;;0;0
+31000514;8,69E+12;PorCöz Waschmittelpulver Weiß- & Buntwäsche 9kg;;Verpackung/Reinigungsmittel/Hygiene;19;7,5;8,99;10;0;29.05.2026;29.05.2026;;0;0
+31000515;8,72E+12;Elidor Shampoo Definierte Locken 400ml;8,72E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;120;0;29.05.2026;29.05.2026;;0;0
+31000516;8,72E+12;Elidor Shampoo Feuchtigkeit & Glanz 400ml;;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;120;0;29.05.2026;29.05.2026;;0;0
+31000517;8,72E+12;Elidor Shampoo Perfekte Glätte 400ml;8,72E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;120;0;29.05.2026;29.05.2026;;0;0
+31000518;8,72E+12;Elidor Shampoo Lichtschimmer+Seideneffekt 400ml;8,72E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;119;0;29.05.2026;29.05.2026;;0;0
+31000519;8,72E+12;Elidor Spülung Definierte Locken 350ml;8,72E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;60;0;29.05.2026;29.05.2026;;0;0
+31000520;8,72E+12;Elidor Spülung Feuchtigkeit & Glanz 350ml;8,72E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;60;0;29.05.2026;29.05.2026;;0;0
+31000521;8,72E+12;Elidor Spülung Perfekte Glätte 350ml;8,72E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;60;0;29.05.2026;29.05.2026;;0;0
+31000522;8,72E+12;Elidor Spülung Lichtschimmer+Seideneffekt 350ml;8,72E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,4;1,69;60;0;29.05.2026;29.05.2026;;0;0
+31000523;8,70E+12;Klorak Camasir Suyu, Bleichmittel 940ml;8,70E+12;Verpackung/Reinigungsmittel/Hygiene;19;0,68;0,89;372;0;29.05.2026;29.05.2026;;0;0
+31000524;8,68E+12;Biotol Fettlöser, Yag Sökücü 2+1 GRATIS 1l;8,68E+12;Verpackung/Reinigungsmittel/Hygiene;19;2,8;3,39;184;0;29.05.2026;29.05.2026;;0;0
+31000525;8,70E+12;Biotol Schwamm Grooved Sponge 5er Pack;;Verpackung/Reinigungsmittel/Hygiene;19;0,4;0,49;800;0;29.05.2026;29.05.2026;;0;0
+31000526;8,70E+12;Biotol Schwamm Grooved Sponge 10er Pack;;Verpackung/Reinigungsmittel/Hygiene;19;0,6;0,79;700;0;29.05.2026;29.05.2026;;0;0
+31000527;8,68E+12;Biotol Super Duo Fettlöser + Oven & Hob Reiniger 2x 1l;8,68E+12;Verpackung/Reinigungsmittel/Hygiene;19;2,7;3,29;60;0;29.05.2026;29.05.2026;;0;0
+31000528;8,89E+12;OMO Flüssigwaschmittel Apple Blossom & Water Lily 100W, 5l;1,89E+13;Verpackung/Reinigungsmittel/Hygiene;19;7,6;9,19;20;0;29.05.2026;29.05.2026;;0;0
+31000529;8,89E+12;OMO Kapseln Lavendel & Eukalyptus 42W 840g;1,89E+13;Verpackung/Reinigungsmittel/Hygiene;19;5,4;6,49;40;0;29.05.2026;29.05.2026;;0;0
+31000530;8,89E+12;OMO Kapseln Marseille Soap 42W 840g;1,89E+13;Verpackung/Reinigungsmittel/Hygiene;19;5,4;6,49;40;0;29.05.2026;29.05.2026;;0;0
+31000531;8,89E+12;OMO Kapseln Rose Blossom & Morning Dew 42W 840g;1,89E+13;Verpackung/Reinigungsmittel/Hygiene;19;5,4;6,49;40;0;29.05.2026;29.05.2026;;0;0
+31000532;8,89E+12;OMO Kapseln White Orchid & Mint 42W 840g;1,89E+13;Verpackung/Reinigungsmittel/Hygiene;19;5,4;6,49;40;0;29.05.2026;29.05.2026;;0;0
+31000533;8,89E+12;OMO Waschmittel Pulver Apple Blossom & Water Lily 100W 5kg;;Verpackung/Reinigungsmittel/Hygiene;19;7,6;9,19;10;0;29.05.2026;29.05.2026;;0;0
+31000534;8,89E+12;OMO Waschmittel Pulver Tropical Lily 100W 5kg;;Verpackung/Reinigungsmittel/Hygiene;19;7,6;9,19;10;0;29.05.2026;29.05.2026;;0;0
+31000535;8,70E+12;4 Square Deodorant 2+1 GRATIS 150g;;Verpackung/Reinigungsmittel/Hygiene;19;1,6;1,99;144;0;29.05.2026;29.05.2026;;0;0
+31000536;8,70E+12;4 Square Shaving Foam Sensitive Cool 2+1 GRATIS 200ml;;Verpackung/Reinigungsmittel/Hygiene;19;1,6;1,99;80;0;29.05.2026;29.05.2026;;0;0
+31000537;8,70E+12;Garden Air Lufterfrischer Raumspray Mix 2+1 GRATIS 3x300ml;8,70E+12;Verpackung/Reinigungsmittel/Hygiene;19;1,5;1,8;153;0;29.05.2026;29.05.2026;;0;0
+31000538;8,70E+12;WOW Niche Shampoo Argan Oil 1l;8,70E+12;Verpackung/Reinigungsmittel/Hygiene;19;2,6;3,19;120;0;29.05.2026;29.05.2026;;0;0
+31000539;8,70E+12;WOW Niche Shampoo Schwarzer Knoblauch 1l;8,70E+12;Verpackung/Reinigungsmittel/Hygiene;19;2,6;3,19;120;0;29.05.2026;29.05.2026;;0;0
+31000540;8,70E+12;WOW Niche Shampoo Schwarzkümmelöl 1l;8,70E+12;Verpackung/Reinigungsmittel/Hygiene;19;2,6;3,19;120;0;29.05.2026;29.05.2026;;0;0
+31000541;8,70E+12;WOW Niche Shampoo Mint Menthol 1l;8,70E+12;Verpackung/Reinigungsmittel/Hygiene;19;2,6;3,19;120;0;29.05.2026;29.05.2026;;0;0
+31000542;8,70E+12;WOW Niche Shampoo Olivenöl 1l;;Verpackung/Reinigungsmittel/Hygiene;19;2,6;3,19;120;0;29.05.2026;29.05.2026;;0;0
+31000543;4,25E+12;Lorena Weizen für Asure 1kg;4,25E+12;Lebensmittel;7;1,16;1,39;100;0;29.05.2026;29.05.2026;;0;0
+31000544;4,25E+12;Lorena Saubohnen geschält 1kg;4,25E+12;Lebensmittel;7;1,6;1,95;100;0;29.05.2026;29.05.2026;;0;0
+31000545;4,25E+12;Lorena Gelbe Erbsen Split 1kg;4,25E+12;Lebensmittel;7;0,9;1,09;100;0;29.05.2026;29.05.2026;;0;0
+31000546;4,25E+12;Lorena Grüne Erbsen Split 1kg;;Lebensmittel;7;1,3;1,59;100;0;29.05.2026;29.05.2026;;0;0
+31000547;4,25E+12;Lorena Rote Kidneybohnen 1kg;4,25E+12;Lebensmittel;7;2,1;2,55;100;0;29.05.2026;29.05.2026;;0;0
+31000548;4,25E+12;Lorena Weiße Bohnen 1kg;4,25E+12;Lebensmittel;7;1,5;1,8;100;0;29.05.2026;29.05.2026;;0;0
+31000549;4,25E+12;Lorena Kidney Bohnen 1kg;4,25E+12;Lebensmittel;7;1,8;2,19;100;0;29.05.2026;29.05.2026;;0;0
+31000550;4,25E+12;Lorena Kichererbsen 1kg;4,25E+12;Lebensmittel;7;1,9;2,29;100;0;29.05.2026;29.05.2026;;0;0
+31000551;4,25E+12;Lorena Popcorn Mais1kg;4,25E+12;Lebensmittel;7;0,96;1,19;100;0;29.05.2026;29.05.2026;;0;0
+31000552;4,25E+12;Lorena Grüne Linsen 6mm 1kg;;Lebensmittel;7;1,3;1,59;100;0;29.05.2026;29.05.2026;;0;0
+31000553;4,25E+12;Lorena Grüne Linsen 4mm 1kg;;Lebensmittel;7;1,2;1,45;100;0;29.05.2026;29.05.2026;;0;0
+31000554;4,25E+12;Lorena Rote Linsen Split 1kg;4,25E+12;Lebensmittel;7;1,26;1,55;100;0;29.05.2026;29.05.2026;;0;0
+31000555;4,25E+12;Lorena Football Rote Linsen 1kg;;Lebensmittel;7;1,3;1,59;100;0;29.05.2026;29.05.2026;;0;0
+31000556;4,25E+12;Lorena Kichererbsen 9mm 1kg;;Lebensmittel;7;1,5;1,85;100;0;29.05.2026;29.05.2026;;0;0
+31000557;8,69E+12;AKFA Domates Sosu Pizzasauce 4100g;;Lebensmittel;7;4,5;5,49;60;0;29.05.2026;29.05.2026;;0;0
+31000558;8,69E+12;AKFA Biber Salcasi ACI Paprikamark scharf Glass 710ml;8,69E+12;Lebensmittel;7;1,4;1,69;240;0;29.05.2026;29.05.2026;;0;0
+31000559;8,69E+12;AKFA Biber Salcasi TATLI Paprikamark süß Glass 710ml;8,69E+12;Lebensmittel;7;1,4;1,69;252;0;29.05.2026;29.05.2026;;0;0
+31000561;4,25E+12;Lorena Schwarze Oliven mit Stein Dose 5/1;;Konserven;7;7,5;9;80;0;29.05.2026;29.05.2026;;0;0
+31000562;4,25E+12;Lorena Schwarze Oliven in Scheiben Dose 5/1;;Konserven;7;7,49;9;84;0;29.05.2026;29.05.2026;;0;0
+31000563;4,25E+12;Lorena Grüne Oliven ohne Stein Doise 5/1;;Konserven;7;7,5;9;80;0;29.05.2026;29.05.2026;;0;0
+31000564;4,25E+12;Lorena Grüne Oliven in Scheiben Dose 5/1;;Konserven;7;7,5;9;92;0;29.05.2026;29.05.2026;;0;0
+31000565;4,25E+12;Lorena Grüne Oliven mit Stein Dose 5/1;;Konserven;7;7,5;9;79;0;29.05.2026;29.05.2026;;0;0
+31000566;4,25E+12;Lorena Schwarze Oliven ohne Stein Dose 5/1;;Konserven;7;7,5;9;79;0;29.05.2026;29.05.2026;;0;0
+31000567;4,25E+12;Gülcan gegrillte Auberginen Glas 2,4kg;4,25E+12;Konserven;7;4,3;5,19;216;0;29.05.2026;29.05.2026;;0;0
+31000568;4,25E+12;Lorena gegrillte Auberginen 2,8kg Dose;4,25E+12;Konserven;7;4,3;5,19;146;0;29.05.2026;29.05.2026;;0;0
+31000569;4,25E+12;Lorena gegrillte Auberginen 2,4kg;4,25E+12;Konserven;7;4,3;5,19;216;0;29.05.2026;29.05.2026;;0;0
+31000570;4,25E+12;Lorena gegrillter Auberginensalat 1,55kg;4,25E+12;Konserven;7;2,9;3,49;171;0;29.05.2026;29.05.2026;;0;0
+31000571;8,00E+12;Lorena geschälte Tomaten 2,55kg Dose;8,00E+12;Konserven;7;2,7;3,29;180;0;29.05.2026;29.05.2026;;0;0
+31000573;8,00E+12;Lorena Tomaten geschält gehackt 2,5kg Dose;;Konserven;7;2,7;3,29;180;0;29.05.2026;29.05.2026;;0;0
+31000574;4,25E+12;Lorena Weinblätter gefüllt mit Reis 1,95kg Dose;4,25E+12;Konserven;7;5,3;6,39;168;0;29.05.2026;29.05.2026;;0;0
+31000575;4,25E+12;Lorena Weinblätter gefüllt mit Reis 400g Dose;4,25E+12;Konserven;7;1,26;1,59;118;0;29.05.2026;29.05.2026;;0;0
+31000576;5,60E+12;Lorena aromatisiertes Speiseöl mit Olivenöl PET 1l;3,56E+13;Öle;7;3,2;3,99;720;0;29.05.2026;29.05.2026;;0;0
+31000578;5,60E+12;Lorena aromatisiertes Speiseöl mit Olivenöl PET 3l;2,56E+13;Öle;7;9,5;10,99;180;0;30.05.2026;30.05.2026;;0;0
+31000579;5,60E+12;Lorena aromatisiertes Speiseöl mit Olivenöl PET 5l;2,56E+13;Öle;7;14;15,99;110;0;30.05.2026;30.05.2026;;0;0
+31000580;4,25E+12;Gülcan Paprikamark scharf PET 4,3kg;4,25E+12;Konserven;7;9,8;11,79;93;0;30.05.2026;30.05.2026;;0;0
+31000581;4,25E+12;Gülcan Paprikamark mild PET 4,3kg;4,25E+12;Konserven;7;9,8;11,79;136;0;30.05.2026;30.05.2026;;0;0
+31000582;4,25E+12;Gülcan Tomaten-Paprikapaste PET 4,3kg;;Konserven;7;10;12;120;0;30.05.2026;30.05.2026;;0;0
+31000583;4,25E+12;Gülcan Tomatenmark Brix 28-30% 800g Dose;;Konserven;7;1;1,19;1.008,00;0;30.05.2026;30.05.2026;;0;0
+31000584;4,25E+12;Gülcan Paprikamark scharf  Glas 370g;;Konserven;7;1;1,19;240;0;30.05.2026;30.05.2026;;0;0
+31000585;4,25E+12;Gülcan Paprikamark scharf Glas 650g;;Konserven;7;1,6;1,95;216;0;30.05.2026;30.05.2026;;0;0
+31000586;4,25E+12;Gülcan Paprikamark scharf PET 1,65kg;4,25E+12;Konserven;7;4;4,79;120;0;30.05.2026;30.05.2026;;0;0
+31000587;4,25E+12;Gülcan Paprikamark mild Glas 370g;4,25E+12;Konserven;7;1;1,2;237;0;30.05.2026;30.05.2026;;0;0
+31000588;4,25E+12;Gülcan Paprikamark mild Glas 650g;;Konserven;7;1,6;1,95;323;0;30.05.2026;30.05.2026;;0;0
+31000589;4,25E+12;Gülcan Paprikamark mild PET 1,65kg;;Konserven;7;4;4,79;120;0;30.05.2026;30.05.2026;;0;0
+31000590;4,25E+12;Gülcan Tomaten-Paprikapaste Glas 370g;;Konserven;7;0,96;1,19;357;0;30.05.2026;30.05.2026;;0;0
+31000591;4,25E+12;Gülcan Tomaten-Paprikapaste Glas 650g;4,25E+12;Konserven;7;1,7;2,09;240;0;30.05.2026;30.05.2026;;0;0
+31000592;4,25E+12;Gülcan Tomaten-Paprikapaste PET 1,65kg;4,25E+12;Konserven;7;3,9;4,69;30;0;30.05.2026;30.05.2026;;0;0
+31000593;4,25E+12;Gülcan Tomatenmark Brix 28-30% Glas 370g;;Konserven;7;0,86;1,09;239;0;30.05.2026;30.05.2026;;0;0
+31000594;4,25E+12;Gülcan Tomatenmark Brix 28-30% Glas 650g;4,25E+12;Konserven;7;1,4;1,69;236;0;30.05.2026;30.05.2026;;0;0
+31000595;4,25E+12;Gülcan Tomatenmark Brix  32-34% PET 1,65kg;4,25E+12;Konserven;7;3,3;3,99;120;0;30.05.2026;30.05.2026;;0;0
+31000596;4,25E+12;Gülcan Tomatenmark Brix 32-34%  Pet  4,3kg;4,25E+12;Konserven;7;9;10,8;102;0;30.05.2026;30.05.2026;;0;0
+31000597;4,25E+12;Gülcan schwarze Oliven mit Stein Fici XS BLAUE Dose 1,4kg;;Konserven;7;6;7,29;192;0;30.05.2026;30.05.2026;;0;0
+31000598;4,25E+12;Gülcan schwarze Oliven mit Stein Fici M-S GRAUE Dose 1,4kg;4,25E+12;Konserven;7;7;8,49;186;0;30.05.2026;30.05.2026;;0;0
+31000599;4,25E+12;Gülcan schwarze Oliven mit Stein Fici M-S rote Dose 700g;;Konserven;7;4;4,89;180;0;30.05.2026;30.05.2026;;0;0
+31000600;4,25E+12;Gülcan schwarze Oliven mit Stein XS-2XS BLAUE Dose 700g;;Konserven;7;3,3;3,99;180;0;30.05.2026;30.05.2026;;0;0
+31000601;4,25E+12;Gülcan Kichererbsen 850ml Dose;4,25E+12;Konserven;7;0,8;0,99;263;0;30.05.2026;30.05.2026;;0;0
+31000602;4,25E+12;Lorena Bohnen in Tomatensauce 2,65l Dose;;Konserven;7;3,4;4,09;60;0;30.05.2026;30.05.2026;;0;0
+31000610;8,72E+12;Lipton Tee Yellow Standard 100er Beutel 150g;8,72E+12;Lebensmittel;7;2,2;2,69;215;0;30.05.2026;30.05.2026;;0;0
+31000612;5,06E+12;Lipton TeeEarl Grey Black Tea 100er Beutel 160g;5,06E+12;Lebensmittel;7;2,2;2,69;144;0;30.05.2026;30.05.2026;;0;0
+31000613;8,72E+12;Lipton Tee Yellow Label 25er 160g;8,72E+12;Lebensmittel;7;0,96;1,19;178;0;30.05.2026;30.05.2026;;0;0
+31000614;8,91E+12;Arabian Garden Basmati Reis Sella 4,5kg;;Lebensmittel;7;7;8,4;220;0;30.05.2026;30.05.2026;;0;0
+31000615;8,41E+12;Gülcan Pirinc Tosya Reis 5kg;;Lebensmittel;7;6;7,29;168;0;30.05.2026;30.05.2026;;0;0
+31000616;8,41E+12;Gülcan Pirinc Tosya Reis 1kg;8,41E+11;Lebensmittel;7;1,4;1,69;240;0;30.05.2026;30.05.2026;;0;0
+31000617;8,91E+12;Arabian Garden Basmati Reis Sella 900g;;Lebensmittel;7;1,5;1,85;420;0;30.05.2026;30.05.2026;;0;0
+31000618;8,72E+12;Gülcan Aci Toz Biber, Paprika gemahlen Extra 1kg;8,72E+12;Gewürze;7;5,8;6,99;19;0;30.05.2026;30.05.2026;;0;0
+31000619;8,72E+12;Gülcan Ak Toz Biber, Weißer Pfeffer gemahlen 1kg;8,72E+12;Gewürze;7;13;15,69;20;0;30.05.2026;30.05.2026;;0;0
+31000620;8,72E+12;Gülcan Kekik Pul, Oregano 1kg;8,72E+12;Gewürze;7;10;12,09;19;0;30.05.2026;30.05.2026;;0;0
+31000621;8,72E+12;Gülcan Toz Kimyon, Kümmel gemahlen 1kg;8,72E+12;Gewürze;7;8,8;10,69;20;0;30.05.2026;30.05.2026;;0;0
+31000622;8,72E+12;Gülcan Maydanoz, Petersilie getrocknet 1kg;;Gewürze;7;8,5;10,29;14;0;30.05.2026;30.05.2026;;0;0
+31000624;8,72E+12;Gülcan Sarimsak Granur, Knoblauch 1kg;8,72E+12;Gewürze;7;6;7,29;19;0;30.05.2026;30.05.2026;;0;0
+31000625;8,72E+12;Gülcan Toz Sarimsak, Knoblauchpulver 1kg Beutel;8,72E+12;Gewürze;7;5;6;20;0;30.05.2026;30.05.2026;;0;0
+31000626;8,72E+12;Gülcan Shoarma Würzsalz 1kg;8,72E+12;Gewürze;7;5;6;20;0;30.05.2026;30.05.2026;;0;0
+31000627;8,72E+12;Gülcan Sumak 1kg;8,72E+12;Gewürze;7;8,5;10,29;16;0;30.05.2026;30.05.2026;;0;0
+31000628;8,72E+12;Gülcan Tatli Toz Biber, paprika Edelsüß 1kg;;Gewürze;7;5;6;16;0;30.05.2026;30.05.2026;;0;0
+31000629;8,72E+12;Gülcan tavuk Baharat, Hähnchenwürzsalz 1kg;5,41E+13;Gewürze;7;4;4,89;18;0;30.05.2026;30.05.2026;;0;0
+31000630;8,72E+12;Gülcan 4 Mevsim Biber 180g;;Gewürze;7;4;4,89;12;0;30.05.2026;30.05.2026;;0;0
+31000631;8,72E+12;Gülcan 7 Türlü Baharat, 7 gemischte Gewürze 170g;;Gewürze;7;1,26;1,59;12;0;30.05.2026;30.05.2026;;0;0
+31000632;8,72E+12;Gülcan Aci Toz Biber, Paprika gemahlen 150g;;Gewürze;7;1,26;1,59;12;0;30.05.2026;30.05.2026;;0;0
+31000633;8,72E+12;Gülcan Anason  Anis ganz 150g;;Gewürze;7;1,6;1,99;12;0;30.05.2026;30.05.2026;;0;0
+31000634;8,72E+12;Gülcan Feslegen, Basilikum 70g;8,72E+12;Gewürze;7;1;1,2;12;0;30.05.2026;30.05.2026;;0;0
+31000635;8,72E+12;Gülcan Biberiye, Rosmarin 100g;;Gewürze;7;1;1,2;12;0;30.05.2026;30.05.2026;;0;0
+31000636;8,72E+12;Gülcan Biryani Baharati, Biryani Gewürz 180g;;Gewürze;7;2,5;3,09;12;0;30.05.2026;30.05.2026;;0;0
+31000637;8,72E+12;Gülcan Cemen Tane, Bockshornklee ganz 200g;;Gewürze;7;0,96;1,19;12;0;30.05.2026;30.05.2026;;0;0
+31000638;8,72E+12;Gülcan Cemen Unu, Bockshornklee gemahlen 200g;8,72E+12;Gewürze;7;0,96;1,19;12;0;30.05.2026;30.05.2026;;0;0
+31000639;8,72E+12;Gülcan Cija Tohumu, Chiasamen 200g;;Gewürze;7;1,4;1,69;11;0;30.05.2026;30.05.2026;;0;0
+31000640;8,72E+12;Gülcan Cigköfte Baharati, Hackfleischgewürz 200g;;Gewürze;7;1,3;1,59;12;0;30.05.2026;30.05.2026;;0;0
+31000641;8,72E+12;Gülcan Cörek otu, Schwarzkümmel 200g;8,72E+12;Gewürze;7;1,4;1,69;12;0;30.05.2026;30.05.2026;;0;0
+31000642;8,72E+12;Gülcan Cörek Süsü, Sesam Mix PET 200g;8,72E+12;Gewürze;7;1,4;1,69;12;0;30.05.2026;30.05.2026;;0;0
+31000643;8,72E+12;Gülcan Dere Otu, Dill getrocknet 180g;;Gewürze;7;2,9;3,49;12;0;30.05.2026;30.05.2026;;0;0
+31000644;8,72E+12;Gülcan Dere Otu, Dill getrocknet 50g;;Gewürze;7;1;1,19;12;0;30.05.2026;30.05.2026;;0;0
+31000645;8,72E+12;Gülcan Et Baharati, Fleischwürzsalz PET 200g;;Gewürze;7;1,26;1,59;12;0;30.05.2026;30.05.2026;;0;0
+31000646;8,72E+12;Gülcan Mangal Baharati, Grillgewürz 150g;8,72E+12;Gewürze;7;1,26;1,59;12;0;30.05.2026;30.05.2026;;0;0
+31000647;8,72E+12;Gülcan Hindistan cevizi, Kokosnuss 130g;;Gewürze;7;1,2;1,49;12;0;30.05.2026;30.05.2026;;0;0
+31000648;8,72E+12;Gülcan Hashas, Mohn 200g;;Gewürze;7;1,3;1,59;12;0;30.05.2026;30.05.2026;;0;0
+31000649;8,72E+12;Gülcan Isot Biber, Paprika 170g;;Gewürze;7;1,4;1,69;12;0;30.05.2026;30.05.2026;;0;0
+31000650;8,72E+12;Gülcan Kuru Nane, Minze getrocknet 60g;8,72E+12;Gewürze;7;1;1,2;12;0;30.05.2026;30.05.2026;;0;0
+31000651;8,72E+12;Gülcan  Aycekirdek, Sonneblumen geschält 200g;;Gewürze;7;1,06;1,29;12;0;30.05.2026;30.05.2026;;0;0
+31000652;8,72E+12;Gülcan Kabuksuz Kabak, kürbiskerne geschält 170g;;Gewürze;7;1,6;1,99;12;0;30.05.2026;30.05.2026;;0;0
+31000653;8,72E+12;Gülcan kekik Pul, Oregano 50g;;Gewürze;7;1,1;1,39;12;0;30.05.2026;30.05.2026;;0;0
+31000654;8,72E+12;Gülcan Kimyon frenk, Kreuzkümmel 180g;8,72E+12;Gewürze;7;1,4;1,69;12;0;30.05.2026;30.05.2026;;0;0
+31000655;8,72E+12;Gülcan Kimyon tane, Kreuzkümmel ganz 150g;;Gewürze;7;1,8;2,19;12;0;30.05.2026;30.05.2026;;0;0
+31000656;3,74E+12;Gülcan Kisnis tane, Koriander ganz 100g;;Gewürze;7;1,06;1,29;12;0;30.05.2026;30.05.2026;;0;0
+31000657;8,72E+12;Gülcan Kisnis Toz, Koriander gemahlen 150g;;Gewürze;7;1,46;1,79;12;0;30.05.2026;30.05.2026;;0;0
+31000658;8,72E+12;Gülcan Kori, Curry 200g;;Gewürze;7;1,2;1,49;11;0;30.05.2026;30.05.2026;;0;0
+31000659;4,26E+12;Gülcan Zerdecal, Kurkuma 200g;;Gewürze;7;1,2;1,49;12;0;30.05.2026;30.05.2026;;0;0
+31000660;8,41E+12;CalNort Brühwürfel Huhn 12x10g 120g;;Gewürze;7;0,5;0,6;120;0;30.05.2026;30.05.2026;;0;0
+31000661;8,41E+12;CalNort Brühwürfel Huhn 24x10g 240g;;Gewürze;7;1;1,19;100;0;30.05.2026;30.05.2026;;0;0
+31000662;8,41E+12;CalNort Brühwürfel Rind 12x10g 120g;;Gewürze;7;0,5;0,6;120;0;30.05.2026;30.05.2026;;0;0
+31000663;8,41E+12;CalNort Brühwürfel Rind 24x10g 240g;;Gewürze;7;1;1,19;100;0;30.05.2026;30.05.2026;;0;0
+31000664;8,41E+12;CalNort Hühnerbrühe Pulver 1kg;;Gewürze;7;2,8;3,39;28;0;30.05.2026;30.05.2026;;0;0
+31000665;8,41E+12;CalNort Rinderbrühe Pulver 1kg;1,84E+13;Gewürze;7;2,8;3,39;28;0;30.05.2026;30.05.2026;;0;0
+31000666;3,85E+12;Podravka Vegeta Gewürzmischung 250g;3,85E+12;Gewürze;7;1,36;1,69;543;0;30.05.2026;30.05.2026;;0;0
+31000667;3,85E+12;Podravka Vegeta Gewürzmischung 2kg;3,85E+12;Gewürze;7;9;10,79;96;0;30.05.2026;30.05.2026;;0;0
+31000668;3,85E+12;Podravka Vegeta Gewürzmischung 500g;3,85E+12;Gewürze;7;2,5;2,99;383;0;30.05.2026;30.05.2026;;0;0
+31000669;3,85E+12;Podravka Vegeta Gewürzmischung 10kg Eimer;3,85E+12;Gewürze;7;37;44,99;8;0;30.05.2026;30.05.2026;;0;0
+31000671;8,68E+12;Mr Oxy Professional Feuchttücher, Yüzey Temizlik Bezi 400St  Eimer;8,68E+12;Verpackung/Reinigungsmittel/Hygiene;19;5,5;6,69;50;0;30.05.2026;30.05.2026;;0;0
+31000672;4,25E+12;Gülcan Cigköftelik Bulgur, Weizen 1kg;4,25E+12;Lebensmittel;7;1,16;1,39;240;0;30.05.2026;30.05.2026;;0;0
+31000673;4,25E+12;Gülcan Pilavlik Bulgur, Weizen 1kg;;Lebensmittel;7;1,16;1,39;240;0;30.05.2026;30.05.2026;;0;0
+31000674;4,25E+12;Gülcan Midyat Pilavlik Bulgur Telsehriye, Weizen 5kg;4,25E+12;Lebensmittel;7;5,8;6,49;540;0;30.05.2026;30.05.2026;;0;0
+31000675;4,25E+12;Gülcan Midyat Pilavlik Bulgur Telsehriye 1kg;4,25E+12;Lebensmittel;7;1,16;1,39;285;0;30.05.2026;30.05.2026;;0;0
+31000676;4,25E+12;Gülcan Esmer Pilavlik Bulgur, Weizen 1kg;4,25E+12;Lebensmittel;7;1,16;1,39;240;0;30.05.2026;30.05.2026;;0;0
+31000677;4,25E+12;Gülcan Bulgur S´kitel , Weizen 1kg;4,25E+12;Lebensmittel;7;1,16;1,39;240;0;30.05.2026;30.05.2026;;0;0
+31000678;4,25E+12;Gülcan Midyat Pilavlik Bulgur, Weizen 5kg;4,25E+12;Lebensmittel;7;5,8;6,49;540;0;30.05.2026;30.05.2026;;0;0
+31000679;4,25E+12;Gülcan Bulgur S`kitel , Weizen 5kg;4,25E+12;Lebensmittel;7;1,16;1,39;540;0;30.05.2026;30.05.2026;;0;0
+31000680;4,25E+12;Gülcan Pilavlik Bulgur, Wiezen 5kg;4,25E+12;Lebensmittel;7;1,16;1,39;180;0;30.05.2026;30.05.2026;;0;0
+31000681;3,85E+12;Podravka Vegeta gewürzmischung 1kg;3,85E+12;Gewürze;7;5,19;5,79;245;5,79;01.05.1979;30.05.2026;;0;0
+31000684;8,71E+12;TK Aviko Sweet Potato Fries 5 9,5m 2,27kg;8,71E+12;TK Tiefkühl;7;9,65;10,99;45;0;30.05.2026;30.05.2026;;0;0
+31000685;;Spinat / Espinaca;;Gemüse;7;12;15,6;2;0;31.05.2026;31.05.2026;;0;0
+31000686;;Mangold / Acelga;;Gemüse;7;10,33;13,99;17;0;31.05.2026;31.05.2026;;0;0
+31000687;;Petersillien  20 Bund;;Gemüse;7;12;15,6;3;0;31.05.2026;31.05.2026;;0;0
+31000688;;Minze 20 Bund;;Gemüse;7;9,06;12,99;15;0;31.05.2026;31.05.2026;;0;0
+31000689;;Romana  10x2;;Gemüse;7;8,63;11,99;11;0;31.05.2026;31.05.2026;;0;0
+31000690;;Dill / Eneldo;;Gemüse;7;9,06;12,99;20;0;31.05.2026;31.05.2026;;0;0
+31000691;;Koriander / Cilantro  20 Bund;;Gemüse;7;10,06;13,99;19;0;31.05.2026;31.05.2026;;0;0
+31000692;4,01E+12;BINDEWALD Ährenglück Mehl T405  10kg;;Lebensmittel;7;4,9;5,99;81;5,29;29.06.2026;01.08.2026;;0;0
+31000693;4,01E+12;BINDEWALD Ährenglück Mehl T405  25kg;;Lebensmittel;7;11;12,99;20;11,29;29.06.2026;01.08.2026;;0;0
+31000694;4,01E+12;BINDEWALD Mehl Typ 00 Classica  10kg;;Lebensmittel;7;4,9;5,9;491;5,29;29.06.2026;01.08.2026;;0;0
+31000695;4,01E+12;BINDEWALD Weizenmehl T00 Classica  10x1kg;;Lebensmittel;7;0,44;0,54;5.593,00;0;31.05.2026;31.05.2026;;0;0
+31000696;4,01E+12;BINDEWALD Mehl T00 Classica  25kg;;Lebensmittel;7;11;11,9;286;11,29;29.06.2026;01.08.2026;;0;0
+31000697;4,01E+12;BINDEWALD Weizenmehl T550  25kg;;Lebensmittel;7;10,88;11,79;26;0;31.05.2026;31.05.2026;;0;0
+31000698;4,01E+12;BINDEWALD Weizenmehl T00 Superiore  10x1kg;;Lebensmittel;7;0,54;0,64;800;0;31.05.2026;31.05.2026;;0;0
+31000699;4,01E+12;BINDEWALD Weizenmehl T00 Superiore  10kg;;Lebensmittel;7;5,9;6,99;0;0;31.05.2026;31.05.2026;;0;0
+31000700;;Pimiento Picante Rojo 3kg (Kirmizi Aci, dünn spitz);;Gemüse;7;7,65;0;13;0;31.05.2026;31.05.2026;;0;0
+31000701;;Pimiento Picante Verde 3kg (Yesil Aci, dünn spitz);;Gemüse;7;5,5;0;119;0;31.05.2026;31.05.2026;;0;0
+31000703;5,90E+12;Asta Universal Würzmischung 1kg;5,90E+12;Gewürze;7;1,5;1,89;359;0;01.06.2026;01.06.2026;;0;0
+31000704;4,25E+12;Nergiz Aksiyon Domates Salca, Tomatenpaste Brix 22-24% 800g Dose;4,25E+12;Konserven;7;0,8;0,99;987;0,99;01.06.2026;01.08.2026;;0;0
+31000705;4,25E+12;Nergiz Aksiyon Nar Aromali Sos, Granatapfel Sauce 1,02kg;4,25E+12;Saucen;7;1,2;1,49;354;0;01.06.2026;01.06.2026;;0;0
+31000707;2,51E+12;Nergiz Aksiyon Limon Aromali Sos, Zitronensauce 1l;;Saucen;7;0,6;0,79;347;0;01.06.2026;01.06.2026;;0;0
+31000708;4,25E+12;Lorena schwarze Sonnenblumenkerne, geröstet viel gesalzen, Siyah Aycekirdegi Bol Tuzlu 150g;4,25E+12;Lebensmittel;7;0,6;0,93;253;0;01.06.2026;01.06.2026;;0;0
+31000709;4,25E+12;Lorena schwarze Sonnenblumenkerne, geröstet gesalzen, Siyah Aycekirdegi Tuzlu 150g;4,25E+12;Lebensmittel;7;0,6;0,93;429;0;01.06.2026;01.06.2026;;0;0
+31000710;4,25E+12;Nergiz Aksiyon Haslanmis Nohut, gekochte Kichererbsen 800g Dose;;Konserven;7;0,66;0,79;1.041,00;0;01.06.2026;01.06.2026;;0;0
+31000711;4,25E+12;Nergiz Haslanmis Beyaz Fasülye, Weiße Bohnen gekocht 800g;;Konserven;7;0,76;0,95;1.043,00;0;01.06.2026;01.06.2026;;0;0
+31000712;4,25E+12;Nergiz Aksiyon Siyah Zeytin Uslu, Schwarze Oliven mit Stein 700g Vakuum;;Konserven;7;1,8;2,19;285;0;01.06.2026;01.06.2026;;0;0
+31000713;4,25E+12;Nergiz Aksiyon Siyah Zeytin Gemlik, Schwarze Oliven mit Stein PET 1,25kg;;Konserven;7;3,9;4,69;136;0;01.06.2026;01.06.2026;;0;0
+31000714;4,25E+12;Lorena Eriste Makarna 500g;;Lebensmittel;7;0,46;0,59;400;0;01.06.2026;01.06.2026;;0;0
+31000715;4,25E+12;Lorena Makarna Tel Sehriye, Vermicelli 500g;;Lebensmittel;7;0,46;0,59;319;0;01.06.2026;01.06.2026;;0;0
+31000716;4,25E+12;Lorena makarna Tel Sehriye, Vermicelli 1kg;;Lebensmittel;7;0,96;1,19;195;0;01.06.2026;01.06.2026;;0;0
+31000717;4,25E+12;Lorena Makarna Arpa Sehriye 1kg;;Lebensmittel;7;0,96;1,19;200;0;01.06.2026;01.06.2026;;0;0
+31000718;4,25E+12;Lorena Makarna Kus Kus 500g;;Lebensmittel;7;0,46;0,59;396;0;01.06.2026;01.06.2026;;0;0
+31000719;4,25E+12;Lorena Makarna Kalem, Penne Rigate 500g;;Lebensmittel;7;0,46;0,59;400;0;01.06.2026;01.06.2026;;0;0
+31000720;4,25E+12;Lorena Makarna Carliston 500g;;Lebensmittel;7;0,46;0,59;360;0;01.06.2026;01.06.2026;;0;0
+31000721;4,25E+12;Lorena Makarna Manti, Lumache 500g;;Lebensmittel;7;0,46;0,59;399;0;01.06.2026;01.06.2026;;0;0
+31000722;4,25E+12;Lorena Makarna Ince Kesme, Sedadini Rigate 500g;;Lebensmittel;7;0,46;0,59;380;0;01.06.2026;01.06.2026;;0;0
+31000723;4,25E+12;Lorena Makarna Arpa Sehriye 500g;;Lebensmittel;7;0,46;0,59;356;0;01.06.2026;01.06.2026;;0;0
+31000724;4,25E+12;Lorena Makarna Spaghetti 500g;;Lebensmittel;7;0,46;0,59;400;0;01.06.2026;01.06.2026;;0;0
+31000725;4,25E+12;Lorena Makarna Burgu, Fusilli 500g;;Lebensmittel;7;0,46;0,59;360;0;01.06.2026;01.06.2026;;0;0
+31000726;4,25E+12;Lorena Makarna Dirsek 500g;;Lebensmittel;7;0,46;0,59;400;0;01.06.2026;01.06.2026;;0;0
+31000727;4,25E+12;Lorena Makarna Boncuk 500g;;Lebensmittel;7;0,46;0,59;390;0;01.06.2026;01.06.2026;;0;0
+31000728;4,25E+12;Lorena Makarna Kelebek, Farfalle 500g;;Lebensmittel;7;0,46;0,59;358;0;01.06.2026;01.06.2026;;0;0
+31000729;4,25E+12;Lorena Makarna Fiyonik, Tripolini 500g;;Lebensmittel;7;0,46;0,59;394;0;01.06.2026;01.06.2026;;0;0
+31000730;;Diverse;;;19;0;0;-5;0;01.06.2026;01.06.2026;;0;0
+31000731;;Diverse2;;;7;0;0;-4;0;01.06.2026;01.06.2026;;0;0
+31000732;;Metzgerzwiebel 25kg;;Gemüse;7;7,5;0;1.056,00;0;01.06.2026;01.06.2026;;0;0
+31000735;;Speisekartoffeln Belana Festkochend Qualität 1  2,5kg;;Gemüse;7;0,5;1,49;0;0;02.06.2026;02.06.2026;;0;0
+31000736;;Speisekartoffeln Queen Anne vorm. Festk. Qualität 1  2,5kg;;Gemüse;7;0,5;1,49;-10;0;02.06.2026;02.06.2026;;0;0
+31000737;;Speisekartoffeln Belana Qualität 1  10kg;;Gemüse;7;5;7,99;19;0;02.06.2026;02.06.2026;;0;0
+31000738;;Speisekartoffeln Belana Festkochend Qualität 1  10kg;;Gemüse;7;2;3,99;70;0;02.06.2026;02.06.2026;;0;0
+31000739;;Speisezwiebeln Klasse 2  5kg;;Gemüse;7;1,35;2,49;596;0;02.06.2026;02.06.2026;;0;0
+31000740;;Speisekartoffeln Belana Festkochend Qualität 1  5kg;;Gemüse;7;1,1;2,49;-4;0;02.06.2026;02.06.2026;;0;0
+31000741;;Speisezwiebeln Klasse 2  1kg;;Gemüse;7;0,4;1,19;40;0;02.06.2026;02.06.2026;;0;0
+31000742;;Speisekartoffeln Annabelle Ubergroße  25kg;;Gemüse;7;6,5;0;31;0;02.06.2026;02.06.2026;;0;0
+31000743;;Speisezwiebeln Rote Klasse 2   1kg;;Gemüse;7;0,65;1,59;637;0;02.06.2026;02.06.2026;;0;0
+31000744;;Speisekartoffeln Annabelle klein  25kg;;Gemüse;7;6,5;0;35;0;02.06.2026;02.06.2026;;0;0
+31000745;;Speisekartoffeln Brätlinge A. gew. Fk.  10kg;;Gemüse;7;8,5;0;25;0;02.06.2026;02.06.2026;;0;0
+31000746;;Rote Zwiebeln Größe 60-80  10 Kg;;Gemüse;7;3,5;0;0;0;02.06.2026;02.06.2026;;0;0
+31000747;;Rote Zwiebeln Größe 75-105  10 Kg;;Gemüse;7;4,65;0;0;0;02.06.2026;02.06.2026;;0;0
+31000749;;Praktitex Pro Mikrofasertuch, blau 40x40cm 10er Pack;;Verpackung/Reinigungsmittel/Hygiene;19;7,63;9,19;58;0;02.06.2026;02.06.2026;;0;0
+31000750;;Praktitex Pro Mikrofasertuch, gelb 40x40cm 10er Pack;;Verpackung/Reinigungsmittel/Hygiene;19;7,63;9,19;60;0;02.06.2026;02.06.2026;;0;0
+31000751;;Praktitex Pro Mikrofasertuch, grün 40x40cm 10er Pack;;Verpackung/Reinigungsmittel/Hygiene;19;7,63;9,19;59;0;02.06.2026;02.06.2026;;0;0
+31000752;;Praktitex Pro Mikrosfasertuch, rosa 40x40cm 10er Pack;;Verpackung/Reinigungsmittel/Hygiene;19;7,63;9,19;60;0;02.06.2026;02.06.2026;;0;0
+31000754;;Müllsäcke 120l BLAU, Typ 100;4,03E+12;Verpackung/Reinigungsmittel/Hygiene;19;3,16;3,79;388;0;02.06.2026;02.06.2026;;0;0
+31000755;4,03E+12;zetFlower Toilettenpapier 2-lagig, altweiß 250 Blatt, 8 Rollen;;Verpackung/Reinigungsmittel/Hygiene;19;1,62;2,19;528;1,69;29.06.2026;01.08.2026;;0;0
+31000756;4,03E+12;zetFlower Toilettenpapier 3-lagig, weiß 250 Blatt, 8 Rollen;;Verpackung/Reinigungsmittel/Hygiene;19;2,21;2,79;527;2,29;29.06.2026;01.08.2026;;0;0
+31000758;;Pakistani Aubergine  5kg;;Gemüse;7;0;0;-8;0;04.06.2026;04.06.2026;;0;0
+31000759;;Mini Green Aubergine  4kg;;Gemüse;7;0;0;8;0;04.06.2026;04.06.2026;;0;0
+31000760;;Green Long Been  6kg;;Gemüse;7;0;0;0;0;04.06.2026;04.06.2026;;0;0
+31000762;;Gestreifte Wassermelone - 3Stc;;Obst;7;0;0;5;0;04.06.2026;04.06.2026;;0;0
+31000763;8,01E+12;Rotwein Toscana Sangiovese 0,75l;;Alkohol;19;1,7;2,99;2.399,00;1,75;29.06.2026;01.08.2026;;0;0
+31000764;8,01E+12;Rosewein Toscana Rosso 0,75l;;Alkohol;19;1,7;1,99;1.790,00;1,75;29.06.2026;01.08.2026;;0;0
+31000766;4,01E+12;La Perla Tomatenpaprika rot , Streifen ,Mariniert 2000g;;Konserven;7;5,49;6,99;90;0;04.06.2026;04.06.2026;;0;0
+31000767;4,01E+12;La Perla Tomatenpaprika rot,grün,gelb Streifen  2000g;;Konserven;7;5,62;6,99;90;0;04.06.2026;04.06.2026;;0;0
+31000768;4,01E+12;La Perla Tomaten gewürfelt  2910g;;Konserven;7;3,53;4,99;150;0;04.06.2026;04.06.2026;;0;0
+31000769;;Gestreifte Wassermelone - 2Stc;;Obst;7;0;0;37;0;04.06.2026;04.06.2026;;0;0
+31000770;;Ingwer 5kg;;Gemüse;7;8,5;0;164;0;04.06.2026;04.06.2026;;0;0
+31000771;;Gurken;;Gemüse;7;7;9,3;152;0;04.06.2026;04.06.2026;;0;0
+31000773;;Apfelsinen Valencia 15Kg - Pressorangen;;Obst;7;9;9,99;47;0;05.06.2026;05.06.2026;;0;0
+31000774;4,03E+12;FUCHS Pfeffer Schwarz Gemahlen 1Kg;;Gewürze;7;19,95;22;10;0;29.05.2026;29.05.2026;;0;0
+31000775;8,68E+12;Yakamoz Raki  0,5L;8,68E+12;Alkohol;19;14,99;16,99;66;15;29.06.2026;01.08.2026;;0;0
+31000776;8,68E+12;Yakamoz Aydeniz Aperitivo 0,7L;8,68E+12;Alkohol;19;7,99;9,99;65;8,49;29.06.2026;01.08.2026;;0;0
+31000777;8,68E+12;Yakamoz Mokka Likör  0,5L;8,68E+12;Alkohol;19;7,99;9,99;66;8,49;29.06.2026;01.08.2026;;0;0
+31000778;;LYDIA Salat Mayonnaise  50%  10L;8,72E+12;Saucen;7;17,85;18,9;16;0;07.06.2026;07.06.2026;;0;0
+31000779;8,72E+12;LYDIA Curry Ketchup  10kg;;Saucen;7;14,69;17,99;20;0;07.06.2026;07.06.2026;;0;0
+31000780;8,72E+12;LYDIA Senf Mild  5kg;;Saucen;7;8,95;11,49;15;0;07.06.2026;07.06.2026;;0;0
+31000781;8,72E+12;LYDIA Rindersalami Halal Scheiben  500g;8,72E+12;Lebensmittel;7;6,27;7,99;30;0;07.06.2026;07.06.2026;;0;0
+31000782;4,02E+12;Menübox IP4 1-teilig beige 2x100 - 200er Pack;;Verpackung/Reinigungsmittel/Hygiene;19;19,96;23,99;40;0;07.06.2026;07.06.2026;;0;0
+31000783;4,02E+12;Menübox IP4 2-teilig beige 2x100 - 200er Pack;;Verpackung/Reinigungsmittel/Hygiene;19;19,96;23,99;40;0;07.06.2026;07.06.2026;;0;0
+31000784;4,02E+12;Hamburgerbox IP6 weiß  4x125St;4,02E+12;Verpackung/Reinigungsmittel/Hygiene;19;28,96;33,99;33;0;07.06.2026;07.06.2026;;0;0
+31000785;8,72E+12;REAL AMERICAN Cheddar Käse 45+88 Scheiben 1082g;8,72E+12;Kühlschrankware;7;7,89;9,49;40;0;07.06.2026;07.06.2026;;0;0
+31000786;8,72E+12;D.P. Pizzabox italia 28x28x4cm Braun Kraft 100st;8,72E+12;Verpackung/Reinigungsmittel/Hygiene;19;10,5;12,6;45;0;07.06.2026;07.06.2026;;0;0
+31000787;8,72E+12;D.P. Pizzabox italia 32x32x4cm Braun Kraft 100st;;Verpackung/Reinigungsmittel/Hygiene;19;12,8;15,36;90;0;07.06.2026;07.06.2026;;0;0
+31000788;;D.P. Pizzabox italia 30x30x4cm Braun Kraft 100st;;Verpackung/Reinigungsmittel/Hygiene;19;11,5;13,8;90;0;07.06.2026;07.06.2026;;0;0
+31000789;;Handtuchpapier AK410;;Verpackung/Reinigungsmittel/Hygiene;19;10,8;12,99;10;10,99;29.06.2026;01.08.2026;;0;0
+31000790;8,72E+12;HOLLANDSCHE Dill Chips  2300g;;Konserven;7;4,21;5,19;16;0;07.06.2026;07.06.2026;;0;0
+31000791;;Handtuchpapier, weiß 2-lagig AK430;;Verpackung/Reinigungsmittel/Hygiene;19;13,9;16,99;43;13,99;29.06.2026;01.08.2026;;0;0
+31000792;8,72E+12;LYDIA Mayonnaise 50% Beutel  100x200ml;;Saucen;7;8,2;10,8;2;0;07.06.2026;07.06.2026;;0;0
+31000793;;Süsskartoffel;;Gemüse;7;0;8,5;145;0;07.06.2026;07.06.2026;;0;0
+31000794;;Limetten  BRA  4,5kg;;Obst;7;4,5;0;155;0;07.06.2026;07.06.2026;;0;0
+31000795;;Paprika Carli / Carli Biber  6kg;;Gemüse;7;10,6;0;16;0;08.06.2026;08.06.2026;;0;0
+31000796;;Paprika Sivri / Sivri Biber  6kg;;Gemüse;7;10,6;0;0;0;08.06.2026;08.06.2026;;0;0
+31000797;;Paprika Dolma / Dolma Biber  6kg;;Gemüse;7;10,5;0;1;0;08.06.2026;08.06.2026;;0;0
+31000798;;Paprika Üc Burun / Köy Biberi  6kg;;Gemüse;7;12,9;0;0;0;08.06.2026;08.06.2026;;0;0
+31000799;;Kil Sivri Bíber;;Gemüse;7;18,75;0;0;0;08.06.2026;08.06.2026;;0;0
+31000800;;Rote Chili / Kirmizi Sili   3kg;;Gemüse;7;14,4;0;16;0;08.06.2026;08.06.2026;;0;0
+31000801;;Rote Chili / Kirmizi Sili   6kg;;Gemüse;7;28,8;0;0;0;08.06.2026;08.06.2026;;0;0
+31000802;;Grün Chili / Yesil Sili   3kg;;Gemüse;7;7,92;0;36;0;08.06.2026;08.06.2026;;0;0
+31000803;;Grün Chili / Yesil Sili   6kg;;Gemüse;7;15,84;0;0;0;08.06.2026;08.06.2026;;0;0
+31000804;;Aubergine TR / Patlican TR   6kg;;Gemüse;7;11,4;0;0;0;08.06.2026;08.06.2026;;0;0
+31000805;;Mini Zucchini / Mini Kabak;;Gemüse;7;8,6;0;5;0;08.06.2026;08.06.2026;;0;0
+31000806;;Can Erik  Schale  10x500gr;;Obst;7;21;0;-17;0;08.06.2026;08.06.2026;;0;0
+31000807;;Can Erik  Beutel  10x500gr;;Obst;7;21;0;5;0;08.06.2026;08.06.2026;;0;0
+31000808;;Acur;;Gemüse;7;7,76;0;0;0;08.06.2026;08.06.2026;;0;0
+31000809;;Kenger;;Gemüse;7;15,6;0;15;0;08.06.2026;08.06.2026;;0;0
+31000810;;Kelek;;Obst;7;16,5;0;0;0;08.06.2026;08.06.2026;;0;0
+31000811;;Kavun Kirkagac;;Obst;7;1,38;0;0;0;08.06.2026;08.06.2026;;0;0
+31000812;;Pilze  3kg;;Gemüse;7;8;10,2;17;0;08.06.2026;08.06.2026;;0;0
+31000813;;Rucola   10st;;Gemüse;7;7;9,6;0;0;08.06.2026;08.06.2026;;0;0
+31000814;;Rettich  10st;;Gemüse;7;13;12,5;4;0;08.06.2026;08.06.2026;;0;0
+31000815;;POLPA Fine Pom. termo  3/5000g - Marchio Mamma Rosa;;Konserven;7;4,36;5,31;585;4,49;29.06.2026;01.08.2026;;0;0
+31000816;1,80E+13;POLPA FINE DI POMODORA 5kg   Mamma Rosa;;Konserven;7;5,07;6,59;458;5,15;29.06.2026;01.08.2026;;0;0
+31000817;;POMODORI Pomodori Pelati  termo 6/3000gr;4,26E+12;Konserven;7;2,79;3,73;5.675,00;2,85;29.06.2026;01.08.2026;;0;0
+31000818;8,69E+12;Pamukkale Anfora SHIRAZ  0,75L;;Alkohol;19;4,71;7,75;120;0;10.06.2026;10.06.2026;;0;0
+31000819;8,69E+12;Pamukkale Anfora  ÖKÜZGÖZÜ  0,75L;;Alkohol;19;4,71;7,75;58;0;10.06.2026;10.06.2026;;0;0
+31000820;8,69E+12;Pamukkale Anfora  CHARONNAY  0,75L;;Alkohol;19;4,71;7,75;239;0;10.06.2026;10.06.2026;;0;0
+31000821;8,69E+12;Pamukkale Anfora  BLEND  0,75L;;Alkohol;19;4,71;7,75;72;0;10.06.2026;10.06.2026;;0;0
+31000822;;DHL Paket Muster;;Lieferung/Fracht;19;5,9;0;1;0;10.06.2026;10.06.2026;;0;0
+31000823;8,00E+12;Olio Basso - Extra Virgin Olivenöl - 1L;;Öle;7;4,59;5,99;422;4,69;29.06.2026;01.08.2026;;0;0
+31000824;8,01E+12;Pasta  Reggia Elicoidali  Nr.23 - 500g;8,01E+12;Lebensmittel;7;0,47;0,59;999;0;10.06.2026;10.06.2026;;0;0
+31000825;8,01E+12;Pasta  Reggia Spaghetti  Nr.19 - 500g;8,01E+12;Lebensmittel;7;0,47;0,95;2.568,00;0;10.06.2026;10.06.2026;;0;0
+31000826;8,01E+12;Pasta  Reggia Penne Ziti Rigate  Nr.34 - 500g;;Lebensmittel;7;0,47;0,59;1.008,00;0;10.06.2026;10.06.2026;;0;0
+31000828;;Mango Kent;;Obst;7;8,15;0;72;0;11.06.2026;11.06.2026;;0;0
+31000829;;Fresh Hen Eggs Eier, KL. A, Weiß, Gr. M, 180er Box;;Molkerei;7;22,5;28,12;114;0;14.06.2026;14.06.2026;;0;0
+31000830;;Soja / Tauge;;Gemüse;7;8,8;0;25;0;12.06.2026;12.06.2026;;0;0
+31000831;;Fresh Hen Eggs Eier, KL. A, Weiß, Gr. L, 180er Pack;;Molkerei;7;24;30;23;0;14.06.2026;14.06.2026;;0;0
+31000832;;Packed/Verpackt Fresh Hen Eggs Eier, KL. A, Weiß, Gr. M,  300er Box;;Molkerei;7;42;52;28;0;14.06.2026;14.06.2026;;0;0
+31000833;8,72E+12;Oilio - Öl Plastik  10L;;Öle;7;13,19;16,45;202;14,99;14.06.2026;14.06.2026;;0;0
+31000834;;Premium Nigeria Holzkohle  10kg;;Grillkohle;19;10,5;13,13;65;10,99;29.06.2026;01.08.2026;;0;0
+31000835;;Premium Paraguay Holzkohle  10kg;;Grillkohle;19;10,5;13,13;0;10,99;29.06.2026;01.08.2026;;0;0
+31000836;8,00E+12;De Cecco Tortiglioni 500g;1,08E+24;Lebensmittel;7;1,44;1,81;432;0;15.06.2026;15.06.2026;;0;0
+31000837;8,00E+12;De Cecco Fedelini 500g;1,08E+24;Lebensmittel;7;1,44;1,81;816;0;15.06.2026;15.06.2026;;0;0
+31000838;8,00E+12;De Cecco Spaghettini 500g;1,08E+24;Lebensmittel;7;1,44;1,81;816;1,49;27.06.2026;01.08.2026;;0;0
+31000839;;De Cecco Mezzi Tufoli 500g;;Lebensmittel;7;1,45;1,81;0;1,49;27.06.2026;01.08.2026;;0;0
+31000840;8,00E+12;De Cecco Mezzi Rigatoni 500g;1,08E+24;Lebensmittel;7;1,44;1,81;216;1,49;27.06.2026;01.08.2026;;0;0
+31000841;8,00E+12;De Cecco Pennoni Rigati 500g;1,08E+24;Lebensmittel;7;1,44;1,81;191;1,49;27.06.2026;01.08.2026;;0;0
+31000842;8,00E+12;De Cecco Lasagna Estero 500g;010800125001879310L01226043;Lebensmittel;7;1,91;2,4;360;0;15.06.2026;15.06.2026;;0;0
+31000843;8,00E+12;De Cecco Lasagna Timballo Uovo 500g;1,08E+24;Lebensmittel;7;2,44;3,07;360;0;15.06.2026;15.06.2026;;0;0
+31000844;8,00E+12;De Cecco Cannelloni All´ Uovo 250g;1,08E+24;Lebensmittel;7;1,74;2,2;180;0;15.06.2026;15.06.2026;;0;0
+31000845;8,00E+12;De Cecco Tagliatelline Matas. Uovo 250g;1,08E+24;Lebensmittel;7;1,28;1,61;192;0;15.06.2026;15.06.2026;;0;0
+31000846;8,00E+12;De Cecco Tagliatelline Paglia/Fieno Mat. Uovo 250g;1,08E+24;Lebensmittel;7;1,28;1,61;192;0;15.06.2026;15.06.2026;;0;0
+31000847;8,00E+12;De Cecco Fettuccine Matass. Uovo 3kg;1,08E+24;Lebensmittel;7;1,28;1,61;189;0;15.06.2026;15.06.2026;;0;0
+31000848;8,00E+12;De Cecco Spinach Tagliatelle Egg 12x8.8 Oz;1,08E+24;Lebensmittel;7;1,28;1,61;192;0;15.06.2026;15.06.2026;;0;0
+31000849;8,00E+12;De Cecco Fettuccine Uovo/Spin 250g;1,08E+24;Lebensmittel;7;1,27;1,6;144;0;15.06.2026;15.06.2026;;0;0
+31000850;8,00E+12;De Cecco Gnocchi Di Patate Fresche 500g;1,08E+24;Lebensmittel;7;1,53;1,93;240;1,59;27.06.2026;01.08.2026;;0;0
+31000851;8,00E+12;De Cecco Gnocchi Di Patate Cee Expo 500g;1,08E+24;Lebensmittel;7;1,34;1,68;240;1,39;27.06.2026;01.08.2026;;0;0
+31000852;8,00E+12;De Cecco Chicche Di Patate 250gr Expo;1,08E+24;Lebensmittel;7;0,7;0,88;400;0;15.06.2026;15.06.2026;;0;0
+31000853;;Bohnen  4kg;;Gemüse;7;16;21;17;0;15.06.2026;15.06.2026;;0;0
+31000854;;Paprika Rot - 8kg;;Gemüse;7;14,5;17,4;0;0;15.06.2026;15.06.2026;;0;0
+31000855;4,26E+12;Uludag Gazoz  24x0,33L;4,26E+12;Getränke;19;13,75;15,49;133;0;16.06.2026;16.06.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+31000856;4,26E+12;Dolu Premium  24x0,5L;5,70E+12;Getränke;19;3,8;4,99;239;4,99;27.06.2026;11.07.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+31000857;4,26E+12;Dolu Classic Sprudel 24x0,5L;;Getränke;19;4,1;5,29;113;5,29;29.06.2026;11.07.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+31000858;;Red Bull 24x0,25L;9,00E+12;Getränke;19;19;21,49;188;0;16.06.2026;16.06.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+31000860;;Fleisch Tomaten;;Gemüse;7;6,5;7,8;8;0;16.06.2026;16.06.2026;;0;0
+31000861;8,08E+12;Barilla Tortiglioni  3x3kg;8,08E+12;Lebensmittel;7;7,63;8,99;6;0;16.06.2026;16.06.2026;;0;0
+31000862;8,08E+12;Barilla  Mezzi Rigatoni  3x3kg;8,08E+12;Lebensmittel;7;7,63;8,99;6;0;16.06.2026;16.06.2026;;0;0
+31000863;8,08E+12;Barilla  Fusilli  3x3kg;8,08E+12;Lebensmittel;7;7,63;8,99;8;0;16.06.2026;16.06.2026;;0;0
+31000864;8,08E+12;Barilla  Penne Rigate  3x3kg;8,08E+12;Lebensmittel;7;7,63;8,99;8;7,69;29.06.2026;01.08.2026;;0;0
+31000865;8,08E+12;Barilla  Spaghetti  4x3kg;8,08E+12;Lebensmittel;7;7,63;8,99;8;7,69;29.06.2026;01.08.2026;;0;0
+31000866;8,08E+12;Barilla Linguine  4x3kg;8,08E+12;Lebensmittel;7;7,63;8,99;8;0;16.06.2026;16.06.2026;;0;0
+31000867;8,08E+12;Barilla  Paccheri  6x1kg;8,08E+12;Lebensmittel;7;4,49;5,29;6;0;16.06.2026;16.06.2026;;0;0
+31000868;8,08E+12;Barilla  Spaghetti  12x1kg;8,08E+12;Lebensmittel;7;2,42;2,79;56;2,49;29.06.2026;01.08.2026;;0;0
+31000869;8,08E+12;Barilla  Penne Rigate 15x1kg;8,08E+12;Lebensmittel;7;2,42;2,79;20;2,49;29.06.2026;01.08.2026;;0;0
+31000870;8,08E+12;Barilla  Fusilli  12x1kg;8,08E+12;Lebensmittel;7;2,42;2,79;10;0;17.06.2026;17.06.2026;;0;0
+31000871;8,08E+12;Barilla  Tagliatelle  12x500g;8,08E+12;Lebensmittel;7;1,75;2,09;20;0;17.06.2026;17.06.2026;;0;0
+31000872;8,08E+12;Barilla  Green Tagliatelle  12x500g;8,08E+12;Lebensmittel;7;1,75;2,09;20;0;17.06.2026;17.06.2026;;0;0
+31000873;8,08E+12;Barilla  Lasagne 15x500g;8,08E+12;Lebensmittel;7;1,75;2,09;32;0;17.06.2026;17.06.2026;;0;0
+31000874;8,08E+12;Barilla  Fettuccine Semola 12x500g;8,08E+12;Lebensmittel;7;1,75;2,09;15;0;17.06.2026;17.06.2026;;0;0
+31000875;8,08E+12;Barilla  Cannelloni Semola  12x250g;8,08E+12;Lebensmittel;7;1,75;2,09;28;0;17.06.2026;17.06.2026;;0;0
+31000876;8,08E+12;Barilla  Mezze Penne Tric.  14x500g;8,08E+12;Lebensmittel;7;1,75;2,09;40;0;17.06.2026;17.06.2026;;0;0
+31000877;8,08E+12;Barilla  Basilico  6x400g;8,08E+12;Lebensmittel;7;2,44;2,79;50;0;17.06.2026;17.06.2026;;0;0
+31000878;8,08E+12;Barilla  Napoletana  6x400g;8,08E+12;Lebensmittel;7;2,44;2,79;50;0;17.06.2026;17.06.2026;;0;0
+31000879;8,08E+12;Barilla  Arrabbiata  6x400g;8,08E+12;Lebensmittel;7;2,44;2,79;50;0;17.06.2026;17.06.2026;;0;0
+31000880;8,08E+12;Barilla  Pomodoro  6x400g;8,08E+12;Lebensmittel;7;2,44;2,79;50;0;17.06.2026;17.06.2026;;0;0
+31000881;;Grillkohle;;Grillkohle;19;1,15;1,43;600;0;17.06.2026;17.06.2026;;0;0
+31000882;;Shishakohle Maximos premium Hookah Charcoal 27x27;;Grillkohle;19;2,25;2,81;700;0;17.06.2026;17.06.2026;;0;0
+31000883;6,28E+12;Maximos Sawdust Kohle (Delikli Briket) 10kg;6,28E+12;Grillkohle;19;1,15;1,43;540;0;17.06.2026;17.06.2026;;0;0
+31000884;7,89E+12;SEARA Brasilien Hühnerbrustfilet gesalzt 6x2kg TK - ASIA;2,00E+21;TK Tiefkühl;7;6,7;7,49;534;0;18.06.2026;18.06.2026;;0;0
+31000885;;"Gegrillte Ente 16x2 BON DIM"" China 10kg - ASIA""";;Asia;7;61;72,99;16;61,99;29.06.2026;01.08.2026;;0;0
+31000886;;"Gegrillte Ente 18x2 BON DIM"" China 10kg - ASIA""";;Asia;7;61;72,99;10;61,99;29.06.2026;01.08.2026;;0;0
+31000887;;Rinderoberschale ohne Deckel Argen TK - ASIA;;TK Tiefkühl;7;10,99;13,19;110,59;0;18.06.2026;18.06.2026;;0;0
+31000888;;Schweineoberschale ohne Deckel Pate TK - ASIA;;TK Tiefkühl;7;3,85;4,49;55,04;0;18.06.2026;18.06.2026;;0;0
+31000889;;ASIAN CUISINE Tsingtao Minifrühlingsrolle Tsingtao 60x15g - ASIA;8,71E+12;Asia;7;1,95;2,49;18;0;21.06.2026;21.06.2026;;0;0
+31000890;8,71E+12;ASIAN CUISINE Knoblauch gehackt 1kg  TK - ASIA;;TK Tiefkühl;7;1,75;1,99;100;0;21.06.2026;21.06.2026;;0;0
+31000891;;Lauchzwiebel  14 Bund;;Gemüse;7;0,5;0,62;2;0;21.06.2026;21.06.2026;;0;0
+31000892;;Radieschen Radicchio  2,5kg;;Gemüse;7;6,5;8,12;10;0;21.06.2026;21.06.2026;;0;0
+31000893;;Lollo Bionda grün 9er - Kivircik Salata;;Gemüse;7;5;6,25;10;0;21.06.2026;21.06.2026;;0;0
+31000894;;Mix Salat 9er;;Gemüse;7;5;6,25;14;0;21.06.2026;21.06.2026;;0;0
+31000895;7,35E+12;Hähnchen Streifen gegart u geröstet 2,5kg Beutel BLAU Halal TK - ASIA;;TK Tiefkühl;7;11,22;13,49;14;0;21.06.2026;21.06.2026;;0;0
+31000896;8,71E+12;Pangasiusfilet  170-230g , 1kg  TK - ASIA;;TK Tiefkühl;7;2,49;2,99;96;0;21.06.2026;21.06.2026;;0;0
+31000897;;Currytasche Trigon 10x96x12 , 5g TK- ASIA;;TK Tiefkühl;7;3,79;4,39;50;0;21.06.2026;21.06.2026;;0;0
+31000898;;Tori Gyoza mit Hähnchen&Gemüse 10x600g TK - ASIA;;TK Tiefkühl;7;3,5;4,09;50;0;21.06.2026;21.06.2026;;0;0
+31000899;5,06E+12;MAGIC LANTERN Gyoza mit Gemüse 600g CH  TK - ASIA;;TK Tiefkühl;7;3,5;4,09;50;0;21.06.2026;21.06.2026;;0;0
+31000900;5,41E+12;FLANDERS BEST Karotten Scheiben 4x2,5kg TK - ASIA;;TK Tiefkühl;7;2,48;2,89;20;0;21.06.2026;21.06.2026;;0;0
+31000901;5,41E+12;FLANDERS BEST Brokkoli Röschen 4x2,5kg  TK - ASIA;;TK Tiefkühl;7;4,13;4,79;78;0;21.06.2026;21.06.2026;;0;0
+31000902;;FLANDERS BEST Blumenkohl Röschen 35/60  4x2,5kg Oerlemans TK - ASIA;;TK Tiefkühl;7;3,73;4,49;20;0;21.06.2026;21.06.2026;;0;0
+31000903;5,41E+12;FLANDERS BEST Prinzessbohnen 4x2,5kg Karton , 6-8cm TK - ASIA;;TK Tiefkühl;7;3,49;3,99;5;0;21.06.2026;21.06.2026;;0;0
+31000904;5,41E+12;FLANDERS BEST Erbsen fein 4x2,5kg Karton TK - ASIA;;TK Tiefkühl;7;3,23;3,69;3;0;21.06.2026;21.06.2026;;0;0
+31000905;;Frühlingsrolleteig  215mm 40x20 , Singapore - ASIA;;TK Tiefkühl;7;2,1;2,39;5;0;21.06.2026;21.06.2026;;0;0
+31000906;;Frühlingsrolleteig  250mm 30x30 , Singapore - ASIA;;TK Tiefkühl;7;1,99;2,29;146;0;21.06.2026;21.06.2026;;0;0
+31000907;;Torpedo VNM Garn 26/30  10x800g TK - ASIA;;TK Tiefkühl;7;5,85;6,99;50;0;21.06.2026;21.06.2026;;0;0
+31000908;8,71E+12;"Quick Cookingnudeln 500g Long Teng"" 50109 - ASIA""";8,71E+12;Asia;7;0,92;1,09;25;0;21.06.2026;21.06.2026;;0;0
+31000909;8,85E+12;Long Teng Duftlangkorn Reis Kambodscha 18kg Sack - ASIA;;Asia;7;18,99;21,99;50;0;21.06.2026;21.06.2026;;0;0
+31000910;8,71E+12;Din Hau Duftlangkorn Jasmin Reis Kambodscha 18kg Sack - ASIA;;Asia;7;19,99;22,99;55;20,99;29.06.2026;01.08.2026;;0;0
+31000911;;USA Langkornreis AC 5 Sternen 18,2kg - ASIA;;Asia;7;18,5;21,79;55;0;21.06.2026;21.06.2026;;0;0
+31000912;8,71E+12;"Golden Rose"" Duftlangkorn Jasmin Reis Thai Hom Mali 18,2kg - ASIA""";;Asia;7;29,9;34,99;20;30;29.06.2026;01.08.2026;;0;0
+31000913;8,71E+12;Sushi Reis , Samurai Ichiban  9,08kg - ASIA;;Asia;7;15,95;18,79;20;0;21.06.2026;21.06.2026;;0;0
+31000914;8,72E+12;Sushi Reis 10kg VT Kabasuki - ASIA;;Asia;7;12,99;15,49;20;0;21.06.2026;21.06.2026;;0;0
+31000915;8,71E+12;AVEBE Kartoffelstärke 25kg - ASIA;;Asia;7;27;31,49;20;0;21.06.2026;21.06.2026;;0;0
+31000916;3,70E+12;AJIMONOTO Monosodium Glutamat 22,68kg France - ASIA;;Asia;19;56,5;61,99;10;0;21.06.2026;21.06.2026;;0;0
+31000917;8,71E+12;Schwarze Morcheln - getrocknete Pilze Black&White Fungus 1kg - ASIA;8,71E+12;Asia;7;1,83;2,19;6;0;21.06.2026;21.06.2026;;0;0
+31000918;8,85E+12;AROY-D Kokosmilch 1000ml TH - ASIA;8,85E+12;Asia;7;2,65;3,19;720;2,69;29.06.2026;01.08.2026;;0;0
+31000919;7889530004;"LEE KUM KEE Panda"" Austernsauce  2,27kg Dose - ASIA""";2,01E+13;Asia;7;1,08;1,29;60;0;21.06.2026;21.06.2026;;0;0
+31000920;7889570005;"LEE KUM KEE Panda"" Hoisin Sauce 2,27kg Dose - ASIA""";2,01E+13;Asia;7;1;1,19;60;0;21.06.2026;21.06.2026;;0;0
+31000921;8,71E+12;DIN HAU Bambusstreifen  2950g China - ASIA;8,71E+12;Asia;7;2,67;3,19;24;2,69;29.06.2026;11.07.2026;;0;0
+31000922;8,71E+12;DIN HAU Bambusscheiben 2950g China - ASIA;8,71E+12;Asia;7;2,67;3,19;24;2,69;27.06.2026;11.07.2026;;0;0
+31000923;6,93E+12;DIN HAU Bambusspitzen 2950g China - ASIA;;Asia;7;2,67;3,19;24;2,69;27.06.2026;11.07.2026;;0;0
+31000924;8,85E+12;THAI Tintenfischsauce 725ml - ASIA;1,89E+13;Asia;7;1,99;2,39;120;0;21.06.2026;21.06.2026;;0;0
+31000925;8,72E+12;OKAYA Teriyaki Sauce 1,80Lt - ASIA;8,72E+12;Asia;7;1,5;1,79;60;1,5;29.06.2026;11.07.2026;;0;0
+31000926;7889513094;LEE KUM KEE Dunkle Sojasauce 8Lt  - ASIA;6,01E+13;Asia;7;15,5;17,99;20;15,79;29.06.2026;01.08.2026;;0;0
+31000927;7889513330;LEE KUM KEE Helle Sojasauce 8Lt  - ASIA;6,01E+13;Asia;7;14,5;16,99;20;14,79;29.06.2026;01.08.2026;;0;0
+31000928;8490902304;COCK BRAND Sweet Chilli Sause for Chicken 650ml (800g) - ASIA;8,86E+12;Asia;7;2,25;2,81;120;0;21.06.2026;21.06.2026;;0;0
+31000929;8490900869;COCK BRAND Sweet Chili Sauce for Chicken 4,5Lt  TH - ASIA;;Asia;7;9,65;11,19;30;0;21.06.2026;21.06.2026;;0;0
+31000930;4,02E+12;Salatschale Deckel B2/G2 1794 100er Pack IP;4,02E+12;Verpackung/Reinigungsmittel/Hygiene;19;4,2;5,29;96;0;21.06.2026;21.06.2026;;0;0
+31000931;8490900232;COCK BRAND Rote Currypaste Cock 1kg TH - ASIA;;Asia;7;3,99;4,79;60;0;21.06.2026;21.06.2026;;0;0
+31000932;8490900263;COCK BRAND Grüne Currypaste 1kg  TH - ASIA;;Asia;7;4,29;5,19;24;0;21.06.2026;21.06.2026;;0;0
+31000933;8490900316;COCK BRAND Gelbe Currypaste 1kg  TH - ASIA;;Asia;7;4,29;5,19;24;0;21.06.2026;21.06.2026;;0;0
+31000934;8,85E+12;FARMER BRAND Bandnudel Reisnudel 5mm 400g TH - ASIA;3,89E+13;Asia;7;1,05;1,19;340;0;21.06.2026;21.06.2026;;0;0
+31000935;8,85E+12;FARMER BRAND Bandnudel Reisnudel 3mm 400g TH - ASIA;3,89E+13;Asia;7;1,05;1,19;340;0;21.06.2026;21.06.2026;;0;0
+31000936;8,71E+12;DIN HAU Sesamöl 1,85L - ASIA;8,72E+12;Asia;7;7,95;9,49;60;0;21.06.2026;21.06.2026;;0;0
+31000937;5,02E+12;GREEN DRAGON Mehl mit Backtriebmittel 1,5kg  - ASIA;5,02E+12;Asia;7;2,59;3,09;100;0;21.06.2026;21.06.2026;;0;0
+31000938;8,71E+12;OKEI Udon Nudeln Sanuki 200g - ASIA;1,87E+13;Asia;7;0,45;0,54;300;0;21.06.2026;21.06.2026;;0;0
+31000939;;LONG TENG Pankomehl  Bread Crumbs 10kg, 2,5mm - ASIA;;Asia;7;17,99;20,99;30;0;21.06.2026;21.06.2026;;0;0
+31000940;8,72E+12;EVERGREAT Reisnudeln Guangdong 400g - ASIA;8,72E+12;Asia;7;1,55;1,79;150;0;21.06.2026;21.06.2026;;0;0
+31000941;5,02E+12;GLACIA Speisesalz British Salt 25kg - ASIA;;Asia;7;7,95;9,29;16;0;21.06.2026;21.06.2026;;0;0
+31000942;5,41E+12;ISCAL Fein Kristall Zucker  25kg - ASIA;;Asia;7;16,5;19,29;20;0;21.06.2026;21.06.2026;;0;0
+31000943;;Tsingtao Bier 4,7%Vol - 24x330ml;6,90E+12;Asia;19;17,95;19,99;5;0;21.06.2026;21.06.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+31000944;;"LINA´S Servietten mit Motiv Guten Apetitt Asia""  40x40cm  3-lagig 50St - ASIA""";6,01E+12;Asia;19;26,5;28,99;10;0;21.06.2026;21.06.2026;;0;0
+31000945;;Glückskekse Gold , 275St  Din Hau - ASIA;;Asia;7;12,99;14,99;20;0;21.06.2026;21.06.2026;;0;0
+31000946;;Aquanur Wasser Sprudel  24x0,5ml;4,26E+12;Getränke;19;4,5;5,49;108;0;21.06.2026;21.06.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+31000947;;Aquanur Wasser Still  24x0,5ml;4,26E+12;Getränke;19;3,89;4,49;270;0;21.06.2026;21.06.2026;DPG Pfand EINWEG 0,25 - 24er - 6,00 Euro;113;0
+31000948;6,22E+12;Tiger Chips Chili & Lemon  90gr;;Lebensmittel;7;0,69;0,86;477;0;21.06.2026;21.06.2026;;0;0
+31000949;6,22E+12;Tiger Chips Kebab  90gr;;Lebensmittel;7;0,69;0,84;472;0;21.06.2026;21.06.2026;;0;0
+31000950;6,22E+12;Tiger Chips Tomaten  90gr;;Lebensmittel;7;0,69;0,84;38;0;21.06.2026;21.06.2026;;0;0
+31000951;6,22E+12;Tiger Chips Paprika  90gr;;Lebensmittel;7;0,69;0,84;2;0;21.06.2026;21.06.2026;;0;0
+31000952;6,22E+12;Tiger Chips Sweet Chili  90gr;;Lebensmittel;7;0,69;0,84;118;0;21.06.2026;21.06.2026;;0;0
+31000953;4,26E+12;Dipple Mais Chips Paprika 90g;;Lebensmittel;7;0,69;0,84;99;0;21.06.2026;21.06.2026;;0;0
+31000954;4,26E+12;Dipple Mais Chips StikzHot Chili-Limette 90g;;Lebensmittel;7;0,69;0,84;180;0;21.06.2026;21.06.2026;;0;0
+31000955;;Dipple Zwiebelringe  25x65g;;Lebensmittel;7;0,69;0,84;130;0;21.06.2026;21.06.2026;;0;0
+31000956;3,80E+12;Donki Cekirdek  leicht gesalzen 240g;;Lebensmittel;7;1,29;1,59;160;0;21.06.2026;21.06.2026;;0;0
+31000957;3,80E+12;Donki Cekirdek  reichlich gesalzen 240g;;Lebensmittel;7;1,29;1,59;2;0;21.06.2026;21.06.2026;;0;0
+31000958;3,80E+12;Donki Cekirdek  leicht gesalzen 140g;;Lebensmittel;7;0,79;0,99;175;0;21.06.2026;21.06.2026;;0;0
+31000959;3,80E+12;Donki Cekirdek  reichlich gesalzen 140g;;Lebensmittel;7;0,79;0,99;7;0;21.06.2026;21.06.2026;;0;0
+31000960;3,80E+12;Donki Cekirdek  Paprika 120g;;Lebensmittel;7;0,79;0,99;180;0;21.06.2026;21.06.2026;;0;0
+31000961;;GLOBAL  Servietten  1-lagig 33x33 Weiss 1xKarton;5,90E+12;Verpackung/Reinigungsmittel/Hygiene;19;7,99;9,98;57;8,49;29.06.2026;11.07.2026;;0;0
+31000962;;GLOBAL  Handtuch Zik Zak Weiss;;Verpackung/Reinigungsmittel/Hygiene;19;13,98;17,47;6;0;21.06.2026;21.06.2026;;0;0
+31000963;;GLOBAL  Katrin Putz Rolle 6er;;Verpackung/Reinigungsmittel/Hygiene;19;7,99;9,98;10;0;21.06.2026;21.06.2026;;0;0
+31000964;;WELPA Serviette 9 Pack / Karton;;Verpackung/Reinigungsmittel/Hygiene;19;8,39;10,48;24;0;23.06.2026;23.06.2026;;0;0
+31000965;4,04E+12;WELPA Serviette 40cm 2-lagig 1/4  weiss  2000Stk;;Verpackung/Reinigungsmittel/Hygiene;19;34,75;39,99;30;0;23.06.2026;23.06.2026;;0;0
+31000966;;WELPA Salad Schale Bowls mit Deckel KOMBIPACK 550ml mit Deckel 150+150Stk. AK5500;4,26E+12;Verpackung/Reinigungsmittel/Hygiene;19;17,9;22,37;9;0;23.06.2026;23.06.2026;;0;0
+31000967;;WELPA Salad Schale Bowls 750ml mit Deckel 6x25;;Verpackung/Reinigungsmittel/Hygiene;19;18,5;23,12;10;0;23.06.2026;23.06.2026;;0;0
+31000968;;WELPA Salad Schale Bowls 1000ml mit Deckel 6x25;;Verpackung/Reinigungsmittel/Hygiene;19;19,9;24,87;10;0;23.06.2026;23.06.2026;;0;0
+31000969;;WELPA Salad Schale Bowls 1300ml mit Deckel 6x25;;Verpackung/Reinigungsmittel/Hygiene;19;23,5;29,37;10;0;23.06.2026;23.06.2026;;0;0
+31000970;4,26E+12;WELPA Papier Tragetaschen 26er - 26x17x27cm  AK26;;Verpackung/Reinigungsmittel/Hygiene;19;16,5;20,62;40;0;23.06.2026;23.06.2026;;0;0
+31000971;4,26E+12;WELPA Papier Tragetaschen 32er - 32x16x27cm AK32;;Verpackung/Reinigungsmittel/Hygiene;19;17,99;22,48;40;0;23.06.2026;23.06.2026;;0;0
+31000972;8,72E+12;Diamond Menübox  3-geteilt laminiert - 100St - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;8,54;10,67;16;0;23.06.2026;23.06.2026;;0;0
+31000973;4,03E+12;Suppenbecher PP Thermo - 500cc - 25St - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;1,44;1,79;120;0;23.06.2026;23.06.2026;;0;0
+31000974;7,01E+12;Döner tüte - 1x2200 - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;8,37;10,46;48;0;23.06.2026;23.06.2026;;0;0
+31000975;4,03E+12;Deckel f. Suppenbecher aus PP - rund 11,5cm - 25St - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;1,07;1,33;120;0;23.06.2026;23.06.2026;;0;0
+31000976;4,03E+12;Ripboxx 750cc Schale+Deckel  50St - IPA 807;;Verpackung/Reinigungsmittel/Hygiene;19;4,28;5,34;32;0;24.06.2026;24.06.2026;;0;0
+31000977;4,03E+12;Ripboxx 1000cc Schale - 8 eckig - Schale+Deckel  50St - IPA 810;;Verpackung/Reinigungsmittel/Hygiene;19;4,48;5,6;27;0;24.06.2026;24.06.2026;;0;0
+31000978;4,03E+12;Ripboxx  500cc Schale - 8 eckig - Schale+Deckel  50St - IPA 805;;Verpackung/Reinigungsmittel/Hygiene;19;2,9;3,62;23;0;24.06.2026;24.06.2026;;0;0
+31000979;4,01E+12;Friessinger Weizenmehl 405 - 1kg - IPA;;Lebensmittel;7;0,54;0,67;557;0;24.06.2026;24.06.2026;;0;0
+31000980;6,80E+12;Leon´s Handschuhe Nitril - M - schwarz 100St - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;3,59;4,48;97;0;24.06.2026;24.06.2026;;0;0
+31000981;6,80E+12;Leon´s Handschuhe Nitril - S - schwarz 100St - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;3,59;4,48;99;0;24.06.2026;24.06.2026;;0;0
+31000982;7,01E+12;Handtuchpapier Grau - 25x22 - 20x - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;9,54;11,92;22;0;24.06.2026;24.06.2026;;0;0
+31000983;;Serviettenspender  Kapazität 200 Servietten Blau - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;13,59;16,99;4;0;24.06.2026;24.06.2026;;0;0
+31000984;;Spenderservietten 2-lagig  16,5x21  hochweiß - 40x225St - IPA Art. 601202;6,01E+12;Verpackung/Reinigungsmittel/Hygiene;19;27,11;33,88;5;0;24.06.2026;24.06.2026;;0;0
+31000985;2,00E+12;Salatschale m. Deckel - rechteckig - PP 250cc - 5x50 - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;8,45;9,99;68;0;24.06.2026;24.06.2026;;0;0
+31000986;2,00E+12;Salatschale m. Deckel - rechteckig - PP 500ml - 5x50 - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;12,05;15,06;92;0;24.06.2026;24.06.2026;;0;0
+31000987;1,00E+12;Salatschale m. Deckel - rechteckig - PP 125cc - 5x50 - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;8,27;9,79;41;0;24.06.2026;24.06.2026;;0;0
+31000988;;Trauben;;Obst;7;16,5;20,62;0;0;24.06.2026;24.06.2026;;0;0
+31000989;4,26E+12;Papiertragetaschen groß - 32x17x28cm - 250St - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;13,5;16,87;7;0;24.06.2026;24.06.2026;;0;0
+31000990;8,72E+12;Diamond Menübox ungeteilt laminiert  100St - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;8,54;10,67;8;0;24.06.2026;24.06.2026;;0;0
+31000991;7,10E+12;Julian`s  Kaffeebecher  300ml - 90mm  50St - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;1,75;2,18;60;0;24.06.2026;24.06.2026;;0;0
+31000992;7,10E+12;Julian`s  Deckel Kaffeebecher  90mm  50St - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;1,02;1,27;32;0;24.06.2026;24.06.2026;;0;0
+31000993;7,08E+12;Papiertragetaschen klein - 22x10x28cm - 250St - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;10,53;13,16;7;0;24.06.2026;24.06.2026;;0;0
+31000994;5,41E+12;LODA  prof. Bleichwasser  5L - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;1,35;1,99;69;0;24.06.2026;24.06.2026;;0;0
+31000995;4,25E+12;WECO - WC Tabs - 16x25g - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;1,23;1,54;13;0;24.06.2026;24.06.2026;;0;0
+31000996;4,25E+12;WECO - WC - Reiniger - 1Lt - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;0,97;1,21;19;0;24.06.2026;24.06.2026;;0;0
+31000997;4,25E+12;WECO - Reinigungstabs f. Kaffeeautomaten - 10x2g - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;1,2;1,49;10;0;24.06.2026;24.06.2026;;0;0
+31000998;4,25E+12;Largo - Geschirr Reiniger Classic - 60 Tabs - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;2,62;3,27;2;0;24.06.2026;24.06.2026;;0;0
+31000999;4,25E+12;LARGO - Spezialsalz - 2kg - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;1,07;1,34;6;0;24.06.2026;24.06.2026;;0;0
+31001000;4,25E+12;WECO - Glasreiniger - 10Lt - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;6,26;7,83;1;0;24.06.2026;24.06.2026;;0;0
+31001001;4,25E+12;WECO - Grillreiniger - 10Lt - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;10,88;13,6;4;0;24.06.2026;24.06.2026;;0;0
+31001002;4,03E+12;ProLab - Spülmittel K100 - 10Lt - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;7,1;8,87;1;0;24.06.2026;24.06.2026;;0;0
+31001003;4,03E+12;Allzweckreiniger - 10Lt - IPA;;Verpackung/Reinigungsmittel/Hygiene;19;10,79;13,48;3;0;24.06.2026;24.06.2026;;0;0
+31001004;4,26E+12;CANA - Oliven grün in scheiben - 4200g - IPA;;Lebensmittel;7;7,28;9,1;11;0;24.06.2026;24.06.2026;;0;0
+31001005;4,26E+12;Citadel - Ajvar Glas - 2600g;;Lebensmittel;7;6,74;7,79;6;0;24.06.2026;24.06.2026;;0;0
+31001006;4,00E+12;Dalmacija - Ajvar scharf Glas - 680g;;Lebensmittel;7;2,33;2,79;7;0;24.06.2026;24.06.2026;;0;0
+31001007;4,26E+12;Citadel - Ajvar Mild Glas - 680g;;Lebensmittel;7;2,42;2,49;9;0;24.06.2026;24.06.2026;;0;0
+31001008;4,26E+12;CANA - Spargelstangen Glas - geschält - 1700g;;Lebensmittel;7;6,92;7,79;4;0;24.06.2026;24.06.2026;;0;0
+31001009;40804569;Kühne - schlesiche Gurkenhappen süß sauer - 2450 g;;Lebensmittel;7;5,21;6,51;4;0;24.06.2026;24.06.2026;;0;0
+31001010;4,26E+12;Marco Polo - Pfefferoni scharf - 2250ml;;Lebensmittel;7;4,13;4,79;11;0;24.06.2026;24.06.2026;;0;0
+31001011;4,01E+12;Fischer - Gurkentopf mit Süßungsmittel - 1700g;;Lebensmittel;7;2,96;3,49;11;0;24.06.2026;24.06.2026;;0;0
+31001012;8,69E+12;ÖNCÜ - Tomatenmark - 830g Dose;;Lebensmittel;7;1,79;2,23;7;0;24.06.2026;24.06.2026;;0;0
+31001013;8,69E+12;ÖNCÜ - Scharfe Paprikamark - 1650g Pet;;Lebensmittel;7;8,09;10,11;22;0;24.06.2026;24.06.2026;;0;0
+31001014;8,69E+12;ÖNCÜ - Süße Paprikamark - 1650g Pet;;Lebensmittel;7;6,83;8,53;16;0;25.06.2026;25.06.2026;;0;0
+31001015;8,69E+12;Öncü - Süße Paprikamark - 700g Glas;;Lebensmittel;7;3,59;4,48;55;0;25.06.2026;25.06.2026;;0;0
+31001016;8,69E+12;Öncü - Scharfe Paprikamark - 700g Glas;;Lebensmittel;7;3,59;4,48;35;0;25.06.2026;25.06.2026;;0;0
+31001017;5,20E+12;Nikos - Peperoni - 12kg;;Lebensmittel;7;16,19;20,23;5;0;25.06.2026;25.06.2026;;0;0
+31001018;8,68E+12;Velda - Peperoni Natura - 12,5kg;;Lebensmittel;7;10,88;13,59;0;0;25.06.2026;25.06.2026;;0;0
+31001019;4,26E+12;Citadel - Tomatenmark - 4500g;;Lebensmittel;7;8;10;10;0;25.06.2026;25.06.2026;;0;0
+31001020;4,26E+12;Cana - Oliven grün mit Paprikapaste - 4200g;;Lebensmittel;7;10,88;13,6;7;0;25.06.2026;25.06.2026;;0;0
+31001021;4,26E+12;Cana - Oliven grün ohne Kern - 4200g;;Lebensmittel;7;7,37;9,2;16;0;25.06.2026;25.06.2026;;0;0
+31001022;8,69E+12;Velda - Oliven schwarz in Scheiben - 4300g;;Lebensmittel;7;6,83;8,53;18;0;25.06.2026;25.06.2026;;0;0
+31001023;4,26E+12;Fresco - Champignons 1. Wahl Scheiben - 2550g;;Lebensmittel;7;6,21;6,49;30;0;25.06.2026;25.06.2026;;0;0
+31001024;8,01E+12;Carandini - Balsamico - 500ml;;Lebensmittel;7;3,05;3,79;12;0;25.06.2026;25.06.2026;;0;0
+31001025;8,69E+12;Suntat - Grüne Linsen - 1kg;;Lebensmittel;7;2,69;3,36;6;0;25.06.2026;25.06.2026;;0;0
+31001026;8,69E+12;Suntat - Rote Linsen - 1kg;;Lebensmittel;7;2,06;2,57;25;0;25.06.2026;25.06.2026;;0;0
+31001027;8,68E+12;Kavak - weiße Bohnen - 5Kg;;Lebensmittel;7;9,08;11,35;2;0;25.06.2026;25.06.2026;;0;0
+31001028;8,69E+12;Duru - Hartweizengrütze (Bulgur) - 1kg;;Lebensmittel;7;1,97;2,46;15;0;25.06.2026;25.06.2026;;0;0
+31001029;8,68E+12;Kavak - Weizengrütze grob / Bulgur- 5Kg;;Lebensmittel;7;5,48;6,85;1;0;25.06.2026;25.06.2026;;0;0
+31001030;8,69E+12;Sera - Gegrillte Aubergine - 2800g;;Lebensmittel;7;5,93;7,41;10;0;25.06.2026;25.06.2026;;0;0
+31001031;4,26E+12;Marco Polo - Frucht Cocktail - 850g;;Lebensmittel;7;1,61;1,79;9;0;25.06.2026;25.06.2026;;0;0
+31001032;4,26E+12;Cana - Rote Kidneybohnen - 800g;;Lebensmittel;7;1,13;1,4;6;0;25.06.2026;25.06.2026;;0;0
+31001033;4,26E+12;Goldkauf - Kichererbsen - 800g;;Lebensmittel;7;0,98;1,22;10;0;25.06.2026;25.06.2026;;0;0
+31001034;4,26E+12;Cana - Gemüsemais - 380g;;Lebensmittel;7;0,65;0,81;13;0;25.06.2026;25.06.2026;;0;0
+31001035;4,10E+12;La Miranda - Thunfisch in Öl - 1705g;;Lebensmittel;7;6,02;6,99;2;0;25.06.2026;25.06.2026;;0;0
+31001036;4,26E+12;Cana - Thunfisch in Öl - 1705ml;;Lebensmittel;7;6,83;7,99;3;0;25.06.2026;25.06.2026;;0;0
+31001037;;Gelbe Zwiebeln - 25kg - NL;;Gemüse;7;8,08;0;0;0;25.06.2026;25.06.2026;;0;0
+31001038;4,26E+12;Cana / Marco Polo - Artischockenherzen - 2500g;;Lebensmittel;7;7,27;8,29;9;0;25.06.2026;25.06.2026;;0;0
+31001039;4,25E+12;Celeste - dunkelrote Kidneybohnen - 2650g;;Lebensmittel;7;3,06;3,82;1;0;25.06.2026;25.06.2026;;0;0
+31001040;3,08E+12;Bonduelle - Kidneybohnen - 2500g;;Lebensmittel;7;4,31;4,99;1;0;25.06.2026;25.06.2026;;0;0
+31001041;4,25E+12;Celeste - Pizza Sauce - 4250ml;;Lebensmittel;7;5,22;5,99;12;0;25.06.2026;25.06.2026;;0;0
+31001042;4,01E+12;La Perla - Jalapenos Ring Rot - 3000g;;Lebensmittel;7;3,59;4,48;2;0;25.06.2026;25.06.2026;;0;0
+31001043;8,68E+12;Yurttan - Weiße Riesenbohnen - 2500g;;Lebensmittel;7;2,87;3,19;4;0;25.06.2026;25.06.2026;;0;0
+31001044;4,26E+12;Marco Polo - Paprikastreifen rot/gelb/grün - 4100ml;;Lebensmittel;7;5,94;6,49;5;0;25.06.2026;25.06.2026;;0;0
+31001045;4,26E+12;Cana / Marco Polo - Paprikastreifen rot - 4250ml;;Lebensmittel;7;4,94;5,49;17;0;25.06.2026;25.06.2026;;0;0
+31001046;;Fresco - Champion - 800g;;Lebensmittel;19;0,9;0,99;5;0;25.06.2026;25.06.2026;;0;0
+31001047;4,26E+12;Fresco - Champignons 2. Wahl Scheiben - 2550g;;Lebensmittel;7;5,18;5,49;24;0;25.06.2026;25.06.2026;;0;0
+31001048;4,26E+12;Cana - Tomatenpulpe/polpa - 10Lt;;Lebensmittel;7;10,88;13,59;22;0;25.06.2026;25.06.2026;;0;0
+31001049;;Raps - Kurkuma - 550g;;Lebensmittel;7;6,17;7,29;4;0;25.06.2026;25.06.2026;;0;0
+31001050;4,00E+12;Safrisalz - Tafelsalz Fein - 500g;;Lebensmittel;7;0,27;0,39;23;0;25.06.2026;25.06.2026;;0;0
+31001051;7,61E+12;Maggi - Klare Hühnersuppe - 900g;;Lebensmittel;7;12,41;15,49;5;0;25.06.2026;25.06.2026;;0;0
+31001052;7,61E+12;Maggi - Fondor Universal Würzmittel - 900g;;Lebensmittel;7;7,64;9,59;2;0;25.06.2026;25.06.2026;;0;0
+31001053;7,61E+12;Maggi - Feine Bratensauce - 3kg;;Lebensmittel;7;17,81;22,29;2;0;25.06.2026;25.06.2026;;0;0
+31001054;7,61E+12;Maggi - Delikatess Sauce zu Braten- 3kg;;Lebensmittel;7;28,43;35,59;3;0;25.06.2026;25.06.2026;;0;0
+31001055;7,61E+12;Maggi - Jägersoße mit Champignons - 2,5kg;;Lebensmittel;7;46,88;58,59;2;0;25.06.2026;25.06.2026;;0;0
+31001056;;Lay - Zimt gemahlen - 1kg;;Lebensmittel;7;11,34;13,79;1;0;25.06.2026;25.06.2026;;0;0
+31001057;;Lay - Kümmel gemahlen - 1kg;;Lebensmittel;7;6,21;7,79;3;0;25.06.2026;25.06.2026;;0;0
+31001058;;Lay - Knoblauchpulver - 1kg;;Lebensmittel;7;6,75;8,49;3;0;25.06.2026;25.06.2026;;0;0
+31001059;;Lay - Zwiebel granuliert - 1kg;;Lebensmittel;7;7,91;9,59;4;0;25.06.2026;25.06.2026;;0;0
+31001060;;Lay - Thymian gerebelt - 0,5kg;;Lebensmittel;7;5,48;6,59;1;0;25.06.2026;25.06.2026;;0;0
+31001061;;Lay - Zwiebeln 1a geröstet - 1kg;;Lebensmittel;7;5,99;7,29;3;0;25.06.2026;25.06.2026;;0;0
+31001062;;Lay - Pfeffer bunt ganz - 1kg;;Lebensmittel;7;15,97;19,29;3;0;25.06.2026;25.06.2026;;0;0
+31001063;010402219702741331030010001528011710P25710903;Lay - Pfeffer schwarz ganz - 1kg;;Lebensmittel;7;11,34;13,79;1;0;25.06.2026;25.06.2026;;0;0
+31001064;010402219700951831030010001527050910P25717905;Lay - Pfeffer weiß gemahlen - 1kg;;Lebensmittel;7;15,03;18,29;4;0;25.06.2026;25.06.2026;;0;0
+31001065;010402219700161131030010001527031410P25714565;Lay - Chillipulver rot Cayennepfeffer - 1kg;;Lebensmittel;7;6,83;8,29;6;0;25.06.2026;25.06.2026;;0;0
+31001066;;Lay - Kreuzkümmel / Cumin - 1kg;;Lebensmittel;7;7,47;8,99;4;0;25.06.2026;25.06.2026;;0;0
+31001067;010402219700261831030010001528012310P26733284;Lay - Knoblauch granulat - 1kg;;Lebensmittel;7;7,03;8,49;4;0;25.06.2026;25.06.2026;;0;0
+31001068;8,45E+12;Maggi - Klare Fleischsuppe - 900g;;Lebensmittel;7;8,63;10,79;6;0;25.06.2026;25.06.2026;;0;0
+31001069;4,01E+12;Nordzucker - Feinzucker - 1kg;;Lebensmittel;7;0,77;0,99;27;0;25.06.2026;25.06.2026;;0;0
+31001070;4,01E+12;Südzucker - Feinzucker - 1kg;;Lebensmittel;7;0,74;0,99;24;0;25.06.2026;25.06.2026;;0;0
+31001071;4,00E+12;Ruf - Backpulver - 1kg;;Lebensmittel;7;5,03;5,69;4;0;25.06.2026;25.06.2026;;0;0
+31001072;4,00E+12;Ruf - Vanille Zucker - 1kg;;Lebensmittel;7;3,68;4,19;5;0;25.06.2026;25.06.2026;;0;0
+31001073;40055091;Maggi - Würze - 101ml;;Lebensmittel;7;1,43;1,69;11;0;25.06.2026;25.06.2026;;0;0
+31001074;4,05E+12;Frischli - Cafè-sahne 10% - 240x7,5g;;Lebensmittel;7;5,06;6,39;2;0;25.06.2026;25.06.2026;;0;0
+31001075;8,08E+12;Barilla - Nudeln - No 98 Fusilli - 5kg;8,08E+12;Lebensmittel;7;6,2;8,99;6;0;25.06.2026;25.06.2026;;0;0
+31001076;4,26E+12;Wulfert - Curry Gewürz-Ketchup - 875ml;;Lebensmittel;7;2,06;2,49;9;0;25.06.2026;25.06.2026;;0;0
+31001077;8,72E+12;BURCU  Nohut Kirik Kichererbsen Sack halbiert - 25kg;;Lebensmittel;7;17,48;29,9;58;0;28.06.2026;28.06.2026;;0;0
+31001078;4,00E+12;Hamker - Salatmayonnaise 50% - 875ml;;Lebensmittel;7;2,42;3,05;5;0;28.06.2026;28.06.2026;;0;0
+31001079;4,26E+12;Wulfert - Mayonnaise - 875ml;;Lebensmittel;7;2,6;3,09;9;0;28.06.2026;28.06.2026;;0;0
+31001080;4,26E+12;Wulfert - Ketchup - 875ml;;Lebensmittel;7;2,06;2,49;12;0;28.06.2026;28.06.2026;;0;0
+31001081;8,85E+12;Sriracha - Hot Chilli Sauce - 445ml;;Lebensmittel;7;3,56;4,45;14;0;28.06.2026;28.06.2026;;0;0
+31001082;5,71E+12;Pinata - Cheddar chees sauce - 3kg;;Saucen;7;14,81;18,5;10;0;28.06.2026;28.06.2026;;0;0
+31001083;4,01E+12;Gyma - Currywurstsauce Premium- 5kg;;Saucen;7;8,9;11,1;3;0;28.06.2026;28.06.2026;;0;0
+31001084;;Wulfert - Jägersauce - 5l;;Saucen;7;11,78;14,7;6;0;28.06.2026;28.06.2026;;0;0
+31001085;4,26E+12;Wulfert - Paprikasauce Balkanart - 10kg;;Saucen;7;15,83;19,79;3;0;28.06.2026;28.06.2026;;0;0
+31001086;8,85E+12;Exotic Food - Süße Chilisauce - 725ml;;Saucen;7;3,86;4,8;5;0;28.06.2026;28.06.2026;;0;0
+31001087;7,20E+12;Food Box - 26OZ braun unbedruckt - 50stk;;Verpackung/Reinigungsmittel/Hygiene;19;2,55;3,19;90;0;28.06.2026;28.06.2026;;0;0
+31001088;7,43E+12;Julian's Hamburgerbox groß - Kraftpapier unbedruckt - 105x105x115 - 50Stk;;Verpackung/Reinigungsmittel/Hygiene;19;3,51;4,19;36;0;28.06.2026;28.06.2026;;0;0
+31001089;7,20E+12;Foodbox- 26 OZ unbedruckt weiß - 1x50;;Verpackung/Reinigungsmittel/Hygiene;19;2,31;2,89;20;0;28.06.2026;28.06.2026;;0;0
+31001090;7,20E+12;Food Box Asia - 26OZ - bedruckt - 50stk;;Verpackung/Reinigungsmittel/Hygiene;19;2,5;3,19;14;0;28.06.2026;28.06.2026;;0;0
+31001091;7,01E+12;Döner Box - 26OZ bedruckt - 50stk;7,01E+12;Verpackung/Reinigungsmittel/Hygiene;19;2,23;2,79;0;0;28.06.2026;28.06.2026;;0;0
+31001092;7,29E+12;Pizzakarton - 30x30x4 - braun - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;11,08;13,85;38;0;28.06.2026;28.06.2026;;0;0
+31001093;7,29E+12;Pizzakarton - 24x24x4 - braun - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;8,41;10,5;16;0;28.06.2026;28.06.2026;;0;0
+31001094;7,29E+12;Pizzakarton - 26x26x4 - braun - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;8,42;10,52;9;0;28.06.2026;28.06.2026;;0;0
+31001095;7,29E+12;Pizzakarton - 28x28x4 - braun - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;9,27;11,59;9;0;28.06.2026;28.06.2026;;0;0
+31001096;7,29E+12;Pizzakarton - 28x28x4 - weiß - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;10,62;13,29;9;0;28.06.2026;28.06.2026;;0;0
+31001097;7,29E+12;Calzonekarton - 27x17x7 - weiß - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;12,51;15,63;8;0;28.06.2026;28.06.2026;;0;0
+31001098;7,29E+12;Calzonekarton - 27x17x7 - braun - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;10,78;13,49;2;0;28.06.2026;28.06.2026;;0;0
+31001099;;Rollobox - 28x8x7 - braun;;Verpackung/Reinigungsmittel/Hygiene;19;8,8;11;8;0;28.06.2026;28.06.2026;;0;0
+31001100;7,29E+12;Pizzakarton - 20x20x4 - braun - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;6,92;8,65;3;0;28.06.2026;28.06.2026;;0;0
+31001101;7,29E+12;Pizzakarton - 30x30x4 - weiß - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;12,66;15,85;10;0;28.06.2026;28.06.2026;;0;0
+31001102;4,04E+12;Einwickelpapier - 10kg - 1/2;;Verpackung/Reinigungsmittel/Hygiene;19;11,48;14,35;2;0;28.06.2026;28.06.2026;;0;0
+31001103;4,04E+12;Einwickelpapier - 10kg - 45x60cm;;Verpackung/Reinigungsmittel/Hygiene;19;11,48;14,35;1;0;28.06.2026;28.06.2026;;0;0
+31001104;4,04E+12;Einschlag / Pergamentpapier - 1/4 BG - 12,5KG;;Verpackung/Reinigungsmittel/Hygiene;19;29,79;37,25;2;0;28.06.2026;28.06.2026;;0;0
+31001105;4,04E+12;Einschlag / Pergamentpapier - 1/8 BG - 12,5KG;;Verpackung/Reinigungsmittel/Hygiene;19;29,79;37,25;2;0;28.06.2026;28.06.2026;;0;0
+31001106;4,04E+12;Einschlag / illudruck - 1/8 BG - 1x10KG;;Verpackung/Reinigungsmittel/Hygiene;19;20,69;25,85;2;0;28.06.2026;28.06.2026;;0;0
+31001107;7,29E+12;Pizzakarton - 32x32x4 - weiß - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;12,56;15,69;5;0;28.06.2026;28.06.2026;;0;0
+31001108;7,29E+12;Pizzakarton - 26x26x4 - weiß - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;10,68;13,35;8;0;28.06.2026;28.06.2026;;0;0
+31001109;;Korno Kapya Paprika - 4kg;;Gemüse;7;10;12,5;0;0;29.06.2026;29.06.2026;;0;0
+31001110;;Falafel 10kg;4,07E+12;TK Tiefkühl;7;3;4;371;34,99;29.06.2026;01.08.2026;;0;0
+31001111;4,01E+12;Friessinger - Weizenmehl 550 - 25kg;;Lebensmittel;7;12,24;15,3;17;0;29.06.2026;29.06.2026;;0;0
+31001112;4,26E+12;Marco Polo - Olivenöl extra vergine - 1L;;Lebensmittel;7;4,68;5,69;8;0;29.06.2026;29.06.2026;;0;0
+31001113;8,00E+12;Basso - Olivenöl extra vergina - 5l;;Lebensmittel;7;32,03;40,05;3;0;29.06.2026;29.06.2026;;0;0
+31001114;4,00E+12;Brökelmann - Rapsöl - 1Lt  PET;;Lebensmittel;7;1,4;1,69;9;0;29.06.2026;29.06.2026;;0;0
+31001115;4,00E+12;Brökelmann - Sonnenblumenöl - 1Lt  PET;;Lebensmittel;7;1,55;1,89;6;0;29.06.2026;29.06.2026;;0;0
+31001116;4,04E+12;Palmetta - Blockfett Spezial - 10kg;;Lebensmittel;7;17,18;21,5;15;0;29.06.2026;29.06.2026;;0;0
+31001117;4,01E+12;Mühlen König - Hartweizengriess - 10kg;;Lebensmittel;7;9,53;11,9;4;0;29.06.2026;29.06.2026;;0;0
+31001118;8,01E+12;Caputo - Mehl Rot - 25kg;;Lebensmittel;7;22,13;27,66;1;0;29.06.2026;29.06.2026;;0;0
+31001119;8,01E+12;Caputo - Mehl Blau - 25kg;;Lebensmittel;7;21,68;27,1;4;0;29.06.2026;29.06.2026;;0;0
+31001120;4,26E+12;Bio Hemdchentragetachen  - 550 - 10x100;;Verpackung/Reinigungsmittel/Hygiene;19;11,69;14,6;11;0;29.06.2026;29.06.2026;;0;0
+31001121;7,31E+12;Suppenbecher 500ml - Kraftpapier 16OZ - 50Stk;;Verpackung/Reinigungsmittel/Hygiene;19;2,32;2,79;10;0;29.06.2026;29.06.2026;;0;0
+31001122;7,31E+12;Suppenbecher 750ml - Kraftpapier 26OZ - 50Stk;;Verpackung/Reinigungsmittel/Hygiene;19;2,93;3,49;9;0;29.06.2026;29.06.2026;;0;0
+31001123;7,31E+12;Suppenbecher Deckel 750ml - Kraftpapier 26 OZ - 50xStk;;Verpackung/Reinigungsmittel/Hygiene;19;3,37;3,79;9;0;29.06.2026;29.06.2026;;0;0
+31001124;7,31E+12;Suppenbecher Deckel 500ml - Kraftpapier 16OZ - 50Stk;;Verpackung/Reinigungsmittel/Hygiene;19;2,66;3,09;10;0;29.06.2026;29.06.2026;;0;0
+31001125;12082025003;Dönertüte länglich - 24x11cm - 1000Stk;;Verpackung/Reinigungsmittel/Hygiene;19;10,9;13,62;1;0;29.06.2026;29.06.2026;;0;0
+31001126;7,01E+12;Papiertüten (Bäckerbeutel) bedruckt - 12x6X20cm - 1000Stk (Paper Bag) 416;;Verpackung/Reinigungsmittel/Hygiene;19;9,3;10,29;8;0;29.06.2026;29.06.2026;;0;0
+31001127;12082025004;Bäckerbeutel - 20x7x45cm - 1000 Stk;;Verpackung/Reinigungsmittel/Hygiene;19;18;22,5;4;0;29.06.2026;29.06.2026;;0;0
+31001128;7,01E+12;Flachbeutel transparent - 250x350 - 1000Stk;;Verpackung/Reinigungsmittel/Hygiene;19;12,14;15,19;6;0;29.06.2026;29.06.2026;;0;0
+31001129;4,03E+12;Hemdchentragetaschen 13mu - 18x55cm - 1x2000;;Verpackung/Reinigungsmittel/Hygiene;19;19,35;24,19;11;0;29.06.2026;29.06.2026;;0;0
+31001130;4,03E+12;Hemdchentragetaschen weiß - 12x47cm - 20x100Stk;;Verpackung/Reinigungsmittel/Hygiene;19;17,99;22,49;9;0;29.06.2026;29.06.2026;;0;0
+31001131;4,26E+12;Bio Hemdchentragetachen 450 - 10x100;;Verpackung/Reinigungsmittel/Hygiene;19;8,55;10,69;4;0;29.06.2026;29.06.2026;;0;0
+31001132;4,26E+12;Bio Hemdchentragetaschen 480 - 10x100;;Verpackung/Reinigungsmittel/Hygiene;19;9,45;11,8;6;0;29.06.2026;29.06.2026;;0;0
+31001133;7,26E+12;KU51 Pappteller - 9x14x3 - 250stk;7,26E+12;Verpackung/Reinigungsmittel/Hygiene;19;3,13;3,69;34;0;29.06.2026;29.06.2026;;0;0
+31001134;7,24E+12;Löffel Lux - PS  - transparent - 100Stk;;Verpackung/Reinigungsmittel/Hygiene;19;1,19;1,99;14;0;29.06.2026;29.06.2026;;0;0
+31001135;7,24E+12;Julian´s - Pommesgabel - Holz - 85mm - 1000stk;;Verpackung/Reinigungsmittel/Hygiene;19;2,39;3,09;27;0;29.06.2026;29.06.2026;;0;0
+31001136;7,24E+12;Julian´s - Messer - Holz - 16cm - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;1,22;1,99;40;0;29.06.2026;29.06.2026;;0;0
+31001137;4,26E+12;Löffel - PP - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;0,98;1,99;20;0;29.06.2026;29.06.2026;;0;0
+31001138;7,42E+12;Snackschale Kraftpapier - 200 ml - 13.2x10.8x3.5 cm - 250 Stk;;Verpackung/Reinigungsmittel/Hygiene;19;5,16;6,69;6;0;29.06.2026;29.06.2026;;0;0
+31001139;7,28E+12;Julian - R1L  Aluschale rechteckig 845 ml - 100Stk;;Verpackung/Reinigungsmittel/Hygiene;19;6,53;8,39;7;0;29.06.2026;29.06.2026;;0;0
+31001140;4,00E+12;Aluschale mit  AK  Deckel - 2700ml - 319x259 mm - 25Stk;;Verpackung/Reinigungsmittel/Hygiene;19;5,39;6,75;1;0;29.06.2026;29.06.2026;;0;0
+31001141;8,01E+12;Aluschale - R880G - 2 geteilt - 480 ml - 227x177x30mm - 100Stk;7,28E+12;Verpackung/Reinigungsmittel/Hygiene;19;7,64;9,79;6;0;29.06.2026;29.06.2026;;0;0
+31001142;4,26E+12;Aluschale - C801 / R804L - 1x100;;Verpackung/Reinigungsmittel/Hygiene;19;7,37;9,2;1;0;29.06.2026;29.06.2026;;0;0
+31001143;7,28E+12;Julian - R770 - Alu Karton Runddeckel - Ø18cm - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;2,69;3,49;0;0;29.06.2026;29.06.2026;;0;0
+31001144;7,28E+12;Julian - R770 - Aluschale rund 790ml - Ø18cm - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;6,8;8,79;0;0;29.06.2026;29.06.2026;;0;0
+31001145;7,28E+12;Julian - V2 - Tablett oval mittel - 5 Stk 728011;;Verpackung/Reinigungsmittel/Hygiene;19;1,97;2,29;38;0;29.06.2026;29.06.2026;;0;0
+31001146;7,28E+12;Julian - Alu Karton Deckel - R1L - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;2,69;3,49;18;0;29.06.2026;29.06.2026;;0;0
+31001147;8,01E+12;JULIAN  - CR82L R65L CA C+C - 1x100stk. 728006DP;7,28E+12;Verpackung/Reinigungsmittel/Hygiene;19;4,91;6,29;18;0;29.06.2026;29.06.2026;;0;0
+31001148;7,28E+12;Julian - Alu Karton Deckel - R28L - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;2,69;3,39;6;0;29.06.2026;29.06.2026;;0;0
+31001149;7,28E+12;Julian - Alu Karton Deckel - R45L - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;2,69;3,35;6;0;29.06.2026;29.06.2026;;0;0
+31001150;;Auberginen NL  10 Kg;;Gemüse;7;13;0;5;0;29.06.2026;29.06.2026;;0;0
+31001151;7,28E+12;Julian - Alu Karton Deckel - R13L - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;2,69;3,35;6;0;29.06.2026;29.06.2026;;0;0
+31001152;7,28E+12;Julian - R28L  Aluschale rechteckig 435 ml - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;3,83;4,89;6;0;29.06.2026;29.06.2026;;0;0
+31001153;7,28E+12;Julian - R13L  Aluschale rechteckig 685 ml - 100stk;;Verpackung/Reinigungsmittel/Hygiene;19;5,15;6,59;6;0;29.06.2026;29.06.2026;;0;0
+31001154;7,28E+12;Julian - R65L   Aluschale rechteckig 670 ml - 100 Stk 728006P;;Verpackung/Reinigungsmittel/Hygiene;19;5,91;7,59;18;0;29.06.2026;29.06.2026;;0;0
+31001155;7,26E+12;Julian - KU0B - Pappteller - 17,5x10x22,4 - 250 Stk;;Verpackung/Reinigungsmittel/Hygiene;19;3,17;3,99;17;0;29.06.2026;29.06.2026;;0;0
+31001156;7,26E+12;KU40 - Pappteller - 12x15x2 - 250 Stk;;Verpackung/Reinigungsmittel/Hygiene;19;4,21;4,99;2;0;29.06.2026;29.06.2026;;0;0
+31001157;7,26E+12;Pappteller - eckig - 11x17cm - weiß;;Verpackung/Reinigungsmittel/Hygiene;19;2,99;3,59;3;0;29.06.2026;29.06.2026;;0;0
+31001158;7,28E+12;Julian - R45L  Aluschale rechteckig 940 ml - 100 Stk;;Verpackung/Reinigungsmittel/Hygiene;19;5,86;7,49;1;0;29.06.2026;29.06.2026;;0;0
+31001159;9,01E+12;KÜCHENCHEF  Rapsöl  10Lt - %100 rein;;Öle;7;12,79;14,79;0;13,99;05.07.2026;01.08.2026;;0;0
+31001161;8,69E+12;BEBETO  Freeze Crunchy - Blue Raspberry Rings  35g;;Snacks & Süßwaren;7;0,65;0,79;40;0;06.07.2026;06.07.2026;;0;0
+31001162;8,69E+12;BEBETO  Marshmallow Twisted  250g;;Snacks & Süßwaren;7;1,1;1,39;24;0;06.07.2026;06.07.2026;;0;0
+31001163;8,69E+12;BEBETO  Marshmallow Pink & White  250g;;Snacks & Süßwaren;7;1,1;1,39;24;0;06.07.2026;06.07.2026;;0;0
+31001164;8,69E+12;BEBETO  Marshmallow Watermelon  250g;;Snacks & Süßwaren;7;1,1;1,39;24;0;06.07.2026;06.07.2026;;0;0
+31001165;8,69E+12;BEBETO  Marshmallow Mix  250g;;Snacks & Süßwaren;7;1,1;1,39;24;0;06.07.2026;06.07.2026;;0;0
+31001166;8,69E+12;BEBETO  Marshmallow Baklava  250g;;Snacks & Süßwaren;7;1,1;1,39;24;0;06.07.2026;06.07.2026;;0;0
+31001167;8,69E+12;BEBETO  S. Peach Rings  300g;;Snacks & Süßwaren;7;1,25;1,56;12;0;06.07.2026;06.07.2026;;0;0
+31001168;8,69E+12;BEBETO  S. Cola Bottles  300g;;Snacks & Süßwaren;7;1,25;1,56;12;0;06.07.2026;06.07.2026;;0;0
+31001169;8,69E+12;BEBETO  S. Watermelon  300g;;Snacks & Süßwaren;7;1,25;1,56;11;0;06.07.2026;06.07.2026;;0;0
+31001170;8,69E+12;BEBETO  Oily Mix  300g;;Snacks & Süßwaren;7;1,25;1,56;12;0;06.07.2026;06.07.2026;;0;0
+31001171;8,69E+12;BEBETO  O. Worms  300g;;Snacks & Süßwaren;7;1,25;1,56;12;0;06.07.2026;06.07.2026;;0;0
+31001172;8,69E+12;BEBETO  O. 12 Bears  300g;;Snacks & Süßwaren;7;1,25;1,56;12;0;06.07.2026;06.07.2026;;0;0
+31001173;8,69E+12;BEBETO Extra Long Bubble Gum-  Meter Gum Mix Stand  36g;8,69E+12;Snacks & Süßwaren;7;0,55;0,69;143;0;06.07.2026;06.07.2026;;0;0
+31001174;8,68E+12;FUNSIE  Gooz 3D Eyeball Gummy Candy  75g;;Snacks & Süßwaren;7;0,65;0,79;60;0;06.07.2026;06.07.2026;;0;0
+31001175;8,68E+12;FUNSIE  Gooz Strawberry Gummy Candy  75g;;Snacks & Süßwaren;7;0,65;0,79;60;0;06.07.2026;06.07.2026;;0;0
+31001176;8,68E+12;FUNSIE  Gooz Peach Gummy Candy  75g;;Snacks & Süßwaren;7;0,65;0,79;60;0;06.07.2026;06.07.2026;;0;0
+31001177;8,68E+12;FUNSIE  Gooz Watermelon Gummy Candy  75g;;Snacks & Süßwaren;7;0,65;0,79;60;0;06.07.2026;06.07.2026;;0;0
+31001178;8,68E+12;FUNSIE  Gooz  Football Gummy Candy - FB  75g;;Snacks & Süßwaren;7;0,65;0,79;60;0;06.07.2026;06.07.2026;;0;0
+31001179;8,68E+12;FUNSIE  Gooz  Football Gummy Candy - GS  75g;;Snacks & Süßwaren;7;0,65;0,79;60;0;06.07.2026;06.07.2026;;0;0
+31001180;8,68E+12;FUNSIE  Gooz  Football Gummy Candy - TS  75g;;Snacks & Süßwaren;7;0,65;0,79;60;0;06.07.2026;06.07.2026;;0;0
+31001181;8,68E+12;FUNSIE  Gooz  Football Gummy Candy - BJK  75g;;Snacks & Süßwaren;7;0,65;0,79;60;0;06.07.2026;06.07.2026;;0;0
+31001182;8,68E+12;FUNZI   Sour Lick  32g;;Snacks & Süßwaren;7;0,59;0,73;24;0;06.07.2026;06.07.2026;;0;0
+31001183;8,68E+12;FUNZI  Robop  40g;;Snacks & Süßwaren;7;0,59;0,73;24;0;06.07.2026;06.07.2026;;0;0
+31001184;;ÖzAydo Ayran 20x250 ml;;Molkerei;7;5,49;5,49;0;0;06.07.2026;06.07.2026;;0;0
+31001185;8,68E+12;FUNZI  Jumpop  23g;;Snacks & Süßwaren;7;0,59;0,73;24;0;07.07.2026;07.07.2026;;0;0
+31001186;8,68E+12;FUNZI  Spinner Pop  23g;;Snacks & Süßwaren;7;0,59;0,73;24;0;07.07.2026;07.07.2026;;0;0
+31001187;8,68E+12;DOREMI  Pervane Seker  25g;;Snacks & Süßwaren;7;0,89;1,11;24;0;07.07.2026;07.07.2026;;0;0
+31001188;8,68E+12;FENOMEN  Pop Candy Strawberry  27g;;Snacks & Süßwaren;7;0,59;0,73;24;0;07.07.2026;07.07.2026;;0;0
+31001189;8,68E+12;Harika Kanatlar Meyveli Seker  10g;;Snacks & Süßwaren;7;1,09;1,36;24;0;07.07.2026;07.07.2026;;0;0
+31001190;8,68E+12;FENOMEN  Süslü Lolipop  6g;;Snacks & Süßwaren;7;0,99;1,23;24;0;07.07.2026;07.07.2026;;0;0
+31001191;8,68E+12;FUNZI  Eyeball Gummy Candy  18g;;Snacks & Süßwaren;7;0,24;0,3;360;0;07.07.2026;07.07.2026;;0;0
+31001192;8,68E+12;FUNZI  Lolipop Candy With Light  10g;;Snacks & Süßwaren;7;0,09;0,11;60;0;07.07.2026;07.07.2026;;0;0
+31001193;8,68E+12;FUNZI  Capybara  12g;;Snacks & Süßwaren;7;0,79;0,98;24;0;07.07.2026;07.07.2026;;0;0
+31001194;8,68E+12;FUNZI  Poncik Toys  15g;;Snacks & Süßwaren;7;1,39;1,73;24;0;07.07.2026;07.07.2026;;0;0
+31001195;8,68E+12;FUNZI  Sweet Bear Gum Machine  30g;;Snacks & Süßwaren;7;0,99;1,23;24;0;07.07.2026;07.07.2026;;0;0
+31001196;8,68E+12;FUNZI  Graffie Gum Machine  30g;;Snacks & Süßwaren;7;0,99;1,23;24;0;07.07.2026;07.07.2026;;0;0
+31001197;8,69E+12;AKAS  Dips Lollipop Strawberry  12g;;Snacks & Süßwaren;7;0,1;0,12;278;0;07.07.2026;07.07.2026;;0;0
+31001198;8,69E+12;AKAS  Dips Lollipop Cola  12g;;Snacks & Süßwaren;7;0,1;0,12;288;0;07.07.2026;07.07.2026;;0;0
+31001199;8,68E+12;AKAS  Popping Boom Candy Strawberry  4g;;Snacks & Süßwaren;7;0,07;0,09;480;0;07.07.2026;07.07.2026;;0;0
+31001200;8,68E+12;AKAS  Popping Boom Candy Cola  4g;;Snacks & Süßwaren;7;0,07;0,09;480;0;07.07.2026;07.07.2026;;0;0
+31001201;86949323;AKAS  Flavoured Lollipop  16g;;Snacks & Süßwaren;7;0,09;0,11;720;0;07.07.2026;07.07.2026;;0;0
+31001202;8,68E+12;TURBO  Bubble Gum  4,5g;;Snacks & Süßwaren;7;0,04;0,05;2.000,00;0;07.07.2026;07.07.2026;;0;0
+31001203;8,68E+12;FUNZI  Boom Moji Eksi Sakiz  5g;;Snacks & Süßwaren;7;0,04;0,05;1.200,00;0;07.07.2026;07.07.2026;;0;0
+31001204;8,68E+12;Eye Ball Soft Candy  14g;;Snacks & Süßwaren;7;0,16;0,2;59;0;07.07.2026;07.07.2026;;0;0
+31001205;8,70E+12;FUNZI  Egg Toys Mix  15g;;Snacks & Süßwaren;7;0,25;0,31;143;0;07.07.2026;07.07.2026;;0;0
+31001206;8,68E+12;OZIBOX  Motosiklet  15g;;Snacks & Süßwaren;7;1,19;1,49;22;0;07.07.2026;07.07.2026;;0;0
+31001207;8,68E+12;OZIBOX  Horse Carriage  20g;;Snacks & Süßwaren;7;1,49;1,86;24;0;07.07.2026;07.07.2026;;0;0
+31001208;8,68E+12;OZIBOX  Jackpot Bubble Gum Machine  20g;;Snacks & Süßwaren;7;0,89;1,11;22;0;07.07.2026;07.07.2026;;0;0
+31001209;8,68E+12;OZIBOX  Planes  30g;;Snacks & Süßwaren;7;1,49;1,86;16;0;07.07.2026;07.07.2026;;0;0
+31001210;8,68E+12;OZIBOX  Telephone  30g;;Snacks & Süßwaren;7;1,49;1,86;24;0;07.07.2026;07.07.2026;;0;0
+31001211;8,68E+12;OZIBOX  Ozi Guard  2g;;Snacks & Süßwaren;7;0,95;1,19;36;0;07.07.2026;07.07.2026;;0;0
+31001212;;Pizza- Karton 33x33x4,2  Doppelkraft Pijama;;Verpackung/Reinigungsmittel/Hygiene;19;15,3;19,12;90;0;07.07.2026;07.07.2026;;0;0
+31001213;8,68E+12;OZIBOX  Jackpot Bubble Gum Machine  30g;;Snacks & Süßwaren;7;0,89;1,11;24;0;07.07.2026;07.07.2026;;0;0
+31001214;8,68E+12;FUNZI  Lolipop Marshmallow  45g;;Snacks & Süßwaren;7;0,59;0,73;64;0;07.07.2026;07.07.2026;;0;0
+31001215;8,69E+12;BIFA  Kare Cake mit Marsmallow  175g;;Snacks & Süßwaren;7;0,89;1,11;32;0;07.07.2026;07.07.2026;;0;0
+31001216;8,69E+12;BIFA  Kare Cake mit Karamel  175g;;Snacks & Süßwaren;7;0,89;1,11;32;0;07.07.2026;07.07.2026;;0;0
+31001217;8,69E+12;BIFA  Kare Cake mit Coconut  175g;;Snacks & Süßwaren;7;0,89;1,11;32;0;07.07.2026;07.07.2026;;0;0
+31001218;8,69E+12;BIFA  Mini Keks Shocoko  180g;;Snacks & Süßwaren;7;0,89;1,07;19;0;07.07.2026;07.07.2026;;0;0
+31001219;8,69E+12;BIFA  Mini Keks Tiramisu  180g;;Snacks & Süßwaren;7;0,89;1,07;20;0;07.07.2026;07.07.2026;;0;0
+31001220;8,69E+12;BIFA  Mini Keks Cherry  180g;;Snacks & Süßwaren;7;0,89;1,07;20;0;07.07.2026;07.07.2026;;0;0
+31001221;8,69E+12;BIFA  Mini Duo Keks  170g;;Snacks & Süßwaren;7;0,89;1,07;20;0;07.07.2026;07.07.2026;;0;0
+31001222;8,69E+12;BIFA  Mini Keks Banana  180g;;Snacks & Süßwaren;7;0,89;1,07;20;0;07.07.2026;07.07.2026;;0;0
+31001223;8,69E+12;BIFA  Keks mit Shocoko  45g;;Snacks & Süßwaren;7;0,22;0,27;144;0;07.07.2026;07.07.2026;;0;0
+31001224;8,69E+12;BIFA  Keks mit Pistachio  45g;;Snacks & Süßwaren;7;0,23;0,29;144;0;07.07.2026;07.07.2026;;0;0
+31001225;8,69E+12;BIFA  Roll Cake mit Cocoa  50g;;Snacks & Süßwaren;7;0,24;0,3;144;0;07.07.2026;07.07.2026;;0;0
+31001226;8,69E+12;BIFA  Roll Cake mit Strawberry  50g;;Snacks & Süßwaren;7;0,24;0,3;144;0;07.07.2026;07.07.2026;;0;0
+31001227;8,69E+12;BIFA  Roll Cake Black & White  50g;;Snacks & Süßwaren;7;0,24;0,3;144;0;07.07.2026;07.07.2026;;0;0
+31001228;8,69E+12;BIFA  Richy Koala Cake  55g;;Snacks & Süßwaren;7;0,24;0,3;144;0;07.07.2026;07.07.2026;;0;0
+31001229;8,69E+12;BIFA  Thinster Wafer Cocoa Cream  142g;;Snacks & Süßwaren;7;0,59;0,71;20;0;07.07.2026;07.07.2026;;0;0
+31001230;8,69E+12;BIFA  Thinster Wafer Hazelnut Cream  142g;;Snacks & Süßwaren;7;0,59;0,71;20;0;07.07.2026;07.07.2026;;0;0
+31001231;8,69E+12;BIFA  Thinster Wafer F.Fruits Cream  142g;;Snacks & Süßwaren;7;0,59;0,71;20;0;07.07.2026;07.07.2026;;0;0
+31001232;8,69E+12;BIFA  Thinster Wafer Strawberry Cream  142g;;Snacks & Süßwaren;7;0,59;0,71;20;0;07.07.2026;07.07.2026;;0;0
+31001233;8,69E+12;BIFA  Full Top Cake mit Coconut  216g;;Snacks & Süßwaren;7;0,59;0,71;60;0;07.07.2026;07.07.2026;;0;0
+31001234;8,69E+12;BIFA  Dadey Biscuits Cake  216g;;Snacks & Süßwaren;7;0,59;0,71;60;0;07.07.2026;07.07.2026;;0;0
+31001235;4,26E+12;AYFIT  Ayran  250ml;;Molkerei;7;5,2;6,2;68;0;07.07.2026;07.07.2026;;0;0
+31001236;8,69E+12;BIFA  Dolcero Cocoa Milk Souffle  50g;;Snacks & Süßwaren;7;0,25;0,31;144;0;07.07.2026;07.07.2026;;0;0
+31001237;8,69E+12;BIFA  Finger Biscuits  780g;;Snacks & Süßwaren;7;1,69;2,05;36;0;07.07.2026;07.07.2026;;0;0
+31001238;8,69E+12;BIFA  Petibeurre Biscuits  800g;;Snacks & Süßwaren;7;1,69;2,05;36;0;07.07.2026;07.07.2026;;0;0
+31001239;8,69E+12;BIFA  Vanilla Sandwich Biscuit  240g;;Snacks & Süßwaren;7;1,02;1,27;12;0;07.07.2026;07.07.2026;;0;0
+31001240;8,69E+12;BIFA  Banana Sandwich Biscuit  240g;;Snacks & Süßwaren;7;1,02;1,27;12;0;07.07.2026;07.07.2026;;0;0
+31001241;8,69E+12;BIFA  Strawberry Sandwich Biscuit  240g;;Snacks & Süßwaren;7;1,02;1,27;12;0;07.07.2026;07.07.2026;;0;0
+31001242;8,69E+12;BIFA  Cocoa Sandwich Biscuit  240g;;Snacks & Süßwaren;7;1,02;1,27;12;0;07.07.2026;07.07.2026;;0;0
+31001243;8,69E+12;BIFA  Cocoa Bakers Mosaic Biscuit  240g;;Snacks & Süßwaren;7;0,99;1,23;18;0;07.07.2026;07.07.2026;;0;0
+31001244;8,69E+12;BIFA  Tatkek Fruit Baton Cake  220g;;Snacks & Süßwaren;7;0,89;1,09;24;0;07.07.2026;07.07.2026;;0;0
+31001245;8,69E+12;BIFA  Tatkek Mozaik Baton Cake  220g;;Snacks & Süßwaren;7;0,89;1,09;24;0;07.07.2026;07.07.2026;;0;0
+31001246;8,69E+12;BIFA  Wafers With Banana  400g;;Snacks & Süßwaren;7;0,99;1,23;24;0;07.07.2026;07.07.2026;;0;0
+31001247;8,69E+12;BIFA  Sesame Biscuits  70g;;Snacks & Süßwaren;7;0,26;0,32;144;0;07.07.2026;07.07.2026;;0;0
+31001248;8,69E+12;BIFA  Vanilla Cream Biscuit  60g;;Snacks & Süßwaren;7;0,26;0,32;144;0;07.07.2026;07.07.2026;;0;0
+31001249;8,69E+12;BIFA  Cocoa Milk Cake Biscuit Drops  80g;;Snacks & Süßwaren;7;0,33;0,41;144;0;07.07.2026;07.07.2026;;0;0
+31001250;8,69E+12;BIFA  Mosaic Biscuit Cocoa Cream  80g;;Snacks & Süßwaren;7;0,33;0,41;144;0;07.07.2026;07.07.2026;;0;0
+31001251;8,69E+12;BIFA  2000 Sandwich Pistachio  230g;;Snacks & Süßwaren;7;0,75;0,93;72;0;07.07.2026;07.07.2026;;0;0
+31001252;8,68E+12;MR. HOOT  Rocks Lollii (Stand)  25g;;Snacks & Süßwaren;7;0,28;0,35;100;0;07.07.2026;07.07.2026;;0;0
+31001253;8,68E+12;MR. HOOT  Fingers Whirly Lollipop (Stand) 30g;;Snacks & Süßwaren;7;0,28;0,35;100;0;07.07.2026;07.07.2026;;0;0
+31001254;8,68E+12;MR. HOOT  Fusion Straw Lollipop Display  30g;;Snacks & Süßwaren;7;0,6;0,75;80;0;07.07.2026;07.07.2026;;0;0
+31001255;8,68E+12;MR. HOOT  Sweet Burger Toy Candy  20g;;Snacks & Süßwaren;7;0,61;0,76;18;0;07.07.2026;07.07.2026;;0;0
+31001256;8,68E+12;MR. HOOT  Whirly Lollipop Display Box  30g;8,68E+12;Snacks & Süßwaren;7;0,31;0,38;128;0;07.07.2026;07.07.2026;;0;0
+31001257;8,68E+12;MR. HOOT  Ice Cream Lolli  30g;;Snacks & Süßwaren;7;0,5;0,62;24;0;07.07.2026;07.07.2026;;0;0
+31001258;8,68E+12;MR. HOOT  Twist Burst Candy Gel  30g;;Snacks & Süßwaren;7;0,54;0,67;24;0;07.07.2026;07.07.2026;;0;0
+31001259;8,68E+12;Snoepie Schnuller Emzik Hard Candy  35g;;Snacks & Süßwaren;7;0,48;0,6;120;0;07.07.2026;07.07.2026;;0;0
+31001260;9008;BEBETO  Karton Baza  180g Jelly / 250g M.Mallow;;Snacks & Süßwaren;19;0,01;0,01;1;0;07.07.2026;07.07.2026;;0;0
+31001261;8,69E+12;BEBETO  Freeze Crunchy - Watermelon  35g;;Snacks & Süßwaren;7;0,65;0,79;40;0;07.07.2026;07.07.2026;;0;0
+31001262;8,69E+12;BEBETO  Freeze Crunchy - Peach Rings  35g;;Snacks & Süßwaren;7;0,65;0,79;40;0;07.07.2026;07.07.2026;;0;0
+31001263;;Paprika Kapya / Kapya Biberi - 6kg;;Gemüse;7;15;0;0;0;08.07.2026;08.07.2026;;0;0
+31001264;;Kilcik;;Gemüse;7;16,5;0;0;0;08.07.2026;08.07.2026;;0;0
+31001265;;Cin Biber;;Gemüse;7;18,75;0;0;0;08.07.2026;08.07.2026;;0;0
+31001266;;Wassermelone  Marok;;Obst;7;0;0;393;0;09.07.2026;09.07.2026;;0;0
+31001267;;Lauch / Porree;;Gemüse;7;10;0;5;0;09.07.2026;09.07.2026;;0;0
+31001268;;;;;19;0;0;0;0;;;;0;0
+31001269;;Brokkoli;;Gemüse;7;0;0;20;0;10.07.2026;10.07.2026;;0;0
+31001270;;Kirsche;;Obst;7;21;0;3;0;10.07.2026;10.07.2026;;0;0
+31001271;4,26E+12;FRESA/FRESHER - C Plus - 24x 0,2L;8,69E+12;Getränke;19;0;0;22;0;10.07.2026;10.07.2026;PFAND Glasflasche 24x0,03 Euro - 0,72 Euro;1670;0
+31001272;4,26E+12;FRESA/FRESHER - Waldfrucht - 24x0,2L;8,69E+12;Getränke;19;0;0;25;0;10.07.2026;10.07.2026;PFAND Glasflasche 24x0,03 Euro - 0,72 Euro;1670;0
+31001273;4,26E+12;FRESA/FRESHER - Mandarine - 24x0,2L;8,69E+12;Getränke;19;8,3;0;24;0;10.07.2026;10.07.2026;PFAND Glasflasche 24x0,03 Euro - 0,72 Euro;1670;0
+31001274;4,26E+12;FRESA/FRESHER - Wassermelone - 24x0,2L;8,69E+12;Getränke;19;0;0;25;0;10.07.2026;10.07.2026;PFAND Glasflasche 24x0,03 Euro - 0,72 Euro;1670;0
+31001275;4,26E+12;FRESA/FRESHER - Minze Zitrone - 24x0,2L;8,69E+12;Getränke;19;8,3;0;23;0;10.07.2026;10.07.2026;PFAND Glasflasche 24x0,03 Euro - 0,72 Euro;1670;0
+31001276;4,05E+12;QUICK-VIT DURSTLÖSCHER Orange - 0,5L;;Getränke;19;0;5,99;97;0;10.07.2026;10.07.2026;;0;0
+31001277;4,05E+12;QUICK-VIT DURSTLÖSCHER Apfel Orange Zitrone - 0,5L;;Getränke;19;0;5,99;111;0;10.07.2026;10.07.2026;;0;0
+31001278;4,05E+12;QUICK-VIT DURSTLÖSCHER Maracuja-Vanille - 0,5L;;Getränke;19;0;5,99;8;0;10.07.2026;10.07.2026;;0;0
+31001279;4,05E+12;QUICK-VIT DURSTLÖSCHER Sauerkirsch Zitrone - 0,5L;;Getränke;19;0;5,99;11;0;10.07.2026;10.07.2026;;0;0
+31001280;4,05E+12;QUICK-VIT DURSTLÖSCHER Wassermelone - 0,5L;;Getränke;19;0;5,99;-7;0;10.07.2026;10.07.2026;;0;0
+31001281;4,05E+12;QUICK-VIT DURSTLÖSCHER Multivitamin - 0,5L;;Getränke;19;0;5,99;-15;0;10.07.2026;10.07.2026;;0;0
+31001282;4,05E+12;QUICK-VIT DURSTLÖSCHER Eistee Pfirsisch - 0,5L;;Getränke;19;0;5,99;0;0;10.07.2026;10.07.2026;;0;0
+31001283;;YURT Ayran - 20x0,25L;;Molkerei;7;0;0;4;0;10.07.2026;10.07.2026;;0;0
+31001284;;;;;19;0;0;0;0;;;;0;0
+31001285;;WECO Sanitärreiniger 10L - Flüssiglösung UN 1805 Phosphorsäure;;Verpackung/Reinigungsmittel/Hygiene;19;4,89;0;0;0;10.07.2026;10.07.2026;;0;0
+31001286;4,25E+12;WECO Rohrreiniger flüssig 10L;;Verpackung/Reinigungsmittel/Hygiene;19;8,39;0;0;0;10.07.2026;10.07.2026;;0;0
+31001287;4,25E+12;WECO Entkalker Konzentrat - flüssig 1L - UN 1805 Phophorsäure;;Verpackung/Reinigungsmittel/Hygiene;19;0,69;0;0;0;10.07.2026;10.07.2026;;0;0
+31001288;4,25E+12;WECO Gläserreiniger NUR FÜR GEWERBE! - 1L;;Verpackung/Reinigungsmittel/Hygiene;19;0,69;0;0;0;10.07.2026;10.07.2026;;0;0
+31001289;;ANDU  Vannamei o/Kopf Ecuador  16/20  1kg 20%;;TK Tiefkühl;7;7,25;0;120;0;12.07.2026;12.07.2026;;0;0
+31001290;;ANDU Lachsfilet Salmon Salar  150g  5kg;;TK Tiefkühl;7;15,95;0;25;0;12.07.2026;12.07.2026;;0;0
+31001291;;ANDU Premium WildlachsFilet Port 150g  1kg 13/+;;TK Tiefkühl;7;8,95;0;50;0;12.07.2026;12.07.2026;;0;0

@@ -127,6 +127,8 @@ export function feeForDistanceKm(distanceKm: number, bands: FeeBandRow[]): numbe
   return null;
 }
 
+export type FreeDeliveryReason = "threshold" | "first_order" | null;
+
 export interface DeliveryQuote {
   segment: DeliverySegment;
   subtotalGross: number;
@@ -139,6 +141,29 @@ export interface DeliveryQuote {
   minOrderMet: boolean;
   withinRadius: boolean;
   freeDelivery: boolean;
+  freeReason: FreeDeliveryReason;
+}
+
+/** B2C girişli kullanıcı, iptal dışı siparişi yoksa ilk siparişte getirme ücretsiz */
+export async function isB2cFirstOrderEligible(
+  userId: string | null | undefined,
+  isB2b: boolean
+): Promise<boolean> {
+  if (!userId || isB2b) return false;
+  const admin = createAdminClient();
+  if (!admin) return false;
+
+  const { count, error } = await admin
+    .from("orders")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .neq("status", "cancelled");
+
+  if (error) {
+    console.error("isB2cFirstOrderEligible:", error.message);
+    return false;
+  }
+  return (count ?? 0) === 0;
 }
 
 export async function quoteDelivery(params: {
@@ -147,6 +172,8 @@ export async function quoteDelivery(params: {
   subtotalGross: number;
   zipCode?: string;
   address?: string;
+  /** Sunucuda doğrulanmış: B2C ilk sipariş hakkı */
+  firstOrderFree?: boolean;
 }): Promise<DeliveryQuote> {
   const segment = deliverySegment(params.isB2b, params.orderType);
   const settings = await loadDeliverySettings();
@@ -157,6 +184,7 @@ export async function quoteDelivery(params: {
   let deliveryFee = 0;
   let withinRadius = true;
   let freeDelivery = false;
+  let freeReason: FreeDeliveryReason = null;
 
   if (params.orderType === "delivery") {
     distanceKm = await distanceFromDepotKm(
@@ -170,10 +198,16 @@ export async function quoteDelivery(params: {
     } else if (cfg.max_distance_km != null && distanceKm > cfg.max_distance_km) {
       withinRadius = false;
     } else {
-      freeDelivery =
-        cfg.free_delivery_threshold != null && params.subtotalGross >= cfg.free_delivery_threshold;
+      const thresholdFree =
+        cfg.free_delivery_threshold != null &&
+        params.subtotalGross >= cfg.free_delivery_threshold;
+      const firstFree = Boolean(params.firstOrderFree) && !params.isB2b;
 
-      if (!freeDelivery && distanceKm != null) {
+      if (thresholdFree || firstFree) {
+        freeDelivery = true;
+        freeReason = thresholdFree ? "threshold" : "first_order";
+        deliveryFee = 0;
+      } else if (distanceKm != null) {
         const bands = await loadFeeBands(segment);
         const fee = feeForDistanceKm(distanceKm, bands);
         if (fee == null) withinRadius = false;
@@ -196,6 +230,7 @@ export async function quoteDelivery(params: {
     minOrderMet,
     withinRadius,
     freeDelivery,
+    freeReason,
   };
 }
 

@@ -9,7 +9,10 @@ import {
 } from "@/lib/order-validation";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { checkoutErrorMessage } from "@/lib/checkout-errors";
+import { isStripeConfigured } from "@/lib/stripe";
+import { isPayPalConfigured } from "@/lib/paypal";
 import type { CartItem } from "@/lib/types";
+import { cartLineTotalGross } from "@/lib/pfand";
 
 function errorMessage(code: string, locale: "de" | "tr"): string {
   return checkoutErrorMessage(code, locale);
@@ -24,6 +27,19 @@ export async function POST(request: Request) {
         code: "SUPABASE_NOT_CONFIGURED",
       },
       { status: 503 }
+    );
+  }
+
+  // Online ödeme zorunlu — teslimat/gel-al için peşin sipariş yok
+  if (isStripeConfigured() || isPayPalConfigured()) {
+    const bodyPeek = await request.clone().json().catch(() => ({}));
+    const localePeek: "de" | "tr" = bodyPeek?.locale === "tr" ? "tr" : "de";
+    return NextResponse.json(
+      {
+        error: errorMessage("ONLINE_PAYMENT_REQUIRED", localePeek),
+        code: "ONLINE_PAYMENT_REQUIRED",
+      },
+      { status: 400 }
     );
   }
 
@@ -106,7 +122,7 @@ export async function POST(request: Request) {
 
   let totalGross = 0;
   for (const item of priced.items) {
-    totalGross += item.priceGross * item.quantity;
+    totalGross += cartLineTotalGross(item);
   }
   totalGross = Math.round(totalGross * 100) / 100;
 
@@ -122,6 +138,7 @@ export async function POST(request: Request) {
       deliveryDate,
       totalGross,
       isB2b,
+      userId,
     });
     if (!deliveryCheck.ok) {
       return NextResponse.json(

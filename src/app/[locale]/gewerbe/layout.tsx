@@ -1,5 +1,15 @@
-import { ShopProviders } from "@/components/providers/ShopProviders";
+import type { Metadata } from "next";
+import { shopPageMetadata } from "@/lib/page-seo";
 
-export default function GewerbeLayout({ children }: { children: React.ReactNode }) {
-  return <ShopProviders>{children}</ShopProviders>;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return shopPageMetadata("/gewerbe", locale);
+}
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return children;
 }
