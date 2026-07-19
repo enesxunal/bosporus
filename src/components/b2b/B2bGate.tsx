@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "@/i18n/navigation";
 import { Link } from "@/i18n/navigation";
 import { Loader2, Lock, Clock } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
@@ -18,24 +17,34 @@ export function useB2bProfile() {
       setLoading(false);
       return;
     }
+    let cancelled = false;
     const supabase = createClient();
-    supabase.auth.getUser().then(async ({ data: { user } }) => {
-      if (!user) {
+    supabase.auth
+      .getUser()
+      .then(async ({ data: { user } }) => {
+        if (cancelled) return;
+        if (!user) {
+          setLoading(false);
+          return;
+        }
+        setUserId(user.id);
+        const { data } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+        if (cancelled) return;
+        if (data) setProfile(data as UserProfile);
         setLoading(false);
-        return;
-      }
-      setUserId(user.id);
-      const { data } = await supabase.from("profiles").select("*").eq("id", user.id).single();
-      if (data) setProfile(data as UserProfile);
-      setLoading(false);
-    });
+      })
+      .catch(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return { profile, loading, userId, isApproved: profile?.role === "b2b_approved", isPending: profile?.role === "b2b_pending" };
 }
 
 export function B2bGate({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
   const { profile, loading, userId, isApproved, isPending } = useB2bProfile();
 
   if (loading) {

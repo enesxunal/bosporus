@@ -51,14 +51,25 @@ function GewerbeContent() {
   };
 
   useEffect(() => {
+    let cancelled = false;
     setLoading(true);
     const params = new URLSearchParams({ limit: "80" });
     if (debouncedQuery) params.set("q", debouncedQuery);
     if (categorySlug) params.set("category", categorySlug);
     fetch(`/api/catalog/products?${params}`)
-      .then((r) => r.json())
-      .then((d) => setProducts(d.products ?? []))
-      .finally(() => setLoading(false));
+      .then((r) => (r.ok ? r.json() : { products: [] }))
+      .then((d) => {
+        if (!cancelled) setProducts(Array.isArray(d.products) ? d.products : []);
+      })
+      .catch(() => {
+        if (!cancelled) setProducts([]);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [debouncedQuery, categorySlug]);
 
   if (!profile) return null;
