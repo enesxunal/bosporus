@@ -14,6 +14,8 @@ export default function LocaleError({
   const isTr = locale === "tr";
 
   useEffect(() => {
+    // Geliştirme / destek: gerçek hatayı konsola yaz
+    console.error("[Bosporus page error]", error?.message, error?.digest);
     const msg = `${error?.name || ""} ${error?.message || ""}`.toLowerCase();
     const stale =
       msg.includes("loading chunk") ||
@@ -41,6 +43,9 @@ export default function LocaleError({
           ? "Yenileyince genellikle düzelir. Devam etmek için tekrar deneyin."
           : "Ein Neuladen hilft meist. Bitte versuchen Sie es erneut."}
       </p>
+      {process.env.NODE_ENV === "development" && error?.message ? (
+        <p className="text-xs text-bosporus-red mb-4 max-w-lg break-words font-mono">{error.message}</p>
+      ) : null}
       <div className="flex gap-3">
         <button
           type="button"

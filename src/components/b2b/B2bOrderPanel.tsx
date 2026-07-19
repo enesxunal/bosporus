@@ -36,7 +36,7 @@ export function B2bOrderPanel() {
                 </li>
               ))}
               {items.length > 5 && (
-                <li className="text-xs text-bosporus-muted">{t("moreItems", { count: items.length - 5 })}</li>
+                <li className="text-xs text-bosporus-muted">{tb("moreItems", { count: items.length - 5 })}</li>
               )}
             </ul>
           )}

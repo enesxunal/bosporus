@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { User, LogOut, LayoutDashboard, ChevronDown, Loader2 } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuthOptional } from "@/contexts/AuthContext";
 import { cn } from "@/lib/cn";
 
 type AuthNavVariant = "b2c" | "b2b";
@@ -12,7 +12,11 @@ type AuthNavVariant = "b2c" | "b2b";
 export function AuthNav({ variant = "b2c" }: { variant?: AuthNavVariant }) {
   const t = useTranslations("nav");
   const router = useRouter();
-  const { user, isAdmin, loading, signOut } = useAuth();
+  const auth = useAuthOptional();
+  const user = auth?.user ?? null;
+  const isAdmin = auth?.isAdmin ?? false;
+  const loading = auth?.loading ?? false;
+  const signOut = auth?.signOut;
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -28,7 +32,7 @@ export function AuthNav({ variant = "b2c" }: { variant?: AuthNavVariant }) {
 
   const handleLogout = async () => {
     setOpen(false);
-    await signOut();
+    if (signOut) await signOut();
     router.push("/");
     router.refresh();
   };

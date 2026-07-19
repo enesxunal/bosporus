@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import { getCategories } from "@/lib/products";
+import { getCategories } from "@/lib/categories";
 import type { Product } from "@/lib/types";
 import { ProductTable } from "@/components/b2b/ProductTable";
 import { ProductCard } from "@/components/b2c/ProductCard";
