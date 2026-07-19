@@ -11,6 +11,7 @@ function clearGate() {
   try {
     document.documentElement.classList.remove("cookie-gate-pending");
     document.getElementById("cookie-gate-block")?.remove();
+    document.body.style.overflow = "";
   } catch {
     /* ignore */
   }
@@ -18,20 +19,19 @@ function clearGate() {
 
 export function CookieConsent() {
   const t = useTranslations("cookies");
-  /** null = henüz kontrol edilmedi → SSR’da duvar gösterme (yanlış siyah ekran olmasın) */
-  const [visible, setVisible] = useState<boolean | null>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     try {
       if (localStorage.getItem(COOKIE_CONSENT_KEY) === "accepted") {
         clearGate();
-        setVisible(false);
         return;
       }
     } catch {
       /* private mode → duvarı göster */
     }
-    document.documentElement.classList.add("cookie-gate-pending");
+    // React hazır: eski CSS kilidini kaldır, sadece modal kalsın (otomatik reload YOK)
+    clearGate();
     document.body.style.overflow = "hidden";
     setVisible(true);
     return () => {
@@ -46,7 +46,6 @@ export function CookieConsent() {
       // ignore
     }
     clearGate();
-    document.body.style.overflow = "";
     setVisible(false);
     try {
       window.dispatchEvent(new Event("bosporus-cookie-accepted"));

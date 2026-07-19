@@ -98,23 +98,8 @@ export default async function LocaleLayout({
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
         <link rel="dns-prefetch" href="https://analytics.tiktok.com" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{if(localStorage.getItem('bosporus-cookie-consent')==='accepted')return;}catch(e){}document.documentElement.classList.add('cookie-gate-pending');setTimeout(function(){try{if(!document.documentElement.classList.contains('cookie-gate-pending'))return;var k='bosporus-gate-reload';var last=Number(sessionStorage.getItem(k)||'0');if(last&&Date.now()-last<30000)return;sessionStorage.setItem(k,String(Date.now()));location.reload();}catch(e){}},12000);})();`,
-          }}
-        />
       </head>
       <body className={`${sourceSans.variable} antialiased`}>
-        <div id="cookie-gate-block" aria-hidden="true">
-          <div className="cookie-gate-fallback">
-            <p className="cookie-gate-fallback-brand">Bosporus</p>
-            <p className="cookie-gate-fallback-msg">Laden… / Yükleniyor…</p>
-            {/* JS yüklenmezse kullanıcı siyah ekranda kalmasın */}
-            <a className="cookie-gate-fallback-btn" href=".">
-              Neu laden / Yenile
-            </a>
-          </div>
-        </div>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}

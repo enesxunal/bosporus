@@ -131,6 +131,7 @@ export function B2cHeader({
             <Link
               key={cat.slug}
               href={`/products/${cat.slug}`}
+              prefetch={false}
               className={cn(
                 "shrink-0 px-3 py-2.5 text-sm font-semibold rounded-xl whitespace-nowrap transition-colors",
                 isCategoryActive(cat.slug)
@@ -143,6 +144,7 @@ export function B2cHeader({
           ))}
           <Link
             href="/products"
+            prefetch={false}
             className={cn(
               "shrink-0 px-3 py-2.5 text-sm font-semibold whitespace-nowrap rounded-xl transition-colors",
               pathname === "/products" ? "text-bosporus bg-bosporus-light" : "text-bosporus-muted hover:text-bosporus"
