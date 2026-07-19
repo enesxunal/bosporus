@@ -7,7 +7,15 @@ import { ShopProviders } from "@/components/providers/ShopProviders";
 import { getShopNavData } from "@/lib/products-db";
 
 export default async function ShopLayout({ children }: { children: React.ReactNode }) {
-  const { categories, hasPromos } = await getShopNavData();
+  let categories: Awaited<ReturnType<typeof getShopNavData>>["categories"] = [];
+  let hasPromos = false;
+  try {
+    const nav = await getShopNavData();
+    categories = nav.categories;
+    hasPromos = nav.hasPromos;
+  } catch {
+    /* nav verisi gelmezse sayfa yine açılsın */
+  }
 
   return (
     <ShopProviders>

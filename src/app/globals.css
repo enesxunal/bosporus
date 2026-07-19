@@ -144,5 +144,37 @@ html.cookie-gate-pending body {
   pointer-events: all;
 }
 html.cookie-gate-pending #cookie-gate-block {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+.cookie-gate-fallback {
+  text-align: center;
+  color: #fff;
+  max-width: 20rem;
+}
+.cookie-gate-fallback-brand {
+  font-weight: 800;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #fff000;
+}
+.cookie-gate-fallback-msg {
+  font-size: 0.875rem;
+  opacity: 0.85;
+  margin-bottom: 1rem;
+}
+.cookie-gate-fallback-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0 1.25rem;
+  border-radius: 0.75rem;
+  background: #fff000;
+  color: #002d5b;
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-decoration: none;
 }

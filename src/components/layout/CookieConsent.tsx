@@ -18,7 +18,8 @@ function clearGate() {
 
 export function CookieConsent() {
   const t = useTranslations("cookies");
-  const [visible, setVisible] = useState(true);
+  /** null = henüz kontrol edilmedi → SSR’da duvar gösterme (yanlış siyah ekran olmasın) */
+  const [visible, setVisible] = useState<boolean | null>(null);
 
   useEffect(() => {
     try {
@@ -28,10 +29,11 @@ export function CookieConsent() {
         return;
       }
     } catch {
-      /* show gate */
+      /* private mode → duvarı göster */
     }
     document.documentElement.classList.add("cookie-gate-pending");
     document.body.style.overflow = "hidden";
+    setVisible(true);
     return () => {
       document.body.style.overflow = "";
     };
