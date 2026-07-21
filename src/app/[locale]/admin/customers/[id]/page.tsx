@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
-import { Loader2, ArrowLeft, Mail, Phone, Building2, MailCheck, MailWarning, Clock } from "lucide-react";
+import { Loader2, ArrowLeft, Mail, Phone, Building2, MailCheck, MailWarning, Clock, Send } from "lucide-react";
 import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import type { OrderStatus } from "@/lib/types";
 
@@ -44,6 +45,8 @@ export default function AdminCustomerDetailPage() {
   const [orders, setOrders] = useState<Record<string, unknown>[]>([]);
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
+  const [resending, setResending] = useState(false);
+  const [resendMsg, setResendMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
 
   useEffect(() => {
     fetch(`/api/admin/customers/${id}`)
@@ -55,6 +58,25 @@ export default function AdminCustomerDetailPage() {
       })
       .finally(() => setLoading(false));
   }, [id]);
+
+  const resendVerification = async () => {
+    if (resending) return;
+    setResending(true);
+    setResendMsg(null);
+    try {
+      const res = await fetch(`/api/admin/customers/${id}/resend-verification`, { method: "POST" });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setResendMsg({ type: "ok", text: "Onay maili tekrar gönderildi." });
+      } else {
+        setResendMsg({ type: "err", text: data.error ?? "Mail gönderilemedi." });
+      }
+    } catch {
+      setResendMsg({ type: "err", text: "Mail gönderilemedi." });
+    } finally {
+      setResending(false);
+    }
+  };
 
   if (loading) {
     return <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-bosporus" /></div>;
@@ -96,6 +118,23 @@ export default function AdminCustomerDetailPage() {
               ? `Son giriş: ${new Date(profile.last_sign_in_at).toLocaleString("tr-TR")}`
               : "Hiç giriş yapmadı"}
           </p>
+          {!profile.email_confirmed && (
+            <div className="pt-1">
+              <Button size="sm" variant="outline" onClick={resendVerification} disabled={resending}>
+                {resending ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Send className="w-4 h-4" />
+                )}
+                Onay mailini tekrar gönder
+              </Button>
+              {resendMsg && (
+                <p className={cn("text-xs mt-2", resendMsg.type === "ok" ? "text-green-600" : "text-red-600")}>
+                  {resendMsg.text}
+                </p>
+              )}
+            </div>
+          )}
           {profile.phone && <p className="flex items-center gap-2 text-sm"><Phone className="w-4 h-4 text-bosporus-muted" />{profile.phone}</p>}
           {profile.company_name && (
             <p className="flex items-center gap-2 text-sm"><Building2 className="w-4 h-4 text-bosporus-muted" />{profile.company_name}</p>
