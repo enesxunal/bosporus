@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
-import { Loader2, ArrowLeft, Mail, Phone, Building2, MailCheck, MailWarning, Clock, Send } from "lucide-react";
+import { Loader2, ArrowLeft, Mail, Phone, Building2, MailCheck, MailWarning, Clock, Send, Pencil, Check, X } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
@@ -47,6 +47,10 @@ export default function AdminCustomerDetailPage() {
   const [loading, setLoading] = useState(true);
   const [resending, setResending] = useState(false);
   const [resendMsg, setResendMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+  const [editingEmail, setEditingEmail] = useState(false);
+  const [emailValue, setEmailValue] = useState("");
+  const [savingEmail, setSavingEmail] = useState(false);
+  const [emailMsg, setEmailMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
 
   useEffect(() => {
     fetch(`/api/admin/customers/${id}`)
@@ -58,6 +62,37 @@ export default function AdminCustomerDetailPage() {
       })
       .finally(() => setLoading(false));
   }, [id]);
+
+  const startEditEmail = () => {
+    setEmailValue(profile?.email ?? "");
+    setEmailMsg(null);
+    setEditingEmail(true);
+  };
+
+  const saveEmail = async () => {
+    if (savingEmail) return;
+    setSavingEmail(true);
+    setEmailMsg(null);
+    try {
+      const res = await fetch(`/api/admin/customers/${id}/email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: emailValue.trim() }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setProfile((p) => (p ? { ...p, email: data.email ?? emailValue.trim(), email_confirmed: false } : p));
+        setEditingEmail(false);
+        setEmailMsg({ type: "ok", text: "E-posta güncellendi. Artık onay mailini gönderebilirsiniz." });
+      } else {
+        setEmailMsg({ type: "err", text: data.error ?? "E-posta güncellenemedi." });
+      }
+    } catch {
+      setEmailMsg({ type: "err", text: "E-posta güncellenemedi." });
+    } finally {
+      setSavingEmail(false);
+    }
+  };
 
   const resendVerification = async () => {
     if (resending) return;
@@ -99,19 +134,53 @@ export default function AdminCustomerDetailPage() {
 
       <div className="grid lg:grid-cols-2 gap-4 mb-6">
         <Card className="!rounded-2xl space-y-2">
-          <p className="flex items-center gap-2 text-sm">
-            <Mail className="w-4 h-4 text-bosporus-muted" />
-            {profile.email}
-            {profile.email_confirmed ? (
-              <span className="inline-flex items-center gap-1 rounded-full bg-green-50 text-green-700 text-[11px] font-semibold px-2 py-0.5">
-                <MailCheck className="w-3 h-3" /> Onaylı
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 text-amber-700 text-[11px] font-semibold px-2 py-0.5">
-                <MailWarning className="w-3 h-3" /> Onaysız
-              </span>
-            )}
-          </p>
+          {editingEmail ? (
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-bosporus-muted shrink-0" />
+                <input
+                  type="email"
+                  value={emailValue}
+                  onChange={(e) => setEmailValue(e.target.value)}
+                  className="field-input !h-9 flex-1 text-sm"
+                  placeholder="ornek@mail.com"
+                  autoFocus
+                />
+                <Button size="sm" onClick={saveEmail} disabled={savingEmail}>
+                  {savingEmail ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => setEditingEmail(false)} disabled={savingEmail}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <p className="flex items-center gap-2 text-sm">
+              <Mail className="w-4 h-4 text-bosporus-muted" />
+              <span className="break-all">{profile.email}</span>
+              {profile.email_confirmed ? (
+                <span className="inline-flex items-center gap-1 rounded-full bg-green-50 text-green-700 text-[11px] font-semibold px-2 py-0.5">
+                  <MailCheck className="w-3 h-3" /> Onaylı
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 text-amber-700 text-[11px] font-semibold px-2 py-0.5">
+                  <MailWarning className="w-3 h-3" /> Onaysız
+                </span>
+              )}
+              <button
+                onClick={startEditEmail}
+                className="ml-auto inline-flex items-center gap-1 text-xs text-bosporus-muted hover:text-bosporus shrink-0"
+                title="E-postayı düzenle"
+              >
+                <Pencil className="w-3.5 h-3.5" /> Düzelt
+              </button>
+            </p>
+          )}
+          {emailMsg && (
+            <p className={cn("text-xs", emailMsg.type === "ok" ? "text-green-600" : "text-red-600")}>
+              {emailMsg.text}
+            </p>
+          )}
           <p className="flex items-center gap-2 text-sm text-bosporus-muted">
             <Clock className="w-4 h-4" />
             {profile.last_sign_in_at
