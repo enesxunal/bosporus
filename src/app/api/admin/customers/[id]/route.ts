@@ -27,5 +27,23 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     admin.from("addresses").select("*").eq("user_id", id).order("is_default", { ascending: false }),
   ]);
 
-  return NextResponse.json({ profile, orders: orders ?? [], addresses: addresses ?? [] });
+  // auth.users: mail onayı + son giriş
+  let emailConfirmed = false;
+  let lastSignInAt: string | null = null;
+  try {
+    const { data: authUser } = await admin.auth.admin.getUserById(id);
+    const u = authUser?.user;
+    if (u) {
+      emailConfirmed = Boolean(u.email_confirmed_at ?? (u as { confirmed_at?: string }).confirmed_at);
+      lastSignInAt = u.last_sign_in_at ?? null;
+    }
+  } catch {
+    // auth bilgisi alınamazsa profil yine dönsün
+  }
+
+  return NextResponse.json({
+    profile: { ...profile, email_confirmed: emailConfirmed, last_sign_in_at: lastSignInAt },
+    orders: orders ?? [],
+    addresses: addresses ?? [],
+  });
 }

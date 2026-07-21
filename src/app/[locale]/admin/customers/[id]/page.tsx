@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
-import { Loader2, ArrowLeft, Mail, Phone, Building2 } from "lucide-react";
+import { Loader2, ArrowLeft, Mail, Phone, Building2, MailCheck, MailWarning, Clock } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/cn";
 import type { OrderStatus } from "@/lib/types";
@@ -24,6 +24,8 @@ interface Profile {
   last_name: string | null;
   phone: string | null;
   created_at: string;
+  email_confirmed: boolean;
+  last_sign_in_at: string | null;
 }
 
 interface Address {
@@ -75,7 +77,25 @@ export default function AdminCustomerDetailPage() {
 
       <div className="grid lg:grid-cols-2 gap-4 mb-6">
         <Card className="!rounded-2xl space-y-2">
-          <p className="flex items-center gap-2 text-sm"><Mail className="w-4 h-4 text-bosporus-muted" />{profile.email}</p>
+          <p className="flex items-center gap-2 text-sm">
+            <Mail className="w-4 h-4 text-bosporus-muted" />
+            {profile.email}
+            {profile.email_confirmed ? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-green-50 text-green-700 text-[11px] font-semibold px-2 py-0.5">
+                <MailCheck className="w-3 h-3" /> Onaylı
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 text-amber-700 text-[11px] font-semibold px-2 py-0.5">
+                <MailWarning className="w-3 h-3" /> Onaysız
+              </span>
+            )}
+          </p>
+          <p className="flex items-center gap-2 text-sm text-bosporus-muted">
+            <Clock className="w-4 h-4" />
+            {profile.last_sign_in_at
+              ? `Son giriş: ${new Date(profile.last_sign_in_at).toLocaleString("tr-TR")}`
+              : "Hiç giriş yapmadı"}
+          </p>
           {profile.phone && <p className="flex items-center gap-2 text-sm"><Phone className="w-4 h-4 text-bosporus-muted" />{profile.phone}</p>}
           {profile.company_name && (
             <p className="flex items-center gap-2 text-sm"><Building2 className="w-4 h-4 text-bosporus-muted" />{profile.company_name}</p>
