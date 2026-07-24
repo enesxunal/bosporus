@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Bosporus GmbH – Großhandel Köln | Lebensmittel online",
-    "description": "Lebensmittel-Großhandel in Köln: Getränke, Tiefkühl, Verpackung & mehr für Gastronomie. Nettopreise nach Freigabe."
+    "title": "Bosporus GmbH – Lebensmittel-Großhandel Köln | Gewerbe",
+    "description": "Lebensmittel-Großhandel in Köln für Gastronomie und Handel: Nettopreise nach Freigabe, Min. 500 €, erste Lieferung gratis."
   },
   "nav": {
     "home": "Startseite",
@@ -91,29 +91,29 @@
     "viewGridHint": "Kachelansicht – wie im Katalog"
   },
   "grosshandel": {
-    "heroTitle": "Großhandel mit ca. 20% Preisvorteil",
-    "heroDesc": "Als Gewerbekunde bestellen Sie zu Nettopreisen – spürbar günstiger als die Privatkundenpreise. Portal für Gastronomie, Imbiss und Handel in Köln.",
-    "heroNote": "Nur mit gültiger USt-IdNr. · Freischaltung nach Prüfung",
+    "heroTitle": "Großhandel für Gastronomie & Handel",
+    "heroDesc": "Registrieren Sie sich als Gewerbe – nach Freigabe sehen Sie Nettopreise und können bestellen. Für Gastronomie, Imbiss und Handel in Köln.",
+    "heroNote": "Nur mit gültiger USt-IdNr. · Freischaltung nach Prüfung · Min. 500 € · erste Lieferung gratis",
     "ctaRegister": "Jetzt Gewerbekonto anfragen",
     "ctaLogin": "Bereits Kunde? Anmelden",
     "benefitsTitle": "Alles für Ihren Betrieb",
-    "benefitsDesc": "Ein Konto – Netto-Preise, schnelle Nachbestellung, Lieferung oder Abholung.",
-    "f1Title": "Ca. 20% günstiger",
-    "f1Desc": "Nettopreise statt Privatkunden-Bruttopreise – der Unterschied liegt bei rund 20% auf der Liste.",
+    "benefitsDesc": "Ein Konto – Netto-Preise nach Freigabe, schnelle Nachbestellung, Lieferung oder Abholung.",
+    "f1Title": "Nettopreise nach Freigabe",
+    "f1Desc": "Preise sind nicht öffentlich – nach Prüfung Ihres Gewerbekonto sehen Sie Netto und bestellen online.",
     "f2Title": "Listen-Bestellung",
-    "f2Desc": "Metro-Style Tabelle: suchen, Menge tippen, schnell in den Warenkorb.",
+    "f2Desc": "Tabellenansicht: suchen, Menge tippen, schnell in den Warenkorb.",
     "f3Title": "Auch als Katalog",
-    "f3Desc": "Wechseln Sie jederzeit zur Kachelansicht – wie im normalen Shop, aber mit Netto-Preisen.",
+    "f3Desc": "Wechseln Sie jederzeit zur Kachelansicht – Liste oder Katalog, wie Sie möchten.",
     "f4Title": "Suche & Barcode",
     "f4Desc": "Artikelname oder Barcode – ideal für schnelle Nachbestellung in der Küche.",
     "f5Title": "Lieferung Köln",
-    "f5Desc": "Zuverlässige Lieferung in Köln und Umgebung oder Abholung in Ossendorf.",
+    "f5Desc": "Min. 500 € – erste Lieferung gratis. Zuverlässig in Köln und Umgebung oder Abholung Ossendorf.",
     "f6Title": "Rechnung & Gewerbe",
     "f6Desc": "Klarer Bestellprozess mit Firmendaten – für Ihren laufenden Betrieb.",
     "howTitle": "So starten Sie",
     "how1": "Gewerbekonto mit USt-IdNr. registrieren und E-Mail bestätigen.",
     "how2": "Wir prüfen Ihre Daten und schalten Nettopreise frei.",
-    "how3": "Im Gewerbe-Portal bestellen – Liste oder Katalog, wie Sie möchten."
+    "how3": "Unter Produkte bestellen – Liste oder Katalog, wie Sie möchten."
   },
   "cart": {
     "title": "Warenkorb",
@@ -174,8 +174,8 @@
     "paypalNotReady": "PayPal ist vorübergehend nicht verfügbar. Bitte mit Karte oder Klarna bezahlen.",
     "paymentNoteOnlineStripeOnly": "Bitte online bezahlen (Karte oder Klarna) — auch bei Abholung.",
     "deliveryRulesTitle": "Liefer- & Abholregeln",
-    "deliveryRulesB2c": "Erste Bestellung (Privatkonto): Lieferung kostenlos. Sonst: Min. 100 €, ab 250 € versandkostenfrei, max. 40 km (10/20/30/40 km → 20/30/40/50 €). Gel-Al: Min. 50 €.",
-    "deliveryRulesB2b": "Lieferung: Min. 1.000 €, ab 2.500 € versandkostenfrei, max. 50 km (10/20/30/40/50 km → 20/30/40/50/60 €). Gel-Al: Min. 500 €.",
+    "deliveryRulesB2c": "Privatverkauf vorübergehend pausiert. Bitte Gewerbekonto beantragen.",
+    "deliveryRulesB2b": "Lieferung: Min. 500 €, erste Bestellung Lieferung gratis, danach ab 2.500 € versandkostenfrei, max. 50 km (10/20/30/40/50 km → 20/30/40/50/60 €). Gel-Al: Min. 500 €.",
     "distanceKm": "Entfernung: ca. {km} km",
     "deliveryFeeLine": "Liefergebühr: {amount}",
     "deliveryFeeLabel": "Liefergebühr",
@@ -245,13 +245,13 @@
   "about": {
     "title": "Über uns",
     "subtitle": "Ihr Großhandel in Köln – seit über 40 Jahren.",
-    "intro": "BOSPORUS Handelsgesellschaft mbH ist Ihr zuverlässiger Großhandelspartner in Köln – mit über 40 Jahren Erfahrung in der Belieferung von Gastronomie und Privatkunden.",
-    "story": "Von frischen Lebensmitteln bis zu Getränken und Non-Food-Artikeln bieten wir ein breites Sortiment, persönlichen Service und flexible Liefer- sowie Abholmöglichkeiten.",
+    "intro": "BOSPORUS Handelsgesellschaft mbH ist Ihr zuverlässiger Großhandelspartner in Köln – mit über 40 Jahren Erfahrung in der Belieferung von Gastronomie und Gewerbe.",
+    "story": "Von frischen Lebensmitteln bis zu Getränken und Non-Food-Artikeln bieten wir ein breites Sortiment, persönlichen Service und flexible Liefer- sowie Abholmöglichkeiten für freigeschaltete Gewerbekunden.",
     "valuesTitle": "Was uns auszeichnet",
     "ctaContact": "Kontakt aufnehmen",
-    "ctaShop": "Zum Shop",
-    "b2c": "Privatkunden-Shop",
-    "b2b": "Gewerbe-Nettopreise",
+    "ctaShop": "Zum Sortiment",
+    "b2c": "Nettopreise nach Freigabe",
+    "b2b": "Für Gastronomie & Handel",
     "location": "Standort Köln"
   },
   "admin": {
@@ -404,13 +404,13 @@
   },
   "faq": {
     "q1": "Wie bestelle ich?",
-    "a1": "Produkte in den Warenkorb legen, zur Kasse gehen und Lieferung oder Abholung wählen. Zahlung erfolgt bei Lieferung oder Abholung.",
+    "a1": "Gewerbekonto registrieren und freischalten lassen. Danach Produkte in den Warenkorb, zur Kasse, Lieferung oder Abholung – Online-Zahlung.",
     "q2": "Liefern Sie nach Köln?",
-    "a2": "Ja, wir liefern in Köln und Umgebung (max. 40 km). Privatkunden: erste Bestellung Lieferung kostenlos, danach ab 250 € versandkostenfrei. Mindestbestellwert Lieferung: 100 €.",
+    "a2": "Ja, Köln und Umgebung (max. 50 km für Gewerbe). Mindestbestellwert Lieferung 500 €. Erste Bestellung: Lieferung gratis. Ab 2.500 € versandkostenfrei.",
     "q3": "Kann ich abholen?",
-    "a3": "Ja, Sie können Bestellungen zu festen Abholzeiten in unserem Geschäft abholen.",
-    "q4": "Gibt es Gewerbekonditionen?",
-    "a4": "Ja, registrierte Gewerbekunden erhalten Nettopreise im B2B-Portal nach Freigabe.",
+    "a3": "Ja, freigeschaltete Gewerbekunden können zu festen Abholzeiten abholen (Min. 500 €).",
+    "q4": "Wie sehe ich die Preise?",
+    "a4": "Preise sind nach Freigabe Ihres Gewerbekonto sichtbar. Registrieren Sie sich mit USt-IdNr. – wir prüfen und schalten frei.",
     "q5": "Wie verfolge ich meine Bestellung?",
     "a5": "Unter „Bestellung verfolgen“ mit Bestellnummer und E-Mail-Adresse."
   },
@@ -419,7 +419,7 @@
     "hours": "Mo.–Sa.: 00:00–18:00 Uhr",
     "imprint": "Impressum",
     "privacy": "Datenschutz",
-    "trustDelivery": "1. Bestellung: Lieferung gratis",
+    "trustDelivery": "1. Bestellung: Lieferung gratis (Gewerbe)",
     "trustQuality": "Geprüfte Qualität",
     "trustPayment": "Online-Zahlung",
     "trackOrder": "Bestellung verfolgen",

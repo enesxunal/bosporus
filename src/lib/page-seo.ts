@@ -3,50 +3,50 @@ import { absoluteUrl } from "@/lib/seo";
 
 /** Tüm public SEO Almanca — locale sadece noindex / hreflang için */
 export const SITE_SEO = {
-  title: "Bosporus GmbH – Großhandel Köln | Lebensmittel online",
+  title: "Bosporus GmbH – Lebensmittel-Großhandel Köln | Gewerbe",
   description:
-    "Lebensmittel-Großhandel in Köln: Getränke, Tiefkühl, Verpackung & mehr für Gastronomie und Privatkunden. Lieferung und Abholung.",
+    "Lebensmittel-Großhandel in Köln für Gastronomie und Handel: Nettopreise nach Freigabe, Min. 500 €, erste Lieferung gratis. Jetzt Gewerbekonto beantragen.",
 } as const;
 
 const PAGES: Record<string, { title: string; description: string }> = {
   "/": SITE_SEO,
   "/products": {
-    title: "Produkte & Sortiment",
+    title: "Produkte & Sortiment – Nettopreise nach Freigabe",
     description:
-      "Lebensmittel, Getränke, Tiefkühl, Verpackung und mehr – Großhandel Köln online bestellen bei Bosporus.",
+      "Lebensmittel, Getränke, Tiefkühl, Verpackung und mehr für Gastronomie. Preise nach Gewerbe-Freigabe – online bestellen bei Bosporus Köln.",
   },
   "/about": {
     title: "Über uns",
     description:
-      "Bosporus GmbH – Ihr Lebensmittel-Großhandel in Köln mit über 40 Jahren Erfahrung für Gastronomie und Privatkunden.",
+      "Bosporus GmbH – Lebensmittel-Großhandel in Köln mit über 40 Jahren Erfahrung für Gastronomie und Gewerbe.",
   },
   "/contact": {
     title: "Kontakt",
     description:
-      "Kontakt zu Bosporus GmbH in Köln – Telefon, E-Mail und Anfahrt. Wir beraten Gastronomie und Privatkunden.",
+      "Kontakt zu Bosporus GmbH in Köln – Telefon, E-Mail und Anfahrt. Beratung für Gastronomie und Gewerbekunden.",
   },
   "/gewerbe": {
-    title: "Gewerbe & Nettopreise",
+    title: "Gewerbe – Preise nach Freigabe",
     description:
-      "Gewerbekonto bei Bosporus Köln: Nettopreise für Gastronomie, Imbiss und Handel. Jetzt registrieren.",
+      "Gewerbekonto bei Bosporus Köln: nach Freigabe Nettopreise und Bestellung. Sortiment unter Produkte.",
   },
   "/grosshandel": {
-    title: "Großhandel Köln – ca. 20% günstiger für Gewerbe",
+    title: "Großhandel Köln – Gewerbe registrieren",
     description:
-      "Bosporus Gewerbeportal: Nettopreise, schnelle Bestellung, Lieferung Köln. Für Gastronomie und Handel registrieren.",
+      "Bosporus für Gastronomie und Handel: Nettopreise nach Freigabe, Min. 500 €, erste Lieferung gratis. Jetzt registrieren.",
   },
   "/gewerbe/register": {
     title: "Gewerbe registrieren",
     description:
-      "Als Gewerbekunde bei Bosporus registrieren und Nettopreise freischalten lassen.",
+      "Als Gewerbekunde bei Bosporus registrieren und nach Freigabe Nettopreise sowie Bestellung nutzen.",
   },
   "/cart": {
     title: "Warenkorb",
-    description: "Ihr Warenkorb bei Bosporus Großhandel Köln.",
+    description: "Warenkorb – Bosporus Großhandel Köln. Preise und Kasse nach Gewerbe-Freigabe.",
   },
   "/checkout": {
     title: "Kasse",
-    description: "Bestellung abschließen – Lieferung oder Abholung in Köln und Umgebung.",
+    description: "Bestellung abschließen – Lieferung oder Abholung für freigeschaltete Gewerbekunden in Köln.",
   },
   "/checkout/success": {
     title: "Bestellung bestätigt",
@@ -54,15 +54,16 @@ const PAGES: Record<string, { title: string; description: string }> = {
   },
   "/login": {
     title: "Anmelden",
-    description: "Bei Bosporus anmelden – Privat- und Gewerbekunden.",
+    description: "Gewerbekonto bei Bosporus anmelden – Preise und Bestellung nach Freigabe.",
   },
   "/register": {
-    title: "Registrieren",
-    description: "Kundenkonto bei Bosporus Köln erstellen und online bestellen.",
+    title: "Gewerbe registrieren",
+    description:
+      "Gewerbekonto bei Bosporus Köln erstellen (USt-IdNr.). Nach Freigabe: Nettopreise, Min. 500 €, erste Lieferung gratis.",
   },
   "/faq": {
     title: "Häufige Fragen",
-    description: "FAQ zu Bestellung, Lieferung, Abholung und Gewerbekonto bei Bosporus Köln.",
+    description: "FAQ zu Gewerbekonto, Nettopreisen, Lieferung und Abholung bei Bosporus Köln.",
   },
   "/impressum": {
     title: "Impressum",
@@ -86,11 +87,11 @@ const PAGES: Record<string, { title: string; description: string }> = {
   },
   "/account": {
     title: "Mein Konto",
-    description: "Ihr Kundenkonto bei Bosporus GmbH.",
+    description: "Ihr Gewerbekonto bei Bosporus GmbH.",
   },
   "/forgot-password": {
     title: "Passwort vergessen",
-    description: "Passwort zurücksetzen – Bosporus Kundenkonto.",
+    description: "Passwort zurücksetzen – Bosporus Gewerbekonto.",
   },
   "/reset-password": {
     title: "Neues Passwort",

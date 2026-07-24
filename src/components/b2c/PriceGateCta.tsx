@@ -36,7 +36,7 @@ export function PriceGateCta({
     return (
       <div className={cn("flex flex-wrap gap-2", className)}>
         <Link
-          href="/register?tab=gewerbe"
+          href="/register"
           className={cn(
             "inline-flex items-center justify-center font-bold rounded-xl bg-bosporus text-white hover:bg-bosporus-dark transition-colors",
             compact ? "h-9 px-3 text-xs" : "h-10 px-4 text-sm"

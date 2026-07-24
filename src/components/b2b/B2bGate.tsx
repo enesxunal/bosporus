@@ -68,7 +68,7 @@ export function B2bGate({ children }: { children: React.ReactNode }) {
             <Link href="/login">
               <Button fullWidth size="lg">Anmelden</Button>
             </Link>
-            <Link href="/register?tab=gewerbe">
+            <Link href="/register">
               <Button fullWidth size="lg" variant="outline">
                 Gewerbekonto beantragen
               </Button>
@@ -91,8 +91,8 @@ export function B2bGate({ children }: { children: React.ReactNode }) {
           <p className="text-bosporus-muted text-sm mb-6">
             Wir melden uns per E-Mail, sobald Ihr Konto freigeschaltet ist.
           </p>
-          <Link href="/">
-            <Button variant="outline" fullWidth>Zum Privat-Shop</Button>
+          <Link href="/products">
+            <Button variant="outline" fullWidth>Zum Sortiment</Button>
           </Link>
         </div>
       </div>
@@ -106,7 +106,7 @@ export function B2bGate({ children }: { children: React.ReactNode }) {
           <Lock className="w-12 h-12 text-bosporus-red mx-auto mb-4" />
           <h1 className="text-xl font-extrabold mb-2">Kein Zugang</h1>
           <p className="text-bosporus-muted text-sm mb-6">Ihr Konto hat keinen Gewerbe-Zugang.</p>
-          <Link href="/register?tab=gewerbe">
+          <Link href="/register">
             <Button fullWidth>Gewerbekonto beantragen</Button>
           </Link>
         </div>

@@ -32,7 +32,7 @@ export function WholesalePriceHint({
       {t.rich("wholesaleHint", {
         link: (chunks) => (
           <Link
-            href="/register?tab=gewerbe"
+            href="/register"
             className="font-semibold text-bosporus hover:underline underline-offset-2"
           >
             {chunks}

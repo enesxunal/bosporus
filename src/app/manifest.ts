@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: `${COMPANY.tradeName} – Großhandel Köln`,
     short_name: COMPANY.tradeName,
-    description: "Lebensmittel-Großhandel für Gastronomie und Privatkunden in Köln",
+    description: "Lebensmittel-Großhandel für Gastronomie und Gewerbe in Köln – Nettopreise nach Freigabe",
     start_url: "/",
     display: "standalone",
     background_color: "#002d5b",

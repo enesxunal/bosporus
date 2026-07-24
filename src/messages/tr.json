@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Bosporus GmbH – Großhandel Köln | Lebensmittel online",
-    "description": "Köln gıda toptanı: içecek, dondurulmuş, ambalaj ve daha fazlası gastronomi için. Onay sonrası net fiyat."
+    "title": "Bosporus GmbH – Lebensmittel-Großhandel Köln | Gewerbe",
+    "description": "Köln gıda toptanı gastronomi ve ticaret için: onay sonrası net fiyat, min. 500 €, ilk getirme ücretsiz."
   },
   "nav": {
     "home": "Ana Sayfa",
@@ -91,29 +91,29 @@
     "viewGridHint": "Kart görünümü – katalog gibi"
   },
   "grosshandel": {
-    "heroTitle": "Toptan alışverişte yaklaşık %20 avantaj",
-    "heroDesc": "Kurumsal müşteri olarak net fiyatlarla sipariş verin – bireysel satış fiyatlarından belirgin şekilde daha uygun. Köln'de gastronomi, büfe ve ticaret için portal.",
-    "heroNote": "Geçerli KDV no. gerekli · İnceleme sonrası açılır",
+    "heroTitle": "Gastronomi ve ticaret için toptan",
+    "heroDesc": "Toptancı olarak kayıt olun – onay sonrası net fiyatları görür ve sipariş verirsiniz. Köln'de gastronomi, büfe ve ticaret için.",
+    "heroNote": "Geçerli KDV no. gerekli · İnceleme sonrası açılır · Min. 500 € · ilk getirme ücretsiz",
     "ctaRegister": "Kurumsal hesap talep et",
     "ctaLogin": "Zaten müşteri misiniz? Giriş",
     "benefitsTitle": "İşletmeniz için her şey",
-    "benefitsDesc": "Tek hesap – net fiyatlar, hızlı tekrar sipariş, teslimat veya teslim alma.",
-    "f1Title": "Yaklaşık %20 daha uygun",
-    "f1Desc": "Bireysel brüt fiyatlar yerine net fiyatlar – listede fark yaklaşık %20 civarındadır.",
+    "benefitsDesc": "Tek hesap – onay sonrası net fiyat, hızlı tekrar sipariş, teslimat veya gel-al.",
+    "f1Title": "Onay sonrası net fiyat",
+    "f1Desc": "Fiyatlar herkese açık değil – kurumsal hesabınız onaylanınca net fiyatları görürsünüz.",
     "f2Title": "Liste ile sipariş",
-    "f2Desc": "Metro tarzı tablo: ara, miktar yaz, hızlıca sepete ekle.",
+    "f2Desc": "Tablo görünümü: ara, miktar yaz, hızlıca sepete ekle.",
     "f3Title": "İsterseniz katalog",
-    "f3Desc": "İstediğiniz zaman kart görünümüne geçin – normal mağaza gibi, ama net fiyatlarla.",
+    "f3Desc": "İstediğiniz zaman kart görünümüne geçin – liste veya katalog.",
     "f4Title": "Arama ve barkod",
     "f4Desc": "Ürün adı veya barkod – mutfakta hızlı tekrar sipariş için ideal.",
     "f5Title": "Köln teslimatı",
-    "f5Desc": "Köln ve çevresine güvenilir teslimat veya Ossendorf'tan teslim alma.",
+    "f5Desc": "Min. 500 € – ilk getirme ücretsiz. Köln çevresi veya Ossendorf gel-al.",
     "f6Title": "Fatura ve kurumsal",
-    "f6Desc": "Firma bilgileriyle net sipariş süreci – işletmenizin düzenli alımları için.",
+    "f6Desc": "Firma bilgileriyle net sipariş süreci – düzenli alımlar için.",
     "howTitle": "Nasıl başlanır?",
     "how1": "KDV numarasıyla kurumsal hesap açın ve e-postayı doğrulayın.",
     "how2": "Verilerinizi inceler, net fiyatları açarız.",
-    "how3": "Kurumsal portalda sipariş verin – liste veya katalog, size kalmış."
+    "how3": "Ürünler sayfasından sipariş verin – liste veya katalog."
   },
   "cart": {
     "title": "Sepet",
@@ -174,8 +174,8 @@
     "paypalNotReady": "PayPal şu an kullanılamıyor. Lütfen kart veya Klarna ile ödeyin.",
     "paymentNoteOnlineStripeOnly": "Lütfen online ödeyin (kart veya Klarna) — gel-al dahil zorunlu.",
     "deliveryRulesTitle": "Teslimat ve gel-al kuralları",
-    "deliveryRulesB2c": "İlk sipariş (özel hesap): getirme ücretsiz. Diğer: min. 100 €, 250 € üzeri ücretsiz, en fazla 40 km (10/20/30/40 km → 20/30/40/50 €). Gel-al: min. 50 €.",
-    "deliveryRulesB2b": "Teslimat: min. 1.000 €, 2.500 € üzeri ücretsiz, en fazla 50 km (10/20/30/40/50 km → 20/30/40/50/60 €). Gel-al: min. 500 €.",
+    "deliveryRulesB2c": "Bireysel satış geçici kapalı. Lütfen toptancı hesabı açın.",
+    "deliveryRulesB2b": "Teslimat: min. 500 €, ilk siparişte getirme ücretsiz, sonrasında 2.500 € üzeri ücretsiz, en fazla 50 km (10/20/30/40/50 km → 20/30/40/50/60 €). Gel-al: min. 500 €.",
     "distanceKm": "Mesafe: yaklaşık {km} km",
     "deliveryFeeLine": "Teslimat ücreti: {amount}",
     "deliveryFeeLabel": "Teslimat ücreti",
@@ -245,13 +245,13 @@
   "about": {
     "title": "Hakkımızda",
     "subtitle": "Köln'deki toptancınız – 40 yılı aşkın deneyim.",
-    "intro": "BOSPORUS Handelsgesellschaft mbH, Köln'de gastronomi ve bireysel müşterilere hizmet veren güvenilir toptan gıda partnerinizdir – 40 yılı aşkın deneyimle.",
-    "story": "Taze gıdadan içeceklere ve non-food ürünlere kadar geniş ürün yelpazesi, kişisel hizmet ve esnek teslimat veya gel-al seçenekleri sunuyoruz.",
+    "intro": "BOSPORUS Handelsgesellschaft mbH, Köln'de gastronomi ve toptancılara hizmet veren güvenilir gıda partnerinizdir – 40 yılı aşkın deneyimle.",
+    "story": "Taze gıdadan içeceklere ve non-food ürünlere kadar geniş yelpaze; onaylı toptancılara kişisel hizmet, teslimat ve gel-al.",
     "valuesTitle": "Bizi farklı kılan",
     "ctaContact": "İletişime geç",
-    "ctaShop": "Mağazaya git",
-    "b2c": "Bireysel mağaza",
-    "b2b": "Kurumsal net fiyat",
+    "ctaShop": "Ürünlere git",
+    "b2c": "Onay sonrası net fiyat",
+    "b2b": "Gastronomi & ticaret için",
     "location": "Köln merkez"
   },
   "admin": {
@@ -404,13 +404,13 @@
   },
   "faq": {
     "q1": "Nasıl sipariş veririm?",
-    "a1": "Ürünleri sepete ekleyin, ödemeye geçin ve teslimat veya gel-al seçin. Ödeme teslimatta veya gel-al sırasında yapılır.",
+    "a1": "Toptancı hesabı açın, onay alın. Sonra ürünleri sepete ekleyip teslimat veya gel-al seçin – online ödeme.",
     "q2": "Köln'e teslimat var mı?",
-    "a2": "Evet, Köln ve çevreye (en fazla 40 km) teslimat yapıyoruz. Özel müşteri: ilk siparişte getirme ücretsiz, sonrasında 250 € üzeri ücretsiz. Teslimat minimumu: 100 €.",
+    "a2": "Evet, Köln ve çevre (toptancı için en fazla 50 km). Min. sipariş 500 €. İlk siparişte getirme ücretsiz. 2.500 € üzeri ücretsiz teslimat.",
     "q3": "Gel-al yapabilir miyim?",
-    "a3": "Evet, belirlenen gel-al saatlerinde mağazadan teslim alabilirsiniz.",
-    "q4": "Kurumsal fiyat var mı?",
-    "a4": "Evet, onaylı kurumsal müşteriler B2B portalında net fiyat görür.",
+    "a3": "Evet, onaylı toptancılar belirlenen saatlerde gel-al yapabilir (min. 500 €).",
+    "q4": "Fiyatları nasıl görürüm?",
+    "a4": "Fiyatlar kurumsal hesabınız onaylandıktan sonra görünür. USt-IdNr. ile kayıt olun; inceleme sonrası açılır.",
     "q5": "Siparişimi nasıl takip ederim?",
     "a5": "Sipariş takibi sayfasından sipariş numarası ve e-posta ile."
   },
@@ -419,7 +419,7 @@
     "hours": "Pzt.–Cmt.: 00:00–18:00",
     "imprint": "Künye",
     "privacy": "Gizlilik",
-    "trustDelivery": "İlk siparişte getirme ücretsiz",
+    "trustDelivery": "İlk siparişte getirme ücretsiz (toptancı)",
     "trustQuality": "Kontrollü kalite",
     "trustPayment": "Online ödeme",
     "trackOrder": "Sipariş takibi",

@@ -27,7 +27,9 @@ export function productMetadata(product: Product, locale: string): Metadata {
   const name = product.name_de;
   const desc =
     product.description_de ||
-    `${name} – Großhandel Köln | Bosporus GmbH`;
+    (B2B_ONLY_MODE
+      ? `${name} – Großhandel Köln | Nettopreis nach Gewerbe-Freigabe | Bosporus GmbH`
+      : `${name} – Großhandel Köln | Bosporus GmbH`);
   const image = getProductImageUrl(product);
   const url = absoluteUrl(productPath("de", product.sku));
   const isTr = locale === "tr";
@@ -64,7 +66,9 @@ export function categoryMetadata(
   image: string
 ): Metadata {
   const name = category.name_de;
-  const desc = `${name} – ${category.product_count} Artikel | Großhandel Köln | Bosporus GmbH`;
+  const desc = B2B_ONLY_MODE
+    ? `${name} – ${category.product_count ?? ""} Artikel für Gastronomie | Nettopreise nach Freigabe | Bosporus Köln`.replace(/\s+/g, " ").trim()
+    : `${name} – ${category.product_count} Artikel | Großhandel Köln | Bosporus GmbH`;
   const url = absoluteUrl(categoryPath("de", category.slug));
   const isTr = locale === "tr";
 

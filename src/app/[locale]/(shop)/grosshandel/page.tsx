@@ -56,7 +56,7 @@ export default async function GrosshandelLandingPage({
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
-              href="/register?tab=gewerbe"
+              href="/register"
               className="inline-flex items-center justify-center gap-2 h-12 px-7 text-base font-bold rounded-xl bg-bosporus-yellow text-metro-navy hover:bg-yellow-300 active:scale-[0.98] transition-all"
             >
               {t("ctaRegister")}
@@ -112,7 +112,7 @@ export default async function GrosshandelLandingPage({
             ))}
           </ol>
           <Link
-            href="/register?tab=gewerbe"
+            href="/register"
             className="inline-flex items-center justify-center gap-2 h-12 px-8 text-base font-bold rounded-xl bg-bosporus text-white hover:bg-bosporus-dark transition-colors"
           >
             {t("ctaRegister")}

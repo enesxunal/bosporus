@@ -3,6 +3,9 @@ import { getProductsAsync } from "@/lib/products-db";
 import { isPromoActive } from "@/lib/pricing";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
+import { stripAllPrices, stripB2bPrice } from "@/lib/order-validation";
+import { B2B_ONLY_MODE } from "@/lib/shop-mode";
+import type { Product } from "@/lib/types";
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -103,5 +106,32 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.json({ products: picked.slice(0, limit) });
+  let isB2bApproved = false;
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role, vat_verified")
+        .eq("id", user.id)
+        .single();
+      isB2bApproved =
+        (profile?.role === "b2b_approved" && Boolean(profile.vat_verified)) ||
+        profile?.role === "admin";
+    }
+  } catch {
+    /* guest */
+  }
+
+  const list = picked.slice(0, limit) as Product[];
+  const products = isB2bApproved
+    ? list
+    : B2B_ONLY_MODE
+      ? list.map(stripAllPrices)
+      : list.map(stripB2bPrice);
+
+  return NextResponse.json({ products });
 }
