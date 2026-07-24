@@ -1,4 +1,5 @@
 import type { Product } from "./types";
+import { B2B_ONLY_MODE } from "./shop-mode";
 
 const DEFAULT_IMAGE = "/categories/lebensmittel.jpg";
 const DEFAULT_BANNER = "/banners/banner-lebensmittel.jpg";
@@ -83,7 +84,9 @@ export function getCategoryBannerUrl(slug: string): string {
 
 /** Gerçek stok durumu — admin / veritabanından */
 export function getAvailability(product: Product): "in_stock" | "limited" | "out_of_stock" {
-  if (!product.is_active || (product.price_b2b <= 0 && product.price_b2c <= 0)) {
+  if (!product.is_active) return "out_of_stock";
+  // B2B-only modda fiyatlar istemcide 0’lanır; stok için fiyata bakma
+  if (!B2B_ONLY_MODE && product.price_b2b <= 0 && product.price_b2c <= 0) {
     return "out_of_stock";
   }
   const status = product.stock_status?.toLowerCase() ?? "in_stock";
