@@ -12,7 +12,7 @@
     "cart": "Warenkorb",
     "login": "Anmelden",
     "register": "Registrieren",
-    "b2bPortal": "Gewerbe · Preise nach Freigabe",
+    "b2bPortal": "Produkte · Preise nach Freigabe",
     "account": "Mein Konto",
     "logout": "Abmelden"
   },
@@ -45,7 +45,7 @@
     "promoAction": "Alle Angebote →",
     "popularTitle": "Beliebte Produkte",
     "popularAction": "Alle Produkte →",
-    "b2bPortal": "Gewerbekonto anfragen"
+    "b2bPortal": "Gewerbekonto eröffnen"
   },
   "product": {
     "addToCart": "In den Warenkorb",
@@ -88,7 +88,7 @@
     "viewList": "Liste",
     "viewGrid": "Katalog",
     "viewListHint": "Tabellenansicht – schnell bestellen",
-    "viewGridHint": "Kachelansicht wie im Privat-Shop"
+    "viewGridHint": "Kachelansicht – wie im Katalog"
   },
   "grosshandel": {
     "heroTitle": "Großhandel mit ca. 20% Preisvorteil",

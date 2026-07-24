@@ -11,6 +11,7 @@ import { getProductImageUrl, getAvailability } from "@/lib/category-images";
 import { getProductName } from "@/lib/product-display";
 import { buildCartItemFromProduct } from "@/lib/pfand";
 import { trackAddToCart, trackViewItem } from "@/lib/analytics";
+import { Link } from "@/i18n/navigation";
 
 interface ProductTableProps {
   products: Product[];
@@ -109,6 +110,15 @@ export function ProductTable({ products, profile = null }: ProductTableProps) {
                     <span className="text-bosporus-muted text-xs">
                       {locale === "de" ? "Preis auf Anfrage" : "Fiyat sorunuz"}
                     </span>
+                  ) : dp.hidden ? (
+                    <div className="flex flex-col items-end gap-1">
+                      <Link href="/register" className="text-xs font-bold text-bosporus hover:underline">
+                        {locale === "de" ? "Registrieren" : "Kayıt ol"}
+                      </Link>
+                      <Link href="/login" className="text-xs font-semibold text-bosporus-muted hover:text-bosporus">
+                        {locale === "de" ? "Anmelden" : "Giriş yap"}
+                      </Link>
+                    </div>
                   ) : (
                     <>
                       <span className={`font-bold ${dp.isPromo ? "text-bosporus-red" : "text-bosporus-gray-800"}`}>

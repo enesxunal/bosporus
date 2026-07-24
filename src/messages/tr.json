@@ -12,7 +12,7 @@
     "cart": "Sepet",
     "login": "Giriş",
     "register": "Kayıt Ol",
-    "b2bPortal": "Kurumsal · Onay sonrası fiyat",
+    "b2bPortal": "Ürünler · Onay sonrası fiyat",
     "account": "Hesabım",
     "logout": "Çıkış"
   },
@@ -88,7 +88,7 @@
     "viewList": "Liste",
     "viewGrid": "Katalog",
     "viewListHint": "Tablo görünümü – hızlı sipariş",
-    "viewGridHint": "Kart görünümü – normal mağaza gibi"
+    "viewGridHint": "Kart görünümü – katalog gibi"
   },
   "grosshandel": {
     "heroTitle": "Toptan alışverişte yaklaşık %20 avantaj",

@@ -139,7 +139,7 @@ export default async function HomePage({
           <p className="text-white/90 mb-8 text-base sm:text-lg">{home("ctaDesc")}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              href="/gewerbe"
+              href="/register"
               className="inline-flex items-center justify-center h-12 px-6 text-base font-bold rounded-xl bg-bosporus-yellow text-bosporus-gray-800 hover:bg-bosporus-yellow-dark active:scale-[0.98] transition-all"
             >
               {home("b2bPortal")}

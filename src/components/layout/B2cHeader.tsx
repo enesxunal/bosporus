@@ -47,7 +47,7 @@ export function B2cHeader({
           </span>
           <div className="flex items-center gap-4 ml-auto">
             <Link
-              href="/gewerbe"
+              href="/products"
               className="flex items-center gap-1.5 hover:text-bosporus-yellow transition-colors font-semibold"
             >
               <Building2 className="w-3.5 h-3.5" />

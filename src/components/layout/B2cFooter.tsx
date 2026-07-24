@@ -14,7 +14,7 @@ export function B2cFooter() {
   const shopLinks = [
     { href: "/", label: nav("home") },
     { href: "/products", label: nav("products") },
-    { href: "/gewerbe", label: nav("b2bPortal") },
+    { href: "/products", label: nav("b2bPortal") },
     { href: "/order/track", label: t("trackOrder") },
   ];
 

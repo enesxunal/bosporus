@@ -46,11 +46,11 @@ export default function LoginPage() {
       router.refresh();
 
       if (profile?.role === "b2b_approved" || profile?.role === "b2b_pending") {
-        router.push("/gewerbe");
+        router.push("/products");
       } else if (profile?.role === "admin") {
         router.push("/admin");
       } else {
-        router.push("/");
+        router.push("/products");
       }
     } catch {
       setError("Verbindungsfehler");

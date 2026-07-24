@@ -7,7 +7,7 @@ import { useCart } from "@/stores/cart";
 import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/cn";
 
-const HIDDEN_ON = ["/checkout", "/gewerbe", "/admin"];
+const HIDDEN_ON = ["/checkout", "/admin"];
 
 export function MobileBottomNav() {
   const t = useTranslations("nav");
