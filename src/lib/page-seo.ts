@@ -5,15 +5,15 @@ import { absoluteUrl } from "@/lib/seo";
 export const SITE_SEO = {
   title: "Bosporus GmbH – Lebensmittel-Großhandel Köln | Gewerbe",
   description:
-    "Lebensmittel-Großhandel in Köln für Gastronomie und Handel: Nettopreise nach Freigabe, Min. 500 €, erste Lieferung gratis. Jetzt Gewerbekonto beantragen.",
+    "Lebensmittel-Großhandel in Köln für Gastronomie und Handel. Preise online – Bestellung nach Freigabe. Min. 500 €, erste Lieferung gratis.",
 } as const;
 
 const PAGES: Record<string, { title: string; description: string }> = {
   "/": SITE_SEO,
   "/products": {
-    title: "Produkte & Sortiment – Nettopreise nach Freigabe",
+    title: "Produkte & Sortiment – Großhandel Köln",
     description:
-      "Lebensmittel, Getränke, Tiefkühl, Verpackung und mehr für Gastronomie. Preise nach Gewerbe-Freigabe – online bestellen bei Bosporus Köln.",
+      "Lebensmittel, Getränke, Tiefkühl, Verpackung und mehr. Preise online sichtbar – Bestellung nach Gewerbe-Freigabe bei Bosporus Köln.",
   },
   "/about": {
     title: "Über uns",

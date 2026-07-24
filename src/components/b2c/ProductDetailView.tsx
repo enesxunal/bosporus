@@ -166,6 +166,14 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
                     })}
                   </p>
                 )}
+                {!isB2BApproved(profile) && (
+                  <p className="text-xs text-bosporus-muted mt-3 max-w-md leading-relaxed">
+                    {t("wholesaleHintDetail")}{" "}
+                    <Link href="/register" className="font-semibold text-bosporus hover:underline">
+                      {locale === "de" ? "Jetzt anfragen →" : "Başvur →"}
+                    </Link>
+                  </p>
+                )}
               </>
             )}
           </div>

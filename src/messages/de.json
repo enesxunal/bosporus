@@ -52,8 +52,8 @@
     "brutto": "inkl. MwSt.",
     "netto": "zzgl. MwSt.",
     "plusPfand": "+ Pfand {amount}",
-    "wholesaleHint": "Gewerbe? <link>Jetzt registrieren</link>",
-    "wholesaleHintDetail": "Preise und Bestellung nach Freigabe Ihres Gewerbekonto.",
+    "wholesaleHint": "Gewerbe? <link>Nettopreise nach Freigabe</link>",
+    "wholesaleHintDetail": "Nach Freigabe Ihres Gewerbekonto sehen Sie Nettopreise und können bestellen.",
     "promo": "Aktion",
     "perUnit": "pro {unit}",
     "search": "Produkte suchen…",
@@ -132,6 +132,7 @@
     "b2cPausedHint": "Privatverkauf pausiert. Bitte Gewerbekonto beantragen – Preise nach Freigabe.",
     "loginForFreeDelivery": "Erste Lieferung gratis mit Konto:",
     "loginForPrices": "Preise nach Registrierung & Freigabe:",
+    "loginForCheckout": "Zur Kasse nur mit freigeschaltetem Gewerbekonto:",
     "registerLink": "Registrieren",
     "loginLink": "Anmelden"
   },

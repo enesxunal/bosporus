@@ -5,9 +5,8 @@ import {
   fetchPromoProductsPage,
 } from "@/lib/products-db";
 import { isPromoActive } from "@/lib/pricing";
-import { stripAllPrices, stripB2bPrice } from "@/lib/order-validation";
+import { stripB2bPrice } from "@/lib/order-validation";
 import { createClient } from "@/lib/supabase/server";
-import { B2B_ONLY_MODE } from "@/lib/shop-mode";
 import type { Product } from "@/lib/types";
 
 export async function GET(request: Request) {
@@ -40,7 +39,7 @@ export async function GET(request: Request) {
 
   const sanitize = (list: Product[]) => {
     if (isB2bApproved) return list;
-    if (B2B_ONLY_MODE) return list.map(stripAllPrices);
+    // Misafire toptan net gizle; brüt (gösterilen) fiyat kalsın — Merchant ile uyumlu
     return list.map(stripB2bPrice);
   };
 

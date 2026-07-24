@@ -3,8 +3,7 @@ import { getProductsAsync } from "@/lib/products-db";
 import { isPromoActive } from "@/lib/pricing";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
-import { stripAllPrices, stripB2bPrice } from "@/lib/order-validation";
-import { B2B_ONLY_MODE } from "@/lib/shop-mode";
+import { stripB2bPrice } from "@/lib/order-validation";
 import type { Product } from "@/lib/types";
 
 function shuffle<T>(arr: T[]): T[] {
@@ -127,11 +126,7 @@ export async function GET(request: Request) {
   }
 
   const list = picked.slice(0, limit) as Product[];
-  const products = isB2bApproved
-    ? list
-    : B2B_ONLY_MODE
-      ? list.map(stripAllPrices)
-      : list.map(stripB2bPrice);
+  const products = isB2bApproved ? list : list.map(stripB2bPrice);
 
   return NextResponse.json({ products });
 }

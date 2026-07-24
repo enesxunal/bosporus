@@ -52,8 +52,8 @@
     "brutto": "KDV dahil",
     "netto": "KDV hariç",
     "plusPfand": "+ Depozito {amount}",
-    "wholesaleHint": "Toptancı? <link>Hemen kayıt ol</link>",
-    "wholesaleHintDetail": "Fiyat ve sipariş, kurumsal hesabınız onaylandıktan sonra açılır.",
+    "wholesaleHint": "Toptancı? <link>Onay sonrası net fiyat</link>",
+    "wholesaleHintDetail": "Kurumsal hesabınız onaylanınca net fiyatları görür ve sipariş verebilirsiniz.",
     "promo": "İndirim",
     "perUnit": "{unit} başına",
     "search": "Ürün ara…",
@@ -132,6 +132,7 @@
     "b2cPausedHint": "Bireysel satış geçici kapalı. Toptancı başvurusu yapın – fiyatlar onay sonrası.",
     "loginForFreeDelivery": "İlk getirme ücretsiz olsun diye hesap açın:",
     "loginForPrices": "Fiyatlar kayıt ve onay sonrası:",
+    "loginForCheckout": "Ödeme sadece onaylı toptancı hesabıyla:",
     "registerLink": "Kayıt ol",
     "loginLink": "Giriş yap"
   },

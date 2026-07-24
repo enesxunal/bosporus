@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { isB2BApproved } from "@/lib/types";
 import { PriceGateCta } from "@/components/b2c/PriceGateCta";
+import { WholesalePriceHint } from "@/components/b2c/WholesalePriceHint";
 import { buildCartItemFromProduct } from "@/lib/pfand";
 import { trackAddToCart, trackViewItem } from "@/lib/analytics";
 
@@ -124,6 +125,7 @@ export function ProductCard({ product, profile: profileProp = null, variant = "d
                   })}
                 </p>
               )}
+              <WholesalePriceHint profile={profile} compact />
             </div>
           )}
 

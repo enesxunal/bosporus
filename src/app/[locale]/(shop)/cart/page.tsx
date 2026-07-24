@@ -12,7 +12,6 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { QuantityControl } from "@/components/ui/QuantityControl";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
-import { PriceGateCta } from "@/components/b2c/PriceGateCta";
 
 type CartAudience = "guest" | "b2c" | "b2b" | "b2b_pending";
 
@@ -23,7 +22,6 @@ export default function CartPage() {
   const [audience, setAudience] = useState<CartAudience>("guest");
   const [firstOrderEligible, setFirstOrderEligible] = useState(false);
 
-  const showPrices = audience === "b2b";
   const canPay = audience === "b2b";
 
   useEffect(() => {
@@ -102,7 +100,7 @@ export default function CartPage() {
       <p className="font-semibold">{t("b2cPausedHint")}</p>
     ) : (
       <p>
-        <span className="font-semibold">{t("loginForPrices")} </span>
+        <span className="font-semibold">{t("loginForCheckout")} </span>
         <Link href="/register" className="underline font-bold">
           {t("registerLink")}
         </Link>
@@ -125,17 +123,6 @@ export default function CartPage() {
         <div className="min-w-0 text-sm">{deliveryHint}</div>
       </div>
 
-      {!showPrices && (
-        <div className="mb-5 rounded-2xl border border-bosporus-gray-200 bg-white px-4 py-4">
-          <p className="text-sm text-bosporus-muted mb-3">
-            {locale === "tr"
-              ? "Fiyatlar onaylı toptancı hesabında görünür. Ürünleri sepete ekleyebilirsiniz; ödeme için hesap gerekir."
-              : "Preise sind nach Freigabe Ihres Gewerbekonto sichtbar. Sie können Artikel merken – zur Kasse nur mit freigeschaltetem Konto."}
-          </p>
-          <PriceGateCta />
-        </div>
-      )}
-
       <ul className="space-y-3 mb-6">
         {items.map((item) => (
           <li key={item.productId}>
@@ -152,21 +139,15 @@ export default function CartPage() {
                 )}
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-bosporus-gray-800 text-sm sm:text-base line-clamp-2">{item.name}</h3>
-                  {showPrices && item.pfand && (
+                  {item.pfand && (
                     <p className="text-xs text-bosporus-muted mt-1">
                       + {locale === "de" ? "Pfand" : "Depozito"}:{" "}
                       {formatPrice(item.pfand.priceGross * item.quantity, locale)}
                     </p>
                   )}
-                  {showPrices ? (
-                    <p className="text-bosporus font-bold mt-2 text-lg">
-                      {formatPrice(cartLineTotalGross(item), locale)}
-                    </p>
-                  ) : (
-                    <p className="text-bosporus-muted text-sm mt-2 font-medium">
-                      {locale === "tr" ? "Fiyat onay sonrası" : "Preis nach Freigabe"}
-                    </p>
-                  )}
+                  <p className="text-bosporus font-bold mt-2 text-lg">
+                    {formatPrice(cartLineTotalGross(item), locale)}
+                  </p>
                 </div>
                 <div className="flex flex-col items-end justify-between gap-2">
                   <button
@@ -193,9 +174,7 @@ export default function CartPage() {
       <Card className="hidden sm:block !rounded-2xl">
         <div className="flex justify-between items-center text-xl font-extrabold mb-5">
           <span>{t("total")}</span>
-          <span className="text-bosporus">
-            {showPrices ? formatPrice(subtotalGross(), locale) : "—"}
-          </span>
+          <span className="text-bosporus">{formatPrice(subtotalGross(), locale)}</span>
         </div>
         {canPay ? (
           <Link href="/checkout">
@@ -205,9 +184,20 @@ export default function CartPage() {
             </Button>
           </Link>
         ) : (
-          <Button size="lg" fullWidth disabled>
-            {locale === "tr" ? "Ödeme için toptancı onayı gerekli" : "Kasse nur mit Gewerbe-Freigabe"}
-          </Button>
+          <div className="space-y-3">
+            <Button size="lg" fullWidth disabled>
+              {locale === "tr" ? "Ödeme için toptancı onayı gerekli" : "Kasse nur mit Gewerbe-Freigabe"}
+            </Button>
+            <p className="text-center text-sm text-bosporus-muted">
+              <Link href="/register" className="font-bold text-bosporus hover:underline">
+                {t("registerLink")}
+              </Link>
+              {" · "}
+              <Link href="/login" className="font-bold text-bosporus hover:underline">
+                {t("loginLink")}
+              </Link>
+            </p>
+          </div>
         )}
       </Card>
 
@@ -216,9 +206,7 @@ export default function CartPage() {
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-xs text-bosporus-muted font-medium">{t("total")}</p>
-              <p className="text-xl font-extrabold text-bosporus">
-                {showPrices ? formatPrice(subtotalGross(), locale) : "—"}
-              </p>
+              <p className="text-xl font-extrabold text-bosporus">{formatPrice(subtotalGross(), locale)}</p>
             </div>
             {canPay ? (
               <Link href="/checkout" className="flex-1 max-w-[200px]">
@@ -227,9 +215,11 @@ export default function CartPage() {
                 </Button>
               </Link>
             ) : (
-              <Button size="lg" className="flex-1 max-w-[200px]" disabled>
-                {locale === "tr" ? "Onay gerekli" : "Freigabe nötig"}
-              </Button>
+              <Link href="/register" className="flex-1 max-w-[200px]">
+                <Button size="lg" fullWidth>
+                  {locale === "tr" ? "Kayıt ol" : "Registrieren"}
+                </Button>
+              </Link>
             )}
           </div>
         </Card>

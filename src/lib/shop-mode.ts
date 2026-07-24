@@ -2,17 +2,22 @@ import type { UserProfile } from "./types";
 import { isB2BApproved } from "./types";
 
 /**
- * Geçici B2B-only mod: fiyatlar sadece onaylı toptancılara,
- * bireysel (B2C) kayıt ve sipariş kapalı.
- * İleride B2C yeniden açılınca false yapılır.
+ * B2B-only işletme modu:
+ * - Bireysel kayıt / sipariş kapalı
+ * - Ödeme sadece onaylı toptancı
+ * - Fiyatlar herkese açık (Google Merchant / ürün trafiği için)
  */
 export const B2B_ONLY_MODE = true;
 
-/** Onaylı B2B müşteri (veya admin) fiyatları görebilir */
-export function canSeePrices(profile: UserProfile | null | undefined): boolean {
+/** Fiyatlar herkese görünsün (Merchant Center uyumu) */
+export const PUBLIC_PRICES = true;
+
+/** Fiyat görünürlüğü */
+export function canSeePrices(_profile?: UserProfile | null): boolean {
+  if (PUBLIC_PRICES) return true;
   if (!B2B_ONLY_MODE) return true;
-  if (profile?.role === "admin") return true;
-  return isB2BApproved(profile ?? null);
+  if (_profile?.role === "admin") return true;
+  return isB2BApproved(_profile ?? null);
 }
 
 /** Sipariş / ödeme sadece onaylı B2B */
