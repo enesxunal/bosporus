@@ -14,6 +14,7 @@ import {
 } from "@/lib/stripe";
 import type { CartItem } from "@/lib/types";
 import { cartLineTotalGross } from "@/lib/pfand";
+import { B2B_ONLY_MODE } from "@/lib/shop-mode";
 
 interface CheckoutBody {
   items: CartItem[];
@@ -55,14 +56,21 @@ export async function POST(request: Request) {
       userId = user.id;
       const { data: profile } = await supabase
         .from("profiles")
-        .select("role, locale")
+        .select("role, locale, vat_verified")
         .eq("id", user.id)
         .single();
-      isB2b = profile?.role === "b2b_approved";
+      isB2b = profile?.role === "b2b_approved" && Boolean(profile.vat_verified);
       if (profile?.locale === "tr" || profile?.locale === "de") locale = profile.locale;
     }
   } catch {
     // guest
+  }
+
+  if (B2B_ONLY_MODE && !isB2b) {
+    return NextResponse.json(
+      { error: "Nur freigeschaltete Gewerbekunden können bestellen." },
+      { status: 403 }
+    );
   }
 
   const priced = await validateAndPriceOrderItems(body.items, isB2b);

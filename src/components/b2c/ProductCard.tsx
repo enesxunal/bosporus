@@ -3,9 +3,8 @@
 import { useTranslations, useLocale } from "next-intl";
 import { Plus, ShoppingCart } from "lucide-react";
 import type { Product, UserProfile } from "@/lib/types";
-import { getDisplayPrice, formatUnit, formatPrice } from "@/lib/pricing";
-import { netToGross } from "@/lib/pricing";
-import { getProductImageUrl, getAvailability } from "@/lib/category-images";
+import { getDisplayPrice, formatUnit, formatPrice, netToGross } from "@/lib/pricing";
+import { getAvailability } from "@/lib/category-images";
 import { getProductName, productDetailHref } from "@/lib/product-display";
 import { useCart } from "@/stores/cart";
 import { useShopProfile } from "@/hooks/useShopProfile";
@@ -15,7 +14,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { isB2BApproved } from "@/lib/types";
-import { WholesalePriceHint } from "@/components/b2c/WholesalePriceHint";
+import { PriceGateCta } from "@/components/b2c/PriceGateCta";
 import { buildCartItemFromProduct } from "@/lib/pfand";
 import { trackAddToCart, trackViewItem } from "@/lib/analytics";
 
@@ -32,18 +31,17 @@ export function ProductCard({ product, profile: profileProp = null, variant = "d
   const profile = profileProp ?? loadedProfile;
   const addItem = useCart((s) => s.addItem);
   const displayPrice = getDisplayPrice(product, profile);
-  const isDeal = displayPrice.isPromo;
+  const pricesHidden = displayPrice.hidden;
+  const isDeal = !pricesHidden && displayPrice.isPromo;
   const name = getProductName(product, locale);
   const detailHref = productDetailHref(product.sku);
   const avail = getAvailability(product);
   const outOfStock = avail === "out_of_stock";
-  const img = getProductImageUrl(product);
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (outOfStock) return;
-    // Kapalı GA hunisi için view_item → add_to_cart sırası
     trackViewItem({
       item_id: product.sku,
       item_name: name,
@@ -92,39 +90,42 @@ export function ProductCard({ product, profile: profileProp = null, variant = "d
         </p>
 
         <div className="mt-auto pt-3 border-t border-bosporus-gray-100 space-y-3">
-          <div>
-            {displayPrice.isPromo && displayPrice.originalAmount != null && (
-              <span className="text-xs text-bosporus-muted line-through block mb-0.5">
-                {formatPrice(displayPrice.originalAmount, locale)}
+          {pricesHidden ? (
+            <PriceGateCta compact />
+          ) : (
+            <div>
+              {displayPrice.isPromo && displayPrice.originalAmount != null && (
+                <span className="text-xs text-bosporus-muted line-through block mb-0.5">
+                  {formatPrice(displayPrice.originalAmount, locale)}
+                </span>
+              )}
+              <div className="flex items-baseline gap-1">
+                <span
+                  className={cn(
+                    "text-2xl sm:text-[1.65rem] font-extrabold leading-none tracking-tight",
+                    isDeal ? "text-bosporus-red" : "text-bosporus-gray-800"
+                  )}
+                >
+                  {formatPrice(displayPrice.amount, locale)}
+                </span>
+              </div>
+              <span className="text-[11px] text-bosporus-muted font-medium">
+                {displayPrice.label === "brutto" ? t("brutto") : t("netto")}
               </span>
-            )}
-            <div className="flex items-baseline gap-1">
-              <span
-                className={cn(
-                  "text-2xl sm:text-[1.65rem] font-extrabold leading-none tracking-tight",
-                  isDeal ? "text-bosporus-red" : "text-bosporus-gray-800"
-                )}
-              >
-                {formatPrice(displayPrice.amount, locale)}
-              </span>
+              {product.pfand && (
+                <p className="text-[11px] text-bosporus-muted mt-1">
+                  {t("plusPfand", {
+                    amount: formatPrice(
+                      isB2BApproved(profile)
+                        ? netToGross(product.pfand.price_b2b, product.pfand.tax_rate)
+                        : product.pfand.price_b2c,
+                      locale
+                    ),
+                  })}
+                </p>
+              )}
             </div>
-            <span className="text-[11px] text-bosporus-muted font-medium">
-              {displayPrice.label === "brutto" ? t("brutto") : t("netto")}
-            </span>
-            {product.pfand && (
-              <p className="text-[11px] text-bosporus-muted mt-1">
-                {t("plusPfand", {
-                  amount: formatPrice(
-                    isB2BApproved(profile)
-                      ? netToGross(product.pfand.price_b2b, product.pfand.tax_rate)
-                      : product.pfand.price_b2c,
-                    locale
-                  ),
-                })}
-              </p>
-            )}
-            <WholesalePriceHint profile={profile} compact />
-          </div>
+          )}
 
           <Button type="button" onClick={handleAdd} fullWidth size="md" disabled={outOfStock}>
             <ShoppingCart className="w-4 h-4 sm:hidden" />

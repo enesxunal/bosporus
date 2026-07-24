@@ -252,3 +252,18 @@ export function stripB2bPrice(product: Product): Product {
   }
   return { ...product, price_b2b: 0, price_b2c: b2cGross, pfand };
 }
+
+/** B2B-only: katalog API’sinde tüm fiyatları sıfırla (istemciye sızmasın) */
+export function stripAllPrices(product: Product): Product {
+  return {
+    ...product,
+    price_b2b: 0,
+    price_b2c: 0,
+    promo_price: null,
+    promo_from: null,
+    promo_to: null,
+    pfand: product.pfand
+      ? { ...product.pfand, price_b2b: 0, price_b2c: 0 }
+      : product.pfand,
+  };
+}

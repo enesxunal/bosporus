@@ -80,6 +80,7 @@ export default function CheckoutPage() {
   const [quote, setQuote] = useState<DeliveryQuoteView | null>(null);
   const [firstOrderEligible, setFirstOrderEligible] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [b2bGateOk, setB2bGateOk] = useState<boolean | null>(null);
 
   const subtotal = subtotalGross();
   const zone = zipCode.length >= 4 ? findZoneInList(zones, zipCode) : null;
@@ -178,37 +179,50 @@ export default function CheckoutPage() {
   }, [items.length, router]);
 
   useEffect(() => {
-    if (!isSupabaseConfigured()) return;
+    if (!isSupabaseConfigured()) {
+      setB2bGateOk(false);
+      return;
+    }
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data: { user } }) => {
       setLoggedIn(Boolean(user));
-      if (user?.email) setCustomerEmail(user.email);
-      const name = user?.user_metadata?.full_name as string | undefined;
+      if (!user) {
+        setB2bGateOk(false);
+        return;
+      }
+      if (user.email) setCustomerEmail(user.email);
+      const name = user.user_metadata?.full_name as string | undefined;
       if (name) setCustomerName(name);
 
-      if (user) {
-        const res = await fetch("/api/account/addresses");
-        if (res.ok) {
-          const data = await res.json();
-          const addrs = data.addresses ?? [];
-          setSavedAddresses(addrs);
-          const defaultAddr = addrs.find((a: { is_default: boolean }) => a.is_default) ?? addrs[0];
-          if (defaultAddr) {
-            setSelectedAddressId(defaultAddr.id);
-            setZipCode(defaultAddr.zip_code);
-            setAddress(defaultAddr.street);
-          }
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role, vat_verified")
+        .eq("id", user.id)
+        .single();
+      const approved = profile?.role === "b2b_approved" && Boolean(profile.vat_verified);
+      setIsB2b(approved);
+      setB2bGateOk(approved);
+
+      const res = await fetch("/api/account/addresses");
+      if (res.ok) {
+        const data = await res.json();
+        const addrs = data.addresses ?? [];
+        setSavedAddresses(addrs);
+        const defaultAddr = addrs.find((a: { is_default: boolean }) => a.is_default) ?? addrs[0];
+        if (defaultAddr) {
+          setSelectedAddressId(defaultAddr.id);
+          setZipCode(defaultAddr.zip_code);
+          setAddress(defaultAddr.street);
         }
-        const profileRes = await fetch("/api/account/profile");
-        if (profileRes.ok) {
-          const profileData = await profileRes.json();
-          const p = profileData.profile;
-          if (p?.first_name || p?.last_name) {
-            setCustomerName([p.first_name, p.last_name].filter(Boolean).join(" "));
-          }
-          if (p?.phone) setCustomerPhone(p.phone);
-          if (p?.role === "b2b_approved") setIsB2b(true);
+      }
+      const profileRes = await fetch("/api/account/profile");
+      if (profileRes.ok) {
+        const profileData = await profileRes.json();
+        const p = profileData.profile;
+        if (p?.first_name || p?.last_name) {
+          setCustomerName([p.first_name, p.last_name].filter(Boolean).join(" "));
         }
+        if (p?.phone) setCustomerPhone(p.phone);
       }
     });
   }, []);
@@ -226,6 +240,36 @@ export default function CheckoutPage() {
     return (
       <div className="page-narrow py-20 text-center text-bosporus-muted">
         <Link href="/cart" className="text-bosporus font-semibold">{locale === "de" ? "Zum Warenkorb" : "Sepete git"}</Link>
+      </div>
+    );
+  }
+
+  if (b2bGateOk === null) {
+    return (
+      <div className="page-narrow py-20 text-center text-bosporus-muted">…</div>
+    );
+  }
+
+  if (!b2bGateOk) {
+    return (
+      <div className="page-narrow py-16 sm:py-20 text-center">
+        <h1 className="text-xl font-bold text-bosporus-gray-800 mb-3">{t("title")}</h1>
+        <p className="text-bosporus-muted mb-6 max-w-md mx-auto">
+          {locale === "tr"
+            ? "Şu an sadece onaylı toptancı hesapları sipariş verebilir. Kayıt olun veya giriş yapın; onay sonrası fiyatlar ve ödeme açılır."
+            : "Derzeit können nur freigeschaltete Gewerbekunden bestellen. Bitte registrieren oder anmelden – Preise und Kasse nach Freigabe."}
+        </p>
+        <div className="flex flex-wrap gap-3 justify-center">
+          <Link href="/register">
+            <Button>{locale === "tr" ? "Toptancı kayıt" : "Gewerbe registrieren"}</Button>
+          </Link>
+          <Link href="/login">
+            <Button variant="outline">{locale === "tr" ? "Giriş yap" : "Anmelden"}</Button>
+          </Link>
+          <Link href="/cart">
+            <Button variant="ghost">{locale === "tr" ? "Sepete dön" : "Zum Warenkorb"}</Button>
+          </Link>
+        </div>
       </div>
     );
   }

@@ -12,6 +12,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { QuantityControl } from "@/components/ui/QuantityControl";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { PriceGateCta } from "@/components/b2c/PriceGateCta";
 
 type CartAudience = "guest" | "b2c" | "b2b" | "b2b_pending";
 
@@ -21,6 +22,9 @@ export default function CartPage() {
   const { items, updateQuantity, removeItem, subtotalGross, totalItems } = useCart();
   const [audience, setAudience] = useState<CartAudience>("guest");
   const [firstOrderEligible, setFirstOrderEligible] = useState(false);
+
+  const showPrices = audience === "b2b";
+  const canPay = audience === "b2b";
 
   useEffect(() => {
     if (!isSupabaseConfigured()) return;
@@ -41,7 +45,15 @@ export default function CartPage() {
         const role = profile?.role as string | undefined;
         if (role === "b2b_approved") {
           setAudience("b2b");
-          setFirstOrderEligible(false);
+          const res = await fetch("/api/delivery/quote", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ orderType: "click_collect", subtotalGross: 0 }),
+          });
+          if (res.ok) {
+            const data = await res.json();
+            setFirstOrderEligible(Boolean(data.firstOrderEligible));
+          }
           return;
         }
         if (role === "b2b_pending") {
@@ -51,17 +63,7 @@ export default function CartPage() {
         }
 
         setAudience("b2c");
-        const res = await fetch("/api/delivery/quote", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            orderType: "click_collect",
-            subtotalGross: 0,
-          }),
-        });
-        if (!res.ok) return;
-        const data = await res.json();
-        setFirstOrderEligible(Boolean(data.firstOrderEligible) && !data.isB2b);
+        setFirstOrderEligible(false);
       } catch {
         setAudience("b2c");
       }
@@ -88,16 +90,19 @@ export default function CartPage() {
 
   const deliveryHint =
     audience === "b2b" ? (
-      <p className="font-semibold">{t("b2bDeliveryHint")}</p>
+      <div className="space-y-1">
+        <p className="font-semibold">{t("b2bDeliveryHint")}</p>
+        {firstOrderEligible && (
+          <p className="font-semibold text-bosporus">{t("b2bFirstOrderHint")}</p>
+        )}
+      </div>
     ) : audience === "b2b_pending" ? (
       <p className="font-semibold">{t("b2bPendingHint")}</p>
-    ) : audience === "b2c" && firstOrderEligible ? (
-      <p className="font-semibold">{t("firstOrderFreeHint")}</p>
     ) : audience === "b2c" ? (
-      <p className="font-semibold">{t("thresholdFreeHint")}</p>
+      <p className="font-semibold">{t("b2cPausedHint")}</p>
     ) : (
       <p>
-        <span className="font-semibold">{t("loginForFreeDelivery")} </span>
+        <span className="font-semibold">{t("loginForPrices")} </span>
         <Link href="/register" className="underline font-bold">
           {t("registerLink")}
         </Link>
@@ -120,6 +125,17 @@ export default function CartPage() {
         <div className="min-w-0 text-sm">{deliveryHint}</div>
       </div>
 
+      {!showPrices && (
+        <div className="mb-5 rounded-2xl border border-bosporus-gray-200 bg-white px-4 py-4">
+          <p className="text-sm text-bosporus-muted mb-3">
+            {locale === "tr"
+              ? "Fiyatlar onaylı toptancı hesabında görünür. Ürünleri sepete ekleyebilirsiniz; ödeme için hesap gerekir."
+              : "Preise sind nach Freigabe Ihres Gewerbekonto sichtbar. Sie können Artikel merken – zur Kasse nur mit freigeschaltetem Konto."}
+          </p>
+          <PriceGateCta />
+        </div>
+      )}
+
       <ul className="space-y-3 mb-6">
         {items.map((item) => (
           <li key={item.productId}>
@@ -136,15 +152,21 @@ export default function CartPage() {
                 )}
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-bosporus-gray-800 text-sm sm:text-base line-clamp-2">{item.name}</h3>
-                  {item.pfand && (
+                  {showPrices && item.pfand && (
                     <p className="text-xs text-bosporus-muted mt-1">
                       + {locale === "de" ? "Pfand" : "Depozito"}:{" "}
                       {formatPrice(item.pfand.priceGross * item.quantity, locale)}
                     </p>
                   )}
-                  <p className="text-bosporus font-bold mt-2 text-lg">
-                    {formatPrice(cartLineTotalGross(item), locale)}
-                  </p>
+                  {showPrices ? (
+                    <p className="text-bosporus font-bold mt-2 text-lg">
+                      {formatPrice(cartLineTotalGross(item), locale)}
+                    </p>
+                  ) : (
+                    <p className="text-bosporus-muted text-sm mt-2 font-medium">
+                      {locale === "tr" ? "Fiyat onay sonrası" : "Preis nach Freigabe"}
+                    </p>
+                  )}
                 </div>
                 <div className="flex flex-col items-end justify-between gap-2">
                   <button
@@ -171,14 +193,22 @@ export default function CartPage() {
       <Card className="hidden sm:block !rounded-2xl">
         <div className="flex justify-between items-center text-xl font-extrabold mb-5">
           <span>{t("total")}</span>
-          <span className="text-bosporus">{formatPrice(subtotalGross(), locale)}</span>
+          <span className="text-bosporus">
+            {showPrices ? formatPrice(subtotalGross(), locale) : "—"}
+          </span>
         </div>
-        <Link href="/checkout">
-          <Button size="lg" fullWidth>
-            {t("checkout")}
-            <ArrowRight className="w-4 h-4" />
+        {canPay ? (
+          <Link href="/checkout">
+            <Button size="lg" fullWidth>
+              {t("checkout")}
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
+        ) : (
+          <Button size="lg" fullWidth disabled>
+            {locale === "tr" ? "Ödeme için toptancı onayı gerekli" : "Kasse nur mit Gewerbe-Freigabe"}
           </Button>
-        </Link>
+        )}
       </Card>
 
       <div className="sm:hidden fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] inset-x-0 z-40 px-4 pb-2">
@@ -186,13 +216,21 @@ export default function CartPage() {
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-xs text-bosporus-muted font-medium">{t("total")}</p>
-              <p className="text-xl font-extrabold text-bosporus">{formatPrice(subtotalGross(), locale)}</p>
+              <p className="text-xl font-extrabold text-bosporus">
+                {showPrices ? formatPrice(subtotalGross(), locale) : "—"}
+              </p>
             </div>
-            <Link href="/checkout" className="flex-1 max-w-[200px]">
-              <Button size="lg" fullWidth>
-                {t("checkout")}
+            {canPay ? (
+              <Link href="/checkout" className="flex-1 max-w-[200px]">
+                <Button size="lg" fullWidth>
+                  {t("checkout")}
+                </Button>
+              </Link>
+            ) : (
+              <Button size="lg" className="flex-1 max-w-[200px]" disabled>
+                {locale === "tr" ? "Onay gerekli" : "Freigabe nötig"}
               </Button>
-            </Link>
+            )}
           </div>
         </Card>
       </div>

@@ -13,6 +13,7 @@ import {
   Star,
   Plus,
   FileDown,
+  Building2,
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
@@ -98,6 +99,10 @@ export default function AccountPage() {
   const [addrDefault, setAddrDefault] = useState(false);
 
   const [orders, setOrders] = useState<Order[]>([]);
+  const [upgradeCompany, setUpgradeCompany] = useState("");
+  const [upgradeAddress, setUpgradeAddress] = useState("");
+  const [upgradeVat, setUpgradeVat] = useState("");
+  const [upgrading, setUpgrading] = useState(false);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
   useEffect(() => {
@@ -239,6 +244,39 @@ export default function AccountPage() {
     }
   };
 
+  const submitB2bUpgrade = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setUpgrading(true);
+    setError("");
+    setMessage("");
+    try {
+      const res = await fetch("/api/account/request-b2b", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          companyName: upgradeCompany,
+          companyAddress: upgradeAddress,
+          vatId: upgradeVat,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(data.error ?? (locale === "tr" ? "Başvuru başarısız" : "Antrag fehlgeschlagen"));
+        return;
+      }
+      setProfile((p) => (p ? { ...p, role: "b2b_pending", company_name: upgradeCompany } : p));
+      setMessage(
+        locale === "tr"
+          ? "Toptancı başvurunuz alındı. Onay sonrası fiyatlar açılır."
+          : "Gewerbe-Antrag eingegangen. Preise nach Freigabe."
+      );
+    } catch {
+      setError(t("saveError"));
+    } finally {
+      setUpgrading(false);
+    }
+  };
+
   const tabs: { id: Tab; icon: typeof User; label: string }[] = [
     { id: "profile", icon: User, label: t("tabProfile") },
     { id: "addresses", icon: MapPin, label: t("tabAddresses") },
@@ -256,6 +294,59 @@ export default function AccountPage() {
   return (
     <div className="page-narrow py-8 sm:py-10">
       <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-6 tracking-tight">{t("title")}</h1>
+
+      {profile?.role === "b2c" && (
+        <div id="gewerbe-upgrade">
+          <Card className="!rounded-2xl mb-6 border-amber-200 bg-amber-50/50">
+            <div className="flex items-start gap-3 mb-4">
+              <Building2 className="w-6 h-6 text-bosporus shrink-0 mt-0.5" />
+              <div>
+                <h2 className="font-bold text-bosporus-gray-800">
+                  {locale === "tr" ? "Bireysel satış geçici kapalı" : "Privatverkauf vorübergehend pausiert"}
+                </h2>
+                <p className="text-sm text-bosporus-muted mt-1">
+                  {locale === "tr"
+                    ? "Fiyatlar ve sipariş sadece onaylı toptancılara açık. Firmanızı kaydedip başvuru yapın."
+                    : "Preise und Bestellung nur für freigeschaltete Gewerbekunden. Firma-Daten eintragen und Antrag stellen."}
+                </p>
+              </div>
+            </div>
+            <form onSubmit={submitB2bUpgrade} className="space-y-3">
+              <Input
+                label={locale === "tr" ? "Şirket adı" : "Firmenname"}
+                value={upgradeCompany}
+                onChange={(e) => setUpgradeCompany(e.target.value)}
+                required
+              />
+              <Textarea
+                label={locale === "tr" ? "Şirket adresi" : "Firmenadresse"}
+                value={upgradeAddress}
+                onChange={(e) => setUpgradeAddress(e.target.value)}
+                rows={2}
+                required
+              />
+              <Input
+                label="USt-IdNr."
+                value={upgradeVat}
+                onChange={(e) => setUpgradeVat(e.target.value.toUpperCase())}
+                placeholder="DE123456789"
+                required
+              />
+              <Button type="submit" loading={upgrading}>
+                {locale === "tr" ? "Toptancı başvurusu gönder" : "Gewerbe beantragen"}
+              </Button>
+            </form>
+          </Card>
+        </div>
+      )}
+
+      {profile?.role === "b2b_pending" && (
+        <div className="mb-6 rounded-2xl bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-900">
+          {locale === "tr"
+            ? "Kurumsal başvurunuz inceleniyor. Onay sonrası net fiyatlar ve sipariş açılır."
+            : "Ihr Gewerbe-Antrag wird geprüft. Nach Freigabe sehen Sie Nettopreise und können bestellen."}
+        </div>
+      )}
 
       <div className="flex gap-1 mb-6 p-1 bg-bosporus-gray-100 rounded-2xl">
         {tabs.map(({ id, icon: Icon, label }) => (

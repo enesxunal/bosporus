@@ -24,7 +24,7 @@ export interface FeeBandRow {
 
 const DEFAULT_SETTINGS: DeliverySettingsRow[] = [
   { segment: "b2c_delivery", min_order_amount: 100, free_delivery_threshold: 250, max_distance_km: 40, depot_lat: DEPOT_COORDS.lat, depot_lng: DEPOT_COORDS.lng },
-  { segment: "b2b_delivery", min_order_amount: 1000, free_delivery_threshold: 2500, max_distance_km: 50, depot_lat: DEPOT_COORDS.lat, depot_lng: DEPOT_COORDS.lng },
+  { segment: "b2b_delivery", min_order_amount: 500, free_delivery_threshold: 2500, max_distance_km: 50, depot_lat: DEPOT_COORDS.lat, depot_lng: DEPOT_COORDS.lng },
   { segment: "b2c_pickup", min_order_amount: 50, free_delivery_threshold: null, max_distance_km: null, depot_lat: DEPOT_COORDS.lat, depot_lng: DEPOT_COORDS.lng },
   { segment: "b2b_pickup", min_order_amount: 500, free_delivery_threshold: null, max_distance_km: null, depot_lat: DEPOT_COORDS.lat, depot_lng: DEPOT_COORDS.lng },
 ];
@@ -144,12 +144,11 @@ export interface DeliveryQuote {
   freeReason: FreeDeliveryReason;
 }
 
-/** B2C girişli kullanıcı, iptal dışı siparişi yoksa ilk siparişte getirme ücretsiz */
-export async function isB2cFirstOrderEligible(
-  userId: string | null | undefined,
-  isB2b: boolean
+/** Girişli kullanıcı, iptal dışı siparişi yoksa ilk siparişte getirme ücretsiz (B2B dahil) */
+export async function isFirstOrderEligible(
+  userId: string | null | undefined
 ): Promise<boolean> {
-  if (!userId || isB2b) return false;
+  if (!userId) return false;
   const admin = createAdminClient();
   if (!admin) return false;
 
@@ -160,10 +159,22 @@ export async function isB2cFirstOrderEligible(
     .neq("status", "cancelled");
 
   if (error) {
-    console.error("isB2cFirstOrderEligible:", error.message);
+    console.error("isFirstOrderEligible:", error.message);
     return false;
   }
   return (count ?? 0) === 0;
+}
+
+/** @deprecated isFirstOrderEligible kullanın */
+export async function isB2cFirstOrderEligible(
+  userId: string | null | undefined,
+  isB2b: boolean
+): Promise<boolean> {
+  if (isB2b) {
+    // B2B için de ilk sipariş ücretsiz
+    return isFirstOrderEligible(userId);
+  }
+  return isFirstOrderEligible(userId);
 }
 
 export async function quoteDelivery(params: {
@@ -201,7 +212,7 @@ export async function quoteDelivery(params: {
       const thresholdFree =
         cfg.free_delivery_threshold != null &&
         params.subtotalGross >= cfg.free_delivery_threshold;
-      const firstFree = Boolean(params.firstOrderFree) && !params.isB2b;
+      const firstFree = Boolean(params.firstOrderFree);
 
       if (thresholdFree || firstFree) {
         freeDelivery = true;

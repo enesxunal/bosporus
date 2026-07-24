@@ -116,7 +116,8 @@ export function buildCartItemFromProduct(
 
   let priceNet: number;
   let priceGross: number;
-  if (isB2b) {
+  // Fiyat gizliyse (misafir) bile toptan net saklanır; sepet UI’sı gizler, ödeme sunucuda hesaplanır
+  if (isB2b || displayPrice.hidden) {
     priceNet = promo && product.promo_price != null ? product.promo_price : getWholesaleNet(product);
     priceGross = netToGross(priceNet, product.tax_rate);
   } else if (displayPrice.label === "brutto") {
@@ -126,6 +127,8 @@ export function buildCartItemFromProduct(
     priceNet = displayPrice.amount;
     priceGross = netToGross(priceNet, product.tax_rate);
   }
+
+  const useB2bPfand = isB2b || displayPrice.hidden;
 
   return {
     productId: product.id,
@@ -137,7 +140,7 @@ export function buildCartItemFromProduct(
     priceGross: Math.round(priceGross * 100) / 100,
     taxRate: product.tax_rate,
     imageUrl: product.image_url,
-    pfand: resolvePfandForProduct(product, new Map(), isB2b),
+    pfand: resolvePfandForProduct(product, new Map(), useB2bPfand),
   };
 }
 

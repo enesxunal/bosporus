@@ -2,8 +2,13 @@
 
 import { useAuthOptional } from "@/contexts/AuthContext";
 import type { UserProfile } from "@/lib/types";
+import { canSeePrices } from "@/lib/shop-mode";
 
-/** Shop AuthProvider yoksa (ör. /gewerbe) null döner; çökmez. */
+/** Fiyat gösterebilecek profil (onaylı B2B / admin); yoksa null. */
 export function useShopProfile(): UserProfile | null {
-  return useAuthOptional()?.b2bProfile ?? null;
+  const auth = useAuthOptional();
+  if (!auth) return null;
+  if (auth.b2bProfile) return auth.b2bProfile;
+  if (canSeePrices(auth.profile)) return auth.profile;
+  return null;
 }

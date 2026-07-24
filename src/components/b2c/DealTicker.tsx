@@ -3,17 +3,17 @@
 import { useLocale } from "next-intl";
 
 const DEALS_DE = [
-  "Erste Bestellung: Lieferung kostenlos – mit Kundenkonto",
+  "Gewerbe: Nettopreise nach Freigabe",
+  "Mindestbestellwert 500 € – erste Lieferung gratis",
   "Lieferung Köln & Umgebung – täglich frisch",
   "Abholmarkt Köln Ossendorf – Mo.–Sa. 00–18 Uhr",
-  "Gewerbe: Nettopreise nach Freigabe im Portal",
 ];
 
 const DEALS_TR = [
-  "İlk siparişte getirme ücretsiz – hesap ile",
+  "Toptancı: onay sonrası net fiyat",
+  "Min. sipariş 500 € – ilk getirme ücretsiz",
   "Köln ve çevreye teslimat – her gün taze",
   "Köln Ossendorf Gel-Al – Pzt.–Cmt. 00–18",
-  "Kurumsal: onay sonrası net fiyat portalı",
 ];
 
 export function DealTicker({ hasPromos = false }: { hasPromos?: boolean }) {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { COMPANY } from "@/lib/company";
 import { getProductImageUrl } from "@/lib/category-images";
 import { getB2cGross, hasSellablePrice } from "@/lib/pricing";
+import { B2B_ONLY_MODE } from "@/lib/shop-mode";
 import type { Category, Product } from "@/lib/types";
 
 const BASE = COMPANY.website.replace(/\/$/, "");
@@ -117,7 +118,7 @@ export function productJsonLd(product: Product, locale: string) {
   // Schema.org da Almanca ürün adı (birincil pazar DE)
   const name = product.name_de;
   const image = absoluteUrl(getProductImageUrl(product));
-  return {
+  const base = {
     "@context": "https://schema.org",
     "@type": "Product",
     name,
@@ -125,6 +126,27 @@ export function productJsonLd(product: Product, locale: string) {
     image,
     description: product.description_de || name,
     brand: { "@type": "Brand", name: COMPANY.tradeName },
+  };
+
+  if (B2B_ONLY_MODE) {
+    return {
+      ...base,
+      offers: {
+        "@type": "Offer",
+        url: absoluteUrl(productPath(locale === "tr" ? "tr" : "de", product.sku)),
+        priceCurrency: "EUR",
+        availability:
+          product.is_active && hasSellablePrice(product)
+            ? "https://schema.org/InStock"
+            : "https://schema.org/OutOfStock",
+        seller: { "@type": "Organization", name: COMPANY.legalName },
+        description: "Preis nach Gewerbe-Freigabe / Fiyat toptancı onayı sonrası",
+      },
+    };
+  }
+
+  return {
+    ...base,
     offers: {
       "@type": "Offer",
       url: absoluteUrl(productPath(locale === "tr" ? "tr" : "de", product.sku)),

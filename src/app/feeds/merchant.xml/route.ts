@@ -4,6 +4,7 @@ import { getProductImageUrl } from "@/lib/category-images";
 import { getB2cGross, hasSellablePrice, isPromoActive } from "@/lib/pricing";
 import { getProducts } from "@/lib/products";
 import { absoluteUrl, productPath } from "@/lib/seo";
+import { B2B_ONLY_MODE } from "@/lib/shop-mode";
 
 export const revalidate = 3600;
 
@@ -33,8 +34,22 @@ function merchantProductId(product: { id: string; sku: string }): string {
   return `${prefix}-${hash.toString(36)}`.slice(0, 50);
 }
 
-/** Google Merchant Center ürün feed (XML) */
+/** Google Merchant Center ürün feed (XML) — B2B-only modda fiyat yok, boş feed */
 export async function GET() {
+  if (B2B_ONLY_MODE) {
+    const empty = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <title>${xmlEscape(COMPANY.tradeName)}</title>
+    <link>${xmlEscape(COMPANY.website)}</link>
+    <description>B2B only – no public prices</description>
+  </channel>
+</rss>`;
+    return new NextResponse(empty, {
+      headers: { "Content-Type": "application/xml; charset=utf-8" },
+    });
+  }
+
   const products = await getProducts({ limit: 8000, activeOnly: true });
   const base = COMPANY.website.replace(/\/$/, "");
 

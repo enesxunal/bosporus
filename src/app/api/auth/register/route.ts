@@ -2,8 +2,19 @@ import { NextResponse } from "next/server";
 import { authErrorMessage } from "@/lib/auth-errors";
 import { createAdminClient, isSupabaseAdminConfigured } from "@/lib/supabase/admin";
 import { sendAccountVerificationEmail } from "@/lib/auth-verification-email";
+import { isB2cRegistrationClosed } from "@/lib/shop-mode";
 
 export async function POST(request: Request) {
+  if (isB2cRegistrationClosed()) {
+    return NextResponse.json(
+      {
+        error:
+          "Privatkunden-Registrierung ist vorübergehend geschlossen. Bitte Gewerbekonto beantragen.",
+      },
+      { status: 403 }
+    );
+  }
+
   if (!isSupabaseAdminConfigured()) {
     return NextResponse.json(
       { error: "Supabase nicht konfiguriert. Bitte in Vercel verbinden." },

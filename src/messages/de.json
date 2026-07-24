@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Bosporus GmbH – Großhandel Köln | Lebensmittel online",
-    "description": "Lebensmittel-Großhandel in Köln: Getränke, Tiefkühl, Verpackung & mehr für Gastronomie und Privatkunden. Lieferung und Abholung."
+    "description": "Lebensmittel-Großhandel in Köln: Getränke, Tiefkühl, Verpackung & mehr für Gastronomie. Nettopreise nach Freigabe."
   },
   "nav": {
     "home": "Startseite",
@@ -12,23 +12,23 @@
     "cart": "Warenkorb",
     "login": "Anmelden",
     "register": "Registrieren",
-    "b2bPortal": "Gewerbe · Nettopreise",
+    "b2bPortal": "Gewerbe · Preise nach Freigabe",
     "account": "Mein Konto",
     "logout": "Abmelden"
   },
   "hero": {
     "title": "Ihr Großhandel in Köln",
-    "subtitle": "Über 40 Jahre Erfahrung. Frische Lebensmittel für Gastronomie und Privatkunden.",
-    "ctaShop": "Jetzt einkaufen",
+    "subtitle": "Über 40 Jahre Erfahrung. Frische Lebensmittel für Gastronomie und Gewerbe.",
+    "ctaShop": "Sortiment ansehen",
     "ctaB2b": "Gewerbekonto eröffnen"
   },
   "home": {
     "whyTitle": "Warum Bosporus?",
     "delivery": "Schnelle Lieferung",
-    "deliveryDesc": "Erste Bestellung: Lieferung kostenlos. Danach ab 250 € versandkostenfrei (Köln & Umgebung).",
-    "firstOrderFreeTitle": "Erste Bestellung: Lieferung gratis",
-    "firstOrderFreeDesc": "Als Privatkunde registrieren – Liefergebühr entfällt beim ersten Auftrag.",
-    "firstOrderCta": "Konto erstellen & sparen",
+    "deliveryDesc": "Erste Bestellung: Lieferung gratis. Mindestbestellwert 500 € für Gewerbe.",
+    "firstOrderFreeTitle": "Nettopreise nach Freigabe",
+    "firstOrderFreeDesc": "Gewerbekonto eröffnen – nach Prüfung sehen Sie Preise. Erste Lieferung gratis, ab 500 €.",
+    "firstOrderCta": "Gewerbekonto eröffnen",
     "quality": "Geprüfte Qualität",
     "qualityDesc": "Streng kontrollierte Produkte für Ihre Küche.",
     "service": "Persönlicher Service",
@@ -38,7 +38,7 @@
     "categoriesTitle": "Unsere Kategorien",
     "allCategories": "Alle Kategorien",
     "ctaTitle": "Gastronomie & Gewerbe",
-    "ctaDesc": "Als Gewerbekunde erhalten Sie Nettopreise nach Freigabe. Privatkunden bestellen ganz normal zum angezeigten Preis.",
+    "ctaDesc": "Preise und Bestellung nur für freigeschaltete Gewerbekunden. Registrieren Sie sich mit USt-IdNr.",
     "ctaButton": "Kontakt",
     "promoEyebrow": "Diese Woche",
     "promoTitle": "Top-Angebote – lohnt sich",
@@ -52,8 +52,8 @@
     "brutto": "inkl. MwSt.",
     "netto": "zzgl. MwSt.",
     "plusPfand": "+ Pfand {amount}",
-    "wholesaleHint": "Gewerbe? <link>Nettopreise nach Anmeldung</link>",
-    "wholesaleHintDetail": "Gastronomie und Händler: nach Freigabe sehen Sie Nettopreise im Gewerbe-Portal. Privatkunden zahlen den angezeigten Brutto-Preis.",
+    "wholesaleHint": "Gewerbe? <link>Jetzt registrieren</link>",
+    "wholesaleHintDetail": "Preise und Bestellung nach Freigabe Ihres Gewerbekonto.",
     "promo": "Aktion",
     "perUnit": "pro {unit}",
     "search": "Produkte suchen…",
@@ -124,11 +124,14 @@
     "checkout": "Zur Kasse",
     "continue": "Weiter einkaufen",
     "remove": "Entfernen",
-    "firstOrderFreeHint": "Ihre erste Bestellung: Lieferung kostenlos (Mindestbestellwert 100 €).",
-    "thresholdFreeHint": "Ab 250 € Warenkorbwert ist die Lieferung kostenlos.",
-    "b2bDeliveryHint": "Gewerbe: Lieferung ab 1.000 € – ab 2.500 € versandkostenfrei.",
-    "b2bPendingHint": "Gewerbekonto wird geprüft. Bis zur Freigabe gelten die Privatkunden-Konditionen.",
+    "firstOrderFreeHint": "Ihre erste Bestellung: Lieferung kostenlos (Mindestbestellwert 500 €).",
+    "thresholdFreeHint": "Ab 2.500 € Warenkorbwert ist die Lieferung kostenlos.",
+    "b2bDeliveryHint": "Gewerbe: Lieferung ab 500 € – ab 2.500 € versandkostenfrei.",
+    "b2bFirstOrderHint": "Ihre erste Bestellung: Lieferung gratis.",
+    "b2bPendingHint": "Gewerbekonto wird geprüft. Preise und Kasse nach Freigabe.",
+    "b2cPausedHint": "Privatverkauf pausiert. Bitte Gewerbekonto beantragen – Preise nach Freigabe.",
     "loginForFreeDelivery": "Erste Lieferung gratis mit Konto:",
+    "loginForPrices": "Preise nach Registrierung & Freigabe:",
     "registerLink": "Registrieren",
     "loginLink": "Anmelden"
   },

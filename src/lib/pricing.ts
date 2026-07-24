@@ -1,5 +1,6 @@
 import type { Product, UserProfile } from "./types";
 import { isB2BApproved } from "./types";
+import { B2B_ONLY_MODE, canSeePrices } from "./shop-mode";
 
 /** Bireysel (B2C) fiyat = toptan liste × bu çarpan, sonra KDV */
 export const B2C_MARKUP = 1.2;
@@ -81,18 +82,32 @@ export interface DisplayPrice {
   isPromo: boolean;
   taxRate: number;
   showTaxNote: boolean;
+  /** B2B-only modda onaylı olmayanlar için true */
+  hidden: boolean;
 }
 
 export function getDisplayPrice(
   product: Product,
   profile: UserProfile | null
 ): DisplayPrice {
-  const b2b = isB2BApproved(profile);
   const promo = isPromoActive(product);
+
+  if (B2B_ONLY_MODE && !canSeePrices(profile)) {
+    return {
+      label: "netto",
+      amount: 0,
+      isPromo: false,
+      taxRate: product.tax_rate,
+      showTaxNote: false,
+      hidden: true,
+    };
+  }
+
+  const b2b = isB2BApproved(profile) || (B2B_ONLY_MODE && profile?.role === "admin");
 
   if (b2b) {
     const list = getWholesaleNet(product);
-    const net = promo ? product.promo_price! : list;
+    const net = promo && product.promo_price ? product.promo_price : list;
     const original = promo && list > net ? list : undefined;
     return {
       label: "netto",
@@ -101,6 +116,7 @@ export function getDisplayPrice(
       isPromo: Boolean(original),
       taxRate: product.tax_rate,
       showTaxNote: true,
+      hidden: false,
     };
   }
 
@@ -115,6 +131,7 @@ export function getDisplayPrice(
     isPromo: Boolean(original),
     taxRate: product.tax_rate,
     showTaxNote: false,
+    hidden: false,
   };
 }
 

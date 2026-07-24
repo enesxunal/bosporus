@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { buildCartItemFromProduct } from "@/lib/pfand";
 import { isB2BApproved } from "@/lib/types";
+import { PriceGateCta } from "@/components/b2c/PriceGateCta";
 import { trackAddToCart, trackViewItem } from "@/lib/analytics";
 
 interface ProductDetailViewProps {
@@ -33,7 +34,8 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
   const images = getProductImages(product);
   const [activeImage, setActiveImage] = useState(0);
   const displayPrice = getDisplayPrice(product, profile);
-  const isDeal = isPromoActive(product);
+  const pricesHidden = displayPrice.hidden;
+  const isDeal = !pricesHidden && isPromoActive(product);
   const avail = getAvailability(product);
   const name = getProductName(product, locale);
   const description = getProductDescription(product, locale);
@@ -135,38 +137,36 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
           </span>
 
           <div className="mb-6">
-            {displayPrice.isPromo && displayPrice.originalAmount != null && (
-              <span className="text-lg text-bosporus-muted line-through block mb-1">
-                {formatPrice(displayPrice.originalAmount, locale)}
-              </span>
-            )}
-            <div className="flex items-baseline gap-2">
-              <span className={cn("text-4xl font-extrabold", isDeal ? "text-bosporus-red" : "text-bosporus-gray-800")}>
-                {formatPrice(displayPrice.amount, locale)}
-              </span>
-              <span className="text-sm text-bosporus-muted">
-                {displayPrice.label === "brutto" ? t("brutto") : t("netto")}
-              </span>
-            </div>
-            {product.pfand && (
-              <p className="text-sm text-bosporus-muted mt-2">
-                {t("plusPfand", {
-                  amount: formatPrice(
-                    isB2BApproved(profile)
-                      ? netToGross(product.pfand.price_b2b, product.pfand.tax_rate)
-                      : product.pfand.price_b2c,
-                    locale
-                  ),
-                })}
-              </p>
-            )}
-            {!isB2BApproved(profile) && (
-              <p className="text-xs text-bosporus-muted mt-3 max-w-md leading-relaxed">
-                {t("wholesaleHintDetail")}{" "}
-                <Link href="/register?tab=gewerbe" className="font-semibold text-bosporus hover:underline">
-                  {locale === "de" ? "Jetzt anfragen →" : "Başvur →"}
-                </Link>
-              </p>
+            {pricesHidden ? (
+              <PriceGateCta />
+            ) : (
+              <>
+                {displayPrice.isPromo && displayPrice.originalAmount != null && (
+                  <span className="text-lg text-bosporus-muted line-through block mb-1">
+                    {formatPrice(displayPrice.originalAmount, locale)}
+                  </span>
+                )}
+                <div className="flex items-baseline gap-2">
+                  <span className={cn("text-4xl font-extrabold", isDeal ? "text-bosporus-red" : "text-bosporus-gray-800")}>
+                    {formatPrice(displayPrice.amount, locale)}
+                  </span>
+                  <span className="text-sm text-bosporus-muted">
+                    {displayPrice.label === "brutto" ? t("brutto") : t("netto")}
+                  </span>
+                </div>
+                {product.pfand && (
+                  <p className="text-sm text-bosporus-muted mt-2">
+                    {t("plusPfand", {
+                      amount: formatPrice(
+                        isB2BApproved(profile)
+                          ? netToGross(product.pfand.price_b2b, product.pfand.tax_rate)
+                          : product.pfand.price_b2c,
+                        locale
+                      ),
+                    })}
+                  </p>
+                )}
+              </>
             )}
           </div>
 

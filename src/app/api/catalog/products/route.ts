@@ -5,8 +5,9 @@ import {
   fetchPromoProductsPage,
 } from "@/lib/products-db";
 import { isPromoActive } from "@/lib/pricing";
-import { stripB2bPrice } from "@/lib/order-validation";
+import { stripAllPrices, stripB2bPrice } from "@/lib/order-validation";
 import { createClient } from "@/lib/supabase/server";
+import { B2B_ONLY_MODE } from "@/lib/shop-mode";
 import type { Product } from "@/lib/types";
 
 export async function GET(request: Request) {
@@ -26,17 +27,22 @@ export async function GET(request: Request) {
     if (user) {
       const { data: profile } = await supabase
         .from("profiles")
-        .select("role")
+        .select("role, vat_verified")
         .eq("id", user.id)
         .single();
-      isB2bApproved = profile?.role === "b2b_approved";
+      isB2bApproved =
+        profile?.role === "b2b_approved" && Boolean(profile.vat_verified);
+      if (profile?.role === "admin") isB2bApproved = true;
     }
   } catch {
     // public catalog
   }
 
-  const sanitize = (list: Product[]) =>
-    isB2bApproved ? list : list.map(stripB2bPrice);
+  const sanitize = (list: Product[]) => {
+    if (isB2bApproved) return list;
+    if (B2B_ONLY_MODE) return list.map(stripAllPrices);
+    return list.map(stripB2bPrice);
+  };
 
   if (filter === "aktion") {
     const fromDb = await fetchPromoProductsPage(offset + limit);

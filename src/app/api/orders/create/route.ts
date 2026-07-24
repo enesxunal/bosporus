@@ -112,6 +112,14 @@ export async function POST(request: Request) {
     // guest checkout
   }
 
+  const { B2B_ONLY_MODE } = await import("@/lib/shop-mode");
+  if (B2B_ONLY_MODE && !isB2b) {
+    return NextResponse.json(
+      { error: errorMessage("B2B_REQUIRED", locale), code: "B2B_REQUIRED" },
+      { status: 403 }
+    );
+  }
+
   const priced = await validateAndPriceOrderItems(items, isB2b);
   if (!priced.ok) {
     return NextResponse.json(

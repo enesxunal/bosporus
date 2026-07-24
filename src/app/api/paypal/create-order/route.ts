@@ -98,11 +98,19 @@ export async function POST(request: Request) {
     } = await supabase.auth.getUser();
     if (user) {
       userId = user.id;
-      const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-      isB2b = profile?.role === "b2b_approved";
+      const { data: profile } = await supabase.from("profiles").select("role, vat_verified").eq("id", user.id).single();
+      isB2b = profile?.role === "b2b_approved" && Boolean(profile.vat_verified);
     }
   } catch {
     // guest
+  }
+
+  const { B2B_ONLY_MODE } = await import("@/lib/shop-mode");
+  if (B2B_ONLY_MODE && !isB2b) {
+    return NextResponse.json(
+      { error: "Nur freigeschaltete Gewerbekunden können bestellen." },
+      { status: 403 }
+    );
   }
 
   const resolved = await resolveTotal(body, isB2b, userId);

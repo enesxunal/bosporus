@@ -73,11 +73,19 @@ export async function POST(request: Request) {
         .select("role, locale")
         .eq("id", user.id)
         .single();
-      isB2b = profile?.role === "b2b_approved";
+      isB2b = profile?.role === "b2b_approved" && Boolean((profile as { vat_verified?: boolean }).vat_verified);
       if (profile?.locale === "tr" || profile?.locale === "de") locale = profile.locale;
     }
   } catch {
     // guest
+  }
+
+  const { B2B_ONLY_MODE } = await import("@/lib/shop-mode");
+  if (B2B_ONLY_MODE && !isB2b) {
+    return NextResponse.json(
+      { error: "Nur freigeschaltete Gewerbekunden können bestellen." },
+      { status: 403 }
+    );
   }
 
   const priced = await validateAndPriceOrderItems(items, isB2b);

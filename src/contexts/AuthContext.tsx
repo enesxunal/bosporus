@@ -17,6 +17,9 @@ import { isB2BApproved } from "@/lib/types";
 interface AuthContextValue {
   user: SupabaseUser | null;
   isAdmin: boolean;
+  /** Her girişli kullanıcının profili (rol dahil) */
+  profile: UserProfile | null;
+  /** Sadece onaylı B2B (fiyat / nettopreis) */
   b2bProfile: UserProfile | null;
   loading: boolean;
   signOut: () => Promise<void>;
@@ -27,6 +30,7 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [b2bProfile, setB2bProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -34,6 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!isSupabaseConfigured()) {
       setUser(null);
       setIsAdmin(false);
+      setProfile(null);
       setB2bProfile(null);
       setLoading(false);
       return;
@@ -46,22 +51,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (!currentUser) {
         setIsAdmin(false);
+        setProfile(null);
         setB2bProfile(null);
         return;
       }
 
-      const { data: profile } = await supabase
+      const { data: row } = await supabase
         .from("profiles")
         .select("id, email, role, company_name, company_address, vat_id, vat_verified, locale, first_name, last_name")
         .eq("id", currentUser.id)
         .single();
 
-      const role = profile?.role;
-      setIsAdmin(role === "admin");
-      setB2bProfile(profile && isB2BApproved(profile as UserProfile) ? (profile as UserProfile) : null);
+      const p = (row as UserProfile | null) ?? null;
+      setProfile(p);
+      setIsAdmin(p?.role === "admin");
+      setB2bProfile(p && isB2BApproved(p) ? p : null);
     } catch {
       setUser(null);
       setIsAdmin(false);
+      setProfile(null);
       setB2bProfile(null);
     } finally {
       setLoading(false);
@@ -88,12 +96,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     setUser(null);
     setIsAdmin(false);
+    setProfile(null);
     setB2bProfile(null);
   }, []);
 
   const value = useMemo(
-    () => ({ user, isAdmin, b2bProfile, loading, signOut }),
-    [user, isAdmin, b2bProfile, loading, signOut]
+    () => ({ user, isAdmin, profile, b2bProfile, loading, signOut }),
+    [user, isAdmin, profile, b2bProfile, loading, signOut]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

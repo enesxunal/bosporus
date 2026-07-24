@@ -59,6 +59,10 @@ const MESSAGES: Record<string, { de: string; tr: string }> = {
     de: "Bitte online bezahlen (Karte, Klarna oder PayPal). Zahlung bei Lieferung/Abholung ist nicht möglich.",
     tr: "Lütfen online ödeme yapın (kart, Klarna veya PayPal). Teslimatta/gel-al ödeme yok.",
   },
+  B2B_REQUIRED: {
+    de: "Nur freigeschaltete Gewerbekunden können bestellen.",
+    tr: "Sadece onaylı toptancı hesapları sipariş verebilir.",
+  },
   STRIPE_ERROR: {
     de: "Online-Zahlung fehlgeschlagen. Bitte erneut versuchen.",
     tr: "Online ödeme başarısız. Lütfen tekrar deneyin.",

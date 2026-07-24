@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Bosporus GmbH – Großhandel Köln | Lebensmittel online",
-    "description": "Lebensmittel-Großhandel in Köln: Getränke, Tiefkühl, Verpackung & mehr für Gastronomie und Privatkunden. Lieferung und Abholung."
+    "description": "Köln gıda toptanı: içecek, dondurulmuş, ambalaj ve daha fazlası gastronomi için. Onay sonrası net fiyat."
   },
   "nav": {
     "home": "Ana Sayfa",
@@ -12,23 +12,23 @@
     "cart": "Sepet",
     "login": "Giriş",
     "register": "Kayıt Ol",
-    "b2bPortal": "Kurumsal · Net fiyat",
+    "b2bPortal": "Kurumsal · Onay sonrası fiyat",
     "account": "Hesabım",
     "logout": "Çıkış"
   },
   "hero": {
     "title": "Köln'deki Toptancınız",
-    "subtitle": "40 yılı aşkın deneyim. Gastronomi ve bireysel müşteriler için taze gıda.",
-    "ctaShop": "Alışverişe başla",
+    "subtitle": "40 yılı aşkın deneyim. Gastronomi ve toptancılar için taze gıda.",
+    "ctaShop": "Ürünleri gör",
     "ctaB2b": "Kurumsal hesap aç"
   },
   "home": {
     "whyTitle": "Neden Bosporus?",
     "delivery": "Hızlı Teslimat",
-    "deliveryDesc": "İlk siparişte getirme ücretsiz. Sonrasında 250 € üzeri ücretsiz teslimat (Köln ve çevre).",
-    "firstOrderFreeTitle": "İlk siparişte getirme ücretsiz",
-    "firstOrderFreeDesc": "Özel müşteri olarak kayıt olun – ilk teslimatta getirme ücreti yok.",
-    "firstOrderCta": "Hesap aç, ücretsiz getir",
+    "deliveryDesc": "İlk siparişte getirme ücretsiz. Toptancı min. sipariş 500 €.",
+    "firstOrderFreeTitle": "Onay sonrası net fiyat",
+    "firstOrderFreeDesc": "Toptancı hesabı açın – inceleme sonrası fiyatlar açılır. İlk getirme ücretsiz, min. 500 €.",
+    "firstOrderCta": "Toptancı hesabı aç",
     "quality": "Kalite Kontrolü",
     "qualityDesc": "Mutfağınız için titizlikle seçilmiş ürünler.",
     "service": "Kişisel Hizmet",
@@ -38,7 +38,7 @@
     "categoriesTitle": "Kategorilerimiz",
     "allCategories": "Tüm Kategoriler",
     "ctaTitle": "Gastronomi & kurumsal",
-    "ctaDesc": "Kurumsal müşteriler onay sonrası net fiyat görür. Bireysel müşteriler görünen fiyatla sorunsuz alışveriş yapar.",
+    "ctaDesc": "Fiyat ve sipariş sadece onaylı toptancılara açık. USt-IdNr. ile kayıt olun.",
     "ctaButton": "İletişim",
     "promoEyebrow": "Bu hafta",
     "promoTitle": "Kaçırılmayacak fırsatlar",
@@ -52,8 +52,8 @@
     "brutto": "KDV dahil",
     "netto": "KDV hariç",
     "plusPfand": "+ Depozito {amount}",
-    "wholesaleHint": "Toptancı / gastronomi? <link>Net fiyat için kayıt</link>",
-    "wholesaleHintDetail": "Restoran ve toptancılar: onay sonrası kurumsal portalda net fiyat görürsünüz. Bireysel müşteriler gösterilen KDV dahil fiyatı öder.",
+    "wholesaleHint": "Toptancı? <link>Hemen kayıt ol</link>",
+    "wholesaleHintDetail": "Fiyat ve sipariş, kurumsal hesabınız onaylandıktan sonra açılır.",
     "promo": "İndirim",
     "perUnit": "{unit} başına",
     "search": "Ürün ara…",
@@ -124,11 +124,14 @@
     "checkout": "Ödemeye geç",
     "continue": "Alışverişe devam",
     "remove": "Kaldır",
-    "firstOrderFreeHint": "İlk siparişinizde getirme ücretsiz (minimum 100 €).",
-    "thresholdFreeHint": "Sepet 250 € ve üzeriyse teslimat ücretsiz.",
-    "b2bDeliveryHint": "Kurumsal: teslimat min. 1.000 € – 2.500 € üzeri ücretsiz.",
-    "b2bPendingHint": "Kurumsal hesabınız inceleniyor. Onaya kadar bireysel koşullar geçerlidir.",
+    "firstOrderFreeHint": "İlk siparişinizde getirme ücretsiz (minimum 500 €).",
+    "thresholdFreeHint": "Sepet 2.500 € ve üzeriyse teslimat ücretsiz.",
+    "b2bDeliveryHint": "Toptancı: teslimat min. 500 € – 2.500 € üzeri ücretsiz.",
+    "b2bFirstOrderHint": "İlk siparişinizde getirme ücretsiz.",
+    "b2bPendingHint": "Kurumsal hesabınız inceleniyor. Fiyat ve ödeme onay sonrası açılır.",
+    "b2cPausedHint": "Bireysel satış geçici kapalı. Toptancı başvurusu yapın – fiyatlar onay sonrası.",
     "loginForFreeDelivery": "İlk getirme ücretsiz olsun diye hesap açın:",
+    "loginForPrices": "Fiyatlar kayıt ve onay sonrası:",
     "registerLink": "Kayıt ol",
     "loginLink": "Giriş yap"
   },
