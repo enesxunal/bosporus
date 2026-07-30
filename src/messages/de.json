@@ -75,7 +75,7 @@
     "registerTitle": "Gewerbekonto registrieren",
     "companyName": "Firmenname",
     "companyAddress": "Firmenadresse",
-    "vatId": "USt-IdNr.",
+    "vatId": "Steuernummer",
     "vatHint": "Format: DE123456789",
     "registerSubmit": "Konto erstellen & verifizieren",
     "productCount": "{count} Artikel",

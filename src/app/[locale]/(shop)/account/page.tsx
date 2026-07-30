@@ -326,7 +326,7 @@ export default function AccountPage() {
                 required
               />
               <Input
-                label="USt-IdNr."
+                label={locale === "tr" ? "Vergi Numarası" : "Steuernummer"}
                 value={upgradeVat}
                 onChange={(e) => setUpgradeVat(e.target.value.toUpperCase())}
                 placeholder="DE123456789"
