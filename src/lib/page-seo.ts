@@ -35,6 +35,11 @@ const PAGES: Record<string, { title: string; description: string }> = {
     description:
       "Bosporus für Gastronomie und Handel: Nettopreise nach Freigabe, Min. 500 €, erste Lieferung gratis. Jetzt registrieren.",
   },
+  "/delivery": {
+    title: "Liefergebiet Köln & Umgebung | Bosporus Großhandel",
+    description:
+      "PLZ prüfen: Liefergebiet für Gewerbekunden in Köln und Umgebung. Mindestbestellwert und Abholung bei Bosporus Großhandel.",
+  },
   "/gewerbe/register": {
     title: "Gewerbe registrieren",
     description:

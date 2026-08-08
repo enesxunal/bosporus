@@ -73,6 +73,12 @@ export default async function HomePage({
               {home("firstOrderCta")}
             </Link>
             <Link
+              href="/delivery"
+              className="inline-flex items-center justify-center h-11 px-5 text-sm font-bold rounded-xl border-2 border-bosporus/25 text-bosporus-gray-800 hover:bg-bosporus-light transition-colors"
+            >
+              {home("checkDelivery")}
+            </Link>
+            <Link
               href="/products"
               className="inline-flex items-center justify-center h-11 px-5 text-sm font-bold rounded-xl border-2 border-bosporus/25 text-bosporus-gray-800 hover:bg-bosporus-light transition-colors"
             >

@@ -16,7 +16,8 @@
     "account": "Hesabım",
     "logout": "Çıkış",
     "quickOrder": "Hızlı sipariş",
-    "favorites": "Favoriler"
+    "favorites": "Favoriler",
+    "delivery": "Teslimat Bölgesi"
   },
   "hero": {
     "title": "Köln'deki Toptancınız",
@@ -47,7 +48,8 @@
     "promoAction": "Tüm kampanyalar →",
     "popularTitle": "Popüler ürünler",
     "popularAction": "Tüm ürünler →",
-    "b2bPortal": "Kurumsal hesap aç"
+    "b2bPortal": "Kurumsal hesap aç",
+    "checkDelivery": "Teslimat bölgesini kontrol et"
   },
   "product": {
     "addToCart": "Sepete ekle",
@@ -104,6 +106,7 @@
     "heroNote": "Geçerli KDV no. gerekli · İnceleme sonrası açılır · Min. 500 € · ilk getirme ücretsiz",
     "ctaRegister": "Kurumsal hesap talep et",
     "ctaLogin": "Zaten müşteri misiniz? Giriş",
+    "checkDelivery": "Teslimat bölgesini kontrol et",
     "benefitsTitle": "İşletmeniz için her şey",
     "benefitsDesc": "Tek hesap – onay sonrası net fiyat, hızlı tekrar sipariş, teslimat veya gel-al.",
     "f1Title": "Onay sonrası net fiyat",
@@ -142,7 +145,8 @@
     "loginForPrices": "Fiyatlar kayıt ve onay sonrası:",
     "loginForCheckout": "Ödeme sadece onaylı toptancı hesabıyla:",
     "registerLink": "Kayıt ol",
-    "loginLink": "Giriş yap"
+    "loginLink": "Giriş yap",
+    "deliveryRegion": "Teslimat bölgesini kontrol et"
   },
   "checkout": {
     "title": "Ödeme",
@@ -551,5 +555,32 @@
     "inStock": "Stokta",
     "outOfStock": "Stokta yok",
     "onlyFavorites": "Sadece favoriler"
+  },
+  "deliveryCheck": {
+    "title": "Teslimat Bölgesi",
+    "subtitle": "Posta kodunuzla Köln ve çevresinde ticari teslimat yapıp yapmadığımızı kontrol edin.",
+    "plzLabel": "Posta kodu",
+    "placeholder": "Posta kodunu girin",
+    "cta": "Teslimat bölgesini kontrol et",
+    "invalidPlz": "Lütfen geçerli 5 haneli Almanya posta kodu girin.",
+    "rateLimited": "Çok fazla sorgu. Lütfen daha sonra tekrar deneyin.",
+    "checkFailed": "Kontrol şu an yapılamıyor. Lütfen bize ulaşın.",
+    "resultOk": "Bu bölgede teslimat mümkün",
+    "resultOutOfRange": "Standart teslimat yarıçapının dışında",
+    "resultUncertain": "Bireysel teslimat kontrolü önerilir",
+    "zoneLabel": "Bölge",
+    "minOrderLabel": "Minimum sipariş (toptancı)",
+    "feeLabel": "Tahmini teslimat ücreti",
+    "feeFree": "0 €",
+    "freeFromLabel": "Ücretsiz teslimat eşiği",
+    "checkoutNote": "Kesin teslimat ücreti, ödeme adımında tam adrese göre hesaplanır.",
+    "contactHint": "Bireysel teslimat kontrolü için lütfen bizimle iletişime geçin.",
+    "pickupOk": "Gel-al mümkün",
+    "pickupHours": "Gel-al Pzt–Cmt {open}–{close} (Köln).",
+    "whatsappCta": "Teslimat bölgesini WhatsApp’tan sorun",
+    "whatsappMessage": "Merhaba Bosporus, lütfen PLZ {zip} için teslimat bölgesini kontrol edin (toptancı).",
+    "b2bNote": "{city} ve çevresi onaylı toptancılar için geçerlidir – Almanya geneli taahhüt yoktur.",
+    "ctaRegister": "Toptancı hesabı aç",
+    "ctaProducts": "Ürünleri görüntüle"
   }
 }

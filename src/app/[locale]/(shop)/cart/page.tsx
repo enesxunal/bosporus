@@ -93,6 +93,11 @@ export default function CartPage() {
         {firstOrderEligible && (
           <p className="font-semibold text-bosporus">{t("b2bFirstOrderHint")}</p>
         )}
+        <p>
+          <Link href="/delivery" className="font-semibold underline underline-offset-2 hover:text-bosporus">
+            {t("deliveryRegion")}
+          </Link>
+        </p>
       </div>
     ) : audience === "b2b_pending" ? (
       <p className="font-semibold">{t("b2bPendingHint")}</p>

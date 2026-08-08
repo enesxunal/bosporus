@@ -63,6 +63,12 @@ export default async function GrosshandelLandingPage({
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
+              href="/delivery"
+              className="inline-flex items-center justify-center h-12 px-7 text-base font-bold rounded-xl border-2 border-white/35 text-white hover:bg-white/10 active:scale-[0.98] transition-all"
+            >
+              {t("checkDelivery")}
+            </Link>
+            <Link
               href="/login"
               className="inline-flex items-center justify-center h-12 px-7 text-base font-bold rounded-xl border-2 border-white/35 text-white hover:bg-white/10 active:scale-[0.98] transition-all"
             >

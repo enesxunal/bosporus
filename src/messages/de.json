@@ -16,7 +16,8 @@
     "account": "Mein Konto",
     "logout": "Abmelden",
     "quickOrder": "Schnellbestellung",
-    "favorites": "Favoriten"
+    "favorites": "Favoriten",
+    "delivery": "Liefergebiet"
   },
   "hero": {
     "title": "Ihr Großhandel in Köln",
@@ -47,7 +48,8 @@
     "promoAction": "Alle Angebote →",
     "popularTitle": "Beliebte Produkte",
     "popularAction": "Alle Produkte →",
-    "b2bPortal": "Gewerbekonto eröffnen"
+    "b2bPortal": "Gewerbekonto eröffnen",
+    "checkDelivery": "Liefergebiet prüfen"
   },
   "product": {
     "addToCart": "In den Warenkorb",
@@ -104,6 +106,7 @@
     "heroNote": "Nur mit gültiger USt-IdNr. · Freischaltung nach Prüfung · Min. 500 € · erste Lieferung gratis",
     "ctaRegister": "Jetzt Gewerbekonto anfragen",
     "ctaLogin": "Bereits Kunde? Anmelden",
+    "checkDelivery": "Liefergebiet prüfen",
     "benefitsTitle": "Alles für Ihren Betrieb",
     "benefitsDesc": "Ein Konto – Netto-Preise nach Freigabe, schnelle Nachbestellung, Lieferung oder Abholung.",
     "f1Title": "Nettopreise nach Freigabe",
@@ -142,7 +145,8 @@
     "loginForPrices": "Preise nach Registrierung & Freigabe:",
     "loginForCheckout": "Zur Kasse nur mit freigeschaltetem Gewerbekonto:",
     "registerLink": "Registrieren",
-    "loginLink": "Anmelden"
+    "loginLink": "Anmelden",
+    "deliveryRegion": "Liefergebiet prüfen"
   },
   "checkout": {
     "title": "Kasse",
@@ -551,5 +555,32 @@
     "inStock": "Verfügbar",
     "outOfStock": "Nicht verfügbar",
     "onlyFavorites": "Nur Favoriten"
+  },
+  "deliveryCheck": {
+    "title": "Liefergebiet",
+    "subtitle": "Prüfen Sie mit Ihrer Postleitzahl, ob wir Ihr Gewerbe in Köln und Umgebung beliefern können.",
+    "plzLabel": "Postleitzahl",
+    "placeholder": "PLZ eingeben",
+    "cta": "Liefergebiet prüfen",
+    "invalidPlz": "Bitte eine gültige 5-stellige deutsche PLZ eingeben.",
+    "rateLimited": "Zu viele Anfragen. Bitte später erneut versuchen.",
+    "checkFailed": "Prüfung gerade nicht möglich. Bitte kontaktieren Sie uns.",
+    "resultOk": "Lieferung in diesem Gebiet möglich",
+    "resultOutOfRange": "Außerhalb des Standard-Lieferradius",
+    "resultUncertain": "Individuelle Lieferprüfung empfohlen",
+    "zoneLabel": "Zone",
+    "minOrderLabel": "Mindestbestellwert (Gewerbe)",
+    "feeLabel": "Geschätzte Liefergebühr",
+    "feeFree": "0 €",
+    "freeFromLabel": "Lieferung gratis ab",
+    "checkoutNote": "Die genaue Liefergebühr wird an der Kasse anhand Ihrer vollständigen Adresse berechnet.",
+    "contactHint": "Bitte kontaktieren Sie uns für eine individuelle Lieferprüfung.",
+    "pickupOk": "Abholung möglich",
+    "pickupHours": "Abholung Mo–Sa {open}–{close} Uhr (Köln).",
+    "whatsappCta": "Liefergebiet individuell anfragen",
+    "whatsappMessage": "Hallo Bosporus, bitte Liefergebiet für PLZ {zip} prüfen (Gewerbe).",
+    "b2bNote": "Gilt für freigeschaltete Gewerbekunden in {city} und Umgebung – keine deutschlandweite Zusicherung.",
+    "ctaRegister": "Gewerbekonto eröffnen",
+    "ctaProducts": "Sortiment ansehen"
   }
 }
