@@ -33,7 +33,7 @@ export default async function ContactPage({
     { icon: MapPin, label: t("addressLabel"), text: `${COMPANY.street}, ${COMPANY.zip} ${COMPANY.city}`, href: MAP_URL, external: true },
     { icon: Phone, label: t("phoneLabel"), text: COMPANY.phone, href: `tel:${COMPANY.phone.replace(/\s/g, "")}` },
     { icon: Mail, label: t("emailLabel"), text: COMPANY.email, href: `mailto:${COMPANY.email}` },
-    { icon: Clock, label: t("hoursLabel"), text: t("hours") },
+    { icon: Clock, label: t("hoursLabel"), text: t("hours", { open: COMPANY.openingHours.open, close: COMPANY.openingHours.close }) },
   ];
 
   return (

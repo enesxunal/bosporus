@@ -63,7 +63,9 @@ export function B2cFooter() {
                 className="h-9 sm:h-10 w-auto brightness-0 invert mb-4"
               />
               <p className="text-sm text-white/75 leading-relaxed mb-4">{t("tagline")}</p>
-              <p className="text-xs text-white/50 mb-4">{t("hours")}</p>
+              <p className="text-xs text-white/50 mb-4">
+                {t("hours", { open: COMPANY.openingHours.open, close: COMPANY.openingHours.close })}
+              </p>
               <ul className="space-y-2 text-sm text-white/75">
                 <li className="flex items-start gap-2">
                   <MapPin className="w-4 h-4 shrink-0 mt-0.5 text-bosporus-yellow" />

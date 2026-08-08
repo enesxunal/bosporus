@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/types";
+import { COMPANY } from "@/lib/company";
 
 export const DELIVERY_ZONES = [
   {
@@ -37,10 +38,15 @@ export function findDeliveryZone(zip: string) {
   return null;
 }
 
-/** 30-minute pickup slots Mo–Sa 00:00–18:00 */
+/** 30-minute pickup slots — saat aralığı COMPANY.openingHours tek kaynağından */
 export function generatePickupSlots(): { label: string; value: string }[] {
+  const openH = Number.parseInt(COMPANY.openingHours.open.slice(0, 2), 10);
+  const closeH = Number.parseInt(COMPANY.openingHours.close.slice(0, 2), 10);
+  const startHour = Number.isFinite(openH) ? openH : 8;
+  const endHour = Number.isFinite(closeH) ? closeH : 18;
+
   const slots: { label: string; value: string }[] = [];
-  for (let h = 0; h < 18; h++) {
+  for (let h = startHour; h < endHour; h++) {
     for (const m of [0, 30]) {
       const start = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
       const endH = m === 30 ? h + 1 : h;

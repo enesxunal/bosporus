@@ -235,7 +235,7 @@
   "contact": {
     "title": "İletişim",
     "subtitle": "Size yardımcı olmaktan memnuniyet duyarız — hızlı ve samimi iletişim.",
-    "hours": "Pzt.–Cmt.: 00:00–18:00",
+    "hours": "Pzt.–Cmt.: {open}–{close}",
     "addressLabel": "Adres",
     "phoneLabel": "Telefon",
     "emailLabel": "E-posta",
@@ -424,7 +424,7 @@
   },
   "footer": {
     "tagline": "Köln'de gastronomi için toptan gıda partneriniz.",
-    "hours": "Pzt.–Cmt.: 00:00–18:00",
+    "hours": "Pzt.–Cmt.: {open}–{close}",
     "imprint": "Künye",
     "privacy": "Gizlilik",
     "trustDelivery": "İlk siparişte getirme ücretsiz (toptancı)",

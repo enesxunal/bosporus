@@ -235,7 +235,7 @@
   "contact": {
     "title": "Kontakt",
     "subtitle": "Wir freuen uns auf Ihre Nachricht – persönlich, schnell und unkompliziert.",
-    "hours": "Mo.–Sa.: 00:00–18:00 Uhr",
+    "hours": "Mo.–Sa.: {open}–{close} Uhr",
     "addressLabel": "Adresse",
     "phoneLabel": "Telefon",
     "emailLabel": "E-Mail",
@@ -424,7 +424,7 @@
   },
   "footer": {
     "tagline": "Ihr Großhandels-Partner für Gastronomie in Köln.",
-    "hours": "Mo.–Sa.: 00:00–18:00 Uhr",
+    "hours": "Mo.–Sa.: {open}–{close} Uhr",
     "imprint": "Impressum",
     "privacy": "Datenschutz",
     "trustDelivery": "1. Bestellung: Lieferung gratis (Gewerbe)",

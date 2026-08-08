@@ -110,6 +110,19 @@ export function organizationJsonLd() {
       addressCountry: "DE",
     },
     vatID: COMPANY.vatId,
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
+      opens: COMPANY.openingHours.open,
+      closes: COMPANY.openingHours.close,
+    },
   };
 }
 

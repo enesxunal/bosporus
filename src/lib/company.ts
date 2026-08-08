@@ -16,6 +16,8 @@ export const COMPANY = {
   vatId: "DE317695485",
   registerCourt: "Amtsgericht Köln",
   registerNumber: "HRB 93064",
+  // Öffnungszeiten – zentrale Quelle. Uhrzeit muss vom Betrieb bestätigt werden.
+  openingHours: { open: "08:00", close: "18:00" },
 } as const;
 
 export function companyAddressLine(): string {
