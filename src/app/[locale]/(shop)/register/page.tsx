@@ -2,32 +2,48 @@
 
 import { useState, Suspense } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { useRouter, Link } from "@/i18n/navigation";
-import { Building2, CheckCircle, XCircle } from "lucide-react";
+import { Link } from "@/i18n/navigation";
+import { Building2, CheckCircle, XCircle, Mail } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
-import { trackSignUp } from "@/lib/analytics";
+import { trackGenerateLead } from "@/lib/analytics";
 
 function RegisterForm() {
   const t = useTranslations("auth");
   const tb = useTranslations("b2b");
+  const ts = useTranslations("registerSuccess");
   const locale = useLocale() as "de" | "tr";
-  const router = useRouter();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
 
   const [b2bForm, setB2bForm] = useState({
     companyName: "",
     companyAddress: "",
+    contactPerson: "",
     vatId: "",
+    phone: "",
     email: "",
     password: "",
   });
 
   const handleB2bSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // İstemci doğrulaması (backend zaten tekrar doğrular)
+    if (b2bForm.contactPerson.trim().length < 2) {
+      setStatus("error");
+      setMessage(tb("contactPersonInvalid"));
+      return;
+    }
+    const phoneDigits = b2bForm.phone.replace(/\D/g, "");
+    if (/[A-Za-zÀ-ÿ]/.test(b2bForm.phone) || phoneDigits.length < 7) {
+      setStatus("error");
+      setMessage(tb("phoneInvalid"));
+      return;
+    }
+
     setStatus("loading");
     try {
       const res = await fetch("/api/auth/b2b-register", {
@@ -39,22 +55,51 @@ function RegisterForm() {
       if (!res.ok) {
         setStatus("error");
         const err = data.error;
-        setMessage(typeof err === "string" ? err : err?.message ?? "Fehler");
+        const raw = typeof err === "string" ? err : err?.message ?? "";
+        // Ham teknik hataları kullanıcıya gösterme
+        const technical = /supabase|smtp|mx|vies|pgrst|fetch|network|undefined|null|stack/i.test(raw);
+        setMessage(raw && !technical ? raw : t("connectionError"));
         return;
       }
       setStatus("success");
-      setMessage(data.message);
-      trackSignUp("b2b");
-      if (data.needsVerification) {
-        setTimeout(() => router.push(`/verify-email?email=${encodeURIComponent(b2bForm.email)}`), 1500);
-      } else {
-        setTimeout(() => router.push("/login"), 2000);
-      }
+      setMessage(data.message ?? "");
+      trackGenerateLead("b2b_register");
     } catch {
       setStatus("error");
-      setMessage("Verbindungsfehler");
+      setMessage(t("connectionError"));
     }
   };
+
+  if (status === "success") {
+    return (
+      <div className="page-narrow py-10 sm:py-14">
+        <Card>
+          <div className="flex items-center gap-3 mb-3">
+            <CheckCircle className="w-7 h-7 text-green-600 shrink-0" />
+            <h1 className="text-xl sm:text-2xl font-extrabold text-bosporus-gray-800">{ts("title")}</h1>
+          </div>
+          <p className="text-sm text-bosporus-muted leading-relaxed mb-4">{ts("text")}</p>
+          <ol className="space-y-2 mb-4">
+            {[ts("step1"), ts("step2"), ts("step3")].map((step, i) => (
+              <li key={step} className="flex gap-3 items-start text-sm text-bosporus-gray-800">
+                <span className="shrink-0 w-6 h-6 rounded-lg bg-bosporus text-white font-bold text-xs flex items-center justify-center">
+                  {i + 1}
+                </span>
+                <span className="pt-0.5">{step}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="text-xs text-bosporus-muted mb-5">{ts("note")}</p>
+          <Link href={`/verify-email?email=${encodeURIComponent(b2bForm.email)}`}>
+            <Button size="lg" fullWidth>
+              <Mail className="w-4 h-4" />
+              {ts("verifyCta")}
+            </Button>
+          </Link>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="page-narrow py-10 sm:py-14">
@@ -86,6 +131,14 @@ function RegisterForm() {
             rows={2}
             required
           />
+          <Input
+            label={tb("contactPerson")}
+            value={b2bForm.contactPerson}
+            onChange={(e) => setB2bForm({ ...b2bForm, contactPerson: e.target.value })}
+            placeholder={tb("contactPersonPlaceholder")}
+            autoComplete="name"
+            required
+          />
           <div>
             <Input
               label={tb("vatId")}
@@ -97,8 +150,19 @@ function RegisterForm() {
             <p className="text-xs text-bosporus-muted mt-1">{tb("vatHint")}</p>
           </div>
           <Input
+            label={tb("phone")}
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            value={b2bForm.phone}
+            onChange={(e) => setB2bForm({ ...b2bForm, phone: e.target.value })}
+            placeholder={tb("phonePlaceholder")}
+            required
+          />
+          <Input
             label="E-Mail"
             type="email"
+            autoComplete="email"
             value={b2bForm.email}
             onChange={(e) => setB2bForm({ ...b2bForm, email: e.target.value })}
             required
@@ -116,12 +180,6 @@ function RegisterForm() {
         </form>
       </Card>
 
-      {status === "success" && (
-        <div className="flex items-center gap-2 text-green-700 bg-green-50 p-4 rounded-xl text-sm mt-4 border border-green-100">
-          <CheckCircle className="w-4 h-4 shrink-0" />
-          {message}
-        </div>
-      )}
       {status === "error" && (
         <div className="flex items-center gap-2 text-bosporus-red bg-red-50 p-4 rounded-xl text-sm mt-4 border border-red-100">
           <XCircle className="w-4 h-4 shrink-0" />

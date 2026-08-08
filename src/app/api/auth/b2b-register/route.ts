@@ -13,11 +13,29 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { companyName, companyAddress, vatId, email, password, locale: bodyLocale } = body;
+  const { companyName, companyAddress, vatId, email, password, phone, contactPerson, locale: bodyLocale } = body;
   const locale: "de" | "tr" = bodyLocale === "tr" ? "tr" : "de";
 
-  if (!companyName || !companyAddress || !vatId || !email || !password) {
+  if (!companyName || !companyAddress || !vatId || !email || !password || !phone || !contactPerson) {
     return NextResponse.json({ error: "Alle Felder sind Pflicht" }, { status: 400 });
+  }
+
+  // Telefon: uluslararası formatlara izin ver (+, boşluk, parantez, tire), harf reddet
+  const normalizedPhone = String(phone).trim().replace(/\s+/g, " ");
+  const phoneDigits = normalizedPhone.replace(/\D/g, "");
+  if (/[A-Za-zÀ-ÿ]/.test(normalizedPhone) || phoneDigits.length < 7 || phoneDigits.length > 20) {
+    return NextResponse.json(
+      { error: locale === "tr" ? "Lütfen geçerli bir telefon numarası girin." : "Bitte geben Sie eine gültige Telefonnummer ein." },
+      { status: 400 }
+    );
+  }
+
+  const normalizedContactPerson = String(contactPerson).trim();
+  if (normalizedContactPerson.length < 2 || normalizedContactPerson.length > 120) {
+    return NextResponse.json(
+      { error: locale === "tr" ? "Lütfen yetkili kişiyi girin." : "Bitte geben Sie den Ansprechpartner an." },
+      { status: 400 }
+    );
   }
 
   if (!/^DE\d{9}$/.test(vatId.replace(/\s/g, ""))) {
@@ -44,7 +62,12 @@ export async function POST(request: Request) {
     email: normalizedEmail,
     password,
     email_confirm: false,
-    user_metadata: { company_name: companyName, role: "b2b_pending" },
+    user_metadata: {
+      company_name: companyName,
+      role: "b2b_pending",
+      phone: normalizedPhone,
+      contact_person: normalizedContactPerson,
+    },
   });
 
   if (error) {
@@ -53,19 +76,30 @@ export async function POST(request: Request) {
   }
 
   if (data.user) {
-    const { error: profileError } = await admin.from("profiles").upsert(
-      {
-        id: data.user.id,
-        email: normalizedEmail,
-        role: "b2b_pending",
-        company_name: companyName,
-        company_address: companyAddress,
-        vat_id: normalizedVatId,
-        vat_verified: true,
-        locale,
-      },
-      { onConflict: "id" }
-    );
+    // phone kolonu mevcut (004). contact_person 014 migration ile gelir; henüz
+    // uygulanmadıysa upsert'i contact_person olmadan tekrar dener (canlıyı bozmaz).
+    const baseProfile = {
+      id: data.user.id,
+      email: normalizedEmail,
+      role: "b2b_pending",
+      company_name: companyName,
+      company_address: companyAddress,
+      vat_id: normalizedVatId,
+      vat_verified: true,
+      locale,
+      phone: normalizedPhone,
+    };
+
+    let profileError = (
+      await admin.from("profiles").upsert(
+        { ...baseProfile, contact_person: normalizedContactPerson },
+        { onConflict: "id" }
+      )
+    ).error;
+
+    if (profileError && /contact_person/i.test(profileError.message)) {
+      profileError = (await admin.from("profiles").upsert(baseProfile, { onConflict: "id" })).error;
+    }
 
     if (profileError) {
       console.error("B2B profile upsert error:", profileError);
@@ -101,6 +135,8 @@ export async function POST(request: Request) {
               type: "b2b",
               email: normalizedEmail,
               companyName,
+              phone: normalizedPhone,
+              contactPerson: normalizedContactPerson,
             })
           )
         )

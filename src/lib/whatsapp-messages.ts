@@ -25,9 +25,13 @@ export function whatsappAdminSignUp(data: {
   email: string;
   name?: string;
   companyName?: string;
+  phone?: string;
+  contactPerson?: string;
 }): string {
   if (data.type === "b2b") {
-    return `🆕 *Neue Gewerbe-Registrierung*\n\nFirma: ${data.companyName ?? "—"}\nE-Mail: ${data.email}\nStatus: Freigabe ausstehend`;
+    const contactLine = data.contactPerson ? `\nAnsprechpartner: ${data.contactPerson}` : "";
+    const phoneLine = data.phone ? `\n📱 ${data.phone}` : "";
+    return `🆕 *Neue Gewerbe-Registrierung*\n\nFirma: ${data.companyName ?? "—"}${contactLine}\nE-Mail: ${data.email}${phoneLine}\nStatus: Freigabe ausstehend`;
   }
   return `🆕 *Neue Privat-Registrierung*\n\nName: ${data.name || "—"}\nE-Mail: ${data.email}`;
 }

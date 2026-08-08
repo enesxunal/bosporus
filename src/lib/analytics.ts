@@ -186,6 +186,21 @@ export function trackSignUp(method: "b2c" | "b2b"): void {
   }
 }
 
+/**
+ * B2B başvuru lead’i (satın alma değil).
+ * GA: generate_lead + b2b_application_submitted · Meta: Lead · TikTok: SubmitForm
+ */
+export function trackGenerateLead(source = "b2b_register"): void {
+  trackEvent("generate_lead", { method: source });
+  trackEvent("b2b_application_submitted", { method: source });
+  try {
+    window.fbq?.("track", "Lead", { content_name: source });
+    window.ttq?.track("SubmitForm", { content_name: source });
+  } catch {
+    /* pixel yok */
+  }
+}
+
 /** Sepete ekleme */
 export function trackAddToCart(item: {
   item_id: string;

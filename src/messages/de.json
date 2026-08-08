@@ -88,7 +88,13 @@
     "viewList": "Liste",
     "viewGrid": "Katalog",
     "viewListHint": "Tabellenansicht – schnell bestellen",
-    "viewGridHint": "Kachelansicht – wie im Katalog"
+    "viewGridHint": "Kachelansicht – wie im Katalog",
+    "phone": "Telefonnummer",
+    "phonePlaceholder": "z. B. +49 221 1234567",
+    "phoneInvalid": "Bitte geben Sie eine gültige Telefonnummer ein.",
+    "contactPerson": "Ansprechpartner",
+    "contactPersonPlaceholder": "Vor- und Nachname",
+    "contactPersonInvalid": "Bitte geben Sie den Ansprechpartner an."
   },
   "grosshandel": {
     "heroTitle": "Großhandel für Gastronomie & Handel",
@@ -495,5 +501,14 @@
     "statusDelivered": "Geliefert",
     "statusCancelled": "Storniert",
     "downloadPdf": "PDF / Rechnung"
+  },
+  "registerSuccess": {
+    "title": "Vielen Dank für Ihre Registrierung",
+    "text": "Wir haben Ihre Gewerbeanmeldung erhalten. Bitte bestätigen Sie Ihre E-Mail-Adresse, falls Sie eine Bestätigungsnachricht erhalten haben. Anschließend prüfen wir Ihre Unternehmensdaten. Nach der Freischaltung sehen Sie Ihre individuellen Nettopreise und können Bestellungen aufgeben.",
+    "note": "Bei Rückfragen erreichen wir Sie über die angegebene Telefonnummer.",
+    "step1": "Bestätigen Sie Ihre E-Mail-Adresse.",
+    "step2": "Wir prüfen Ihre Unternehmensdaten.",
+    "step3": "Nach der Freischaltung: individuelle Nettopreise & Bestellung.",
+    "verifyCta": "E-Mail-Bestätigung öffnen"
   }
 }

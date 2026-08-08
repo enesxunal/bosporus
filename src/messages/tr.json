@@ -88,7 +88,13 @@
     "viewList": "Liste",
     "viewGrid": "Katalog",
     "viewListHint": "Tablo görünümü – hızlı sipariş",
-    "viewGridHint": "Kart görünümü – katalog gibi"
+    "viewGridHint": "Kart görünümü – katalog gibi",
+    "phone": "Telefon numarası",
+    "phonePlaceholder": "Örn. +49 221 1234567",
+    "phoneInvalid": "Lütfen geçerli bir telefon numarası girin.",
+    "contactPerson": "Yetkili kişi",
+    "contactPersonPlaceholder": "Ad ve soyad",
+    "contactPersonInvalid": "Lütfen yetkili kişiyi girin."
   },
   "grosshandel": {
     "heroTitle": "Gastronomi ve ticaret için toptan",
@@ -495,5 +501,14 @@
     "statusDelivered": "Teslim edildi",
     "statusCancelled": "İptal",
     "downloadPdf": "PDF / Fatura"
+  },
+  "registerSuccess": {
+    "title": "Kaydınız için teşekkür ederiz",
+    "text": "Ticari hesap başvurunuzu aldık. Doğrulama e-postası aldıysanız lütfen e-posta adresinizi onaylayın. Ardından firma bilgilerinizi inceleyeceğiz. Hesabınız onaylandıktan sonra size özel net fiyatları görebilir ve sipariş verebilirsiniz.",
+    "note": "Gerekli durumlarda verdiğiniz telefon numarası üzerinden sizinle iletişime geçebiliriz.",
+    "step1": "E-posta adresinizi onaylayın.",
+    "step2": "Firma bilgilerinizi inceleyelim.",
+    "step3": "Onay sonrası: size özel net fiyatlar & sipariş.",
+    "verifyCta": "E-posta doğrulamayı aç"
   }
 }

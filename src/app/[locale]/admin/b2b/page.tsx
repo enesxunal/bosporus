@@ -11,6 +11,8 @@ interface B2bRow {
   company_name: string;
   company_address: string;
   vat_id: string;
+  phone?: string | null;
+  contact_person?: string | null;
   created_at: string;
 }
 
@@ -70,7 +72,15 @@ export default function AdminB2bPage() {
           {pending.map((p) => (
             <Card key={p.id} padding="md" className="!rounded-2xl">
               <p className="font-bold">{p.company_name}</p>
+              {p.contact_person && (
+                <p className="text-sm text-bosporus-gray-800">Ansprechpartner: {p.contact_person}</p>
+              )}
               <p className="text-sm text-bosporus-muted">{p.email} · {p.vat_id}</p>
+              {p.phone && (
+                <p className="text-sm text-bosporus-gray-800">
+                  <a href={`tel:${p.phone.replace(/\s/g, "")}`} className="hover:text-bosporus">📱 {p.phone}</a>
+                </p>
+              )}
               <p className="text-sm mt-1">{p.company_address}</p>
               <div className="flex gap-2 mt-4">
                 <Button size="sm" onClick={() => approve(p.id, "approve")}>
