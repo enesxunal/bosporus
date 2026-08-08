@@ -15,7 +15,8 @@
     "b2bPortal": "Ürünler · Onay sonrası fiyat",
     "account": "Hesabım",
     "logout": "Çıkış",
-    "quickOrder": "Hızlı sipariş"
+    "quickOrder": "Hızlı sipariş",
+    "favorites": "Favoriler"
   },
   "hero": {
     "title": "Köln'deki Toptancınız",
@@ -530,6 +531,25 @@
     "noneSelected": "Lütfen miktar girin",
     "noResults": "Ürün bulunamadı",
     "goToCart": "Sepete git",
-    "caseHint": "{count} adet/koli"
+    "caseHint": "{count} adet/koli",
+    "onlyFavorites": "Sadece favoriler"
+  },
+  "favorites": {
+    "title": "Favorilerim",
+    "subtitle": "Kayıtlı ürünler – miktar seçin ve sepete ekleyin.",
+    "empty": "Henüz favori ürününüz yok.",
+    "browse": "Ürünleri görüntüle",
+    "backToAccount": "Hesaba dön",
+    "add": "Favorilere ekle",
+    "remove": "Favorilerden çıkar",
+    "colProduct": "Ürün",
+    "colSku": "Ürün No",
+    "colPrice": "Fiyat",
+    "colStock": "Durum",
+    "colQty": "Adet",
+    "addToCart": "Sepete ekle",
+    "inStock": "Stokta",
+    "outOfStock": "Stokta yok",
+    "onlyFavorites": "Sadece favoriler"
   }
 }

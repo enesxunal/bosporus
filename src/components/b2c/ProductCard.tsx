@@ -18,6 +18,7 @@ import { PriceGateCta } from "@/components/b2c/PriceGateCta";
 import { WholesalePriceHint } from "@/components/b2c/WholesalePriceHint";
 import { buildCartItemFromProduct } from "@/lib/pfand";
 import { trackAddToCart, trackViewItem } from "@/lib/analytics";
+import { FavoriteButton } from "@/components/b2c/FavoriteButton";
 
 interface ProductCardProps {
   product: Product;
@@ -58,7 +59,7 @@ export function ProductCard({ product, profile: profileProp = null, variant = "d
   };
 
   return (
-    <article className="group flex flex-col card card-hover overflow-hidden h-full">
+    <article className="group relative flex flex-col card card-hover overflow-hidden h-full">
       <Link href={detailHref} className="block relative">
         <div className="relative aspect-square bg-bosporus-gray-50 overflow-hidden">
           <ProductImage
@@ -66,7 +67,7 @@ export function ProductCard({ product, profile: profileProp = null, variant = "d
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
           {isDeal && (
-            <div className="absolute top-2.5 left-2.5">
+            <div className="absolute top-2.5 left-2.5 z-[1]">
               <Badge variant="promo">{t("promo")}</Badge>
             </div>
           )}
@@ -79,6 +80,14 @@ export function ProductCard({ product, profile: profileProp = null, variant = "d
           )}
         </div>
       </Link>
+      <div className="absolute top-2.5 right-2.5 z-[2]">
+        <FavoriteButton
+          productId={product.id}
+          itemId={product.sku}
+          itemName={name}
+          price={pricesHidden ? undefined : displayPrice.amount}
+        />
+      </div>
 
       <div className="flex flex-col flex-1 p-3 sm:p-4 gap-2">
         <Link href={detailHref}>

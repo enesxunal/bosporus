@@ -201,6 +201,38 @@ export function trackGenerateLead(source = "b2b_register"): void {
   }
 }
 
+/** Favorilere ekleme (GA4 add_to_wishlist — Ads/Meta primary conversion değil) */
+export function trackAddToWishlist(item: {
+  item_id: string;
+  item_name: string;
+  price?: number;
+}): void {
+  const params = {
+    currency: "EUR",
+    value: item.price != null ? Math.round(item.price * 100) / 100 : undefined,
+    items: [ecommerceItem({ ...item, quantity: 1 })],
+  };
+
+  if (typeof window === "undefined") return;
+  if (!hasMarketingConsent() || !analyticsReady()) {
+    enqueue({ name: "add_to_wishlist", params });
+    return;
+  }
+  fireGtag("add_to_wishlist", params);
+}
+
+/** Favoriden çıkarma (custom event) */
+export function trackRemoveFromWishlist(item: {
+  item_id: string;
+  item_name: string;
+}): void {
+  trackEvent("remove_from_wishlist", {
+    item_id: item.item_id,
+    item_name: item.item_name,
+    currency: "EUR",
+  });
+}
+
 /** Sepete ekleme */
 export function trackAddToCart(item: {
   item_id: string;

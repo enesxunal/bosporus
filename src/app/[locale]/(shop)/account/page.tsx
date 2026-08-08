@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import {
   User,
   MapPin,
@@ -14,6 +14,7 @@ import {
   Plus,
   FileDown,
   Building2,
+  Heart,
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
@@ -77,6 +78,7 @@ const STATUS_KEYS: Record<string, string> = {
 
 export default function AccountPage() {
   const t = useTranslations("account");
+  const tNav = useTranslations("nav");
   const locale = useLocale() as "de" | "tr";
   const router = useRouter();
   const [tab, setTab] = useState<Tab>("profile");
@@ -293,7 +295,16 @@ export default function AccountPage() {
 
   return (
     <div className="page-narrow py-8 sm:py-10">
-      <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 mb-6 tracking-tight">{t("title")}</h1>
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 tracking-tight">{t("title")}</h1>
+        <Link
+          href="/account/favorites"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-bosporus hover:underline"
+        >
+          <Heart className="w-4 h-4" />
+          {tNav("favorites")}
+        </Link>
+      </div>
 
       {profile?.role === "b2c" && (
         <div id="gewerbe-upgrade">

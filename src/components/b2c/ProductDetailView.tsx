@@ -21,6 +21,7 @@ import { buildCartItemFromProduct } from "@/lib/pfand";
 import { isB2BApproved } from "@/lib/types";
 import { PriceGateCta } from "@/components/b2c/PriceGateCta";
 import { trackAddToCart, trackViewItem } from "@/lib/analytics";
+import { FavoriteButton } from "@/components/b2c/FavoriteButton";
 
 interface ProductDetailViewProps {
   product: Product;
@@ -96,10 +97,19 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
               priority
             />
             {isDeal && (
-              <div className="absolute top-4 left-4">
+              <div className="absolute top-4 left-4 z-[1]">
                 <Badge variant="promo">{t("promo")}</Badge>
               </div>
             )}
+            <div className="absolute top-4 right-4 z-[1]">
+              <FavoriteButton
+                productId={product.id}
+                itemId={product.sku}
+                itemName={name}
+                price={pricesHidden ? undefined : displayPrice.amount}
+                size="md"
+              />
+            </div>
           </div>
           {images.length > 1 && (
             <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
@@ -178,10 +188,19 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
             )}
           </div>
 
-          <Button type="button" onClick={handleAdd} size="lg" disabled={outOfStock} className="w-full sm:w-auto mb-8">
-            <ShoppingCart className="w-5 h-5" />
-            {outOfStock ? stockLabel : t("addToCart")}
-          </Button>
+          <div className="flex flex-wrap items-center gap-2 mb-8">
+            <Button type="button" onClick={handleAdd} size="lg" disabled={outOfStock} className="w-full sm:w-auto">
+              <ShoppingCart className="w-5 h-5" />
+              {outOfStock ? stockLabel : t("addToCart")}
+            </Button>
+            <FavoriteButton
+              productId={product.id}
+              itemId={product.sku}
+              itemName={name}
+              price={pricesHidden ? undefined : displayPrice.amount}
+              size="md"
+            />
+          </div>
 
           {description && (
             <div className="border-t border-bosporus-gray-100 pt-6">

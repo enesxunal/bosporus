@@ -89,6 +89,10 @@ const PAGES: Record<string, { title: string; description: string }> = {
     title: "Mein Konto",
     description: "Ihr Gewerbekonto bei Bosporus GmbH.",
   },
+  "/account/favorites": {
+    title: "Meine Favoriten",
+    description: "Gespeicherte Artikel bei Bosporus – schnell in den Warenkorb legen.",
+  },
   "/quick-order": {
     title: "Schnellbestellung",
     description:

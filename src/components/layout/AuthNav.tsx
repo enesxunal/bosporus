@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
-import { User, LogOut, LayoutDashboard, Loader2, ClipboardList } from "lucide-react";
+import { User, LogOut, LayoutDashboard, Loader2, ClipboardList, Heart } from "lucide-react";
 import { useAuthOptional } from "@/contexts/AuthContext";
 import { isB2BApproved } from "@/lib/types";
 import { cn } from "@/lib/cn";
@@ -123,6 +123,12 @@ export function AuthNav({ variant = "b2c" }: { variant?: AuthNavVariant }) {
                 {isAdmin ? <LayoutDashboard className="w-4 h-4 shrink-0" /> : <User className="w-4 h-4 shrink-0" />}
                 {isAdmin ? "Admin Panel" : t("account")}
               </Link>
+              {!isAdmin && (
+                <Link href="/account/favorites" className={itemClass} onClick={() => setOpen(false)}>
+                  <Heart className="w-4 h-4 shrink-0" />
+                  {t("favorites")}
+                </Link>
+              )}
               {isApprovedB2b && (
                 <Link href="/quick-order" className={itemClass} onClick={() => setOpen(false)}>
                   <ClipboardList className="w-4 h-4 shrink-0" />

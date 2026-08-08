@@ -15,7 +15,8 @@
     "b2bPortal": "Produkte · Preise nach Freigabe",
     "account": "Mein Konto",
     "logout": "Abmelden",
-    "quickOrder": "Schnellbestellung"
+    "quickOrder": "Schnellbestellung",
+    "favorites": "Favoriten"
   },
   "hero": {
     "title": "Ihr Großhandel in Köln",
@@ -530,6 +531,25 @@
     "noneSelected": "Bitte Mengen eingeben",
     "noResults": "Keine Produkte gefunden",
     "goToCart": "Zum Warenkorb",
-    "caseHint": "{count} Stück/Kiste"
+    "caseHint": "{count} Stück/Kiste",
+    "onlyFavorites": "Nur Favoriten"
+  },
+  "favorites": {
+    "title": "Meine Favoriten",
+    "subtitle": "Gespeicherte Artikel – Menge wählen und in den Warenkorb legen.",
+    "empty": "Noch keine Favoriten gespeichert.",
+    "browse": "Sortiment ansehen",
+    "backToAccount": "Zum Konto",
+    "add": "Zu Favoriten hinzufügen",
+    "remove": "Aus Favoriten entfernen",
+    "colProduct": "Artikel",
+    "colSku": "Art.-Nr.",
+    "colPrice": "Preis",
+    "colStock": "Status",
+    "colQty": "Menge",
+    "addToCart": "In den Warenkorb",
+    "inStock": "Verfügbar",
+    "outOfStock": "Nicht verfügbar",
+    "onlyFavorites": "Nur Favoriten"
   }
 }
