@@ -91,3 +91,35 @@ export async function distanceFromDepotKm(
   const km = haversineKm(depot.lat, depot.lng, coords.lat, coords.lng);
   return Math.round(km * 10) / 10;
 }
+
+/**
+ * PLZ-only lookup without appending "Köln" (avoids false near-depot hits for distant ZIPs).
+ * Used by the public delivery-check page — does not change checkout geocoding.
+ */
+export async function resolveGermanPlzOnlyCoords(
+  zipCode: string
+): Promise<{ lat: number; lng: number } | null> {
+  const zip = zipCode.replace(/\s/g, "").trim();
+  if (!/^\d{5}$/.test(zip)) return null;
+
+  const key = `plz-only|${zip}`;
+  const cached = geoCache.get(key);
+  if (cached && Date.now() - cached.at < CACHE_MS) {
+    return { lat: cached.lat, lng: cached.lng };
+  }
+
+  const coords = await nominatimSearch(`${zip}, Germany`);
+  if (!coords) return null;
+  geoCache.set(key, { ...coords, at: Date.now() });
+  return coords;
+}
+
+export async function distanceFromDepotPlzOnlyKm(
+  zipCode: string,
+  depot = DEPOT_COORDS
+): Promise<number | null> {
+  const coords = await resolveGermanPlzOnlyCoords(zipCode);
+  if (!coords) return null;
+  const km = haversineKm(depot.lat, depot.lng, coords.lat, coords.lng);
+  return Math.round(km * 10) / 10;
+}

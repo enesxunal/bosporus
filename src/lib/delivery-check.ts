@@ -5,10 +5,12 @@ import {
   type DeliveryZoneData,
 } from "@/lib/delivery-data";
 import {
+  feeForDistanceKm,
   getSettingsForSegment,
   loadDeliverySettings,
-  quoteDelivery,
+  loadFeeBands,
 } from "@/lib/delivery-pricing";
+import { DEPOT_COORDS, distanceFromDepotPlzOnlyKm } from "@/lib/geocoding";
 
 export type DeliveryCheckStatus = "serviceable" | "out_of_range" | "uncertain";
 
@@ -69,8 +71,8 @@ export function assertNoB2cPublicLeak(check: PublicDeliveryCheck): boolean {
 }
 
 /**
- * Public PLZ check using B2B delivery rules only (source of truth: delivery_settings + quote + zones).
- * Does not use guest quote / b2c_delivery.
+ * Public PLZ check using B2B delivery rules only.
+ * Uses PLZ-only geocoding (no "Köln" bias). Does not use guest quote / b2c_delivery.
  */
 export async function checkPublicB2bDelivery(zipRaw: string): Promise<
   | { ok: true; check: PublicDeliveryCheck }
@@ -89,18 +91,30 @@ export async function checkPublicB2bDelivery(zipRaw: string): Promise<
   const zone = findZoneInList(zones, zipCode);
   const names = zoneNames(zone);
 
-  const quote = await quoteDelivery({
-    orderType: "delivery",
-    isB2b: true,
-    subtotalGross: 0,
-    zipCode,
-    firstOrderFree: false,
+  const distanceKm = await distanceFromDepotPlzOnlyKm(zipCode, {
+    lat: b2b.depot_lat || DEPOT_COORDS.lat,
+    lng: b2b.depot_lng || DEPOT_COORDS.lng,
   });
 
-  const status = classifyDeliveryCheck({
-    distanceKm: quote.distanceKm,
-    withinRadius: quote.withinRadius,
-  });
+  let withinRadius = false;
+  let deliveryFeeEstimate: number | null = null;
+
+  if (distanceKm == null) {
+    withinRadius = false;
+  } else if (b2b.max_distance_km != null && distanceKm > b2b.max_distance_km) {
+    withinRadius = false;
+  } else {
+    const bands = await loadFeeBands("b2b_delivery");
+    const fee = feeForDistanceKm(distanceKm, bands);
+    if (fee == null) {
+      withinRadius = false;
+    } else {
+      withinRadius = true;
+      deliveryFeeEstimate = fee;
+    }
+  }
+
+  const status = classifyDeliveryCheck({ distanceKm, withinRadius });
 
   const check: PublicDeliveryCheck = {
     zipCode,
@@ -110,11 +124,10 @@ export async function checkPublicB2bDelivery(zipRaw: string): Promise<
     zoneNameTr: names.zoneNameTr,
     minOrderAmount: b2b.min_order_amount,
     freeDeliveryThreshold: b2b.free_delivery_threshold,
-    deliveryFeeEstimate:
-      status === "serviceable" ? quote.deliveryFee : null,
+    deliveryFeeEstimate: status === "serviceable" ? deliveryFeeEstimate : null,
     maxDistanceKm: b2b.max_distance_km,
-    distanceKm: quote.distanceKm,
-    withinRadius: quote.withinRadius,
+    distanceKm,
+    withinRadius,
     pickupAvailable: true,
     pickupOpen: COMPANY.openingHours.open,
     pickupClose: COMPANY.openingHours.close,
