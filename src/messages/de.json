@@ -14,7 +14,8 @@
     "register": "Registrieren",
     "b2bPortal": "Produkte · Preise nach Freigabe",
     "account": "Mein Konto",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "quickOrder": "Schnellbestellung"
   },
   "hero": {
     "title": "Ihr Großhandel in Köln",
@@ -510,5 +511,25 @@
     "step2": "Wir prüfen Ihre Unternehmensdaten.",
     "step3": "Nach der Freischaltung: individuelle Nettopreise & Bestellung.",
     "verifyCta": "E-Mail-Bestätigung öffnen"
+  },
+  "quickOrder": {
+    "title": "Schnellbestellung",
+    "subtitle": "SKU, Name oder EAN suchen – Menge eingeben – in den Warenkorb.",
+    "gate": "Schnellbestellung nur für freigeschaltete Gewerbekunden.",
+    "register": "Gewerbekonto eröffnen",
+    "login": "Anmelden",
+    "searchPlaceholder": "Artikelname, SKU oder EAN…",
+    "colProduct": "Artikel",
+    "colSku": "Art.-Nr.",
+    "colUnit": "Einheit",
+    "colPrice": "Netto",
+    "colQty": "Menge",
+    "addSelected": "Auswahl in den Warenkorb",
+    "addOne": "Hinzufügen",
+    "added": "{count} Artikel hinzugefügt",
+    "noneSelected": "Bitte Mengen eingeben",
+    "noResults": "Keine Produkte gefunden",
+    "goToCart": "Zum Warenkorb",
+    "caseHint": "{count} Stück/Kiste"
   }
 }

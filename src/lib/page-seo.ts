@@ -89,6 +89,11 @@ const PAGES: Record<string, { title: string; description: string }> = {
     title: "Mein Konto",
     description: "Ihr Gewerbekonto bei Bosporus GmbH.",
   },
+  "/quick-order": {
+    title: "Schnellbestellung",
+    description:
+      "Schnellbestellung für freigeschaltete Gewerbekunden – Suche nach SKU, Name oder EAN bei Bosporus Köln.",
+  },
   "/forgot-password": {
     title: "Passwort vergessen",
     description: "Passwort zurücksetzen – Bosporus Gewerbekonto.",

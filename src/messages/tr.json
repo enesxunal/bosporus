@@ -14,7 +14,8 @@
     "register": "Kayıt Ol",
     "b2bPortal": "Ürünler · Onay sonrası fiyat",
     "account": "Hesabım",
-    "logout": "Çıkış"
+    "logout": "Çıkış",
+    "quickOrder": "Hızlı sipariş"
   },
   "hero": {
     "title": "Köln'deki Toptancınız",
@@ -510,5 +511,25 @@
     "step2": "Firma bilgilerinizi inceleyelim.",
     "step3": "Onay sonrası: size özel net fiyatlar & sipariş.",
     "verifyCta": "E-posta doğrulamayı aç"
+  },
+  "quickOrder": {
+    "title": "Hızlı sipariş",
+    "subtitle": "SKU, ad veya EAN ara – miktar yaz – sepete ekle.",
+    "gate": "Hızlı sipariş yalnızca onaylı ticari müşteriler içindir.",
+    "register": "Ticari hesap oluştur",
+    "login": "Giriş yap",
+    "searchPlaceholder": "Ürün adı, SKU veya EAN…",
+    "colProduct": "Ürün",
+    "colSku": "Ürün No",
+    "colUnit": "Birim",
+    "colPrice": "Net",
+    "colQty": "Adet",
+    "addSelected": "Seçilenleri sepete ekle",
+    "addOne": "Ekle",
+    "added": "{count} ürün eklendi",
+    "noneSelected": "Lütfen miktar girin",
+    "noResults": "Ürün bulunamadı",
+    "goToCart": "Sepete git",
+    "caseHint": "{count} adet/koli"
   }
 }

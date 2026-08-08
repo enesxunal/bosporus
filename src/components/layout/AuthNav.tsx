@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
-import { User, LogOut, LayoutDashboard, ChevronDown, Loader2 } from "lucide-react";
+import { User, LogOut, LayoutDashboard, Loader2, ClipboardList } from "lucide-react";
 import { useAuthOptional } from "@/contexts/AuthContext";
+import { isB2BApproved } from "@/lib/types";
 import { cn } from "@/lib/cn";
 
 type AuthNavVariant = "b2c" | "b2b";
@@ -17,6 +18,7 @@ export function AuthNav({ variant = "b2c" }: { variant?: AuthNavVariant }) {
   const isAdmin = auth?.isAdmin ?? false;
   const loading = auth?.loading ?? false;
   const signOut = auth?.signOut;
+  const isApprovedB2b = isB2BApproved(auth?.b2bProfile ?? auth?.profile ?? null);
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -121,6 +123,12 @@ export function AuthNav({ variant = "b2c" }: { variant?: AuthNavVariant }) {
                 {isAdmin ? <LayoutDashboard className="w-4 h-4 shrink-0" /> : <User className="w-4 h-4 shrink-0" />}
                 {isAdmin ? "Admin Panel" : t("account")}
               </Link>
+              {isApprovedB2b && (
+                <Link href="/quick-order" className={itemClass} onClick={() => setOpen(false)}>
+                  <ClipboardList className="w-4 h-4 shrink-0" />
+                  {t("quickOrder")}
+                </Link>
+              )}
               {isAdmin && (
                 <Link href="/" className={itemClass} onClick={() => setOpen(false)}>
                   <User className="w-4 h-4 shrink-0" />
