@@ -1,15 +1,17 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Search, Plus, Loader2, ShoppingCart } from "lucide-react";
 import { useAuthOptional } from "@/contexts/AuthContext";
+import { useFavorites } from "@/contexts/FavoritesContext";
 import { isB2BApproved, type Product } from "@/lib/types";
 import { formatPrice, getDisplayPrice, formatUnit } from "@/lib/pricing";
 import { getProductName } from "@/lib/product-display";
 import { getAvailability } from "@/lib/category-images";
 import { buildCartItemFromProduct } from "@/lib/pfand";
+import { filterProductsByFavorites } from "@/lib/favorites";
 import { useCart } from "@/stores/cart";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -24,6 +26,7 @@ export default function QuickOrderPage() {
   const profile = auth?.b2bProfile ?? auth?.profile ?? null;
   const loadingAuth = auth?.loading ?? true;
   const addItem = useCart((s) => s.addItem);
+  const { favorites } = useFavorites();
 
   const [query, setQuery] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
@@ -31,10 +34,16 @@ export default function QuickOrderPage() {
   const [qtys, setQtys] = useState<Record<string, number>>({});
   const [msg, setMsg] = useState("");
   const [adding, setAdding] = useState(false);
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const qtyRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
   const approved = isB2BApproved(profile);
+
+  const visibleProducts = useMemo(
+    () => filterProductsByFavorites(products, favorites, onlyFavorites),
+    [products, favorites, onlyFavorites]
+  );
 
   const search = useCallback(async (q: string) => {
     setLoading(true);
@@ -94,7 +103,7 @@ export default function QuickOrderPage() {
     setAdding(true);
     setMsg("");
     let count = 0;
-    for (const p of products) {
+    for (const p of visibleProducts) {
       const q = qtys[p.id] ?? 0;
       if (q <= 0) continue;
       if (getAvailability(p) === "out_of_stock") continue;
@@ -113,7 +122,7 @@ export default function QuickOrderPage() {
   const onQtyKeyDown = (e: React.KeyboardEvent, index: number) => {
     if (e.key !== "Enter") return;
     e.preventDefault();
-    const next = products[index + 1];
+    const next = visibleProducts[index + 1];
     if (next) {
       qtyRefs.current[next.id]?.focus();
       qtyRefs.current[next.id]?.select();
@@ -144,23 +153,34 @@ export default function QuickOrderPage() {
         </div>
       )}
 
-      <div className="relative mb-5 max-w-xl">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-bosporus-muted" />
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={t("searchPlaceholder")}
-          className="field-input !pl-10"
-          aria-label={t("searchPlaceholder")}
-        />
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-5">
+        <div className="relative flex-1 max-w-xl">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-bosporus-muted" />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("searchPlaceholder")}
+            className="field-input !pl-10"
+            aria-label={t("searchPlaceholder")}
+          />
+        </div>
+        <label className="inline-flex items-center gap-2 text-sm font-medium text-bosporus-gray-800 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={onlyFavorites}
+            onChange={(e) => setOnlyFavorites(e.target.checked)}
+            className="rounded border-bosporus-gray-300 text-bosporus focus:ring-bosporus"
+          />
+          {t("onlyFavorites")}
+        </label>
       </div>
 
       {loading ? (
         <div className="py-12 flex justify-center">
           <Loader2 className="w-6 h-6 animate-spin text-bosporus" />
         </div>
-      ) : products.length === 0 ? (
+      ) : visibleProducts.length === 0 ? (
         <p className="text-center text-bosporus-muted py-12">{t("noResults")}</p>
       ) : (
         <>
@@ -178,7 +198,7 @@ export default function QuickOrderPage() {
                 </tr>
               </thead>
               <tbody>
-                {products.map((p, index) => {
+                {visibleProducts.map((p, index) => {
                   const price = getDisplayPrice(p, profile);
                   const out = getAvailability(p) === "out_of_stock";
                   return (
@@ -240,7 +260,7 @@ export default function QuickOrderPage() {
 
           {/* Mobile cards */}
           <ul className="md:hidden space-y-3">
-            {products.map((p) => {
+            {visibleProducts.map((p) => {
               const price = getDisplayPrice(p, profile);
               const out = getAvailability(p) === "out_of_stock";
               return (
