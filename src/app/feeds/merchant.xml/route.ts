@@ -3,6 +3,7 @@ import { COMPANY } from "@/lib/company";
 import { getProductImageUrl } from "@/lib/category-images";
 import { getB2cGross, hasSellablePrice, isPromoActive } from "@/lib/pricing";
 import { getProducts } from "@/lib/products";
+import { isCatalogHiddenSku } from "@/lib/payment-test-product";
 import { absoluteUrl, productPath } from "@/lib/seo";
 
 export const revalidate = 3600;
@@ -39,7 +40,14 @@ export async function GET() {
   const base = COMPANY.website.replace(/\/$/, "");
 
   const items = products
-    .filter((p) => p.is_active && hasSellablePrice(p) && p.name_de && p.name_de !== "#")
+    .filter(
+      (p) =>
+        p.is_active &&
+        hasSellablePrice(p) &&
+        p.name_de &&
+        p.name_de !== "#" &&
+        !isCatalogHiddenSku(p.sku)
+    )
     .map((p) => {
       const price = getB2cGross(p, isPromoActive(p));
       if (price <= 0) return null;

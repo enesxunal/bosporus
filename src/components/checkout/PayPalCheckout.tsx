@@ -23,7 +23,10 @@ interface PayPalCheckoutProps {
     locale: "de" | "tr";
   };
   onError: (message: string) => void;
-  onSuccess: (orderNumber: string) => void;
+  onSuccess: (
+    orderNumber: string,
+    meta?: { isPaymentTestOrder?: boolean }
+  ) => void;
 }
 
 function mapPayPalError(code: string, t: (key: string) => string, locale: "de" | "tr"): string {
@@ -112,7 +115,9 @@ export function PayPalCheckout({
               onError(msg);
               throw new Error(msg);
             }
-            onSuccess(result.orderNumber as string);
+            onSuccess(result.orderNumber as string, {
+              isPaymentTestOrder: Boolean(result.isPaymentTestOrder),
+            });
           }}
           onError={() => {
             // SDK fires after our own errors — keep the first message shown.

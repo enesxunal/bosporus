@@ -61,6 +61,7 @@ async function resolveTotal(body: CheckoutBody, isB2b: boolean, userId: string |
       totalGross: subtotalGross,
       isB2b,
       userId,
+      items: priced.items,
     });
     if (!deliveryCheck.ok) return { ok: false as const, error: deliveryCheck.error };
     deliveryFee = deliveryCheck.deliveryFee;
@@ -72,6 +73,7 @@ async function resolveTotal(body: CheckoutBody, isB2b: boolean, userId: string |
       pickupSlot: body.pickupSlot,
       totalGross: subtotalGross,
       isB2b,
+      items: priced.items,
     });
     if (!pickupCheck.ok) return { ok: false as const, error: pickupCheck.error };
   }

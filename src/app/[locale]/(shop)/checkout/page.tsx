@@ -30,6 +30,7 @@ import { cn } from "@/lib/cn";
 import { PayPalCheckout } from "@/components/checkout/PayPalCheckout";
 import { StripeCheckout } from "@/components/checkout/StripeCheckout";
 import { BeginCheckoutTracker } from "@/components/analytics/BeginCheckoutTracker";
+import { trackPurchase } from "@/lib/analytics";
 
 interface DeliveryQuoteView {
   minOrderAmount: number;
@@ -136,12 +137,14 @@ export default function CheckoutPage() {
   }, []);
 
   useEffect(() => {
-    setPickupSlot("");
+    // Tarih değişince slot sıfırla (async: set-state-in-effect lint)
+    const id = window.setTimeout(() => setPickupSlot(""), 0);
+    return () => window.clearTimeout(id);
   }, [pickupDate]);
 
   useEffect(() => {
     if (pickupSlot && !availablePickupSlots.some((s) => s.label === pickupSlot)) {
-      setPickupSlot("");
+      queueMicrotask(() => setPickupSlot(""));
     }
   }, [availablePickupSlots, pickupSlot]);
 
@@ -160,6 +163,7 @@ export default function CheckoutPage() {
           subtotalGross: subtotal,
           zipCode: orderType === "delivery" ? zipCode : undefined,
           address: orderType === "delivery" ? address : undefined,
+          items,
         }),
       })
         .then((r) => r.json())
@@ -172,7 +176,7 @@ export default function CheckoutPage() {
     }, 450);
 
     return () => clearTimeout(timer);
-  }, [orderType, zipCode, address, subtotal, items.length]);
+  }, [orderType, zipCode, address, subtotal, items]);
 
   useEffect(() => {
     if (items.length === 0) router.replace("/cart");
@@ -180,7 +184,7 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     if (!isSupabaseConfigured()) {
-      setB2bGateOk(false);
+      queueMicrotask(() => setB2bGateOk(false));
       return;
     }
     const supabase = createClient();
@@ -337,7 +341,14 @@ export default function CheckoutPage() {
     locale,
   });
 
-  const handlePayPalSuccess = (orderNumber: string) => {
+  const handlePayPalSuccess = (
+    orderNumber: string,
+    meta?: { isPaymentTestOrder?: boolean }
+  ) => {
+    // Purchase'ı gerçek toplam ile burada gönder; başarı sayfasındaki tracker dedupe ile tekrar göndermez
+    trackPurchase(orderNumber, grandTotal, {
+      isPaymentTestOrder: Boolean(meta?.isPaymentTestOrder),
+    });
     clear();
     router.push(`/checkout/success?order=${encodeURIComponent(orderNumber)}`);
   };

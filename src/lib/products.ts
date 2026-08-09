@@ -10,6 +10,10 @@ import {
 import { createAdminClient } from "./supabase/admin";
 import { mapDbRow } from "./products-db";
 import { enrichProductsWithPfand } from "./pfand";
+import {
+  filterCatalogHiddenProducts,
+  isCatalogHiddenSku,
+} from "./payment-test-product";
 
 const jsonProducts = productsData as Product[];
 const categories = categoriesData as Category[];
@@ -41,9 +45,15 @@ export function getProductsSync(options?: {
   offset?: number;
   activeOnly?: boolean;
 }): Product[] {
-  let result = [...jsonProducts];
+  let result = filterCatalogHiddenProducts([...jsonProducts]);
   if (options?.activeOnly !== false) {
-    result = result.filter((p) => p.is_active && p.price_b2c > 0 && p.name_de !== "#");
+    result = result.filter(
+      (p) =>
+        p.is_active &&
+        p.price_b2c > 0 &&
+        p.name_de !== "#" &&
+        !isCatalogHiddenSku(p.sku)
+    );
   }
   if (options?.category) result = result.filter((p) => p.category_slug === options.category);
   if (options?.search) {

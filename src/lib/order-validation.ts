@@ -18,6 +18,12 @@ import {
   loadPickupSlots,
 } from "./delivery-data";
 import { isB2cFirstOrderEligible, quoteDelivery } from "./delivery-pricing";
+import {
+  isPaymentTestCart,
+  isPaymentTestSku,
+  PAYMENT_TEST_MAX_QTY,
+  paymentTestQtyError,
+} from "./payment-test-product";
 import { fetchProductsForOrder } from "./products-db";
 import { createAdminClient } from "./supabase/admin";
 import { isStandalonePfandProduct, resolvePfandForProduct } from "./pfand";
@@ -36,6 +42,9 @@ export function buildValidatedCartLine(
   }
   if (!Number.isFinite(quantity) || quantity <= 0 || quantity > 999) {
     return { error: `INVALID_QUANTITY:${product.sku}` };
+  }
+  if (isPaymentTestSku(product.sku) && quantity > PAYMENT_TEST_MAX_QTY) {
+    return { error: paymentTestQtyError(product.sku) };
   }
   if (isStandalonePfandProduct(product)) {
     return { error: "PFAND_NOT_STANDALONE" };
@@ -112,6 +121,8 @@ export async function validateDeliveryOrder(params: {
   totalGross: number;
   isB2b?: boolean;
   userId?: string | null;
+  /** Server-priced cart lines only — used for PAYMENT-TEST-1EUR min-order bypass */
+  items?: { sku: string; quantity: number }[];
 }): Promise<
   | {
       ok: true;
@@ -127,7 +138,10 @@ export async function validateDeliveryOrder(params: {
   }
 
   const isB2b = params.isB2b ?? false;
-  const firstOrderFree = await isB2cFirstOrderEligible(params.userId, isB2b);
+  const paymentTestCart = isPaymentTestCart(params.items ?? []);
+  const firstOrderFree = paymentTestCart
+    ? false
+    : await isB2cFirstOrderEligible(params.userId, isB2b);
 
   const quote = await quoteDelivery({
     orderType: "delivery",
@@ -136,6 +150,7 @@ export async function validateDeliveryOrder(params: {
     zipCode: params.zipCode,
     address: params.address,
     firstOrderFree,
+    paymentTestCart,
   });
 
   if (!quote.minOrderMet) {
@@ -150,18 +165,20 @@ export async function validateDeliveryOrder(params: {
     return { ok: false, error: "DELIVERY_ADDRESS_UNKNOWN" };
   }
 
-  const zones = await loadDeliveryZones();
-  const zone = findZoneInList(zones, params.zipCode);
-  const zoneOrEmpty = zone ?? {
-    id: "",
-    name_de: "",
-    name_tr: "",
-    zip_prefixes: [] as string[],
-    min_order_amount: 0,
-    delivery_days: [] as number[],
-  };
-  if (!isDeliveryDayAllowed(zoneOrEmpty, params.deliveryDate)) {
-    return { ok: false, error: "DELIVERY_DAY_INVALID" };
+  if (!paymentTestCart) {
+    const zones = await loadDeliveryZones();
+    const zone = findZoneInList(zones, params.zipCode);
+    const zoneOrEmpty = zone ?? {
+      id: "",
+      name_de: "",
+      name_tr: "",
+      zip_prefixes: [] as string[],
+      min_order_amount: 0,
+      delivery_days: [] as number[],
+    };
+    if (!isDeliveryDayAllowed(zoneOrEmpty, params.deliveryDate)) {
+      return { ok: false, error: "DELIVERY_DAY_INVALID" };
+    }
   }
 
   return {
@@ -178,6 +195,8 @@ export async function validatePickupOrder(params: {
   pickupSlot?: string;
   totalGross: number;
   isB2b?: boolean;
+  /** Server-priced cart lines only — used for PAYMENT-TEST-1EUR min-order bypass */
+  items?: { sku: string; quantity: number }[];
 }): Promise<{ ok: true; slotId?: string } | { ok: false; error: string }> {
   if (!params.pickupDate || !params.pickupSlot) {
     return { ok: false, error: "PICKUP_FIELDS_REQUIRED" };
@@ -186,10 +205,12 @@ export async function validatePickupOrder(params: {
     return { ok: false, error: "PICKUP_DAY_INVALID" };
   }
 
+  const paymentTestCart = isPaymentTestCart(params.items ?? []);
   const quote = await quoteDelivery({
     orderType: "click_collect",
     isB2b: params.isB2b ?? false,
     subtotalGross: params.totalGross,
+    paymentTestCart,
   });
   if (!quote.minOrderMet) {
     return { ok: false, error: "MIN_ORDER_NOT_MET" };

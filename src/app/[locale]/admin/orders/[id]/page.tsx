@@ -8,6 +8,7 @@ import { Loader2, ArrowLeft, User, MapPin, Package, FileDown } from "lucide-reac
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/cn";
 import type { OrderStatus } from "@/lib/types";
+import { isPaymentTestCart } from "@/lib/payment-test-product";
 
 const STATUS_OPTIONS: { value: OrderStatus; label: string }[] = [
   { value: "pending", label: "Yeni sipariş" },
@@ -113,6 +114,9 @@ export default function AdminOrderDetailPage() {
   if (!order) return <p className="text-center py-12 text-bosporus-muted">Sipariş bulunamadı</p>;
 
   const address = order.delivery_address;
+  const isTestOrder = isPaymentTestCart(
+    items.map((i) => ({ sku: i.product_sku, quantity: i.quantity }))
+  );
 
   return (
     <div>
@@ -122,7 +126,14 @@ export default function AdminOrderDetailPage() {
 
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-extrabold text-metro-navy">{order.order_number}</h1>
+          <div className="flex flex-wrap items-center gap-2 mb-1">
+            <h1 className="text-2xl font-extrabold text-metro-navy">{order.order_number}</h1>
+            {isTestOrder && (
+              <span className="inline-flex items-center rounded-lg bg-amber-100 px-2.5 py-1 text-xs font-extrabold tracking-wide text-amber-900 border border-amber-300">
+                TEST ORDER
+              </span>
+            )}
+          </div>
           <p className="text-sm text-bosporus-muted">
             {new Date(order.created_at).toLocaleString("tr-TR")}
             {order.is_b2b ? " · B2B" : " · B2C"}

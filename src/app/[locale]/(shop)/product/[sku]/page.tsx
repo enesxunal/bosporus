@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { getProductBySku } from "@/lib/products";
 import { ProductDetailView } from "@/components/b2c/ProductDetailView";
+import { isPaymentTestSku } from "@/lib/payment-test-product";
 import { productJsonLd, productMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -27,14 +28,17 @@ export default async function ProductDetailPage({
   const product = await getProductBySku(decodeURIComponent(sku));
   if (!product) notFound();
 
-  const jsonLd = productJsonLd(product, locale);
+  const isTest = isPaymentTestSku(product.sku);
+  const jsonLd = isTest ? null : productJsonLd(product, locale);
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
       <ProductDetailView product={product} />
     </>
   );

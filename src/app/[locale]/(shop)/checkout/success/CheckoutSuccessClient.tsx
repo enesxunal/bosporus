@@ -26,7 +26,11 @@ export function CheckoutSuccessClient({ sessionId }: { sessionId?: string }) {
       .then((data) => {
         if (data.success && data.orderNumber) {
           setOrderNumber(data.orderNumber as string);
-          trackPurchase(data.orderNumber as string);
+          trackPurchase(
+            data.orderNumber as string,
+            typeof data.total === "number" ? data.total : undefined,
+            { isPaymentTestOrder: Boolean(data.isPaymentTestOrder) }
+          );
           clear();
           router.replace(`/checkout/success?order=${encodeURIComponent(data.orderNumber)}`);
         } else {

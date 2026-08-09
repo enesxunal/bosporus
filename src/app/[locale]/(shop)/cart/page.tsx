@@ -21,6 +21,7 @@ export default function CartPage() {
   const { items, updateQuantity, removeItem, subtotalGross, totalItems } = useCart();
   const [audience, setAudience] = useState<CartAudience>("guest");
   const [firstOrderEligible, setFirstOrderEligible] = useState(false);
+  const [minOrder, setMinOrder] = useState<number | null>(null);
 
   const canPay = audience === "b2b";
 
@@ -43,15 +44,6 @@ export default function CartPage() {
         const role = profile?.role as string | undefined;
         if (role === "b2b_approved") {
           setAudience("b2b");
-          const res = await fetch("/api/delivery/quote", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ orderType: "click_collect", subtotalGross: 0 }),
-          });
-          if (res.ok) {
-            const data = await res.json();
-            setFirstOrderEligible(Boolean(data.firstOrderEligible));
-          }
           return;
         }
         if (role === "b2b_pending") {
@@ -67,6 +59,31 @@ export default function CartPage() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (audience !== "b2b") return;
+    let cancelled = false;
+    (async () => {
+      const res = await fetch("/api/delivery/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderType: "click_collect",
+          subtotalGross: subtotalGross(),
+          items,
+        }),
+      });
+      if (!res.ok || cancelled) return;
+      const data = await res.json();
+      setFirstOrderEligible(Boolean(data.firstOrderEligible));
+      if (data.quote?.minOrderAmount != null) {
+        setMinOrder(Number(data.quote.minOrderAmount));
+      }
+    })().catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [audience, items, subtotalGross]);
 
   if (items.length === 0) {
     return (
@@ -86,10 +103,23 @@ export default function CartPage() {
     );
   }
 
+  const subtotal = subtotalGross();
+  const remainingToMin = minOrder != null ? Math.max(0, minOrder - subtotal) : 0;
+
   const deliveryHint =
     audience === "b2b" ? (
       <div className="space-y-1">
         <p className="font-semibold">{t("b2bDeliveryHint")}</p>
+        {minOrder != null && (
+          <p className={remainingToMin > 0 ? "font-semibold text-bosporus-red" : "font-medium"}>
+            {remainingToMin > 0
+              ? t("minOrderRemaining", {
+                  amount: formatPrice(minOrder, locale),
+                  remaining: formatPrice(remainingToMin, locale),
+                })
+              : t("minOrderMet", { amount: formatPrice(minOrder, locale) })}
+          </p>
+        )}
         {firstOrderEligible && (
           <p className="font-semibold text-bosporus">{t("b2bFirstOrderHint")}</p>
         )}

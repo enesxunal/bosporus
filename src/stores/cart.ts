@@ -4,6 +4,10 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { CartItem } from "@/lib/types";
 import { cartLineTotalGross } from "@/lib/pfand";
+import {
+  isPaymentTestSku,
+  PAYMENT_TEST_MAX_QTY,
+} from "@/lib/payment-test-product";
 
 interface CartState {
   items: CartItem[];
@@ -22,13 +26,19 @@ export const useCart = create<CartState>()(
       addItem: (item) => {
         set((state) => {
           const existing = state.items.find((i) => i.productId === item.productId);
+          const nextQty = existing
+            ? existing.quantity + item.quantity
+            : item.quantity;
+          const cappedQty = isPaymentTestSku(item.sku)
+            ? Math.min(nextQty, PAYMENT_TEST_MAX_QTY)
+            : nextQty;
           if (existing) {
             return {
               items: state.items.map((i) =>
                 i.productId === item.productId
                   ? {
                       ...i,
-                      quantity: i.quantity + item.quantity,
+                      quantity: cappedQty,
                       // Güncel pfand fiyatını koru / güncelle
                       pfand: item.pfand ?? i.pfand ?? null,
                       priceNet: item.priceNet,
@@ -38,7 +48,18 @@ export const useCart = create<CartState>()(
               ),
             };
           }
-          return { items: [...state.items, { ...item, pfand: item.pfand ?? null }] };
+          return {
+            items: [
+              ...state.items,
+              {
+                ...item,
+                quantity: isPaymentTestSku(item.sku)
+                  ? Math.min(item.quantity, PAYMENT_TEST_MAX_QTY)
+                  : item.quantity,
+                pfand: item.pfand ?? null,
+              },
+            ],
+          };
         });
       },
       updateQuantity: (productId, quantity) => {
@@ -47,9 +68,13 @@ export const useCart = create<CartState>()(
           return;
         }
         set((state) => ({
-          items: state.items.map((i) =>
-            i.productId === productId ? { ...i, quantity } : i
-          ),
+          items: state.items.map((i) => {
+            if (i.productId !== productId) return i;
+            const q = isPaymentTestSku(i.sku)
+              ? Math.min(quantity, PAYMENT_TEST_MAX_QTY)
+              : quantity;
+            return { ...i, quantity: q };
+          }),
         }));
       },
       removeItem: (productId) =>

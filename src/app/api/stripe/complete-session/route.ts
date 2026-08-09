@@ -26,7 +26,12 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    return NextResponse.json({ success: true, orderNumber: result.orderNumber });
+    return NextResponse.json({
+      success: true,
+      orderNumber: result.orderNumber,
+      total: result.totalGross,
+      isPaymentTestOrder: Boolean(result.isPaymentTestOrder),
+    });
   } catch (e) {
     console.error("Stripe complete-session:", e);
     return NextResponse.json(

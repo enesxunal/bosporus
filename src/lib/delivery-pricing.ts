@@ -185,12 +185,19 @@ export async function quoteDelivery(params: {
   address?: string;
   /** Sunucuda doğrulanmış: B2C ilk sipariş hakkı */
   firstOrderFree?: boolean;
+  /**
+   * Server-verified payment-test cart only (PAYMENT-TEST-1EUR exclusive).
+   * Never accept this from a raw client flag — compute via isPaymentTestCart.
+   */
+  paymentTestCart?: boolean;
 }): Promise<DeliveryQuote> {
   const segment = deliverySegment(params.isB2b, params.orderType);
   const settings = await loadDeliverySettings();
   const cfg = getSettingsForSegment(settings, segment);
+  const paymentTestCart = Boolean(params.paymentTestCart);
 
-  const minOrderMet = params.subtotalGross >= cfg.min_order_amount;
+  const minOrderMet =
+    paymentTestCart || params.subtotalGross >= cfg.min_order_amount;
   let distanceKm: number | null = null;
   let deliveryFee = 0;
   let withinRadius = true;
@@ -198,31 +205,39 @@ export async function quoteDelivery(params: {
   let freeReason: FreeDeliveryReason = null;
 
   if (params.orderType === "delivery") {
-    distanceKm = await distanceFromDepotKm(
-      params.zipCode ?? "",
-      params.address,
-      { lat: cfg.depot_lat, lng: cfg.depot_lng }
-    );
-
-    if (distanceKm == null) {
-      withinRadius = false;
-    } else if (cfg.max_distance_km != null && distanceKm > cfg.max_distance_km) {
-      withinRadius = false;
+    // Test cart: skip geocoding/fee bands so a 1 € payment stays ~1 € (pickup preferred).
+    if (paymentTestCart) {
+      withinRadius = true;
+      distanceKm = 0;
+      deliveryFee = 0;
+      freeDelivery = true;
     } else {
-      const thresholdFree =
-        cfg.free_delivery_threshold != null &&
-        params.subtotalGross >= cfg.free_delivery_threshold;
-      const firstFree = Boolean(params.firstOrderFree);
+      distanceKm = await distanceFromDepotKm(
+        params.zipCode ?? "",
+        params.address,
+        { lat: cfg.depot_lat, lng: cfg.depot_lng }
+      );
 
-      if (thresholdFree || firstFree) {
-        freeDelivery = true;
-        freeReason = thresholdFree ? "threshold" : "first_order";
-        deliveryFee = 0;
-      } else if (distanceKm != null) {
-        const bands = await loadFeeBands(segment);
-        const fee = feeForDistanceKm(distanceKm, bands);
-        if (fee == null) withinRadius = false;
-        else deliveryFee = fee;
+      if (distanceKm == null) {
+        withinRadius = false;
+      } else if (cfg.max_distance_km != null && distanceKm > cfg.max_distance_km) {
+        withinRadius = false;
+      } else {
+        const thresholdFree =
+          cfg.free_delivery_threshold != null &&
+          params.subtotalGross >= cfg.free_delivery_threshold;
+        const firstFree = Boolean(params.firstOrderFree);
+
+        if (thresholdFree || firstFree) {
+          freeDelivery = true;
+          freeReason = thresholdFree ? "threshold" : "first_order";
+          deliveryFee = 0;
+        } else if (distanceKm != null) {
+          const bands = await loadFeeBands(segment);
+          const fee = feeForDistanceKm(distanceKm, bands);
+          if (fee == null) withinRadius = false;
+          else deliveryFee = fee;
+        }
       }
     }
   }
@@ -232,7 +247,7 @@ export async function quoteDelivery(params: {
   return {
     segment,
     subtotalGross: params.subtotalGross,
-    minOrderAmount: cfg.min_order_amount,
+    minOrderAmount: paymentTestCart ? 0 : cfg.min_order_amount,
     freeDeliveryThreshold: cfg.free_delivery_threshold,
     maxDistanceKm: cfg.max_distance_km,
     distanceKm,

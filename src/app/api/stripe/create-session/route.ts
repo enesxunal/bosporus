@@ -96,6 +96,7 @@ export async function POST(request: Request) {
       totalGross: subtotalGross,
       isB2b,
       userId,
+      items: priced.items,
     });
     if (!deliveryCheck.ok) {
       return NextResponse.json({ error: deliveryCheck.error }, { status: 400 });
@@ -108,6 +109,7 @@ export async function POST(request: Request) {
       pickupSlot: body.pickupSlot,
       totalGross: subtotalGross,
       isB2b,
+      items: priced.items,
     });
     if (!pickupCheck.ok) {
       return NextResponse.json({ error: pickupCheck.error }, { status: 400 });

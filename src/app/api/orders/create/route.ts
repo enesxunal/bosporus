@@ -147,6 +147,7 @@ export async function POST(request: Request) {
       totalGross,
       isB2b,
       userId,
+      items: priced.items,
     });
     if (!deliveryCheck.ok) {
       return NextResponse.json(
@@ -158,7 +159,13 @@ export async function POST(request: Request) {
     distanceKm = deliveryCheck.distanceKm;
     orderTotalGross = deliveryCheck.totalGross;
   } else {
-    const pickupCheck = await validatePickupOrder({ pickupDate, pickupSlot, totalGross, isB2b });
+    const pickupCheck = await validatePickupOrder({
+      pickupDate,
+      pickupSlot,
+      totalGross,
+      isB2b,
+      items: priced.items,
+    });
     if (!pickupCheck.ok) {
       return NextResponse.json(
         { error: errorMessage(pickupCheck.error, locale), code: pickupCheck.error },

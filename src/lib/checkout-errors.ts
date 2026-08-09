@@ -11,6 +11,10 @@ const MESSAGES: Record<string, { de: string; tr: string }> = {
     de: "Mindestbestellwert nicht erreicht.",
     tr: "Minimum sipariş tutarına ulaşılmadı.",
   },
+  PAYMENT_TEST_QTY: {
+    de: "Testprodukt nur mit Menge 1.",
+    tr: "Test ürünü yalnızca 1 adet olabilir.",
+  },
   DELIVERY_DISTANCE_EXCEEDED: {
     de: "Lieferung nur bis 40 km möglich.",
     tr: "Teslimat en fazla 40 km mesafeye yapılır.",

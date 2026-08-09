@@ -4,16 +4,26 @@ import categoriesData from "@/data/categories.json";
 import { createAdminClient } from "./supabase/admin";
 import { parseImageUrls } from "./product-images";
 import { enrichProductsWithPfand } from "./pfand";
+import {
+  filterCatalogHiddenProducts,
+  isCatalogHiddenSku,
+  PAYMENT_TEST_SKU,
+} from "./payment-test-product";
 
 const jsonProducts = productsData as Product[];
 const jsonCategories = categoriesData as Category[];
 
 export function mapDbRow(row: Record<string, unknown>): Product {
   const imageUrls = parseImageUrls(row.image_urls);
+  const numOrNull = (v: unknown) => (v != null && v !== "" ? Number(v) : null);
   return {
     id: row.id as string,
     sku: row.sku as string,
     barcode: (row.barcode as string) ?? null,
+    brand: (row.brand as string) ?? null,
+    mpn: (row.mpn as string) ?? null,
+    manufacturer: (row.manufacturer as string) ?? null,
+    country_of_origin: (row.country_of_origin as string) ?? null,
     name_de: row.name_de as string,
     name_tr: (row.name_tr as string) ?? null,
     category_slug: (row.category_slug as string) ?? null,
@@ -22,6 +32,24 @@ export function mapDbRow(row: Record<string, unknown>): Product {
     description_de: (row.description_de as string) ?? null,
     description_tr: (row.description_tr as string) ?? null,
     base_unit: row.base_unit as Product["base_unit"],
+    base_unit_quantity: numOrNull(row.base_unit_quantity),
+    net_weight: numOrNull(row.net_weight),
+    net_weight_unit: (row.net_weight_unit as string) ?? null,
+    volume: numOrNull(row.volume),
+    volume_unit: (row.volume_unit as string) ?? null,
+    package_count: numOrNull(row.package_count),
+    items_per_case: numOrNull(row.items_per_case),
+    ingredients_de: (row.ingredients_de as string) ?? null,
+    ingredients_tr: (row.ingredients_tr as string) ?? null,
+    allergens_de: (row.allergens_de as string) ?? null,
+    allergens_tr: (row.allergens_tr as string) ?? null,
+    nutrition_de: (row.nutrition_de as string) ?? null,
+    nutrition_tr: (row.nutrition_tr as string) ?? null,
+    storage_instructions_de: (row.storage_instructions_de as string) ?? null,
+    storage_instructions_tr: (row.storage_instructions_tr as string) ?? null,
+    temperature_type: (row.temperature_type as string) ?? null,
+    is_frozen: row.is_frozen != null ? Boolean(row.is_frozen) : null,
+    is_chilled: row.is_chilled != null ? Boolean(row.is_chilled) : null,
     tax_rate: Number(row.tax_rate),
     price_b2c: Number(row.price_b2c),
     price_b2b: Number(row.price_b2b),
@@ -87,6 +115,7 @@ export async function fetchProductsPage(options?: {
     .gt("price_b2c", 0)
     .neq("name_de", "#")
     .neq("category_slug", "pfand")
+    .neq("sku", PAYMENT_TEST_SKU)
     .order("name_de", { ascending: true });
 
   if (options?.category) query = query.eq("category_slug", options.category);
@@ -95,13 +124,15 @@ export async function fetchProductsPage(options?: {
   if (error || !data) return null;
 
   // Pfand fiyatları için bağlı satırları da çek
-  const page = data.map((r) => mapDbRow(r));
+  const page = filterCatalogHiddenProducts(data.map((r) => mapDbRow(r)));
   const pfandSkus = [...new Set(page.map((p) => p.pfand_sku).filter(Boolean))] as string[];
   if (pfandSkus.length === 0) return enrichProductsWithPfand(page);
 
   const { data: pfandRows } = await admin.from("products").select("*").in("sku", pfandSkus);
   const pfandProducts = (pfandRows ?? []).map((r) => mapDbRow(r));
-  return enrichProductsWithPfand([...page, ...pfandProducts]).filter((p) => p.category_slug !== "pfand");
+  return enrichProductsWithPfand([...page, ...pfandProducts]).filter(
+    (p) => p.category_slug !== "pfand" && !isCatalogHiddenSku(p.sku)
+  );
 }
 
 /** Aktif kampanyalı ürünler — sınırlı DB sorgusu */
@@ -117,6 +148,7 @@ export async function fetchPromoProductsPage(limit = 8): Promise<Product[] | nul
     .gt("price_b2c", 0)
     .neq("name_de", "#")
     .neq("category_slug", "pfand")
+    .neq("sku", PAYMENT_TEST_SKU)
     .not("promo_price", "is", null)
     .gt("promo_price", 0)
     .lte("promo_from", today)
@@ -125,12 +157,12 @@ export async function fetchPromoProductsPage(limit = 8): Promise<Product[] | nul
     .limit(Math.max(limit * 3, 24));
 
   if (error || !data) return null;
-  const page = data.map((r) => mapDbRow(r));
+  const page = filterCatalogHiddenProducts(data.map((r) => mapDbRow(r)));
   const pfandSkus = [...new Set(page.map((p) => p.pfand_sku).filter(Boolean))] as string[];
   if (pfandSkus.length === 0) return enrichProductsWithPfand(page);
   const { data: pfandRows } = await admin.from("products").select("*").in("sku", pfandSkus);
   return enrichProductsWithPfand([...page, ...(pfandRows ?? []).map((r) => mapDbRow(r))]).filter(
-    (p) => p.category_slug !== "pfand"
+    (p) => p.category_slug !== "pfand" && !isCatalogHiddenSku(p.sku)
   );
 }
 
@@ -195,8 +227,15 @@ export async function getProductsAsync(options?: {
     let result = [...db];
     if (activeOnly) {
       result = result.filter(
-        (p) => p.is_active && p.price_b2c > 0 && p.name_de !== "#" && p.category_slug !== "pfand"
+        (p) =>
+          p.is_active &&
+          p.price_b2c > 0 &&
+          p.name_de !== "#" &&
+          p.category_slug !== "pfand" &&
+          !isCatalogHiddenSku(p.sku)
       );
+    } else {
+      result = filterCatalogHiddenProducts(result);
     }
     if (options?.category) result = result.filter((p) => p.category_slug === options.category);
     if (options?.search) {
@@ -217,8 +256,15 @@ export async function getProductsAsync(options?: {
 
   if (activeOnly) {
     result = result.filter(
-      (p) => p.is_active && p.price_b2c > 0 && p.name_de !== "#" && p.category_slug !== "pfand"
+      (p) =>
+        p.is_active &&
+        p.price_b2c > 0 &&
+        p.name_de !== "#" &&
+        p.category_slug !== "pfand" &&
+        !isCatalogHiddenSku(p.sku)
     );
+  } else {
+    result = filterCatalogHiddenProducts(result);
   }
   if (options?.category) {
     result = result.filter((p) => p.category_slug === options.category);
@@ -272,6 +318,7 @@ export async function getShopNavData(): Promise<{
         .eq("is_active", true)
         .gt("price_b2c", 0)
         .neq("name_de", "#")
+        .neq("sku", PAYMENT_TEST_SKU)
         .range(from, from + pageSize - 1);
       if (error || !data?.length) break;
       for (const row of data) {
@@ -317,7 +364,12 @@ export async function countProductsAsync(options?: {
     if (count && count > 0) {
       let query = admin.from("products").select("id", { count: "exact", head: true });
       if (options?.activeOnly !== false) {
-        query = query.eq("is_active", true).gt("price_b2c", 0);
+        query = query
+          .eq("is_active", true)
+          .gt("price_b2c", 0)
+          .neq("sku", PAYMENT_TEST_SKU);
+      } else {
+        query = query.neq("sku", PAYMENT_TEST_SKU);
       }
       if (options?.category) query = query.eq("category_slug", options.category);
       if (options?.search) {
@@ -329,7 +381,7 @@ export async function countProductsAsync(options?: {
     }
   }
 
-  let result = [...jsonProducts];
+  let result = filterCatalogHiddenProducts([...jsonProducts]);
   if (options?.activeOnly !== false) result = result.filter((p) => p.is_active && p.price_b2c > 0);
   if (options?.category) result = result.filter((p) => p.category_slug === options.category);
   if (options?.search) {

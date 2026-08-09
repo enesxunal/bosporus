@@ -296,8 +296,22 @@ export function trackBeginCheckout(value?: number): void {
 }
 
 /** Sipariş tamamlandı */
-export function trackPurchase(orderNumber: string, value?: number): void {
+export function trackPurchase(
+  orderNumber: string,
+  value?: number,
+  options?: { isPaymentTestOrder?: boolean }
+): void {
   if (typeof window === "undefined" || !orderNumber) return;
+
+  // Internal 1 € payment tests must not pollute Ads / Meta purchase optimization
+  if (options?.isPaymentTestOrder) {
+    try {
+      sessionStorage.setItem(`${SENT_PURCHASE_PREFIX}${orderNumber}`, "1");
+    } catch {
+      /* ignore */
+    }
+    return;
+  }
 
   const dedupeKey = `${SENT_PURCHASE_PREFIX}${orderNumber}`;
   try {

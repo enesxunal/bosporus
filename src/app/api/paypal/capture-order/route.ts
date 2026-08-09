@@ -111,6 +111,7 @@ export async function POST(request: Request) {
       totalGross,
       isB2b,
       userId,
+      items: priced.items,
     });
     if (!deliveryCheck.ok) {
       return NextResponse.json({ error: deliveryCheck.error }, { status: 400 });
@@ -119,7 +120,13 @@ export async function POST(request: Request) {
     distanceKm = deliveryCheck.distanceKm;
     totalGross = deliveryCheck.totalGross;
   } else {
-    const pickupCheck = await validatePickupOrder({ pickupDate, pickupSlot, totalGross, isB2b });
+    const pickupCheck = await validatePickupOrder({
+      pickupDate,
+      pickupSlot,
+      totalGross,
+      isB2b,
+      items: priced.items,
+    });
     if (!pickupCheck.ok) {
       return NextResponse.json({ error: pickupCheck.error }, { status: 400 });
     }
@@ -182,11 +189,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: result.error }, { status: 500 });
     }
 
+    const { isPaymentTestCart } = await import("@/lib/payment-test-product");
     return NextResponse.json({
       success: true,
       orderNumber: result.orderNumber,
       orderId: result.orderId,
       total: result.totalGross,
+      isPaymentTestOrder: isPaymentTestCart(priced.items),
     });
   } catch (e) {
     console.error("PayPal capture-order:", e);

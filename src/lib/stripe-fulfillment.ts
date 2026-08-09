@@ -71,9 +71,17 @@ async function refundStripeSession(
 
 export async function fulfillStripeCheckoutSession(
   sessionId: string
-): Promise<{ ok: true; orderNumber: string } | { ok: false; error: string }> {
+): Promise<
+  | {
+      ok: true;
+      orderNumber: string;
+      totalGross?: number;
+      isPaymentTestOrder?: boolean;
+    }
+  | { ok: false; error: string }
+> {
   const existing = await orderExistsForSession(sessionId);
-  if (existing) return { ok: true, orderNumber: existing };
+  if (existing) return { ok: true, orderNumber: existing, isPaymentTestOrder: false };
 
   const stripe = getStripeClient();
   if (!stripe) return { ok: false, error: "STRIPE_NOT_CONFIGURED" };
@@ -142,6 +150,7 @@ export async function fulfillStripeCheckoutSession(
       totalGross: subtotalGross,
       isB2b,
       userId,
+      items: priced.items,
     });
     if (!deliveryCheck.ok) {
       console.warn("Stripe fulfill delivery soft-fail:", deliveryCheck.error, sessionId);
@@ -160,6 +169,7 @@ export async function fulfillStripeCheckoutSession(
       pickupSlot,
       totalGross: subtotalGross,
       isB2b,
+      items: priced.items,
     });
     if (pickupCheck.ok) {
       pickupSlotId = pickupCheck.slotId ?? null;
@@ -194,5 +204,12 @@ export async function fulfillStripeCheckoutSession(
   });
 
   if (!result.ok) return fail(result.error);
-  return { ok: true, orderNumber: result.orderNumber };
+
+  const { isPaymentTestCart } = await import("./payment-test-product");
+  return {
+    ok: true,
+    orderNumber: result.orderNumber,
+    totalGross: Math.round((subtotalGross + deliveryFee) * 100) / 100,
+    isPaymentTestOrder: isPaymentTestCart(priced.items),
+  };
 }

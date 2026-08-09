@@ -22,6 +22,7 @@ import { isB2BApproved } from "@/lib/types";
 import { PriceGateCta } from "@/components/b2c/PriceGateCta";
 import { trackAddToCart, trackViewItem } from "@/lib/analytics";
 import { FavoriteButton } from "@/components/b2c/FavoriteButton";
+import { isPaymentTestSku } from "@/lib/payment-test-product";
 
 interface ProductDetailViewProps {
   product: Product;
@@ -41,15 +42,17 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
   const name = getProductName(product, locale);
   const description = getProductDescription(product, locale);
   const outOfStock = avail === "out_of_stock";
+  const isPaymentTest = isPaymentTestSku(product.sku);
 
   useEffect(() => {
+    if (isPaymentTest) return;
     trackRecentProduct(product.sku);
     trackViewItem({
       item_id: product.sku,
       item_name: name,
       price: displayPrice.amount,
     });
-  }, [product.sku, name, displayPrice.amount]);
+  }, [product.sku, name, displayPrice.amount, isPaymentTest]);
 
   const handleAdd = () => {
     if (outOfStock) return;
@@ -84,6 +87,24 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
         <ArrowLeft className="w-4 h-4" />
         {locale === "de" ? "Zurück" : "Geri"}
       </Link>
+
+      {isPaymentTest && (
+        <div
+          className="mb-6 rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950"
+          role="status"
+        >
+          <p className="font-bold">
+            {locale === "de"
+              ? "TEST — Nur für interne Zahlungstests"
+              : "TEST — Yalnızca dahili ödeme testi"}
+          </p>
+          <p className="mt-1 text-amber-900/90">
+            {locale === "de"
+              ? "Kein regulärer Verkaufsartikel. Mindestbestellwert gilt nicht, wenn nur dieses Produkt im Warenkorb ist."
+              : "Normal satış ürünü değildir. Sepette yalnızca bu ürün varken minimum sipariş tutarı uygulanmaz."}
+          </p>
+        </div>
+      )}
 
       <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
         <div>
@@ -219,7 +240,9 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
         </div>
       </div>
 
-      <RecommendedProducts excludeSku={product.sku} categorySlug={product.category_slug} />
+      {!isPaymentTest && (
+        <RecommendedProducts excludeSku={product.sku} categorySlug={product.category_slug} />
+      )}
     </div>
   );
 }

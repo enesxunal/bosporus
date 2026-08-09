@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { COMPANY } from "@/lib/company";
 import { getProductImageUrl } from "@/lib/category-images";
+import { isPaymentTestSku } from "@/lib/payment-test-product";
 import { getB2cGross, hasSellablePrice } from "@/lib/pricing";
 import type { Category, Product } from "@/lib/types";
 
@@ -30,6 +31,22 @@ export function productMetadata(product: Product, locale: string): Metadata {
   const image = getProductImageUrl(product);
   const url = absoluteUrl(productPath("de", product.sku));
   const isTr = locale === "tr";
+
+  if (isPaymentTestSku(product.sku)) {
+    return {
+      title: name,
+      description: desc.slice(0, 160),
+      robots: { index: false, follow: false, nocache: true },
+      openGraph: {
+        title: name,
+        description: desc.slice(0, 160),
+        url: absoluteUrl(productPath(locale === "tr" ? "tr" : "de", product.sku)),
+        type: "website",
+        locale: isTr ? "tr_TR" : "de_DE",
+        images: [{ url: absoluteUrl(image) }],
+      },
+    };
+  }
 
   return {
     title: name,
@@ -127,22 +144,25 @@ export function organizationJsonLd() {
 }
 
 export function productJsonLd(product: Product, locale: string) {
-  // Schema.org da Almanca ürün adı (birincil pazar DE)
   const name = product.name_de;
   const image = absoluteUrl(getProductImageUrl(product));
-  return {
+  const gtin = product.barcode?.replace(/\D/g, "") || "";
+  const brandName = product.brand?.trim() || null;
+  const mpn = product.mpn?.trim() || product.sku;
+
+  const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Product",
     name,
     sku: product.sku,
     image,
     description: product.description_de || name,
-    brand: { "@type": "Brand", name: COMPANY.tradeName },
     offers: {
       "@type": "Offer",
       url: absoluteUrl(productPath(locale === "tr" ? "tr" : "de", product.sku)),
       priceCurrency: "EUR",
       price: getB2cGross(product).toFixed(2),
+      itemCondition: "https://schema.org/NewCondition",
       availability:
         product.is_active && hasSellablePrice(product)
           ? "https://schema.org/InStock"
@@ -150,4 +170,28 @@ export function productJsonLd(product: Product, locale: string) {
       seller: { "@type": "Organization", name: COMPANY.legalName },
     },
   };
+
+  if (brandName) {
+    jsonLd.brand = { "@type": "Brand", name: brandName };
+  }
+  if (gtin.length >= 8) {
+    jsonLd.gtin = gtin;
+  }
+  if (mpn) {
+    jsonLd.mpn = mpn;
+  }
+  if (product.manufacturer?.trim()) {
+    jsonLd.manufacturer = {
+      "@type": "Organization",
+      name: product.manufacturer.trim(),
+    };
+  }
+  if (product.country_of_origin?.trim()) {
+    jsonLd.countryOfOrigin = {
+      "@type": "Country",
+      name: product.country_of_origin.trim(),
+    };
+  }
+
+  return jsonLd;
 }
