@@ -146,23 +146,19 @@ export function organizationJsonLd() {
 export function productJsonLd(product: Product, locale: string) {
   const name = product.name_de;
   const image = absoluteUrl(getProductImageUrl(product));
-  const gtin = product.barcode?.replace(/\D/g, "") || "";
-  const brandName = product.brand?.trim() || null;
-  const mpn = product.mpn?.trim() || product.sku;
-
-  const jsonLd: Record<string, unknown> = {
+  return {
     "@context": "https://schema.org",
     "@type": "Product",
     name,
     sku: product.sku,
     image,
     description: product.description_de || name,
+    brand: { "@type": "Brand", name: COMPANY.tradeName },
     offers: {
       "@type": "Offer",
       url: absoluteUrl(productPath(locale === "tr" ? "tr" : "de", product.sku)),
       priceCurrency: "EUR",
       price: getB2cGross(product).toFixed(2),
-      itemCondition: "https://schema.org/NewCondition",
       availability:
         product.is_active && hasSellablePrice(product)
           ? "https://schema.org/InStock"
@@ -170,28 +166,4 @@ export function productJsonLd(product: Product, locale: string) {
       seller: { "@type": "Organization", name: COMPANY.legalName },
     },
   };
-
-  if (brandName) {
-    jsonLd.brand = { "@type": "Brand", name: brandName };
-  }
-  if (gtin.length >= 8) {
-    jsonLd.gtin = gtin;
-  }
-  if (mpn) {
-    jsonLd.mpn = mpn;
-  }
-  if (product.manufacturer?.trim()) {
-    jsonLd.manufacturer = {
-      "@type": "Organization",
-      name: product.manufacturer.trim(),
-    };
-  }
-  if (product.country_of_origin?.trim()) {
-    jsonLd.countryOfOrigin = {
-      "@type": "Country",
-      name: product.country_of_origin.trim(),
-    };
-  }
-
-  return jsonLd;
 }
