@@ -21,6 +21,7 @@ const summary: B2bFunnelSummary = {
   quickOrder: 4,
   favorite: 5,
   trend: [],
+  sources: [],
 };
 
 describe("admin funnel dashboard calculations", () => {

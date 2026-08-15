@@ -1,9 +1,21 @@
+import type { AcquisitionSource } from "./acquisition";
+
 export type FunnelDays = 7 | 30 | 90;
 
 export interface FunnelTrendPoint {
   date: string;
   approved: number;
   firstLoginAfterApproval: number;
+  addToCart: number;
+  checkout: number;
+  purchase: number;
+}
+
+export interface FunnelSourceBreakdown {
+  source: AcquisitionSource;
+  approved: number;
+  firstLogin: number;
+  viewItem: number;
   addToCart: number;
   checkout: number;
   purchase: number;
@@ -23,6 +35,7 @@ export interface B2bFunnelSummary {
   quickOrder: number;
   favorite: number;
   trend: FunnelTrendPoint[];
+  sources: FunnelSourceBreakdown[];
 }
 
 export interface B2bFunnelResponse {

@@ -1,5 +1,9 @@
 import { createAdminClient } from "./supabase/admin";
 import type { B2bFunnelEventName } from "./b2b-funnel-shared";
+import {
+  ACQUISITION_SOURCES,
+  type AcquisitionSource,
+} from "./acquisition";
 
 const SUMMARY_EVENT_NAMES = [
   "b2b_account_approved",
@@ -19,11 +23,29 @@ type FunnelRow = {
   event_name: SummaryEventName;
   created_at?: string;
 };
+type AcquisitionRow = { user_id: string; source: AcquisitionSource };
+type SourceMetric =
+  | "approved"
+  | "firstLogin"
+  | "viewItem"
+  | "addToCart"
+  | "checkout"
+  | "purchase";
 
 export interface FunnelTrendPoint {
   date: string;
   approved: number;
   firstLoginAfterApproval: number;
+  addToCart: number;
+  checkout: number;
+  purchase: number;
+}
+
+export interface FunnelSourceBreakdown {
+  source: AcquisitionSource;
+  approved: number;
+  firstLogin: number;
+  viewItem: number;
   addToCart: number;
   checkout: number;
   purchase: number;
@@ -111,6 +133,52 @@ export function summarizeDailyDistinctUsers(
   }));
 }
 
+export function summarizeSourceDistinctUsers(
+  rows: FunnelRow[],
+  acquisitions: AcquisitionRow[]
+): FunnelSourceBreakdown[] {
+  const sourceByUser = new Map(acquisitions.map((row) => [row.user_id, row.source]));
+  const sets = Object.fromEntries(
+    ACQUISITION_SOURCES.map((source) => [
+      source,
+      {
+        approved: new Set<string>(),
+        firstLogin: new Set<string>(),
+        viewItem: new Set<string>(),
+        addToCart: new Set<string>(),
+        checkout: new Set<string>(),
+        purchase: new Set<string>(),
+      },
+    ])
+  ) as Record<AcquisitionSource, Record<SourceMetric, Set<string>>>;
+  const metricByEvent: Partial<Record<SummaryEventName, SourceMetric>> = {
+    b2b_account_approved: "approved",
+    b2b_first_login_after_approval: "firstLogin",
+    approved_b2b_view_item: "viewItem",
+    approved_b2b_add_to_cart: "addToCart",
+    approved_b2b_begin_checkout: "checkout",
+    approved_b2b_purchase: "purchase",
+  };
+
+  for (const row of rows) {
+    if (!row.user_id) continue;
+    const metric = metricByEvent[row.event_name];
+    if (!metric) continue;
+    const source = sourceByUser.get(row.user_id) ?? "unknown";
+    sets[source][metric].add(row.user_id);
+  }
+
+  return ACQUISITION_SOURCES.map((source) => ({
+    source,
+    approved: sets[source].approved.size,
+    firstLogin: sets[source].firstLogin.size,
+    viewItem: sets[source].viewItem.size,
+    addToCart: sets[source].addToCart.size,
+    checkout: sets[source].checkout.size,
+    purchase: sets[source].purchase.size,
+  }));
+}
+
 export async function getB2bFunnelSummary(days: 7 | 30 | 90) {
   const admin = createAdminClient();
   if (!admin) return { ok: false as const, error: "SUPABASE_NOT_CONFIGURED" };
@@ -133,6 +201,28 @@ export async function getB2bFunnelSummary(days: 7 | 30 | 90) {
     if (page.length < pageSize) break;
   }
 
+  const acquisitions: AcquisitionRow[] = [];
+  const funnelUserIds = Array.from(
+    new Set(rows.flatMap((row) => (row.user_id ? [row.user_id] : [])))
+  );
+  const acquisitionBatchSize = 200;
+  for (let index = 0; index < funnelUserIds.length; index += acquisitionBatchSize) {
+    const userIds = funnelUserIds.slice(index, index + acquisitionBatchSize);
+    const { data, error } = await admin
+      .from("user_acquisition")
+      .select("user_id, source")
+      .in("user_id", userIds);
+
+    if (error) {
+      if (error.code === "42P01" || error.code === "PGRST205") {
+        acquisitions.length = 0;
+        break;
+      }
+      return { ok: false as const, error: error.message };
+    }
+    acquisitions.push(...((data ?? []) as AcquisitionRow[]));
+  }
+
   const { count: currentApproved, error: approvedError } = await admin
     .from("profiles")
     .select("id", { count: "exact", head: true })
@@ -147,5 +237,6 @@ export async function getB2bFunnelSummary(days: 7 | 30 | 90) {
     currentApproved: currentApproved ?? 0,
     ...summarizeDistinctUsers(rows),
     trend: summarizeDailyDistinctUsers(rows, days),
+    sources: summarizeSourceDistinctUsers(rows, acquisitions),
   };
 }

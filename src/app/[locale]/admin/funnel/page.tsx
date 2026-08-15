@@ -15,7 +15,6 @@ import {
   Loader2,
   LogIn,
   MonitorSmartphone,
-  RadioTower,
   RefreshCw,
   ShoppingCart,
   TrendingDown,
@@ -23,6 +22,7 @@ import {
   Zap,
 } from "lucide-react";
 import { FunnelTrendChart } from "@/components/admin/FunnelTrendChart";
+import { FunnelSourceBreakdown } from "@/components/admin/FunnelSourceBreakdown";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
@@ -479,13 +479,36 @@ export default function AdminFunnelPage() {
               </p>
             </Card>
 
-            <Card className="!rounded-2xl border border-dashed border-bosporus-gray-200 bg-bosporus-gray-50/70">
-              <RadioTower className="mb-3 h-6 w-6 text-bosporus-muted" />
-              <h2 className="font-extrabold text-metro-navy">{t("sourceBreakdown")}</h2>
-              <p className="mt-3 text-sm font-semibold text-bosporus-muted">
-                {t("notCollectedYet")}
-              </p>
-            </Card>
+            <FunnelSourceBreakdown
+              data={summary.sources ?? []}
+              title={t("sourceBreakdown")}
+              subtitle={t("sourceBreakdownSubtitle")}
+              sourceLabel={t("sourceColumn")}
+              viewLabel={t("viewShort")}
+              cartLabel={t("cartShort")}
+              checkoutLabel={t("checkoutShort")}
+              purchaseLabel={t("purchaseShort")}
+              conversionLabel={t("purchaseConversionShort")}
+              noDataLabel={t("sourceNoData")}
+              metaLabel={t("metaSummary")}
+              firstTouchNote={t("firstTouchNote")}
+              labels={{
+                google_ads: t("sourceGoogleAds"),
+                facebook: t("sourceFacebook"),
+                instagram: t("sourceInstagram"),
+                tiktok: t("sourceTikTok"),
+                organic: t("sourceOrganic"),
+                direct: t("sourceDirect"),
+                referral: t("sourceReferral"),
+                unknown: t("sourceUnknown"),
+              }}
+              metricLabels={{
+                approved: t("approved"),
+                addToCart: t("addToCart"),
+                checkout: t("checkout"),
+                purchase: t("purchase"),
+              }}
+            />
 
             <Card className="!rounded-2xl md:col-span-1">
               <AlertTriangle className="mb-3 h-6 w-6 text-orange-600" />

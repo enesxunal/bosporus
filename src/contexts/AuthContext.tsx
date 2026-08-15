@@ -13,6 +13,7 @@ import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import type { UserProfile } from "@/lib/types";
 import { isB2BApproved } from "@/lib/types";
+import { claimStoredAcquisition } from "@/lib/acquisition-client";
 
 interface AuthContextValue {
   user: SupabaseUser | null;
@@ -56,6 +57,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
 
+      void claimStoredAcquisition();
+
       const { data: row } = await supabase
         .from("profiles")
         .select("id, email, role, company_name, company_address, vat_id, vat_verified, approved_at, locale, first_name, last_name")
@@ -88,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    loadSession();
+    queueMicrotask(() => void loadSession());
 
     if (!isSupabaseConfigured()) return;
 
