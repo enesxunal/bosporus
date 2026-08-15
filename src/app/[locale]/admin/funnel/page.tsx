@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { FunnelTrendChart } from "@/components/admin/FunnelTrendChart";
 import { FunnelSourceBreakdown } from "@/components/admin/FunnelSourceBreakdown";
+import { VisitorFunnelView } from "@/components/admin/VisitorFunnelView";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
@@ -59,10 +60,12 @@ const INSIGHT_TRANSLATION_KEYS: Record<FunnelInsight, string> = {
 };
 
 type LoadError = "auth" | "generic" | null;
+type FunnelTab = "visitor" | "b2b";
 
 export default function AdminFunnelPage() {
   const t = useTranslations("adminFunnel");
   const locale = useLocale();
+  const [tab, setTab] = useState<FunnelTab>("visitor");
   const [days, setDays] = useState<FunnelDays>(30);
   const [summary, setSummary] = useState<B2bFunnelSummary | null>(null);
   const [generatedAt, setGeneratedAt] = useState<string | null>(null);
@@ -271,7 +274,33 @@ export default function AdminFunnelPage() {
         </div>
       </div>
 
-      {loading && !summary ? (
+      <div
+        className="inline-flex w-full rounded-xl bg-bosporus-gray-100 p-1 sm:w-auto"
+        role="tablist"
+        aria-label={t("title")}
+      >
+        {(["visitor", "b2b"] as const).map((value) => (
+          <button
+            key={value}
+            type="button"
+            role="tab"
+            aria-selected={tab === value}
+            onClick={() => setTab(value)}
+            className={cn(
+              "min-w-0 flex-1 rounded-lg px-4 py-2 text-sm font-bold transition-colors sm:flex-none",
+              tab === value
+                ? "bg-white text-metro-navy shadow-sm"
+                : "text-bosporus-muted hover:text-metro-navy"
+            )}
+          >
+            {value === "visitor" ? t("tabVisitors") : t("tabApprovedB2b")}
+          </button>
+        ))}
+      </div>
+
+      {tab === "visitor" ? (
+        <VisitorFunnelView days={days} locale={locale} reloadSignal={reloadKey} />
+      ) : loading && !summary ? (
         <Card className="!rounded-2xl">
           <div className="flex min-h-64 items-center justify-center">
             <Loader2 className="h-8 w-8 animate-spin text-bosporus" />
@@ -663,7 +692,7 @@ export default function AdminFunnelPage() {
         <p>{t("source")}</p>
       </div>
 
-      {loading && summary && (
+      {tab === "b2b" && loading && summary && (
         <div className="pointer-events-none fixed bottom-5 right-5 rounded-full bg-metro-navy p-3 text-white shadow-lg">
           <Loader2 className="h-5 w-5 animate-spin" />
         </div>

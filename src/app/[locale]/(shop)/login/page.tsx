@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { useRouter, Link } from "@/i18n/navigation";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { XCircle } from "lucide-react";
@@ -9,10 +9,17 @@ import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { safeLoginNext } from "@/lib/b2b-funnel-shared";
+import { trackLoginView } from "@/lib/site-funnel-client";
+import { isSiteLocale } from "@/lib/site-funnel-shared";
 
 export default function LoginPage() {
   const t = useTranslations("auth");
+  const locale = useLocale();
   const router = useRouter();
+
+  useEffect(() => {
+    trackLoginView(isSiteLocale(locale) ? locale : null);
+  }, [locale]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);

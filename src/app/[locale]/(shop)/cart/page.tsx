@@ -13,8 +13,17 @@ import { Button } from "@/components/ui/Button";
 import { QuantityControl } from "@/components/ui/QuantityControl";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { isB2BApproved } from "@/lib/types";
+import { trackCartView, trackMinOrderBlockedSite } from "@/lib/site-funnel-client";
+import type { FunnelSegment } from "@/lib/site-funnel-shared";
 
 type CartAudience = "guest" | "b2c" | "b2b" | "b2b_pending";
+
+const AUDIENCE_SEGMENT: Record<CartAudience, FunnelSegment> = {
+  guest: "guest",
+  b2c: "authenticated_unapproved",
+  b2b_pending: "b2b_pending",
+  b2b: "b2b_approved",
+};
 
 export default function CartPage() {
   const t = useTranslations("cart");
@@ -25,6 +34,11 @@ export default function CartPage() {
   const [minOrder, setMinOrder] = useState<number | null>(null);
 
   const canPay = audience === "b2b";
+
+  useEffect(() => {
+    if (totalItems() === 0) return;
+    trackCartView({ itemCount: totalItems(), subtotal: subtotalGross(), locale });
+  }, [totalItems, subtotalGross, locale]);
 
   useEffect(() => {
     if (!isSupabaseConfigured()) return;
@@ -77,13 +91,24 @@ export default function CartPage() {
       const data = await res.json();
       setFirstOrderEligible(Boolean(data.firstOrderEligible));
       if (data.quote?.minOrderAmount != null) {
-        setMinOrder(Number(data.quote.minOrderAmount));
+        const min = Number(data.quote.minOrderAmount);
+        setMinOrder(min);
+        const currentSubtotal = subtotalGross();
+        if (min > 0 && currentSubtotal < min) {
+          trackMinOrderBlockedSite({
+            subtotal: currentSubtotal,
+            minRequired: min,
+            segment: AUDIENCE_SEGMENT[audience],
+            orderType: "click_collect",
+            locale,
+          });
+        }
       }
     })().catch(() => {});
     return () => {
       cancelled = true;
     };
-  }, [audience, items, subtotalGross]);
+  }, [audience, items, subtotalGross, locale]);
 
   if (items.length === 0) {
     return (

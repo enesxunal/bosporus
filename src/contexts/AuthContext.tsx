@@ -14,6 +14,7 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import type { UserProfile } from "@/lib/types";
 import { isB2BApproved } from "@/lib/types";
 import { claimStoredAcquisition } from "@/lib/acquisition-client";
+import { claimVisitorIdentity } from "@/lib/site-funnel-client";
 
 interface AuthContextValue {
   user: SupabaseUser | null;
@@ -58,6 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       void claimStoredAcquisition();
+      void claimVisitorIdentity();
 
       const { data: row } = await supabase
         .from("profiles")

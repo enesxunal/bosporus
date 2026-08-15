@@ -11,6 +11,7 @@ import { CookieConsent } from "@/components/layout/CookieConsent";
 import { AnalyticsLoader } from "@/components/layout/AnalyticsLoader";
 import { ChunkErrorRecovery } from "@/components/layout/ChunkErrorRecovery";
 import { AcquisitionCapture } from "@/components/analytics/AcquisitionCapture";
+import { SiteFunnelTracker } from "@/components/analytics/SiteFunnelTracker";
 import "../globals.css";
 
 const sourceSans = Source_Sans_3({
@@ -108,6 +109,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <ChunkErrorRecovery />
           <AcquisitionCapture />
+          <SiteFunnelTracker />
           {children}
           <CookieConsent />
           <AnalyticsLoader />

@@ -27,6 +27,7 @@ import {
   trackApprovedB2bAddToCart,
   trackApprovedB2bView,
 } from "@/lib/b2b-funnel-client";
+import { trackAddToCartSite, trackProductView } from "@/lib/site-funnel-client";
 
 interface ProductDetailViewProps {
   product: Product;
@@ -57,7 +58,8 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
       price: displayPrice.amount,
     });
     if (isB2BApproved(profile)) trackApprovedB2bView(product.id);
-  }, [product.id, product.sku, name, displayPrice.amount, isPaymentTest, profile]);
+    trackProductView({ productId: product.id, price: displayPrice.amount, locale });
+  }, [product.id, product.sku, name, displayPrice.amount, isPaymentTest, profile, locale]);
 
   const handleAdd = () => {
     if (outOfStock) return;
@@ -73,6 +75,14 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
         productId: product.id,
         quantity: 1,
         cartSubtotal: useCart.getState().subtotalGross(),
+      });
+    }
+    if (!isPaymentTest) {
+      trackAddToCartSite({
+        productId: product.id,
+        quantity: 1,
+        cartSubtotal: useCart.getState().subtotalGross(),
+        locale,
       });
     }
   };

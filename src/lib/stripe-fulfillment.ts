@@ -11,6 +11,7 @@ import { alertPaymentFulfillmentIssue } from "./payment-recovery";
 import type { CartItem } from "./types";
 import { cartLineTotalGross } from "./pfand";
 import { recordPurchase } from "./b2b-funnel-server";
+import { recordSitePurchase } from "./site-funnel-server";
 
 function lineItemsToCart(lines: Stripe.LineItem[]): CartItem[] {
   const items: CartItem[] = [];
@@ -217,6 +218,12 @@ export async function fulfillStripeCheckoutSession(
     value: totalGross,
     paymentMethod: "stripe",
     orderType,
+    isPaymentTestOrder,
+  });
+  await recordSitePurchase({
+    userId,
+    orderId: result.orderId,
+    value: totalGross,
     isPaymentTestOrder,
   });
 

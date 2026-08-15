@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Building2, CheckCircle, XCircle, Mail } from "lucide-react";
@@ -9,6 +9,12 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { trackGenerateLead } from "@/lib/analytics";
+import {
+  trackB2bApplicationSubmitted,
+  trackRegistrationCompleted,
+  trackRegistrationStarted,
+  trackRegisterView,
+} from "@/lib/site-funnel-client";
 
 function RegisterForm() {
   const t = useTranslations("auth");
@@ -17,6 +23,10 @@ function RegisterForm() {
   const locale = useLocale() as "de" | "tr";
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    trackRegisterView(locale);
+  }, [locale]);
 
   const [b2bForm, setB2bForm] = useState({
     companyName: "",
@@ -45,6 +55,7 @@ function RegisterForm() {
     }
 
     setStatus("loading");
+    trackRegistrationStarted(locale);
     try {
       const res = await fetch("/api/auth/b2b-register", {
         method: "POST",
@@ -64,6 +75,8 @@ function RegisterForm() {
       setStatus("success");
       setMessage(data.message ?? "");
       trackGenerateLead("b2b_register");
+      trackRegistrationCompleted(locale);
+      trackB2bApplicationSubmitted(locale);
     } catch {
       setStatus("error");
       setMessage(t("connectionError"));

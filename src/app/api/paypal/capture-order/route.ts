@@ -13,6 +13,7 @@ import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { isB2BApproved, type CartItem } from "@/lib/types";
 import { cartLineTotalGross } from "@/lib/pfand";
 import { recordPurchase } from "@/lib/b2b-funnel-server";
+import { recordSitePurchase } from "@/lib/site-funnel-server";
 
 export async function POST(request: Request) {
   if (!isSupabaseAdminConfigured() || !isPayPalConfigured()) {
@@ -200,6 +201,12 @@ export async function POST(request: Request) {
       value: result.totalGross,
       paymentMethod: "paypal",
       orderType,
+      isPaymentTestOrder,
+    });
+    await recordSitePurchase({
+      userId,
+      orderId: result.orderId,
+      value: result.totalGross,
       isPaymentTestOrder,
     });
 
