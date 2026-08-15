@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { summarizeDistinctUsers } from "./b2b-funnel-admin";
+import { summarizeDailyDistinctUsers, summarizeDistinctUsers } from "./b2b-funnel-admin";
 import {
   dropOff,
   getFunnelInsights,
@@ -20,6 +20,7 @@ const summary: B2bFunnelSummary = {
   purchase: 1,
   quickOrder: 4,
   favorite: 5,
+  trend: [],
 };
 
 describe("admin funnel dashboard calculations", () => {
@@ -74,5 +75,48 @@ describe("admin funnel dashboard calculations", () => {
         { user_id: "u2", event_name: "favorite_used" },
       ])
     ).toMatchObject({ viewItem: 2, quickOrder: 1, favorite: 1 });
+  });
+
+  it("günlük trendde aynı kullanıcıyı aynı event için günde bir kez sayar", () => {
+    expect(
+      summarizeDailyDistinctUsers(
+        [
+          {
+            user_id: "u1",
+            event_name: "b2b_account_approved",
+            created_at: "2026-08-14T08:00:00.000Z",
+          },
+          {
+            user_id: "u1",
+            event_name: "b2b_account_approved",
+            created_at: "2026-08-14T10:00:00.000Z",
+          },
+          {
+            user_id: "u2",
+            event_name: "approved_b2b_purchase",
+            created_at: "2026-08-15T09:00:00.000Z",
+          },
+        ],
+        7,
+        new Date("2026-08-15T12:00:00.000Z")
+      ).slice(-2)
+    ).toEqual([
+      {
+        date: "2026-08-14",
+        approved: 1,
+        firstLoginAfterApproval: 0,
+        addToCart: 0,
+        checkout: 0,
+        purchase: 0,
+      },
+      {
+        date: "2026-08-15",
+        approved: 0,
+        firstLoginAfterApproval: 0,
+        addToCart: 0,
+        checkout: 0,
+        purchase: 1,
+      },
+    ]);
   });
 });

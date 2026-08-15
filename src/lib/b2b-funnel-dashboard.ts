@@ -1,5 +1,14 @@
 export type FunnelDays = 7 | 30 | 90;
 
+export interface FunnelTrendPoint {
+  date: string;
+  approved: number;
+  firstLoginAfterApproval: number;
+  addToCart: number;
+  checkout: number;
+  purchase: number;
+}
+
 export interface B2bFunnelSummary {
   ok: true;
   days: FunnelDays;
@@ -13,6 +22,7 @@ export interface B2bFunnelSummary {
   purchase: number;
   quickOrder: number;
   favorite: number;
+  trend: FunnelTrendPoint[];
 }
 
 export interface B2bFunnelResponse {
