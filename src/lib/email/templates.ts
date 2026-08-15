@@ -236,9 +236,10 @@ export function templateB2bApproved(params: {
   locale?: "de" | "tr";
 }): { subject: string; html: string } {
   const de = params.locale !== "tr";
+  const siteUrl = emailSiteUrl();
   const subject = de
-    ? "Gewerbekonto freigeschaltet – Sie können sich anmelden"
-    : "Kurumsal hesabınız onaylandı – Giriş yapabilirsiniz";
+    ? "Gewerbekonto freigeschaltet – jetzt schnell bestellen"
+    : "Kurumsal hesabınız onaylandı – hızlı siparişe başlayın";
   const bodyHtml = `
     <p>${de ? "Guten Tag" : "Merhaba"},</p>
     <p>${de
@@ -247,17 +248,23 @@ export function templateB2bApproved(params: {
     <p>${de
       ? "Sie können sich jetzt anmelden und zu Nettopreisen (B2B) bestellen."
       : "Artık giriş yapabilir ve toptan (B2B) fiyatlarla sipariş verebilirsiniz."}</p>
+    <ul style="padding-left:20px">
+      <li>${de ? "Mindestbestellwert: 500 €" : "Minimum sipariş tutarı: 500 €"}</li>
+      <li>${de ? "Ihre erste Lieferung ist kostenlos." : "İlk teslimatınız ücretsizdir."}</li>
+      <li>${de ? "Mit der Schnellbestellung legen Sie mehrere Artikel direkt in den Warenkorb." : "Hızlı sipariş ile birden fazla ürünü doğrudan sepete ekleyebilirsiniz."}</li>
+    </ul>
     <p style="color:#5c6573;font-size:14px">${de
       ? "Nutzen Sie die E-Mail-Adresse und das Passwort Ihrer Registrierung."
-      : "Kayıt sırasında kullandığınız e-posta ve şifre ile giriş yapın."}</p>`;
+      : "Kayıt sırasında kullandığınız e-posta ve şifre ile giriş yapın."}</p>
+    <p style="font-size:14px"><a href="${siteUrl}/login?next=/products" style="color:#1D71B8;font-weight:bold">${de ? "Produkte ansehen" : "Ürünleri incele"}</a></p>`;
   return {
     subject,
     html: emailLayout({
       locale: params.locale,
       title: de ? "Konto freigeschaltet" : "Hesabınız onaylandı",
       bodyHtml,
-      ctaLabel: de ? "Jetzt anmelden" : "Giriş yap",
-      ctaUrl: `${emailSiteUrl()}/login`,
+      ctaLabel: de ? "Zur Schnellbestellung" : "Hızlı siparişe geç",
+      ctaUrl: `${siteUrl}/login?next=/quick-order`,
     }),
   };
 }

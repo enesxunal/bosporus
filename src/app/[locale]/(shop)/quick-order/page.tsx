@@ -16,6 +16,10 @@ import { useCart } from "@/stores/cart";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { cn } from "@/lib/cn";
+import {
+  trackApprovedB2bAddToCart,
+  trackQuickOrderUsed,
+} from "@/lib/b2b-funnel-client";
 
 const MAX_QTY = 999;
 
@@ -108,6 +112,11 @@ export default function QuickOrderPage() {
       if (q <= 0) continue;
       if (getAvailability(p) === "out_of_stock") continue;
       addItem(buildCartItemFromProduct(p, q, profile, getProductName(p, locale)));
+      trackApprovedB2bAddToCart({
+        productId: p.id,
+        quantity: q,
+        cartSubtotal: useCart.getState().subtotalGross(),
+      });
       count += 1;
     }
     setAdding(false);
@@ -115,6 +124,7 @@ export default function QuickOrderPage() {
       setMsg(t("noneSelected"));
       return;
     }
+    trackQuickOrderUsed(count);
     setMsg(t("added", { count }));
     setQtys({});
   };
@@ -237,6 +247,12 @@ export default function QuickOrderPage() {
                             addItem(
                               buildCartItemFromProduct(p, q, profile, getProductName(p, locale))
                             );
+                            trackApprovedB2bAddToCart({
+                              productId: p.id,
+                              quantity: q,
+                              cartSubtotal: useCart.getState().subtotalGross(),
+                            });
+                            trackQuickOrderUsed(1);
                             setQtys((prev) => ({ ...prev, [p.id]: 0 }));
                             setMsg(t("added", { count: 1 }));
                           }}
@@ -298,6 +314,12 @@ export default function QuickOrderPage() {
                         addItem(
                           buildCartItemFromProduct(p, q, profile, getProductName(p, locale))
                         );
+                        trackApprovedB2bAddToCart({
+                          productId: p.id,
+                          quantity: q,
+                          cartSubtotal: useCart.getState().subtotalGross(),
+                        });
+                        trackQuickOrderUsed(1);
                         setQtys((prev) => ({ ...prev, [p.id]: 0 }));
                         setMsg(t("added", { count: 1 }));
                       }}

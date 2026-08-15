@@ -10,8 +10,9 @@ import {
 import { capturePayPalOrder, isPayPalConfigured, refundPayPalCapture } from "@/lib/paypal";
 import { alertPaymentFulfillmentIssue } from "@/lib/payment-recovery";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
-import type { CartItem } from "@/lib/types";
+import { isB2BApproved, type CartItem } from "@/lib/types";
 import { cartLineTotalGross } from "@/lib/pfand";
+import { recordPurchase } from "@/lib/b2b-funnel-server";
 
 export async function POST(request: Request) {
   if (!isSupabaseAdminConfigured() || !isPayPalConfigured()) {
@@ -70,10 +71,10 @@ export async function POST(request: Request) {
       userId = user.id;
       const { data: profile } = await supabase
         .from("profiles")
-        .select("role, locale")
+        .select("role, locale, vat_verified")
         .eq("id", user.id)
         .single();
-      isB2b = profile?.role === "b2b_approved" && Boolean((profile as { vat_verified?: boolean }).vat_verified);
+      isB2b = isB2BApproved(profile);
       if (profile?.locale === "tr" || profile?.locale === "de") locale = profile.locale;
     }
   } catch {
@@ -125,6 +126,7 @@ export async function POST(request: Request) {
       pickupSlot,
       totalGross,
       isB2b,
+      userId,
       items: priced.items,
     });
     if (!pickupCheck.ok) {
@@ -190,12 +192,23 @@ export async function POST(request: Request) {
     }
 
     const { isPaymentTestCart } = await import("@/lib/payment-test-product");
+    const isPaymentTestOrder = isPaymentTestCart(priced.items);
+    await recordPurchase({
+      userId,
+      isApprovedB2b: isB2b,
+      orderId: result.orderId,
+      value: result.totalGross,
+      paymentMethod: "paypal",
+      orderType,
+      isPaymentTestOrder,
+    });
+
     return NextResponse.json({
       success: true,
       orderNumber: result.orderNumber,
       orderId: result.orderId,
       total: result.totalGross,
-      isPaymentTestOrder: isPaymentTestCart(priced.items),
+      isPaymentTestOrder,
     });
   } catch (e) {
     console.error("PayPal capture-order:", e);

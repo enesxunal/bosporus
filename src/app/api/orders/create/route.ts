@@ -11,7 +11,7 @@ import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { checkoutErrorMessage } from "@/lib/checkout-errors";
 import { isStripeConfigured } from "@/lib/stripe";
 import { isPayPalConfigured } from "@/lib/paypal";
-import type { CartItem } from "@/lib/types";
+import { isB2BApproved, type CartItem } from "@/lib/types";
 import { cartLineTotalGross } from "@/lib/pfand";
 
 function errorMessage(code: string, locale: "de" | "tr"): string {
@@ -100,10 +100,10 @@ export async function POST(request: Request) {
       userId = user.id;
       const { data: profile } = await supabase
         .from("profiles")
-        .select("role, locale")
+        .select("role, locale, vat_verified")
         .eq("id", user.id)
         .single();
-      isB2b = profile?.role === "b2b_approved";
+      isB2b = isB2BApproved(profile);
       if (profile?.locale === "tr" || profile?.locale === "de") {
         locale = profile.locale;
       }
@@ -164,6 +164,7 @@ export async function POST(request: Request) {
       pickupSlot,
       totalGross,
       isB2b,
+      userId,
       items: priced.items,
     });
     if (!pickupCheck.ok) {

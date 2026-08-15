@@ -12,6 +12,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { QuantityControl } from "@/components/ui/QuantityControl";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { isB2BApproved } from "@/lib/types";
 
 type CartAudience = "guest" | "b2c" | "b2b" | "b2b_pending";
 
@@ -37,16 +38,15 @@ export default function CartPage() {
       try {
         const { data: profile } = await supabase
           .from("profiles")
-          .select("role")
+          .select("role, vat_verified")
           .eq("id", user.id)
           .single();
 
-        const role = profile?.role as string | undefined;
-        if (role === "b2b_approved") {
+        if (isB2BApproved(profile)) {
           setAudience("b2b");
           return;
         }
-        if (role === "b2b_pending") {
+        if (profile?.role === "b2b_pending") {
           setAudience("b2b_pending");
           setFirstOrderEligible(false);
           return;

@@ -3,7 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { isB2cFirstOrderEligible, quoteDelivery } from "@/lib/delivery-pricing";
 import { isPaymentTestCart } from "@/lib/payment-test-product";
 import { validateAndPriceOrderItems } from "@/lib/order-validation";
-import type { CartItem } from "@/lib/types";
+import { isB2BApproved, type CartItem } from "@/lib/types";
+import { recordMinOrderBlocked } from "@/lib/b2b-funnel-server";
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -27,6 +28,7 @@ export async function POST(request: Request) {
   }
 
   let isB2b = false;
+  let isApprovedB2b = false;
   let userId: string | null = null;
   try {
     const supabase = await createClient();
@@ -37,10 +39,11 @@ export async function POST(request: Request) {
       userId = user.id;
       const { data: profile } = await supabase
         .from("profiles")
-        .select("role")
+        .select("role, vat_verified")
         .eq("id", user.id)
         .single();
-      isB2b = profile?.role === "b2b_approved";
+      isApprovedB2b = isB2BApproved(profile);
+      isB2b = isApprovedB2b;
     }
   } catch {
     // guest
@@ -77,6 +80,16 @@ export async function POST(request: Request) {
     firstOrderFree: firstOrderEligible,
     paymentTestCart,
   });
+
+  if (!quote.minOrderMet) {
+    await recordMinOrderBlocked({
+      userId: isApprovedB2b ? userId : null,
+      isApprovedB2b,
+      subtotal: quoteSubtotal,
+      minRequired: quote.minOrderAmount,
+      orderType,
+    });
+  }
 
   return NextResponse.json({
     quote,

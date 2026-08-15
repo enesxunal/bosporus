@@ -27,6 +27,7 @@ import {
 import { fetchProductsForOrder } from "./products-db";
 import { createAdminClient } from "./supabase/admin";
 import { isStandalonePfandProduct, resolvePfandForProduct } from "./pfand";
+import { recordMinOrderBlocked } from "./b2b-funnel-server";
 
 export function buildValidatedCartLine(
   product: Product,
@@ -154,6 +155,13 @@ export async function validateDeliveryOrder(params: {
   });
 
   if (!quote.minOrderMet) {
+    await recordMinOrderBlocked({
+      userId: params.userId,
+      isApprovedB2b: isB2b,
+      subtotal: params.totalGross,
+      minRequired: quote.minOrderAmount,
+      orderType: "delivery",
+    });
     return { ok: false, error: "MIN_ORDER_NOT_MET" };
   }
   if (!quote.withinRadius) {
@@ -195,6 +203,7 @@ export async function validatePickupOrder(params: {
   pickupSlot?: string;
   totalGross: number;
   isB2b?: boolean;
+  userId?: string | null;
   /** Server-priced cart lines only — used for PAYMENT-TEST-1EUR min-order bypass */
   items?: { sku: string; quantity: number }[];
 }): Promise<{ ok: true; slotId?: string } | { ok: false; error: string }> {
@@ -213,6 +222,13 @@ export async function validatePickupOrder(params: {
     paymentTestCart,
   });
   if (!quote.minOrderMet) {
+    await recordMinOrderBlocked({
+      userId: params.userId,
+      isApprovedB2b: params.isB2b ?? false,
+      subtotal: params.totalGross,
+      minRequired: quote.minOrderAmount,
+      orderType: "click_collect",
+    });
     return { ok: false, error: "MIN_ORDER_NOT_MET" };
   }
 

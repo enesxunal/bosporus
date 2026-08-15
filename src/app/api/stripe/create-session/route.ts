@@ -12,9 +12,10 @@ import {
   getStripeClient,
   isStripeConfigured,
 } from "@/lib/stripe";
-import type { CartItem } from "@/lib/types";
+import { isB2BApproved, type CartItem } from "@/lib/types";
 import { cartLineTotalGross } from "@/lib/pfand";
 import { B2B_ONLY_MODE } from "@/lib/shop-mode";
+import { recordBeginCheckout } from "@/lib/b2b-funnel-server";
 
 interface CheckoutBody {
   items: CartItem[];
@@ -59,7 +60,7 @@ export async function POST(request: Request) {
         .select("role, locale, vat_verified")
         .eq("id", user.id)
         .single();
-      isB2b = profile?.role === "b2b_approved" && Boolean(profile.vat_verified);
+      isB2b = isB2BApproved(profile);
       if (profile?.locale === "tr" || profile?.locale === "de") locale = profile.locale;
     }
   } catch {
@@ -109,6 +110,7 @@ export async function POST(request: Request) {
       pickupSlot: body.pickupSlot,
       totalGross: subtotalGross,
       isB2b,
+      userId,
       items: priced.items,
     });
     if (!pickupCheck.ok) {
@@ -155,6 +157,13 @@ export async function POST(request: Request) {
       quantity: 1,
     });
   }
+
+  await recordBeginCheckout({
+    userId,
+    isApprovedB2b: isB2b,
+    subtotal: subtotalGross,
+    orderType: body.orderType,
+  });
 
   try {
     const session = await stripe.checkout.sessions.create({

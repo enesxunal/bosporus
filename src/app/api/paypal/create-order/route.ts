@@ -12,8 +12,9 @@ import {
   isPayPalConfigured,
   verifyPayPalConnection,
 } from "@/lib/paypal";
-import type { CartItem } from "@/lib/types";
+import { isB2BApproved, type CartItem } from "@/lib/types";
 import { cartLineTotalGross } from "@/lib/pfand";
+import { recordBeginCheckout } from "@/lib/b2b-funnel-server";
 
 export async function GET() {
   if (!isPayPalConfigured()) {
@@ -73,6 +74,7 @@ async function resolveTotal(body: CheckoutBody, isB2b: boolean, userId: string |
       pickupSlot: body.pickupSlot,
       totalGross: subtotalGross,
       isB2b,
+      userId,
       items: priced.items,
     });
     if (!pickupCheck.ok) return { ok: false as const, error: pickupCheck.error };
@@ -101,7 +103,7 @@ export async function POST(request: Request) {
     if (user) {
       userId = user.id;
       const { data: profile } = await supabase.from("profiles").select("role, vat_verified").eq("id", user.id).single();
-      isB2b = profile?.role === "b2b_approved" && Boolean(profile.vat_verified);
+      isB2b = isB2BApproved(profile);
     }
   } catch {
     // guest
@@ -119,6 +121,13 @@ export async function POST(request: Request) {
   if (!resolved.ok) {
     return NextResponse.json({ error: resolved.error }, { status: 400 });
   }
+
+  await recordBeginCheckout({
+    userId,
+    isApprovedB2b: isB2b,
+    subtotal: resolved.subtotalGross,
+    orderType: body.orderType,
+  });
 
   try {
     const paypalOrderId = await createPayPalOrder(resolved.totalGross);

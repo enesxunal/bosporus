@@ -10,6 +10,7 @@ import { getStripeClient, stripePaymentReference } from "./stripe";
 import { alertPaymentFulfillmentIssue } from "./payment-recovery";
 import type { CartItem } from "./types";
 import { cartLineTotalGross } from "./pfand";
+import { recordPurchase } from "./b2b-funnel-server";
 
 function lineItemsToCart(lines: Stripe.LineItem[]): CartItem[] {
   const items: CartItem[] = [];
@@ -169,6 +170,7 @@ export async function fulfillStripeCheckoutSession(
       pickupSlot,
       totalGross: subtotalGross,
       isB2b,
+      userId,
       items: priced.items,
     });
     if (pickupCheck.ok) {
@@ -206,10 +208,22 @@ export async function fulfillStripeCheckoutSession(
   if (!result.ok) return fail(result.error);
 
   const { isPaymentTestCart } = await import("./payment-test-product");
+  const isPaymentTestOrder = isPaymentTestCart(priced.items);
+  const totalGross = Math.round((subtotalGross + deliveryFee) * 100) / 100;
+  await recordPurchase({
+    userId,
+    isApprovedB2b: isB2b,
+    orderId: result.orderId,
+    value: totalGross,
+    paymentMethod: "stripe",
+    orderType,
+    isPaymentTestOrder,
+  });
+
   return {
     ok: true,
     orderNumber: result.orderNumber,
-    totalGross: Math.round((subtotalGross + deliveryFee) * 100) / 100,
-    isPaymentTestOrder: isPaymentTestCart(priced.items),
+    totalGross,
+    isPaymentTestOrder,
   };
 }

@@ -8,6 +8,7 @@ import { XCircle } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { safeLoginNext } from "@/lib/b2b-funnel-shared";
 
 export default function LoginPage() {
   const t = useTranslations("auth");
@@ -43,9 +44,17 @@ export default function LoginPage() {
         .single();
 
       await supabase.auth.getSession();
+      await fetch("/api/b2b/funnel/first-login", { method: "POST" }).catch(() => null);
       router.refresh();
 
-      if (profile?.role === "b2b_approved" || profile?.role === "b2b_pending") {
+      if (profile?.role === "b2b_approved") {
+        const next = safeLoginNext(
+          typeof window === "undefined"
+            ? null
+            : new URLSearchParams(window.location.search).get("next")
+        );
+        router.push(next);
+      } else if (profile?.role === "b2b_pending") {
         router.push("/products");
       } else if (profile?.role === "admin") {
         router.push("/admin");

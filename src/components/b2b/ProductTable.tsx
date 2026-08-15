@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Plus, Minus } from "lucide-react";
 import Image from "next/image";
-import type { Product, UserProfile } from "@/lib/types";
+import { isB2BApproved, type Product, type UserProfile } from "@/lib/types";
 import { getDisplayPrice, formatPrice, formatUnit } from "@/lib/pricing";
 import { useCart } from "@/stores/cart";
 import { getProductImageUrl, getAvailability } from "@/lib/category-images";
@@ -12,6 +12,7 @@ import { getProductName } from "@/lib/product-display";
 import { buildCartItemFromProduct } from "@/lib/pfand";
 import { trackAddToCart, trackViewItem } from "@/lib/analytics";
 import { Link } from "@/i18n/navigation";
+import { trackApprovedB2bAddToCart } from "@/lib/b2b-funnel-client";
 
 interface ProductTableProps {
   products: Product[];
@@ -57,6 +58,13 @@ export function ProductTable({ products, profile = null }: ProductTableProps) {
       price: dp.amount,
       quantity: qty,
     });
+    if (isB2BApproved(profile)) {
+      trackApprovedB2bAddToCart({
+        productId: product.id,
+        quantity: qty,
+        cartSubtotal: useCart.getState().subtotalGross(),
+      });
+    }
     setQuantities((q) => ({ ...q, [product.id]: 1 }));
   };
 

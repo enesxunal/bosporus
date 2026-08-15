@@ -58,7 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       const { data: row } = await supabase
         .from("profiles")
-        .select("id, email, role, company_name, company_address, vat_id, vat_verified, locale, first_name, last_name")
+        .select("id, email, role, company_name, company_address, vat_id, vat_verified, approved_at, locale, first_name, last_name")
         .eq("id", currentUser.id)
         .single();
 
@@ -66,6 +66,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setProfile(p);
       setIsAdmin(p?.role === "admin");
       setB2bProfile(p && isB2BApproved(p) ? p : null);
+      if (p && isB2BApproved(p) && p.approved_at) {
+        try {
+          const key = `b2b_first_login_checked_${p.id}`;
+          if (!sessionStorage.getItem(key)) {
+            sessionStorage.setItem(key, "1");
+            void fetch("/api/b2b/funnel/first-login", { method: "POST" }).catch(() => null);
+          }
+        } catch {
+          void fetch("/api/b2b/funnel/first-login", { method: "POST" }).catch(() => null);
+        }
+      }
     } catch {
       setUser(null);
       setIsAdmin(false);

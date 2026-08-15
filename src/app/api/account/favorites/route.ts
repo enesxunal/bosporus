@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/api-auth";
 import { isUniqueViolation, parseFavoriteProductId } from "@/lib/favorites";
 import { enrichProductsWithPfand } from "@/lib/pfand";
-import type { Product } from "@/lib/types";
+import { isB2BApproved, type Product } from "@/lib/types";
+import { recordB2bFunnelEvent } from "@/lib/b2b-funnel-server";
 
 export async function GET(request: Request) {
   const auth = await requireUser();
@@ -90,6 +91,22 @@ export async function POST(request: Request) {
 
   if (error && !isUniqueViolation(error)) {
     return NextResponse.json({ error: "SAVE_FAILED" }, { status: 500 });
+  }
+
+  if (!error) {
+    const { data: profile } = await auth.supabase
+      .from("profiles")
+      .select("role, vat_verified")
+      .eq("id", auth.user.id)
+      .single();
+    if (isB2BApproved(profile)) {
+      await recordB2bFunnelEvent({
+        userId: auth.user.id,
+        eventName: "favorite_used",
+        metadata: { product_id: parsed.productId },
+        dedupeKey: `favorite:${parsed.productId}`,
+      });
+    }
   }
 
   // Duplicate → idempotent 200

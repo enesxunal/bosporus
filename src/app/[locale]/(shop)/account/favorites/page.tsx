@@ -8,7 +8,7 @@ import { useAuthOptional } from "@/contexts/AuthContext";
 import { useFavorites } from "@/contexts/FavoritesContext";
 import { useCart } from "@/stores/cart";
 import { useShopProfile } from "@/hooks/useShopProfile";
-import type { Product } from "@/lib/types";
+import { isB2BApproved, type Product } from "@/lib/types";
 import { getDisplayPrice, formatPrice, formatUnit } from "@/lib/pricing";
 import { getAvailability } from "@/lib/category-images";
 import { getProductName } from "@/lib/product-display";
@@ -18,6 +18,7 @@ import { ProductImage } from "@/components/b2c/ProductImage";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { cn } from "@/lib/cn";
+import { trackApprovedB2bAddToCart } from "@/lib/b2b-funnel-client";
 
 export default function FavoritesPage() {
   const t = useTranslations("favorites");
@@ -176,6 +177,13 @@ export default function FavoritesPage() {
                                 price: price.amount,
                                 quantity: qty,
                               });
+                              if (isB2BApproved(profile)) {
+                                trackApprovedB2bAddToCart({
+                                  productId: p.id,
+                                  quantity: qty,
+                                  cartSubtotal: useCart.getState().subtotalGross(),
+                                });
+                              }
                             }}
                           >
                             <ShoppingCart className="w-4 h-4" />
@@ -258,6 +266,13 @@ export default function FavoritesPage() {
                           price: price.amount,
                           quantity: qty,
                         });
+                        if (isB2BApproved(profile)) {
+                          trackApprovedB2bAddToCart({
+                            productId: p.id,
+                            quantity: qty,
+                            cartSubtotal: useCart.getState().subtotalGross(),
+                          });
+                        }
                       }}
                     >
                       <Plus className="w-4 h-4" />

@@ -19,6 +19,7 @@ import { WholesalePriceHint } from "@/components/b2c/WholesalePriceHint";
 import { buildCartItemFromProduct } from "@/lib/pfand";
 import { trackAddToCart, trackViewItem } from "@/lib/analytics";
 import { FavoriteButton } from "@/components/b2c/FavoriteButton";
+import { trackApprovedB2bAddToCart } from "@/lib/b2b-funnel-client";
 
 interface ProductCardProps {
   product: Product;
@@ -56,6 +57,13 @@ export function ProductCard({ product, profile: profileProp = null, variant = "d
       price: displayPrice.amount,
       quantity: 1,
     });
+    if (isB2BApproved(profile)) {
+      trackApprovedB2bAddToCart({
+        productId: product.id,
+        quantity: 1,
+        cartSubtotal: useCart.getState().subtotalGross(),
+      });
+    }
   };
 
   return (

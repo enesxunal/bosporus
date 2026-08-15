@@ -23,6 +23,10 @@ import { PriceGateCta } from "@/components/b2c/PriceGateCta";
 import { trackAddToCart, trackViewItem } from "@/lib/analytics";
 import { FavoriteButton } from "@/components/b2c/FavoriteButton";
 import { isPaymentTestSku } from "@/lib/payment-test-product";
+import {
+  trackApprovedB2bAddToCart,
+  trackApprovedB2bView,
+} from "@/lib/b2b-funnel-client";
 
 interface ProductDetailViewProps {
   product: Product;
@@ -52,7 +56,8 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
       item_name: name,
       price: displayPrice.amount,
     });
-  }, [product.sku, name, displayPrice.amount, isPaymentTest]);
+    if (isB2BApproved(profile)) trackApprovedB2bView(product.id);
+  }, [product.id, product.sku, name, displayPrice.amount, isPaymentTest, profile]);
 
   const handleAdd = () => {
     if (outOfStock) return;
@@ -63,6 +68,13 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
       price: getDisplayPrice(product, profile).amount,
       quantity: 1,
     });
+    if (!isPaymentTest && isB2BApproved(profile)) {
+      trackApprovedB2bAddToCart({
+        productId: product.id,
+        quantity: 1,
+        cartSubtotal: useCart.getState().subtotalGross(),
+      });
+    }
   };
 
   const stockLabel =

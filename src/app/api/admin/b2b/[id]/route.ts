@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendB2bStatusEmail } from "@/lib/email";
+import { buildApprovalUpdate, recordAccountApproved } from "@/lib/b2b-funnel-server";
 
 export async function PATCH(
   request: Request,
@@ -35,15 +36,18 @@ export async function PATCH(
   const phone = (before.phone as string | null)?.trim() || null;
 
   if (action === "approve") {
+    const approvedAt = new Date().toISOString();
     const { data, error } = await admin
       .from("profiles")
-      .update({ role: "b2b_approved", vat_verified: true })
+      .update(buildApprovalUpdate(approvedAt))
       .eq("id", id)
       .eq("role", "b2b_pending")
       .select()
       .single();
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    await recordAccountApproved({ userId: id, approvedAt, admin });
 
     let emailSent = false;
     if (recipientEmail) {

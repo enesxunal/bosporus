@@ -101,9 +101,12 @@ export interface UserProfile {
   company_address: string | null;
   vat_id: string | null;
   vat_verified: boolean;
+  approved_at?: string | null;
   locale: Locale;
 }
 
-export function isB2BApproved(profile: UserProfile | null): boolean {
+export function isB2BApproved(
+  profile: Pick<UserProfile, "role" | "vat_verified"> | null | undefined
+): boolean {
   return profile?.role === "b2b_approved" && profile.vat_verified;
 }

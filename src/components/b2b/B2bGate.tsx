@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { Loader2, Lock, Clock } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
-import type { UserProfile } from "@/lib/types";
+import { isB2BApproved, type UserProfile } from "@/lib/types";
 import { Button } from "@/components/ui/Button";
 
 export function useB2bProfile() {
@@ -41,7 +41,13 @@ export function useB2bProfile() {
     };
   }, []);
 
-  return { profile, loading, userId, isApproved: profile?.role === "b2b_approved", isPending: profile?.role === "b2b_pending" };
+  return {
+    profile,
+    loading,
+    userId,
+    isApproved: isB2BApproved(profile),
+    isPending: profile?.role === "b2b_pending",
+  };
 }
 
 export function B2bGate({ children }: { children: React.ReactNode }) {
