@@ -20,6 +20,7 @@ import {
   Percent,
   FileText,
   Home,
+  Funnel,
 } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { cn } from "@/lib/cn";
@@ -42,6 +43,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
     { href: "/admin/orders", icon: Package, label: t("orders") },
     { href: "/admin/customers", icon: Users, label: t("customers") },
     { href: "/admin/b2b", icon: Building2, label: t("b2b") },
+    { href: "/admin/funnel", icon: Funnel, label: t("funnel") },
     { href: "/admin/delivery", icon: Truck, label: t("delivery") },
     { href: "/admin/emails", icon: Mail, label: t("emails") },
   ];
@@ -128,7 +130,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           <h1 className="font-extrabold text-lg">Bosporus Admin</h1>
           <p className="text-white/50 text-xs mt-1">{t("panel")}</p>
         </div>
-        <nav className="flex-1 p-3 space-y-1">
+        <nav className="flex-1 overflow-y-auto p-3 space-y-1">
           {NAV.map(({ href, icon: Icon, label, exact }) => (
             <Link
               key={href}
@@ -185,7 +187,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             </div>
           </div>
           {mobileNav && (
-            <nav className="px-3 pb-3 space-y-1">
+            <nav className="max-h-[calc(100vh-3.5rem)] overflow-y-auto px-3 pb-3 space-y-1">
               {NAV.map(({ href, icon: Icon, label, exact }) => (
                 <Link
                   key={href}

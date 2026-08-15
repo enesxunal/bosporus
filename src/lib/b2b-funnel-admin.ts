@@ -4,10 +4,13 @@ import type { B2bFunnelEventName } from "./b2b-funnel-shared";
 const SUMMARY_EVENT_NAMES = [
   "b2b_account_approved",
   "b2b_first_login_after_approval",
+  "approved_b2b_view_item",
   "approved_b2b_add_to_cart",
   "min_order_blocked",
   "approved_b2b_begin_checkout",
   "approved_b2b_purchase",
+  "quick_order_used",
+  "favorite_used",
 ] as const satisfies readonly B2bFunnelEventName[];
 
 type SummaryEventName = (typeof SUMMARY_EVENT_NAMES)[number];
@@ -25,10 +28,13 @@ export function summarizeDistinctUsers(rows: FunnelRow[]) {
   return {
     approved: sets.b2b_account_approved.size,
     firstLoginAfterApproval: sets.b2b_first_login_after_approval.size,
+    viewItem: sets.approved_b2b_view_item.size,
     addToCart: sets.approved_b2b_add_to_cart.size,
     minOrderBlocked: sets.min_order_blocked.size,
     checkout: sets.approved_b2b_begin_checkout.size,
     purchase: sets.approved_b2b_purchase.size,
+    quickOrder: sets.quick_order_used.size,
+    favorite: sets.favorite_used.size,
   };
 }
 
