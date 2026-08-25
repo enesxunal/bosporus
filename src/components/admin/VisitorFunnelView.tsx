@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
   AlertTriangle,
@@ -377,11 +377,11 @@ export function VisitorFunnelView({
             <p className="text-xs text-bosporus-muted">{tAdmin("periodComparisonHint")}</p>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-5">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {kpiCards.map(({ label, value, previous, spark, icon: Icon }) => {
             const delta = periodDelta(value, previous);
             return (
-              <Card key={label} className="!rounded-2xl" padding="sm">
+              <Card key={label} className="min-w-0 !rounded-2xl" padding="sm">
                 <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-bosporus-gray-100 text-bosporus">
                   <Icon className="h-4.5 w-4.5" />
                 </div>
@@ -426,10 +426,10 @@ export function VisitorFunnelView({
                   ? 100
                   : null
                 : stageShare(stage.value, stages[0]?.value ?? 0);
-            const width =
+            const fill =
               stage.value === 0 || maxStage === 0
                 ? 0
-                : Math.max(7, (stage.value / maxStage) * 100);
+                : Math.max(4, (stage.value / maxStage) * 100);
             const Icon = stage.icon;
             return (
               <div key={stage.key}>
@@ -443,38 +443,42 @@ export function VisitorFunnelView({
                     </span>
                   </div>
                 )}
-                <div
-                  className="relative w-full overflow-hidden rounded-2xl border border-bosporus-gray-100 bg-bosporus-gray-50 sm:w-[var(--w)]"
-                  style={{ "--w": `${Math.max(54, width)}%` } as CSSProperties}
-                >
+                <div className="relative w-full overflow-hidden rounded-2xl border border-bosporus-gray-100 bg-bosporus-gray-50">
                   <div
                     className="absolute inset-y-0 left-0 bg-gradient-to-r from-bosporus/15 to-bosporus-yellow/25"
-                    style={{ width: `${width}%` }}
+                    style={{ width: `${fill}%` }}
                     aria-hidden="true"
                   />
-                  <div className="relative grid gap-3 p-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+                  <div className="relative flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-5">
                     <div className="flex min-w-0 items-center gap-3">
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">
                         <Icon className="h-5 w-5 text-bosporus" />
                       </div>
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-bold text-metro-navy">{stage.label}</p>
+                        <p className="text-sm font-bold text-metro-navy">{stage.label}</p>
                         <p className="text-xs text-bosporus-muted">
                           {stage.level === "user" ? t("levelUser") : t("levelVisitor")}
                         </p>
                       </div>
                     </div>
-                    <div className="grid grid-cols-[auto_auto] items-end gap-x-4">
-                      <p className="row-span-2 text-2xl font-black text-metro-navy">
+                    <div className="flex shrink-0 items-end justify-between gap-6 sm:justify-end">
+                      <p className="text-2xl font-black tabular-nums text-metro-navy sm:text-3xl">
                         {numberFormatter.format(stage.value)}
                       </p>
-                      <p className="text-right text-xs text-bosporus-muted">{tAdmin("previousShare")}</p>
-                      <p className="text-right text-sm font-extrabold text-bosporus">
-                        {formatPercentage(previousRate)}
-                        <span className="ml-2 font-medium text-bosporus-muted">
-                          · {tAdmin("totalShare")} {formatPercentage(totalRate)}
-                        </span>
-                      </p>
+                      <div className="space-y-1 text-right">
+                        <p className="text-[11px] leading-4 text-bosporus-muted">
+                          {tAdmin("previousShare")}
+                        </p>
+                        <p className="text-sm font-extrabold tabular-nums text-bosporus">
+                          {formatPercentage(previousRate)}
+                        </p>
+                        <p className="text-[11px] leading-4 text-bosporus-muted">
+                          {tAdmin("totalShare")}
+                        </p>
+                        <p className="text-sm font-extrabold tabular-nums text-bosporus">
+                          {formatPercentage(totalRate)}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

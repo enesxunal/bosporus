@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import {
   AlertTriangle,
@@ -411,14 +411,14 @@ export default function AdminFunnelPage() {
                 {t("periodComparisonHint")}
               </span>
             </div>
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-7">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
               {kpiCards.map(({ label, value, previous, spark, icon: Icon, tone }) => {
                 const colors = KPI_TONES[tone] ?? KPI_TONES.teal;
                 const delta = periodDelta(value, previous);
                 return (
                   <Card
                     key={label}
-                    className="relative !rounded-2xl overflow-hidden"
+                    className="relative min-w-0 !rounded-2xl overflow-hidden"
                     padding="sm"
                   >
                     <div
@@ -486,10 +486,10 @@ export default function AdminFunnelPage() {
                       ? 100
                       : null
                     : stageShare(stage.value, stages[0]?.value ?? 0);
-                const width =
+                const fill =
                   stage.value === 0 || maximumStageValue === 0
                     ? 0
-                    : Math.max(7, (stage.value / maximumStageValue) * 100);
+                    : Math.max(4, (stage.value / maximumStageValue) * 100);
                 const Icon = stage.icon;
 
                 return (
@@ -507,44 +507,42 @@ export default function AdminFunnelPage() {
                       );
                     })()}
 
-                    <div
-                      className="relative mx-auto w-full overflow-hidden rounded-2xl border border-bosporus-gray-100 bg-bosporus-gray-50 transition-[width] sm:w-[var(--stage-width)] sm:[clip-path:polygon(2%_0,98%_0,95%_100%,5%_100%)]"
-                      style={
-                        {
-                          "--stage-width": `${Math.max(54, width)}%`,
-                        } as CSSProperties
-                      }
-                    >
+                    <div className="relative w-full overflow-hidden rounded-2xl border border-bosporus-gray-100 bg-bosporus-gray-50">
                       <div
                         className="absolute inset-y-0 left-0 bg-gradient-to-r from-bosporus/15 to-bosporus-yellow/25 transition-[width] duration-500"
-                        style={{ width: `${width}%` }}
+                        style={{ width: `${fill}%` }}
                         aria-hidden="true"
                       />
-                      <div className="relative grid gap-3 p-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-5">
+                      <div className="relative flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-5">
                         <div className="flex min-w-0 items-center gap-3">
                           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">
                             <Icon className="h-5 w-5 text-bosporus" />
                           </div>
                           <div className="min-w-0">
-                            <p className="truncate text-sm font-bold text-metro-navy">
+                            <p className="text-sm font-bold text-metro-navy">
                               {stage.label}
                             </p>
                             <p className="text-xs text-bosporus-muted">{t("distinctUsers")}</p>
                           </div>
                         </div>
-                        <div className="grid grid-cols-[auto_auto] items-end gap-x-4 sm:gap-x-6">
-                          <p className="row-span-2 text-3xl font-black text-metro-navy">
+                        <div className="flex shrink-0 items-end justify-between gap-6 sm:justify-end">
+                          <p className="text-2xl font-black tabular-nums text-metro-navy sm:text-3xl">
                             {numberFormatter.format(stage.value)}
                           </p>
-                          <p className="text-right text-xs text-bosporus-muted">
-                            {t("previousShare")}
-                          </p>
-                          <p className="text-right text-sm font-extrabold text-bosporus">
-                            {formatPercentage(previousRate)}
-                            <span className="ml-2 font-medium text-bosporus-muted">
-                              · {t("totalShare")} {formatPercentage(totalRate)}
-                            </span>
-                          </p>
+                          <div className="space-y-1 text-right">
+                            <p className="text-[11px] leading-4 text-bosporus-muted">
+                              {t("previousShare")}
+                            </p>
+                            <p className="text-sm font-extrabold tabular-nums text-bosporus">
+                              {formatPercentage(previousRate)}
+                            </p>
+                            <p className="text-[11px] leading-4 text-bosporus-muted">
+                              {t("totalShare")}
+                            </p>
+                            <p className="text-sm font-extrabold tabular-nums text-bosporus">
+                              {formatPercentage(totalRate)}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>

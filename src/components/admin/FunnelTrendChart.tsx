@@ -89,17 +89,21 @@ export function FunnelTrendChart<T extends string>({
 
   return (
     <Card className="!rounded-3xl overflow-hidden" padding="none">
-      <div className="flex flex-col gap-4 border-b border-bosporus-gray-100 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+      <div className="space-y-4 border-b border-bosporus-gray-100 p-5 sm:p-6">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-bosporus/10">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-bosporus/10">
             <Activity className="h-5 w-5 text-bosporus" />
           </div>
-          <div>
+          <div className="min-w-0">
             <h2 className="font-extrabold text-metro-navy">{title}</h2>
             <p className="text-xs text-bosporus-muted">{activeMetric.label}</p>
           </div>
         </div>
-        <div className="flex max-w-full gap-1 overflow-x-auto pb-1 sm:pb-0" role="tablist">
+        <div
+          className="flex flex-wrap gap-1.5"
+          role="tablist"
+          aria-label={title}
+        >
           {metrics.map((item) => (
             <button
               key={item.key}
@@ -111,18 +115,18 @@ export function FunnelTrendChart<T extends string>({
                 setHoveredIndex(null);
               }}
               className={cn(
-                "flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition-colors",
+                "inline-flex max-w-full items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition-colors",
                 metric === item.key
                   ? "bg-metro-navy text-white"
                   : "bg-bosporus-gray-100 text-bosporus-muted hover:text-metro-navy"
               )}
             >
               <span
-                className="h-2 w-2 rounded-full"
+                className="h-2 w-2 shrink-0 rounded-full"
                 style={{ backgroundColor: item.color }}
                 aria-hidden="true"
               />
-              {item.label}
+              <span className="whitespace-normal text-left leading-snug">{item.label}</span>
             </button>
           ))}
         </div>
