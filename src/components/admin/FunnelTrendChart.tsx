@@ -232,35 +232,43 @@ export function FunnelTrendChart<T extends string>({
             );
           })}
 
-          {hovered && (
-            <>
-              <line
-                x1={hovered.x}
-                x2={hovered.x}
-                y1={PADDING.top}
-                y2={PADDING.top + plotHeight}
-                stroke={activeMetric.color}
-                strokeDasharray="3 4"
-                opacity="0.45"
-                pointerEvents="none"
-              />
-              <g
-                transform={`translate(${Math.min(
-                  CHART_WIDTH - 150,
-                  Math.max(PADDING.left, hovered.x - 60)
-                )}, 8)`}
-                pointerEvents="none"
-              >
-                <rect width="126" height="48" rx="10" fill="#172554" />
-                <text x="12" y="19" className="fill-white/70 text-[10px]">
-                  {formatBucket(hovered.point.date)}
-                </text>
-                <text x="12" y="37" className="fill-white text-[13px] font-bold">
-                  {activeMetric.label}: {Number(hovered.point[metric] ?? 0)}
-                </text>
-              </g>
-            </>
-          )}
+          {hovered && (() => {
+            const value = Number(hovered.point[metric] ?? 0);
+            const dateLabel = formatBucket(hovered.point.date);
+            const valueLabel = `${activeMetric.label}: ${value}`;
+            // SVG <rect> has no auto-size — estimate from the longest line so digits are never clipped.
+            const tooltipWidth = Math.min(
+              340,
+              Math.max(148, 28 + Math.ceil(Math.max(dateLabel.length, valueLabel.length) * 7.4))
+            );
+            const tooltipX = Math.min(
+              CHART_WIDTH - tooltipWidth - 8,
+              Math.max(PADDING.left, hovered.x - tooltipWidth / 2)
+            );
+            return (
+              <>
+                <line
+                  x1={hovered.x}
+                  x2={hovered.x}
+                  y1={PADDING.top}
+                  y2={PADDING.top + plotHeight}
+                  stroke={activeMetric.color}
+                  strokeDasharray="3 4"
+                  opacity="0.45"
+                  pointerEvents="none"
+                />
+                <g transform={`translate(${tooltipX}, 8)`} pointerEvents="none">
+                  <rect width={tooltipWidth} height="50" rx="10" fill="#172554" />
+                  <text x="12" y="19" className="fill-white/70 text-[10px]">
+                    {dateLabel}
+                  </text>
+                  <text x="12" y="38" className="fill-white text-[13px] font-bold">
+                    {valueLabel}
+                  </text>
+                </g>
+              </>
+            );
+          })()}
         </svg>
 
         {!hasData && (
