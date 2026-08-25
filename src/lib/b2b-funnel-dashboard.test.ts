@@ -1,15 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { summarizeDailyDistinctUsers, summarizeDistinctUsers } from "./b2b-funnel-admin";
+import { summarizeBucketedDistinctUsers, summarizeDailyDistinctUsers, summarizeDistinctUsers } from "./b2b-funnel-admin";
 import {
   dropOff,
   getFunnelInsights,
   percentage,
+  periodDelta,
+  stageShare,
   type B2bFunnelSummary,
 } from "./b2b-funnel-dashboard";
 
 const summary: B2bFunnelSummary = {
   ok: true,
   days: 30,
+  granularity: "day",
   currentApproved: 24,
   approved: 24,
   firstLoginAfterApproval: 18,
@@ -20,6 +23,17 @@ const summary: B2bFunnelSummary = {
   purchase: 1,
   quickOrder: 4,
   favorite: 5,
+  previous: {
+    approved: 20,
+    firstLoginAfterApproval: 15,
+    viewItem: 12,
+    addToCart: 8,
+    minOrderBlocked: 1,
+    checkout: 2,
+    purchase: 1,
+    quickOrder: 3,
+    favorite: 4,
+  },
   trend: [],
   sources: [],
 };
@@ -119,5 +133,49 @@ describe("admin funnel dashboard calculations", () => {
         purchase: 1,
       },
     ]);
+  });
+
+  it("24s aralığında saatlik bucket üretir", () => {
+    const now = new Date("2026-08-15T12:30:00.000Z");
+    const trend = summarizeBucketedDistinctUsers(
+      [
+        {
+          user_id: "u1",
+          event_name: "b2b_account_approved",
+          created_at: "2026-08-15T10:15:00.000Z",
+        },
+        {
+          user_id: "u1",
+          event_name: "b2b_account_approved",
+          created_at: "2026-08-15T10:45:00.000Z",
+        },
+        {
+          user_id: "u2",
+          event_name: "approved_b2b_purchase",
+          created_at: "2026-08-15T11:05:00.000Z",
+        },
+      ],
+      1,
+      now
+    );
+    expect(trend).toHaveLength(24);
+    expect(trend.every((point) => point.date.includes("T"))).toBe(true);
+    const ten = trend.find((point) => point.date === "2026-08-15T10:00:00.000Z");
+    const eleven = trend.find((point) => point.date === "2026-08-15T11:00:00.000Z");
+    expect(ten?.approved).toBe(1);
+    expect(eleven?.purchase).toBe(1);
+  });
+
+  it("önceki dönem karşılaştırmasında 0 tabanı Infinity üretmez", () => {
+    expect(periodDelta(5, 0)).toEqual({ absolute: 5, percent: null });
+    expect(periodDelta(0, 0)).toEqual({ absolute: 0, percent: null });
+    expect(periodDelta(12, 10)).toEqual({ absolute: 2, percent: 20 });
+    expect(periodDelta(8, 10)).toEqual({ absolute: -2, percent: -20 });
+  });
+
+  it("bağımsız distinct oranlarında >100% göstermez", () => {
+    expect(stageShare(12, 10)).toBeNull();
+    expect(stageShare(8, 10)).toBe(80);
+    expect(stageShare(1, 0)).toBeNull();
   });
 });

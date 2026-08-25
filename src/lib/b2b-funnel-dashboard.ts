@@ -1,8 +1,15 @@
 import type { AcquisitionSource } from "./acquisition";
+import {
+  independentShare,
+  periodDelta,
+  type FunnelDays,
+} from "./funnel-period";
 
-export type FunnelDays = 7 | 30 | 90;
+export type { FunnelDays } from "./funnel-period";
+export { independentShare, periodDelta } from "./funnel-period";
 
 export interface FunnelTrendPoint {
+  /** Calendar day `YYYY-MM-DD` or hour bucket `YYYY-MM-DDTHH:00:00.000Z`. */
   date: string;
   approved: number;
   firstLoginAfterApproval: number;
@@ -21,9 +28,22 @@ export interface FunnelSourceBreakdown {
   purchase: number;
 }
 
+export interface PeriodTotals {
+  approved: number;
+  firstLoginAfterApproval: number;
+  viewItem: number;
+  addToCart: number;
+  minOrderBlocked: number;
+  checkout: number;
+  purchase: number;
+  quickOrder: number;
+  favorite: number;
+}
+
 export interface B2bFunnelSummary {
   ok: true;
   days: FunnelDays;
+  granularity: "hour" | "day";
   currentApproved: number;
   approved: number;
   firstLoginAfterApproval: number;
@@ -34,6 +54,7 @@ export interface B2bFunnelSummary {
   purchase: number;
   quickOrder: number;
   favorite: number;
+  previous: PeriodTotals;
   trend: FunnelTrendPoint[];
   sources: FunnelSourceBreakdown[];
 }
@@ -53,6 +74,14 @@ export type FunnelInsight =
 export function percentage(value: number, base: number): number | null {
   if (base <= 0) return null;
   return (value / base) * 100;
+}
+
+/**
+ * Prefer independentShare for stage-to-stage UI so independent distinct counts
+ * never display as impossible sequential conversions above 100%.
+ */
+export function stageShare(value: number, base: number): number | null {
+  return independentShare(value, base);
 }
 
 export function dropOff(from: number, to: number) {
@@ -95,4 +124,11 @@ export function getFunnelInsights(summary: B2bFunnelSummary): FunnelInsight[] {
   }
 
   return insights.slice(0, 3);
+}
+
+export function kpiPeriodDelta(
+  current: number,
+  previous: number
+): ReturnType<typeof periodDelta> {
+  return periodDelta(current, previous);
 }

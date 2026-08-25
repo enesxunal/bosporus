@@ -21,10 +21,13 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { FunnelTrendChart } from "@/components/admin/FunnelTrendChart";
+import { KpiSparkline, PeriodDeltaBadge } from "@/components/admin/FunnelKpiDelta";
 import {
   dropOff,
   getSiteFunnelInsights,
-  percentage,
+  periodDelta,
+  stageShare,
   type FunnelDays,
   type SiteFunnelInsight,
   type SiteFunnelResponse,
@@ -53,6 +56,7 @@ export function VisitorFunnelView({
   reloadSignal?: number;
 }) {
   const t = useTranslations("siteFunnel");
+  const tAdmin = useTranslations("adminFunnel");
   const [summary, setSummary] = useState<SiteFunnelSummary | null>(null);
   const [generatedAt, setGeneratedAt] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -83,7 +87,7 @@ export function VisitorFunnelView({
           return;
         }
         const data = (await response.json()) as SiteFunnelResponse;
-        const selected = data.windows[String(days) as "7" | "30" | "90"];
+        const selected = data.windows[String(days) as `${FunnelDays}`];
         if (!selected?.ok) {
           setError("generic");
           return;
@@ -234,16 +238,76 @@ export function VisitorFunnelView({
   );
 
   const kpiCards = [
-    { label: t("visitors"), value: summary.visitors, icon: Users },
-    { label: t("sessions"), value: summary.sessions, icon: Globe },
-    { label: t("productView"), value: summary.productView, icon: Eye },
-    { label: t("addToCart"), value: summary.addToCart, icon: ShoppingCart },
-    { label: t("registerLogin"), value: summary.registerLogin, icon: LogIn },
-    { label: t("application"), value: summary.application, icon: UserPlus },
-    { label: t("approved"), value: summary.approved, icon: BadgeEuro },
-    { label: t("checkout"), value: summary.checkout, icon: CreditCard },
-    { label: t("purchase"), value: summary.purchase, icon: BadgeEuro },
-    { label: t("minOrderShort"), value: summary.minOrderBlocked, icon: AlertTriangle },
+    {
+      label: t("visitors"),
+      value: summary.visitors,
+      previous: summary.previous.visitors,
+      spark: summary.trend.map((p) => p.visitors),
+      icon: Users,
+    },
+    {
+      label: t("sessions"),
+      value: summary.sessions,
+      previous: summary.previous.sessions,
+      spark: [],
+      icon: Globe,
+    },
+    {
+      label: t("productView"),
+      value: summary.productView,
+      previous: summary.previous.productView,
+      spark: summary.trend.map((p) => p.productView),
+      icon: Eye,
+    },
+    {
+      label: t("addToCart"),
+      value: summary.addToCart,
+      previous: summary.previous.addToCart,
+      spark: summary.trend.map((p) => p.addToCart),
+      icon: ShoppingCart,
+    },
+    {
+      label: t("registerLogin"),
+      value: summary.registerLogin,
+      previous: summary.previous.registerLogin,
+      spark: summary.trend.map((p) => p.registerLogin),
+      icon: LogIn,
+    },
+    {
+      label: t("application"),
+      value: summary.application,
+      previous: summary.previous.application,
+      spark: summary.trend.map((p) => p.application),
+      icon: UserPlus,
+    },
+    {
+      label: t("approved"),
+      value: summary.approved,
+      previous: summary.previous.approved,
+      spark: summary.trend.map((p) => p.approved),
+      icon: BadgeEuro,
+    },
+    {
+      label: t("checkout"),
+      value: summary.checkout,
+      previous: summary.previous.checkout,
+      spark: summary.trend.map((p) => p.checkout),
+      icon: CreditCard,
+    },
+    {
+      label: t("purchase"),
+      value: summary.purchase,
+      previous: summary.previous.purchase,
+      spark: summary.trend.map((p) => p.purchase),
+      icon: BadgeEuro,
+    },
+    {
+      label: t("minOrderShort"),
+      value: summary.minOrderBlocked,
+      previous: summary.previous.minOrderBlocked,
+      spark: [],
+      icon: AlertTriangle,
+    },
   ];
 
   const sourceLabels: Record<AcquisitionSource, string> = {
@@ -287,20 +351,57 @@ export function VisitorFunnelView({
         </Card>
       )}
 
+      <FunnelTrendChart
+        data={summary.trend}
+        locale={locale}
+        title={days === 1 ? t("trendTitleHours") : t("trendTitle", { days })}
+        emptyLabel={t("noTrendData")}
+        granularity={summary.granularity}
+        defaultMetric="visitors"
+        metrics={[
+          { key: "visitors", color: "#0f766e", label: t("visitors") },
+          { key: "productView", color: "#0891b2", label: t("productView") },
+          { key: "addToCart", color: "#d97706", label: t("addToCart") },
+          { key: "registerLogin", color: "#2563eb", label: t("registerLogin") },
+          { key: "application", color: "#7c3aed", label: t("application") },
+          { key: "approved", color: "#0d9488", label: t("approved") },
+          { key: "checkout", color: "#9333ea", label: t("checkout") },
+          { key: "purchase", color: "#059669", label: t("purchase") },
+        ]}
+      />
+
       <section>
-        <h2 className="mb-3 text-lg font-extrabold text-metro-navy">{t("kpiTitle")}</h2>
+        <div className="mb-3 flex items-end justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-extrabold text-metro-navy">{t("kpiTitle")}</h2>
+            <p className="text-xs text-bosporus-muted">{tAdmin("periodComparisonHint")}</p>
+          </div>
+        </div>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-5">
-          {kpiCards.map(({ label, value, icon: Icon }) => (
-            <Card key={label} className="!rounded-2xl" padding="sm">
-              <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-bosporus-gray-100 text-bosporus">
-                <Icon className="h-4.5 w-4.5" />
-              </div>
-              <p className="text-2xl font-black tracking-tight text-metro-navy">
-                {numberFormatter.format(value)}
-              </p>
-              <p className="mt-1 min-h-8 text-xs font-bold leading-4 text-bosporus-muted">{label}</p>
-            </Card>
-          ))}
+          {kpiCards.map(({ label, value, previous, spark, icon: Icon }) => {
+            const delta = periodDelta(value, previous);
+            return (
+              <Card key={label} className="!rounded-2xl" padding="sm">
+                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-bosporus-gray-100 text-bosporus">
+                  <Icon className="h-4.5 w-4.5" />
+                </div>
+                <p className="text-2xl font-black tracking-tight text-metro-navy">
+                  {numberFormatter.format(value)}
+                </p>
+                <p className="mt-1 min-h-8 text-xs font-bold leading-4 text-bosporus-muted">{label}</p>
+                <PeriodDeltaBadge
+                  delta={delta}
+                  formatAbsolute={(n) => numberFormatter.format(n)}
+                  formatPercent={(n) => percentFormatter.format(n)}
+                  vsLabel={tAdmin("vsPreviousPeriod")}
+                />
+                <KpiSparkline
+                  values={spark}
+                  positive={delta.absolute === 0 ? null : delta.absolute > 0}
+                />
+              </Card>
+            );
+          })}
         </div>
       </section>
 
@@ -308,6 +409,7 @@ export function VisitorFunnelView({
         <div className="border-b border-bosporus-gray-100 p-4 sm:p-6">
           <h2 className="font-extrabold text-metro-navy">{t("funnelVisualization")}</h2>
           <p className="text-xs text-bosporus-muted">{t("funnelSubtitle")}</p>
+          <p className="mt-1 text-xs text-bosporus-muted">{tAdmin("independentMetricsNote")}</p>
         </div>
         <div className="space-y-0 p-4 sm:p-6">
           {stages.map((stage, index) => {
@@ -317,13 +419,13 @@ export function VisitorFunnelView({
                 ? stage.value > 0
                   ? 100
                   : null
-                : percentage(stage.value, previous?.value ?? 0);
+                : stageShare(stage.value, previous?.value ?? 0);
             const totalRate =
               index === 0
                 ? stage.value > 0
                   ? 100
                   : null
-                : percentage(stage.value, stages[0]?.value ?? 0);
+                : stageShare(stage.value, stages[0]?.value ?? 0);
             const width =
               stage.value === 0 || maxStage === 0
                 ? 0
@@ -366,11 +468,11 @@ export function VisitorFunnelView({
                       <p className="row-span-2 text-2xl font-black text-metro-navy">
                         {numberFormatter.format(stage.value)}
                       </p>
-                      <p className="text-right text-xs text-bosporus-muted">{t("previousConversion")}</p>
+                      <p className="text-right text-xs text-bosporus-muted">{tAdmin("previousShare")}</p>
                       <p className="text-right text-sm font-extrabold text-bosporus">
                         {formatPercentage(previousRate)}
                         <span className="ml-2 font-medium text-bosporus-muted">
-                          · {t("totalConversion")} {formatPercentage(totalRate)}
+                          · {tAdmin("totalShare")} {formatPercentage(totalRate)}
                         </span>
                       </p>
                     </div>

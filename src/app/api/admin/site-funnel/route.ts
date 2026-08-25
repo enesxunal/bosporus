@@ -1,13 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-auth";
+import { FUNNEL_WINDOWS, isFunnelDays } from "@/lib/funnel-period";
 import { getSiteFunnelSummary } from "@/lib/site-funnel-admin";
-
-const WINDOWS = [7, 30, 90] as const;
-type WindowDays = (typeof WINDOWS)[number];
-
-function isWindowDays(value: number): value is WindowDays {
-  return WINDOWS.includes(value as WindowDays);
-}
 
 export async function GET(request: NextRequest) {
   const auth = await requireAdmin();
@@ -16,12 +10,12 @@ export async function GET(request: NextRequest) {
   const daysParam = request.nextUrl.searchParams.get("days");
   const requestedDays = daysParam === null ? null : Number(daysParam);
 
-  if (requestedDays !== null && !isWindowDays(requestedDays)) {
+  if (requestedDays !== null && !isFunnelDays(requestedDays)) {
     return NextResponse.json({ error: "INVALID_DATE_RANGE" }, { status: 400 });
   }
 
-  const selectedWindows: readonly WindowDays[] =
-    requestedDays === null ? WINDOWS : [requestedDays];
+  const selectedWindows =
+    requestedDays === null ? FUNNEL_WINDOWS : ([requestedDays] as const);
   const windows: Record<string, Awaited<ReturnType<typeof getSiteFunnelSummary>>> = {};
 
   for (const days of selectedWindows) {

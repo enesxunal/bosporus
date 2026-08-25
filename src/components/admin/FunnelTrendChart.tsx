@@ -4,49 +4,44 @@ import { useId, useMemo, useState } from "react";
 import { Activity } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/cn";
-import type { FunnelTrendPoint } from "@/lib/b2b-funnel-dashboard";
 
-type TrendMetric =
-  | "approved"
-  | "firstLoginAfterApproval"
-  | "addToCart"
-  | "checkout"
-  | "purchase";
+export interface TrendMetricOption<T extends string = string> {
+  key: T;
+  color: string;
+  label: string;
+}
 
-interface FunnelTrendChartProps {
-  data: FunnelTrendPoint[];
+interface FunnelTrendChartProps<T extends string> {
+  data: Array<Record<T, number> & { date: string }>;
   locale: string;
   title: string;
   emptyLabel: string;
-  metricLabels: Record<TrendMetric, string>;
+  metrics: Array<TrendMetricOption<T>>;
+  granularity?: "hour" | "day";
+  defaultMetric?: T;
 }
-
-const METRICS: Array<{ key: TrendMetric; color: string }> = [
-  { key: "approved", color: "#0f766e" },
-  { key: "firstLoginAfterApproval", color: "#2563eb" },
-  { key: "addToCart", color: "#d97706" },
-  { key: "checkout", color: "#7c3aed" },
-  { key: "purchase", color: "#059669" },
-];
 
 const CHART_WIDTH = 800;
 const CHART_HEIGHT = 260;
 const PADDING = { top: 24, right: 20, bottom: 38, left: 44 };
 
-export function FunnelTrendChart({
+export function FunnelTrendChart<T extends string>({
   data,
   locale,
   title,
   emptyLabel,
-  metricLabels,
-}: FunnelTrendChartProps) {
-  const [metric, setMetric] = useState<TrendMetric>("approved");
+  metrics,
+  granularity = "day",
+  defaultMetric,
+}: FunnelTrendChartProps<T>) {
+  const initial = defaultMetric ?? metrics[0]?.key;
+  const [metric, setMetric] = useState<T>(initial);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const gradientId = useId().replace(/:/g, "");
-  const activeMetric = METRICS.find((item) => item.key === metric) ?? METRICS[0];
+  const activeMetric = metrics.find((item) => item.key === metric) ?? metrics[0];
   const plotWidth = CHART_WIDTH - PADDING.left - PADDING.right;
   const plotHeight = CHART_HEIGHT - PADDING.top - PADDING.bottom;
-  const maximum = Math.max(1, ...data.map((point) => point[metric]));
+  const maximum = Math.max(1, ...data.map((point) => Number(point[metric] ?? 0)));
 
   const coordinates = useMemo(
     () =>
@@ -54,7 +49,7 @@ export function FunnelTrendChart({
         x:
           PADDING.left +
           (data.length <= 1 ? plotWidth / 2 : (index / (data.length - 1)) * plotWidth),
-        y: PADDING.top + plotHeight - (point[metric] / maximum) * plotHeight,
+        y: PADDING.top + plotHeight - (Number(point[metric] ?? 0) / maximum) * plotHeight,
         point,
       })),
     [data, maximum, metric, plotHeight, plotWidth]
@@ -69,19 +64,28 @@ export function FunnelTrendChart({
       : `${linePath} L ${coordinates.at(-1)?.x ?? 0} ${PADDING.top + plotHeight} L ${
           coordinates[0]?.x ?? 0
         } ${PADDING.top + plotHeight} Z`;
-  const hasData = data.some((point) => point[metric] > 0);
+  const hasData = data.some((point) => Number(point[metric] ?? 0) > 0);
   const dateFormatter = useMemo(
     () =>
       new Intl.DateTimeFormat(locale === "tr" ? "tr-TR" : "de-DE", {
         day: "2-digit",
         month: "short",
+        ...(granularity === "hour" ? { hour: "2-digit", minute: "2-digit" } : {}),
       }),
-    [locale]
+    [granularity, locale]
   );
+
+  const formatBucket = (raw: string) => {
+    const iso = raw.includes("T") ? raw : `${raw}T00:00:00Z`;
+    return dateFormatter.format(new Date(iso));
+  };
+
   const hovered = hoveredIndex === null ? null : coordinates[hoveredIndex];
   const xLabelIndexes = Array.from(
     new Set([0, Math.floor((data.length - 1) / 2), data.length - 1])
   ).filter((index) => index >= 0);
+
+  if (!activeMetric) return null;
 
   return (
     <Card className="!rounded-3xl overflow-hidden" padding="none">
@@ -92,11 +96,11 @@ export function FunnelTrendChart({
           </div>
           <div>
             <h2 className="font-extrabold text-metro-navy">{title}</h2>
-            <p className="text-xs text-bosporus-muted">{metricLabels[metric]}</p>
+            <p className="text-xs text-bosporus-muted">{activeMetric.label}</p>
           </div>
         </div>
         <div className="flex max-w-full gap-1 overflow-x-auto pb-1 sm:pb-0" role="tablist">
-          {METRICS.map((item) => (
+          {metrics.map((item) => (
             <button
               key={item.key}
               type="button"
@@ -118,7 +122,7 @@ export function FunnelTrendChart({
                 style={{ backgroundColor: item.color }}
                 aria-hidden="true"
               />
-              {metricLabels[item.key]}
+              {item.label}
             </button>
           ))}
         </div>
@@ -129,7 +133,7 @@ export function FunnelTrendChart({
           viewBox={`0 0 ${CHART_WIDTH} ${CHART_HEIGHT}`}
           className="h-auto w-full min-w-0"
           role="img"
-          aria-label={`${title}: ${metricLabels[metric]}`}
+          aria-label={`${title}: ${activeMetric.label}`}
           onMouseLeave={() => setHoveredIndex(null)}
         >
           <defs>
@@ -180,6 +184,7 @@ export function FunnelTrendChart({
 
           {coordinates.map(({ x, y, point }, index) => {
             const hitWidth = plotWidth / Math.max(1, data.length);
+            const value = Number(point[metric] ?? 0);
             return (
               <g key={point.date}>
                 <rect
@@ -190,7 +195,7 @@ export function FunnelTrendChart({
                   fill="transparent"
                   onMouseEnter={() => setHoveredIndex(index)}
                 />
-                {(hoveredIndex === index || (data.length <= 14 && point[metric] > 0)) && (
+                {(hoveredIndex === index || (data.length <= 14 && value > 0)) && (
                   <circle
                     cx={x}
                     cy={y}
@@ -218,7 +223,7 @@ export function FunnelTrendChart({
                 }
                 className="fill-bosporus-muted text-[11px]"
               >
-                {dateFormatter.format(new Date(`${coordinate.point.date}T00:00:00Z`))}
+                {formatBucket(coordinate.point.date)}
               </text>
             );
           })}
@@ -244,10 +249,10 @@ export function FunnelTrendChart({
               >
                 <rect width="126" height="48" rx="10" fill="#172554" />
                 <text x="12" y="19" className="fill-white/70 text-[10px]">
-                  {dateFormatter.format(new Date(`${hovered.point.date}T00:00:00Z`))}
+                  {formatBucket(hovered.point.date)}
                 </text>
                 <text x="12" y="37" className="fill-white text-[13px] font-bold">
-                  {metricLabels[metric]}: {hovered.point[metric]}
+                  {activeMetric.label}: {Number(hovered.point[metric] ?? 0)}
                 </text>
               </g>
             </>

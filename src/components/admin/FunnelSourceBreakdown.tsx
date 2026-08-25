@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { RadioTower } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/cn";
-import { percentage, type FunnelSourceBreakdown as SourceRow } from "@/lib/b2b-funnel-dashboard";
+import { stageShare, type FunnelSourceBreakdown as SourceRow } from "@/lib/b2b-funnel-dashboard";
 import type { AcquisitionSource } from "@/lib/acquisition";
 
 type SourceMetric = "approved" | "addToCart" | "checkout" | "purchase";
@@ -138,7 +138,7 @@ export function FunnelSourceBreakdown({
             </thead>
             <tbody className="divide-y divide-bosporus-gray-100">
               {data.map((row) => {
-                const conversion = percentage(row.purchase, row.approved);
+                const conversion = stageShare(row.purchase, row.approved);
                 return (
                   <tr key={row.source} className="bg-white">
                     <td className="px-4 py-3 font-bold text-metro-navy">{labels[row.source]}</td>

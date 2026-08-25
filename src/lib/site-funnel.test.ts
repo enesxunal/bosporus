@@ -12,8 +12,10 @@ import {
   recordSiteFunnelEvent,
   recordSitePurchase,
 } from "./site-funnel-server";
-import { summarizeSiteFunnel } from "./site-funnel-admin";
+import { summarizeSiteFunnel, summarizeSiteFunnelTrend } from "./site-funnel-admin";
 import { getSiteFunnelInsights, type SiteFunnelSummary } from "./site-funnel-dashboard";
+import { isVerifiedBotUserAgent } from "./bot-detection";
+import { periodDelta } from "./funnel-period";
 
 const ANON_A = "aaaaaaaa-1111-4111-8111-aaaaaaaaaaaa";
 const ANON_B = "bbbbbbbb-2222-4222-8222-bbbbbbbbbbbb";
@@ -250,6 +252,7 @@ describe("summarizeSiteFunnel", () => {
     const base: SiteFunnelSummary = {
       ok: true,
       days: 30,
+      granularity: "day",
       visitors: 10,
       sessions: 12,
       visit: 10,
@@ -263,10 +266,96 @@ describe("summarizeSiteFunnel", () => {
       purchase: 0,
       minOrderBlocked: 0,
       quickOrder: 0,
+      previous: {
+        visitors: 8,
+        sessions: 9,
+        visit: 8,
+        productView: 6,
+        addToCart: 3,
+        cartView: 2,
+        registerLogin: 1,
+        application: 1,
+        approved: 0,
+        checkout: 0,
+        purchase: 0,
+        minOrderBlocked: 0,
+        quickOrder: 0,
+      },
+      trend: [],
       sources: [],
       devices: [],
     };
     expect(getSiteFunnelInsights(base)).toContain("checkoutWithoutPurchase");
+  });
+
+  it("24s ziyaretçi trendinde saatlik bucket üretir", () => {
+    const now = new Date("2026-08-15T12:30:00.000Z");
+    const trend = summarizeSiteFunnelTrend({
+      days: 1,
+      now,
+      identityLinks: [],
+      siteRows: [
+        {
+          anonymous_id: ANON_A,
+          session_id: "s1",
+          user_id: null,
+          event_name: "site_visit",
+          metadata: null,
+          created_at: "2026-08-15T10:20:00.000Z",
+        },
+        {
+          anonymous_id: ANON_A,
+          session_id: "s1",
+          user_id: null,
+          event_name: "product_view",
+          metadata: null,
+          created_at: "2026-08-15T10:25:00.000Z",
+        },
+        {
+          anonymous_id: ANON_B,
+          session_id: "s2",
+          user_id: null,
+          event_name: "add_to_cart",
+          metadata: null,
+          created_at: "2026-08-15T11:05:00.000Z",
+        },
+      ],
+      b2bRows: [
+        {
+          user_id: USER_X,
+          event_name: "approved_b2b_purchase",
+          created_at: "2026-08-15T11:40:00.000Z",
+        },
+      ],
+    });
+    expect(trend).toHaveLength(24);
+    const ten = trend.find((point) => point.date === "2026-08-15T10:00:00.000Z");
+    const eleven = trend.find((point) => point.date === "2026-08-15T11:00:00.000Z");
+    expect(ten?.visitors).toBe(1);
+    expect(ten?.productView).toBe(1);
+    expect(eleven?.addToCart).toBe(1);
+    expect(eleven?.purchase).toBe(1);
+  });
+});
+
+describe("bot exclusion", () => {
+  it("bilinen crawler UA'larını doğrular, insan tarayıcıyı dışlamaz", () => {
+    expect(isVerifiedBotUserAgent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)")).toBe(true);
+    expect(isVerifiedBotUserAgent("Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)")).toBe(true);
+    expect(isVerifiedBotUserAgent("facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)")).toBe(true);
+    expect(isVerifiedBotUserAgent("meta-externalagent/1.1 (+https://developers.facebook.com/docs/sharing/webmasters/crawler)")).toBe(true);
+    expect(
+      isVerifiedBotUserAgent(
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+      )
+    ).toBe(false);
+    expect(isVerifiedBotUserAgent("")).toBe(false);
+    expect(isVerifiedBotUserAgent(null)).toBe(false);
+  });
+
+  it("önceki dönem 0 iken yüzde Infinity olmaz", () => {
+    expect(periodDelta(3, 0).percent).toBeNull();
+    expect(periodDelta(0, 0).percent).toBeNull();
   });
 });
 

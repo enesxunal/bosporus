@@ -30,14 +30,16 @@ import { cn } from "@/lib/cn";
 import {
   dropOff,
   getFunnelInsights,
-  percentage,
+  periodDelta,
+  stageShare,
   type B2bFunnelResponse,
   type B2bFunnelSummary,
   type FunnelDays,
   type FunnelInsight,
 } from "@/lib/b2b-funnel-dashboard";
+import { KpiSparkline, PeriodDeltaBadge } from "@/components/admin/FunnelKpiDelta";
 
-const DATE_RANGES: FunnelDays[] = [7, 30, 90];
+const DATE_RANGES: FunnelDays[] = [1, 7, 30, 90];
 const KPI_TONES: Record<string, { icon: string; accent: string }> = {
   teal: { icon: "bg-teal-50 text-teal-700", accent: "from-teal-500 to-teal-300" },
   blue: { icon: "bg-blue-50 text-blue-700", accent: "from-blue-500 to-blue-300" },
@@ -140,6 +142,9 @@ export default function AdminFunnelPage() {
   const formatPercentage = (value: number | null) =>
     value === null ? "—" : `%${percentFormatter.format(value)}`;
 
+  const vsPreviousLabel = t("vsPreviousPeriod");
+  const rangeLabel = (range: FunnelDays) => t(`range${range}` as "range1" | "range7" | "range30" | "range90");
+
   const stages = useMemo(() => {
     if (!summary) return [];
     return [
@@ -171,30 +176,64 @@ export default function AdminFunnelPage() {
     summary.favorite === 0;
   const insights = summary ? getFunnelInsights(summary) : [];
   const minOrderRate = summary
-    ? percentage(summary.minOrderBlocked, summary.approved)
+    ? stageShare(summary.minOrderBlocked, summary.approved)
     : null;
-  const purchaseRate = summary ? percentage(summary.purchase, summary.approved) : null;
+  const purchaseRate = summary ? stageShare(summary.purchase, summary.approved) : null;
   const kpiCards = summary
     ? [
-        { label: t("approved"), value: summary.approved, icon: UserCheck, tone: "teal" },
+        {
+          label: t("approved"),
+          value: summary.approved,
+          previous: summary.previous.approved,
+          spark: summary.trend.map((p) => p.approved),
+          icon: UserCheck,
+          tone: "teal",
+        },
         {
           label: t("firstLogin"),
           value: summary.firstLoginAfterApproval,
+          previous: summary.previous.firstLoginAfterApproval,
+          spark: summary.trend.map((p) => p.firstLoginAfterApproval),
           icon: LogIn,
           tone: "blue",
         },
-        { label: t("viewItem"), value: summary.viewItem, icon: Eye, tone: "cyan" },
+        {
+          label: t("viewItem"),
+          value: summary.viewItem,
+          previous: summary.previous.viewItem,
+          spark: [],
+          icon: Eye,
+          tone: "cyan",
+        },
         {
           label: t("addToCart"),
           value: summary.addToCart,
+          previous: summary.previous.addToCart,
+          spark: summary.trend.map((p) => p.addToCart),
           icon: ShoppingCart,
           tone: "amber",
         },
-        { label: t("checkout"), value: summary.checkout, icon: CreditCard, tone: "violet" },
-        { label: t("purchase"), value: summary.purchase, icon: BadgeEuro, tone: "emerald" },
+        {
+          label: t("checkout"),
+          value: summary.checkout,
+          previous: summary.previous.checkout,
+          spark: summary.trend.map((p) => p.checkout),
+          icon: CreditCard,
+          tone: "violet",
+        },
+        {
+          label: t("purchase"),
+          value: summary.purchase,
+          previous: summary.previous.purchase,
+          spark: summary.trend.map((p) => p.purchase),
+          icon: BadgeEuro,
+          tone: "emerald",
+        },
         {
           label: t("minOrderShort"),
           value: summary.minOrderBlocked,
+          previous: summary.previous.minOrderBlocked,
+          spark: [],
           icon: AlertTriangle,
           tone: "orange",
         },
@@ -256,7 +295,7 @@ export default function AdminFunnelPage() {
                     : "text-bosporus-muted hover:text-metro-navy"
                 )}
               >
-                {t("days", { count: range })}
+                {rangeLabel(range)}
               </button>
             ))}
           </div>
@@ -342,15 +381,24 @@ export default function AdminFunnelPage() {
           <FunnelTrendChart
             data={summary.trend}
             locale={locale}
-            title={t("trendTitle", { days })}
+            title={
+              days === 1
+                ? t("trendTitleHours")
+                : t("trendTitle", { days })
+            }
             emptyLabel={t("noTrendData")}
-            metricLabels={{
-              approved: t("approved"),
-              firstLoginAfterApproval: t("firstLogin"),
-              addToCart: t("addToCart"),
-              checkout: t("checkout"),
-              purchase: t("purchase"),
-            }}
+            granularity={summary.granularity}
+            metrics={[
+              { key: "approved", color: "#0f766e", label: t("approved") },
+              {
+                key: "firstLoginAfterApproval",
+                color: "#2563eb",
+                label: t("firstLogin"),
+              },
+              { key: "addToCart", color: "#d97706", label: t("addToCart") },
+              { key: "checkout", color: "#7c3aed", label: t("checkout") },
+              { key: "purchase", color: "#059669", label: t("purchase") },
+            ]}
           />
 
           <section>
@@ -360,12 +408,13 @@ export default function AdminFunnelPage() {
                 <p className="text-xs text-bosporus-muted">{t("kpiSubtitle")}</p>
               </div>
               <span className="hidden text-xs font-semibold text-bosporus-muted sm:block">
-                {t("previousPeriodUnavailable")}
+                {t("periodComparisonHint")}
               </span>
             </div>
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-7">
-              {kpiCards.map(({ label, value, icon: Icon, tone }) => {
+              {kpiCards.map(({ label, value, previous, spark, icon: Icon, tone }) => {
                 const colors = KPI_TONES[tone] ?? KPI_TONES.teal;
+                const delta = periodDelta(value, previous);
                 return (
                   <Card
                     key={label}
@@ -392,6 +441,16 @@ export default function AdminFunnelPage() {
                     <p className="mt-1 min-h-10 text-xs font-bold leading-5 text-bosporus-muted">
                       {label}
                     </p>
+                    <PeriodDeltaBadge
+                      delta={delta}
+                      formatAbsolute={(n) => numberFormatter.format(n)}
+                      formatPercent={(n) => percentFormatter.format(n)}
+                      vsLabel={vsPreviousLabel}
+                    />
+                    <KpiSparkline
+                      values={spark}
+                      positive={delta.absolute === 0 ? null : delta.absolute > 0}
+                    />
                   </Card>
                 );
               })}
@@ -407,6 +466,7 @@ export default function AdminFunnelPage() {
                     {t("funnelVisualization")}
                   </h2>
                   <p className="text-xs text-bosporus-muted">{t("funnelSubtitle")}</p>
+                  <p className="mt-1 text-xs text-bosporus-muted">{t("independentMetricsNote")}</p>
                 </div>
               </div>
             </div>
@@ -419,13 +479,13 @@ export default function AdminFunnelPage() {
                     ? stage.value > 0
                       ? 100
                       : null
-                    : percentage(stage.value, previous?.value ?? 0);
+                    : stageShare(stage.value, previous?.value ?? 0);
                 const totalRate =
                   index === 0
                     ? stage.value > 0
                       ? 100
                       : null
-                    : percentage(stage.value, stages[0]?.value ?? 0);
+                    : stageShare(stage.value, stages[0]?.value ?? 0);
                 const width =
                   stage.value === 0 || maximumStageValue === 0
                     ? 0
@@ -477,12 +537,12 @@ export default function AdminFunnelPage() {
                             {numberFormatter.format(stage.value)}
                           </p>
                           <p className="text-right text-xs text-bosporus-muted">
-                            {t("previousConversion")}
+                            {t("previousShare")}
                           </p>
                           <p className="text-right text-sm font-extrabold text-bosporus">
                             {formatPercentage(previousRate)}
                             <span className="ml-2 font-medium text-bosporus-muted">
-                              · {t("totalConversion")} {formatPercentage(totalRate)}
+                              · {t("totalShare")} {formatPercentage(totalRate)}
                             </span>
                           </p>
                         </div>

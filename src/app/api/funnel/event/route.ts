@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { isVerifiedBotUserAgent, userAgentFromRequest } from "@/lib/bot-detection";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { parseSiteEvent } from "@/lib/site-funnel-request";
 import { recordSiteFunnelEvent } from "@/lib/site-funnel-server";
@@ -7,6 +8,12 @@ import { recordSiteFunnelEvent } from "@/lib/site-funnel-server";
 const MAX_BODY_BYTES = 2_048;
 
 export async function POST(request: Request) {
+  // Analytics only: verified crawlers must not write site_funnel_events.
+  // Product pages remain crawlable — this endpoint never gates page access.
+  if (isVerifiedBotUserAgent(userAgentFromRequest(request))) {
+    return NextResponse.json({ ok: true, recorded: false, excluded: "bot" });
+  }
+
   const contentLength = Number(request.headers.get("content-length") ?? "0");
   if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {
     return NextResponse.json({ error: "PAYLOAD_TOO_LARGE" }, { status: 413 });

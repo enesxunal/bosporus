@@ -9,9 +9,20 @@ import {
   type SiteLocale,
   type SiteOrderType,
 } from "./site-funnel-shared";
+import { isVerifiedBotUserAgent } from "./bot-detection";
 import { getDeviceCategory, getSessionId, getVisitorId } from "./visitor-id";
 
 const SOURCE_KEY = "bosporus_source";
+
+/** Client-side analytics no-op for known crawlers (UA only; never persisted). */
+function shouldSkipAnalytics(): boolean {
+  if (typeof navigator === "undefined") return false;
+  try {
+    return isVerifiedBotUserAgent(navigator.userAgent);
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Normalized first-party source, persisted independently so it survives the
@@ -51,6 +62,7 @@ function buildContext(locale: SiteLocale | null): EventBody | null {
 }
 
 function post(body: EventBody): void {
+  if (shouldSkipAnalytics()) return;
   try {
     void fetch("/api/funnel/event", {
       method: "POST",
