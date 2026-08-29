@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { COMPANY } from "@/lib/company";
+import { COMPANY, storeOpeningHoursJsonLd } from "@/lib/company";
 import { getCategorySeo } from "@/lib/category-seo";
 import { getProductImageUrl } from "@/lib/category-images";
 import { isPaymentTestSku } from "@/lib/payment-test-product";
@@ -162,15 +162,6 @@ export function categoryMetadata(
   };
 }
 
-const OPENING_DAYS = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-] as const;
-
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -198,12 +189,7 @@ export function organizationJsonLd() {
       availableLanguage: ["German", "Turkish"],
       areaServed: "DE",
     },
-    openingHoursSpecification: {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: [...OPENING_DAYS],
-      opens: COMPANY.openingHours.open,
-      closes: COMPANY.openingHours.close,
-    },
+    openingHoursSpecification: storeOpeningHoursJsonLd(),
   };
 }
 
@@ -232,12 +218,7 @@ export function localBusinessJsonLd() {
       latitude: 50.9667,
       longitude: 6.9167,
     },
-    openingHoursSpecification: {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: [...OPENING_DAYS],
-      opens: COMPANY.openingHours.open,
-      closes: COMPANY.openingHours.close,
-    },
+    openingHoursSpecification: storeOpeningHoursJsonLd(),
     parentOrganization: { "@id": `${BASE}/#organization` },
   };
 }
@@ -351,6 +332,11 @@ export const HOME_FAQ: FaqItem[] = [
     question: "Für wen ist der Bosporus Großhandel geeignet?",
     answer:
       "Gastronomie, Restaurants, Imbisse, Kioske, Cafés, Einzelhandel, Wiederverkäufer und weitere Gewerbekunden.",
+  },
+  {
+    question: "Wann hat Bosporus in Köln-Ossendorf geöffnet?",
+    answer:
+      "Mo.–Fr.: 00:00–18:00 Uhr, Sa.: 00:00–16:00 Uhr, So.: geschlossen. Einkauf vor Ort für Privatkunden während dieser Zeiten möglich.",
   },
 ];
 

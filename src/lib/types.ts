@@ -15,6 +15,8 @@ export interface Product {
   id: string;
   sku: string;
   barcode: string | null;
+  brand?: string | null;
+  mpn?: string | null;
   name_de: string;
   name_tr: string | null;
   category_slug: string | null;

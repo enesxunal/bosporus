@@ -23,7 +23,7 @@ const PAGES: Record<string, { title: string; description: string }> = {
   "/contact": {
     title: "Kontakt & Anfahrt – Bosporus Großhandel Köln-Ossendorf",
     description:
-      "Bosporus GmbH, Von-Hünefeld-Str. 2, 50829 Köln. Telefon, WhatsApp, Öffnungszeiten Mo.–Sa. 08:00–18:00. Parkplätze vor Ort.",
+      "Bosporus GmbH, Von-Hünefeld-Str. 2, 50829 Köln. Telefon, WhatsApp. Öffnungszeiten: Mo.–Fr. 00:00–18:00, Sa. 00:00–16:00, So. geschlossen. Parkplätze vor Ort.",
   },
   "/ratgeber": {
     title: "Ratgeber – Großhandel Köln für Gastronomie & Handel",

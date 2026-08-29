@@ -736,7 +736,7 @@
     "checkoutNote": "Kesin teslimat ücreti, ödeme adımında tam adrese göre hesaplanır.",
     "contactHint": "Bireysel teslimat kontrolü için lütfen bizimle iletişime geçin.",
     "pickupOk": "Gel-al mümkün",
-    "pickupHours": "Gel-al Pzt–Cmt {open}–{close} (Köln).",
+    "pickupHoursPrefix": "Gel-al (Köln):",
     "whatsappCta": "Teslimat bölgesini WhatsApp’tan sorun",
     "whatsappMessage": "Merhaba Bosporus, lütfen PLZ {zip} için teslimat bölgesini kontrol edin (toptancı).",
     "b2bNote": "{city} ve çevresi onaylı toptancılar için geçerlidir – Almanya geneli taahhüt yoktur.",

@@ -3,7 +3,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { MapPin, Phone, Mail, Clock, ExternalLink, MessageCircle, Store, Building2, Car } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { ContactForm } from "@/components/b2c/ContactForm";
-import { COMPANY } from "@/lib/company";
+import { COMPANY, storeOpeningHoursLine } from "@/lib/company";
 import { shopPageMetadata } from "@/lib/page-seo";
 
 const MAP_URL =
@@ -33,7 +33,7 @@ export default async function ContactPage({
     { icon: Phone, label: t("phoneLabel"), text: COMPANY.phone, href: `tel:${COMPANY.phone.replace(/\s/g, "")}` },
     { icon: MessageCircle, label: "WhatsApp", text: COMPANY.whatsappPhone, href: whatsappHref, external: true },
     { icon: Mail, label: t("emailLabel"), text: COMPANY.email, href: `mailto:${COMPANY.email}` },
-    { icon: Clock, label: t("hoursLabel"), text: t("hours", { open: COMPANY.openingHours.open, close: COMPANY.openingHours.close }) },
+    { icon: Clock, label: t("hoursLabel"), text: storeOpeningHoursLine(locale) },
   ];
 
   return (

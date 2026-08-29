@@ -736,7 +736,7 @@
     "checkoutNote": "Die genaue Liefergebühr wird an der Kasse anhand Ihrer vollständigen Adresse berechnet.",
     "contactHint": "Bitte kontaktieren Sie uns für eine individuelle Lieferprüfung.",
     "pickupOk": "Abholung möglich",
-    "pickupHours": "Abholung Mo–Sa {open}–{close} Uhr (Köln).",
+    "pickupHoursPrefix": "Abholung (Köln):",
     "whatsappCta": "Liefergebiet individuell anfragen",
     "whatsappMessage": "Hallo Bosporus, bitte Liefergebiet für PLZ {zip} prüfen (Gewerbe).",
     "b2bNote": "Gilt für freigeschaltete Gewerbekunden in {city} und Umgebung – keine deutschlandweite Zusicherung.",

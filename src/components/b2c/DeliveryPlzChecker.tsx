@@ -23,6 +23,8 @@ type CheckResult = {
   pickupAvailable: boolean;
   pickupOpen: string;
   pickupClose: string;
+  storeHoursDe: string;
+  storeHoursTr: string;
 };
 
 function waHref(message: string): string {
@@ -166,10 +168,8 @@ export function DeliveryPlzChecker() {
               <p className="text-sm text-bosporus-gray-800">
                 <strong>{t("pickupOk")}</strong>
                 <span className="block text-bosporus-muted mt-0.5">
-                  {t("pickupHours", {
-                    open: result.pickupOpen,
-                    close: result.pickupClose,
-                  })}
+                  {t("pickupHoursPrefix")}{" "}
+                  {locale === "tr" ? result.storeHoursTr : result.storeHoursDe}
                 </span>
               </p>
             </div>

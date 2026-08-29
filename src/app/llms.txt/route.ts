@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { COMPANY } from "@/lib/company";
+import { COMPANY, storeOpeningHoursLineEn } from "@/lib/company";
 import { getCategories } from "@/lib/products";
 import { getAllRatgeberSlugs } from "@/lib/ratgeber";
 import { NON_SEO_CATEGORY_SLUGS } from "@/lib/category-seo";
@@ -39,7 +39,7 @@ Private consumers may also shop directly at the Cologne-Ossendorf location.
 Customer parking is available on site.
 
 ## Opening hours
-Monday–Saturday ${COMPANY.openingHours.open}–${COMPANY.openingHours.close}
+${storeOpeningHoursLineEn()}
 
 ## Main categories
 ${categories}

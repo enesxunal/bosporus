@@ -1,4 +1,9 @@
-import { COMPANY } from "@/lib/company";
+import {
+  COMPANY,
+  storeOpeningHoursLineDe,
+  storeOpeningHoursLineTr,
+  storeWeekdayPickupHours,
+} from "@/lib/company";
 import {
   findZoneInList,
   loadDeliveryZones,
@@ -29,6 +34,8 @@ export type PublicDeliveryCheck = {
   pickupAvailable: true;
   pickupOpen: string;
   pickupClose: string;
+  storeHoursDe: string;
+  storeHoursTr: string;
   /** Always b2b_delivery — never expose b2c_delivery 100/250 */
   segment: "b2b_delivery";
 };
@@ -116,6 +123,7 @@ export async function checkPublicB2bDelivery(zipRaw: string): Promise<
 
   const status = classifyDeliveryCheck({ distanceKm, withinRadius });
 
+  const pickup = storeWeekdayPickupHours();
   const check: PublicDeliveryCheck = {
     zipCode,
     status,
@@ -129,8 +137,10 @@ export async function checkPublicB2bDelivery(zipRaw: string): Promise<
     distanceKm,
     withinRadius,
     pickupAvailable: true,
-    pickupOpen: COMPANY.openingHours.open,
-    pickupClose: COMPANY.openingHours.close,
+    pickupOpen: pickup.opens,
+    pickupClose: pickup.closes,
+    storeHoursDe: storeOpeningHoursLineDe(),
+    storeHoursTr: storeOpeningHoursLineTr(),
     segment: "b2b_delivery",
   };
 

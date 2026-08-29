@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { MapPin, Phone, Clock, Car, MessageCircle } from "lucide-react";
-import { COMPANY, companyAddressLine } from "@/lib/company";
+import { COMPANY, companyAddressLine, storeOpeningHoursLine } from "@/lib/company";
 
 const MAP_URL =
   "https://www.google.com/maps/search/?api=1&query=Von-H%C3%BCnefeld-Str.+2,+50829+K%C3%B6ln";
@@ -61,9 +61,7 @@ export function LocalSeoSection() {
               </div>
               <div className="flex items-center gap-3">
                 <Clock className="w-5 h-5 text-bosporus shrink-0" />
-                <span className="text-bosporus-gray-800">
-                  Mo.–Sa. {COMPANY.openingHours.open}–{COMPANY.openingHours.close} Uhr
-                </span>
+                <span className="text-bosporus-gray-800">{storeOpeningHoursLine("de")}</span>
               </div>
               <div className="flex items-start gap-3">
                 <Car className="w-5 h-5 text-bosporus shrink-0 mt-0.5" />

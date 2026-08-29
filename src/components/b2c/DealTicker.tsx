@@ -6,14 +6,14 @@ const DEALS_DE = [
   "Gewerbe: Nettopreise nach Freigabe",
   "Mindestbestellwert 500 € – erste Lieferung gratis",
   "Lieferung Köln & Umgebung – täglich frisch",
-  "Abholmarkt Köln Ossendorf – Mo.–Sa. 00–18 Uhr",
+  "Abholmarkt Köln Ossendorf – Mo.–Fr. 00:00–18:00, Sa. 00:00–16:00",
 ];
 
 const DEALS_TR = [
   "Toptancı: onay sonrası net fiyat",
   "Min. sipariş 500 € – ilk getirme ücretsiz",
   "Köln ve çevreye teslimat – her gün taze",
-  "Köln Ossendorf Gel-Al – Pzt.–Cmt. 00–18",
+  "Köln Ossendorf Gel-Al – Pzt.–Cum. 00:00–18:00, Cmt. 00:00–16:00",
 ];
 
 export function DealTicker({ hasPromos = false }: { hasPromos?: boolean }) {

@@ -138,7 +138,7 @@ export const RATGEBER_ARTICLES: RatgeberArticle[] = [
         id: "vor-ort",
         heading: "Einkauf vor Ort",
         paragraphs: [
-          "Neben dem Online-Shop können Kunden am Standort Von-Hünefeld-Str. 2 einkaufen – auch Privatkunden. Parkplätze sind vor Ort vorhanden, Öffnungszeiten Mo.–Sa. 08:00–18:00 Uhr.",
+          "Neben dem Online-Shop können Kunden am Standort Von-Hünefeld-Str. 2 einkaufen – auch Privatkunden. Parkplätze sind vor Ort vorhanden. Öffnungszeiten: Mo.–Fr. 00:00–18:00 Uhr, Sa. 00:00–16:00 Uhr, So. geschlossen.",
         ],
       },
     ],
