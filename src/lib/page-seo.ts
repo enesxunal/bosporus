@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { absoluteUrl } from "@/lib/seo";
+import { absoluteUrl, metadataTitleSegment, resolveMetadataTitle } from "@/lib/seo";
 
 /** Tüm public SEO Almanca — locale sadece noindex / hreflang için */
 export const SITE_SEO = {
@@ -41,7 +41,7 @@ const PAGES: Record<string, { title: string; description: string }> = {
       "Bosporus für Gastronomie und Handel: Nettopreise nach Freigabe, Min. 500 €, erste Lieferung gratis. Jetzt registrieren.",
   },
   "/delivery": {
-    title: "Liefergebiet Köln & Umgebung | Bosporus Großhandel",
+    title: "Liefergebiet Köln & Umgebung",
     description:
       "PLZ prüfen: Liefergebiet für Gewerbekunden in Köln und Umgebung. Mindestbestellwert und Abholung bei Bosporus Großhandel.",
   },
@@ -158,8 +158,10 @@ export function shopPageMetadata(path: string, locale: string): Metadata {
   const isTr = locale === "tr";
   const forceNoIndex = NOINDEX_PATHS.has(path);
 
+  const titleSegment = metadataTitleSegment(page.title);
+
   return {
-    title: path === "/" ? { absolute: page.title } : page.title,
+    title: path === "/" ? { absolute: page.title } : titleSegment,
     description: page.description,
     alternates: {
       canonical,
@@ -171,7 +173,7 @@ export function shopPageMetadata(path: string, locale: string): Metadata {
       },
     },
     openGraph: {
-      title: path === "/" ? page.title : `${page.title} | Bosporus`,
+      title: path === "/" ? page.title : resolveMetadataTitle(titleSegment),
       description: page.description,
       url: canonical,
       locale: "de_DE",

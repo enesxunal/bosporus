@@ -15,7 +15,7 @@ export type CategorySeoContent = {
 /** Kategori slug → unique SEO landing content (Almanca, DE pazar) */
 const CATEGORY_SEO: Record<string, CategorySeoContent> = {
   lebensmittel: {
-    title: "Lebensmittel Großhandel Köln für Gastronomie & Handel | Bosporus",
+    title: "Lebensmittel Großhandel Köln für Gastronomie & Handel",
     description:
       "Lebensmittel Großhandel in Köln-Ossendorf: Sortiment für Restaurants, Imbisse, Kioske und Wiederverkäufer. Online-Shop für Gewerbekunden, Einkauf vor Ort auch für Privatkunden.",
     h1: "Lebensmittel Großhandel für Gastronomie in Köln",
@@ -46,7 +46,7 @@ const CATEGORY_SEO: Record<string, CategorySeoContent> = {
     relatedSlugs: ["getraenke", "tk-tiefkuehl", "gewuerze", "saucen"],
   },
   getraenke: {
-    title: "Getränke Großhandel Köln für Gastronomie | Bosporus",
+    title: "Getränke Großhandel Köln für Gastronomie",
     description:
       "Getränke Großhandel in Köln: Wasser, Softdrinks, Ayran, Energy Drinks und mehr für Restaurant, Kiosk und Imbiss. Gewerbe online, Privatkunden vor Ort.",
     h1: "Getränke Großhandel für Gastronomie in Köln",
@@ -77,7 +77,7 @@ const CATEGORY_SEO: Record<string, CategorySeoContent> = {
     relatedSlugs: ["lebensmittel", "molkerei", "alkohol", "snacks-suesswaren"],
   },
   "tk-tiefkuehl": {
-    title: "Tiefkühl Großhandel Köln für Gastronomie | Bosporus",
+    title: "Tiefkühl Großhandel Köln für Gastronomie",
     description:
       "Tiefkühlprodukte Großhandel in Köln: TK-Fleisch, Pommes, Nuggets, Fertiggerichte für Restaurant und Imbiss. Bosporus GmbH Köln-Ossendorf.",
     h1: "Tiefkühl Großhandel für Gastronomie in Köln",
@@ -98,7 +98,7 @@ const CATEGORY_SEO: Record<string, CategorySeoContent> = {
     relatedSlugs: ["lebensmittel", "gemuese", "saucen"],
   },
   gewuerze: {
-    title: "Gewürze Großhandel Köln für Gastronomie | Bosporus",
+    title: "Gewürze Großhandel Köln für Gastronomie",
     description:
       "Gewürze und Würzmittel Großhandel in Köln für Restaurant, Imbiss und Dönerladen. Bosporus GmbH – Sortiment online für Gewerbekunden.",
     h1: "Gewürze Großhandel für Gastronomie in Köln",
@@ -114,7 +114,7 @@ const CATEGORY_SEO: Record<string, CategorySeoContent> = {
     relatedSlugs: ["saucen", "lebensmittel", "asia"],
   },
   saucen: {
-    title: "Saucen Großhandel Köln für Gastronomie | Bosporus",
+    title: "Saucen Großhandel Köln für Gastronomie",
     description:
       "Saucen Großhandel in Köln: Ketchup, Mayonnaise, Dönersauce und mehr für Restaurant, Imbiss und Kiosk. Bosporus GmbH Köln-Ossendorf.",
     h1: "Saucen Großhandel für Gastronomie in Köln",
@@ -130,7 +130,7 @@ const CATEGORY_SEO: Record<string, CategorySeoContent> = {
     relatedSlugs: ["gewuerze", "lebensmittel", "tk-tiefkuehl"],
   },
   "snacks-suesswaren": {
-    title: "Snacks Großhandel Köln für Kiosk & Handel | Bosporus",
+    title: "Snacks Großhandel Köln für Kiosk & Handel",
     description:
       "Snacks und Süßwaren Großhandel in Köln: Chips, Knabbereien und Süßigkeiten für Kiosk, Imbiss und Wiederverkäufer. Bosporus GmbH.",
     h1: "Snacks & Süßwaren Großhandel in Köln",
@@ -146,7 +146,7 @@ const CATEGORY_SEO: Record<string, CategorySeoContent> = {
     relatedSlugs: ["getraenke", "lebensmittel", "konserven"],
   },
   "verpackung-reinigungsmittel-hygiene": {
-    title: "Verpackung & Hygiene Großhandel Köln | Bosporus",
+    title: "Verpackung & Hygiene Großhandel Köln",
     description:
       "Verpackungsmaterial, Reinigungsmittel und Hygieneartikel Großhandel in Köln für Gastronomie und Handel. Bosporus GmbH Köln-Ossendorf.",
     h1: "Verpackung, Reinigung & Hygiene Großhandel in Köln",
@@ -162,7 +162,7 @@ const CATEGORY_SEO: Record<string, CategorySeoContent> = {
     relatedSlugs: ["lebensmittel", "sonstiges"],
   },
   molkerei: {
-    title: "Molkereiprodukte Großhandel Köln | Bosporus",
+    title: "Molkereiprodukte Großhandel Köln",
     description:
       "Molkereiprodukte und Ayran Großhandel in Köln für Gastronomie und Handel. Bosporus GmbH – u.a. Ayfit Ayran für Dönerladen und Imbiss.",
     h1: "Molkereiprodukte Großhandel in Köln",
@@ -183,7 +183,7 @@ const CATEGORY_SEO: Record<string, CategorySeoContent> = {
     relatedSlugs: ["getraenke", "lebensmittel", "kuehlschrankware"],
   },
   gemuese: {
-    title: "Gemüse Großhandel Köln für Gastronomie | Bosporus",
+    title: "Gemüse Großhandel Köln für Gastronomie",
     description:
       "Gemüse Großhandel in Köln für Restaurant, Imbiss und Caterer. Frisches Sortiment bei Bosporus GmbH Köln-Ossendorf.",
     h1: "Gemüse Großhandel für Gastronomie in Köln",
@@ -199,7 +199,7 @@ const CATEGORY_SEO: Record<string, CategorySeoContent> = {
     relatedSlugs: ["lebensmittel", "obst", "tk-tiefkuehl"],
   },
   asia: {
-    title: "Asiatische Küche Großhandel Köln | Bosporus",
+    title: "Asiatische Küche Großhandel Köln",
     description:
       "Asiatische Lebensmittel Großhandel in Köln für Restaurant und Handel. Bosporus GmbH Köln-Ossendorf – Sortiment für asiatische Küche.",
     h1: "Asiatische Küche Großhandel in Köln",
@@ -217,7 +217,7 @@ const CATEGORY_SEO: Record<string, CategorySeoContent> = {
 };
 
 const DEFAULT_CATEGORY_SEO = (category: Category): CategorySeoContent => ({
-  title: `${category.name_de} Großhandel Köln | Bosporus`,
+  title: `${category.name_de} Großhandel Köln`,
   description: `${category.name_de} – ${category.product_count} Artikel im Bosporus Großhandel Köln-Ossendorf. Online-Shop für Gewerbekunden, Einkauf vor Ort auch für Privatkunden.`,
   h1: `${category.name_de} Großhandel in Köln`,
   intro: `${category.name_de} bei Bosporus GmbH in Köln-Ossendorf – ${category.product_count} Artikel für Gastronomie und Handel. Unser Online-Shop richtet sich an Gewerbekunden; vor Ort können auch Privatkunden einkaufen.`,

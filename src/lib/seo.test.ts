@@ -4,12 +4,18 @@ import { getCategorySeo, NON_SEO_CATEGORY_SLUGS } from "@/lib/category-seo";
 import { getAllRatgeberSlugs, getRatgeberArticle } from "@/lib/ratgeber";
 import {
   absoluteUrl,
+  applyMetadataTitleTemplate,
   breadcrumbJsonLd,
+  categoryMetadata,
   faqJsonLd,
+  hasDuplicateBrandInTitle,
   HOME_FAQ,
+  metadataTitleSegment,
   productMetadata,
+  resolveMetadataTitle,
   siteGraphJsonLd,
 } from "@/lib/seo";
+import { shopPageMetadata } from "@/lib/page-seo";
 import { storeOpeningHoursJsonLd } from "@/lib/company";
 import type { Product } from "@/lib/types";
 
@@ -98,7 +104,82 @@ describe("seo helpers", () => {
       sort_order: 1,
     });
     expect(seo.title).toContain("Lebensmittel Großhandel Köln");
+    expect(seo.title).not.toMatch(/\|\s*Bosporus\s*$/i);
     expect(seo.h1).toContain("Lebensmittel");
+  });
+
+  describe("metadata title brand suffix", () => {
+    it("metadataTitleSegment strips trailing | Bosporus variants", () => {
+      expect(metadataTitleSegment("Getränke Großhandel | Bosporus")).toBe(
+        "Getränke Großhandel"
+      );
+      expect(metadataTitleSegment("Liefergebiet | Bosporus Großhandel")).toBe(
+        "Liefergebiet"
+      );
+    });
+
+    it("resolveMetadataTitle contains brand exactly once", () => {
+      const full = resolveMetadataTitle("Lebensmittel Großhandel Köln");
+      expect(full).toBe("Lebensmittel Großhandel Köln | Bosporus");
+      expect(hasDuplicateBrandInTitle(full)).toBe(false);
+    });
+
+    it("applyMetadataTitleTemplate never produces duplicate brand", () => {
+      const segment = getCategorySeo({
+        id: "1",
+        slug: "lebensmittel",
+        name_de: "Lebensmittel",
+        name_tr: null,
+        product_count: 239,
+        sort_order: 1,
+      }).title;
+      const rendered = applyMetadataTitleTemplate(segment);
+      expect(rendered).not.toMatch(/\|\s*Bosporus\s*\|\s*Bosporus/i);
+      expect(hasDuplicateBrandInTitle(rendered)).toBe(false);
+    });
+
+    it("product metadata title segment has no trailing Bosporus brand", () => {
+      const meta = productMetadata(
+        mockProduct({ sku: "ayfit-ayran-250ml", name_de: "AYFIT Ayran 250ml" }),
+        "de"
+      );
+      const segment = meta.title as string;
+      expect(segment).toBe("AYFIT Ayran 250ml | Großhandel Köln");
+      expect(hasDuplicateBrandInTitle(applyMetadataTitleTemplate(segment))).toBe(
+        false
+      );
+    });
+
+    it("category metadata title segment has no trailing Bosporus brand", () => {
+      const meta = categoryMetadata(
+        {
+          id: "1",
+          slug: "getraenke",
+          name_de: "Getränke",
+          name_tr: null,
+          product_count: 166,
+          sort_order: 1,
+        },
+        "de",
+        "/categories/getraenke.jpg"
+      );
+      const segment = meta.title as string;
+      expect(segment).toContain("Getränke Großhandel");
+      expect(segment).not.toMatch(/\|\s*Bosporus\s*$/i);
+      expect(hasDuplicateBrandInTitle(applyMetadataTitleTemplate(segment))).toBe(
+        false
+      );
+    });
+
+    it("shopPageMetadata titles render with single brand suffix", () => {
+      for (const path of ["/about", "/contact", "/ratgeber", "/delivery", "/faq", "/grosshandel"]) {
+        const meta = shopPageMetadata(path, "de");
+        const segment = meta.title as string;
+        const rendered = applyMetadataTitleTemplate(segment);
+        expect(hasDuplicateBrandInTitle(rendered)).toBe(false);
+        expect(rendered).not.toMatch(/\|\s*Bosporus\s*\|\s*Bosporus/i);
+      }
+    });
   });
 
   it("ratgeber slugs resolve to articles", () => {

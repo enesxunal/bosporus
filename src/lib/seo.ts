@@ -8,6 +8,34 @@ import type { Category, Product } from "@/lib/types";
 
 const BASE = COMPANY.website.replace(/\/$/, "");
 
+/** Root layout template suffix — child titles must NOT include this */
+export const METADATA_BRAND = "Bosporus";
+
+const TRAILING_BRAND_RE = /\s\|\s*Bosporus(\s+GmbH|\s+Großhandel)?\s*$/i;
+
+/** Strip trailing brand suffix so layout template `%s | Bosporus` applies once */
+export function metadataTitleSegment(title: string): string {
+  let segment = title.trim();
+  while (TRAILING_BRAND_RE.test(segment)) {
+    segment = segment.replace(TRAILING_BRAND_RE, "").trim();
+  }
+  return segment;
+}
+
+/** Full document/OG title after template is applied */
+export function resolveMetadataTitle(segment: string): string {
+  return `${metadataTitleSegment(segment)} | ${METADATA_BRAND}`;
+}
+
+/** Simulates root layout title template for tests */
+export function applyMetadataTitleTemplate(segment: string): string {
+  return resolveMetadataTitle(segment);
+}
+
+export function hasDuplicateBrandInTitle(title: string): boolean {
+  return (title.match(/\|\s*Bosporus\b/gi) ?? []).length > 1;
+}
+
 export type BreadcrumbItem = { name: string; href?: string };
 
 export type FaqItem = { question: string; answer: string };
@@ -54,14 +82,14 @@ function buildProductTitle(product: Product): string {
   const name = product.name_de.trim();
   const brand = product.brand?.trim();
   if (brand && !name.toLowerCase().includes(brand.toLowerCase())) {
-    return `${name} | ${brand} | Bosporus Großhandel Köln`;
+    return `${name} | ${brand} | Großhandel Köln`;
   }
   const override = PRODUCT_SEO_OVERRIDES[product.sku];
   if (override?.titleSuffix) {
     return `${name} | ${override.titleSuffix}`;
   }
-  if (name.length > 55) return `${name} | Bosporus`;
-  return `${name} | Großhandel Köln | Bosporus`;
+  if (name.length > 55) return name;
+  return `${name} | Großhandel Köln`;
 }
 
 function buildProductDescription(product: Product): string {
@@ -83,7 +111,7 @@ export function productMetadata(product: Product, locale: string): Metadata {
   const image = getProductImageUrl(product);
   const url = absoluteUrl(productPath("de", product.sku));
   const isTr = locale === "tr";
-  const title = buildProductTitle(product);
+  const titleSegment = metadataTitleSegment(buildProductTitle(product));
 
   if (isPaymentTestSku(product.sku)) {
     return {
@@ -102,7 +130,7 @@ export function productMetadata(product: Product, locale: string): Metadata {
   }
 
   return {
-    title,
+    title: titleSegment,
     description: desc,
     alternates: {
       canonical: url,
@@ -114,7 +142,7 @@ export function productMetadata(product: Product, locale: string): Metadata {
       },
     },
     openGraph: {
-      title,
+      title: resolveMetadataTitle(titleSegment),
       description: desc,
       url,
       type: "website",
@@ -135,9 +163,10 @@ export function categoryMetadata(
   const seo = getCategorySeo(category);
   const url = absoluteUrl(categoryPath("de", category.slug));
   const isTr = locale === "tr";
+  const titleSegment = metadataTitleSegment(seo.title);
 
   return {
-    title: seo.title,
+    title: titleSegment,
     description: seo.description,
     alternates: {
       canonical: url,
@@ -149,7 +178,7 @@ export function categoryMetadata(
       },
     },
     openGraph: {
-      title: seo.title,
+      title: resolveMetadataTitle(titleSegment),
       description: seo.description,
       url,
       type: "website",
@@ -348,8 +377,9 @@ export function ratgeberMetadata(
 ): Metadata {
   const url = absoluteUrl(`/ratgeber/${slug}`);
   const isTr = locale === "tr";
+  const titleSegment = metadataTitleSegment(title);
   return {
-    title,
+    title: titleSegment,
     description,
     alternates: {
       canonical: url,
@@ -360,7 +390,13 @@ export function ratgeberMetadata(
         "x-default": url,
       },
     },
-    openGraph: { title, description, url, locale: "de_DE", type: "article" },
+    openGraph: {
+      title: resolveMetadataTitle(titleSegment),
+      description,
+      url,
+      locale: "de_DE",
+      type: "article",
+    },
     robots: isTr ? { index: false, follow: true } : { index: true, follow: true },
   };
 }
