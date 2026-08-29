@@ -21,6 +21,7 @@ export function B2cFooter() {
   const companyLinks = [
     { href: "/about", label: nav("about") },
     { href: "/contact", label: nav("contact") },
+    { href: "/ratgeber", label: "Ratgeber" },
   ];
 
   const legalLinks = [

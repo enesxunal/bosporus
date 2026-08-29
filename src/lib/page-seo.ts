@@ -3,9 +3,9 @@ import { absoluteUrl } from "@/lib/seo";
 
 /** Tüm public SEO Almanca — locale sadece noindex / hreflang için */
 export const SITE_SEO = {
-  title: "Bosporus GmbH – Lebensmittel-Großhandel Köln | Gewerbe",
+  title: "Lebensmittel- & Getränke-Großhandel Köln | Bosporus GmbH",
   description:
-    "Lebensmittel-Großhandel in Köln für Gastronomie und Handel. Preise online – Bestellung nach Freigabe. Min. 500 €, erste Lieferung gratis.",
+    "Lebensmittel- & Getränke-Großhandel in Köln-Ossendorf für Gastronomie, Imbiss, Kiosk und Handel. Online-Shop für Gewerbekunden – Einkauf vor Ort auch für Privatkunden.",
 } as const;
 
 const PAGES: Record<string, { title: string; description: string }> = {
@@ -16,14 +16,19 @@ const PAGES: Record<string, { title: string; description: string }> = {
       "Lebensmittel, Getränke, Tiefkühl, Verpackung und mehr. Preise online sichtbar – Bestellung nach Gewerbe-Freigabe bei Bosporus Köln.",
   },
   "/about": {
-    title: "Über uns",
+    title: "Über Bosporus GmbH – Lebensmittel-Großhandel Köln",
     description:
-      "Bosporus GmbH – Lebensmittel-Großhandel in Köln mit über 40 Jahren Erfahrung für Gastronomie und Gewerbe.",
+      "Bosporus GmbH ist ein Lebensmittel- und Getränke-Großhandel in Köln-Ossendorf. Online-Shop für Gewerbekunden, Einkauf vor Ort auch für Privatkunden.",
   },
   "/contact": {
-    title: "Kontakt",
+    title: "Kontakt & Anfahrt – Bosporus Großhandel Köln-Ossendorf",
     description:
-      "Kontakt zu Bosporus GmbH in Köln – Telefon, E-Mail und Anfahrt. Beratung für Gastronomie und Gewerbekunden.",
+      "Bosporus GmbH, Von-Hünefeld-Str. 2, 50829 Köln. Telefon, WhatsApp, Öffnungszeiten Mo.–Sa. 08:00–18:00. Parkplätze vor Ort.",
+  },
+  "/ratgeber": {
+    title: "Ratgeber – Großhandel Köln für Gastronomie & Handel",
+    description:
+      "Praxisnahe Ratgeber zu Lebensmittel- und Getränke-Großhandel in Köln – von Bosporus GmbH für Gastronomie, Imbiss und Wiederverkäufer.",
   },
   "/gewerbe": {
     title: "Gewerbe – Preise nach Freigabe",
@@ -127,6 +132,22 @@ function trUrl(path: string): string {
   return absoluteUrl(`/tr${path.startsWith("/") ? path : `/${path}`}`);
 }
 
+/** Private/utility pages – never index (DE or TR) */
+const NOINDEX_PATHS = new Set([
+  "/cart",
+  "/checkout",
+  "/checkout/success",
+  "/account",
+  "/account/favorites",
+  "/login",
+  "/register",
+  "/quick-order",
+  "/forgot-password",
+  "/reset-password",
+  "/verify-email",
+  "/gewerbe/register",
+]);
+
 /** Sayfa SEO – her zaman Almanca metin, DE canonical */
 export function shopPageMetadata(path: string, locale: string): Metadata {
   const page = PAGES[path] ?? {
@@ -135,6 +156,7 @@ export function shopPageMetadata(path: string, locale: string): Metadata {
   };
   const canonical = deUrl(path);
   const isTr = locale === "tr";
+  const forceNoIndex = NOINDEX_PATHS.has(path);
 
   return {
     title: path === "/" ? { absolute: page.title } : page.title,
@@ -157,8 +179,8 @@ export function shopPageMetadata(path: string, locale: string): Metadata {
       type: "website",
       siteName: "Bosporus",
     },
-    robots: isTr
-      ? { index: false, follow: true }
+    robots: forceNoIndex || isTr
+      ? { index: false, follow: forceNoIndex ? false : true }
       : { index: true, follow: true },
   };
 }

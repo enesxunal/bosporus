@@ -17,6 +17,9 @@ import { ProductCard } from "@/components/b2c/ProductCard";
 import { PromoBanner } from "@/components/b2c/PromoBanner";
 import { CategoryTile } from "@/components/b2c/CategoryTile";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { LocalSeoSection } from "@/components/seo/LocalSeoSection";
+import { FaqSection } from "@/components/seo/FaqSection";
+import { HOME_FAQ } from "@/lib/seo";
 
 export const revalidate = 120;
 
@@ -38,6 +41,20 @@ export default async function HomePage({
   return (
     <>
       <PromoBanner />
+
+      <section className="py-6 sm:py-8 bg-white border-b border-bosporus-gray-100">
+        <div className="page-container max-w-3xl">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-bosporus-gray-800 tracking-tight mb-3">
+            Lebensmittel- &amp; Getränke-Großhandel in Köln
+          </h1>
+          <p className="text-bosporus-muted text-sm sm:text-base leading-relaxed">
+            Bosporus GmbH beliefert Gastronomie, Restaurants, Imbisse, Kioske und Wiederverkäufer in Köln
+            und Umgebung mit Lebensmitteln, Getränken, Tiefkühlware, Gewürzen und Verpackung.
+            Unser Online-Shop richtet sich an Gewerbekunden. Vor Ort in Köln-Ossendorf können auch
+            Privatkunden einkaufen.
+          </p>
+        </div>
+      </section>
 
       <section className="py-8 sm:py-10 bg-white border-b border-bosporus-gray-100">
         <div className="page-container">
@@ -137,6 +154,10 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      <LocalSeoSection />
+
+      <FaqSection items={HOME_FAQ} />
 
       <section className="py-12 sm:py-16 bg-gradient-to-br from-bosporus to-bosporus-dark text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_50%,white,transparent_50%)]" />

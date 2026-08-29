@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Source_Sans_3 } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { COMPANY } from "@/lib/company";
-import { absoluteUrl, organizationJsonLd } from "@/lib/seo";
+import { absoluteUrl, siteGraphJsonLd } from "@/lib/seo";
 import { SITE_SEO } from "@/lib/page-seo";
 import { CookieConsent } from "@/components/layout/CookieConsent";
 import { AnalyticsLoader } from "@/components/layout/AnalyticsLoader";
@@ -104,7 +104,7 @@ export default async function LocaleLayout({
       <body className={`${sourceSans.variable} antialiased`}>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteGraphJsonLd()) }}
         />
         <NextIntlClientProvider messages={messages}>
           <ChunkErrorRecovery />
