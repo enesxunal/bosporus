@@ -53,10 +53,10 @@ export default async function CategoryPage({
           </div>
         </div>
       </div>
-      <CategorySeoContent seo={seo} />
       <div className="max-w-7xl mx-auto px-4 pb-6">
         <ProductGrid category={slug} />
       </div>
+      <CategorySeoContent seo={seo} />
     </>
   );
 }
