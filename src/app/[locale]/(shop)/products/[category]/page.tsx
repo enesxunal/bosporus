@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { setRequestLocale, getTranslations } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { getCategoryBySlug } from "@/lib/products";
 import { ProductGrid } from "@/components/b2c/ProductGrid";
@@ -34,7 +34,6 @@ export default async function CategoryPage({
 
   const seo = getCategorySeo(category);
   const banner = getCategoryBannerUrl(slug);
-  const t = await getTranslations("product");
 
   return (
     <>
@@ -56,9 +55,6 @@ export default async function CategoryPage({
       </div>
       <CategorySeoContent seo={seo} />
       <div className="max-w-7xl mx-auto px-4 pb-6">
-        <p className="mb-5 rounded-xl bg-bosporus-light border border-bosporus/15 px-4 py-2.5 text-sm text-bosporus-gray-800/90">
-          {t("listB2bOnly")}
-        </p>
         <ProductGrid category={slug} />
       </div>
     </>
