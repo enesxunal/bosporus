@@ -194,16 +194,15 @@ describe("seo helpers", () => {
     const graph = siteGraphJsonLd();
     const org = (graph["@graph"] as Record<string, unknown>[])[0];
     const specs = org.openingHoursSpecification as ReturnType<typeof storeOpeningHoursJsonLd>;
-    expect(specs).toHaveLength(2);
-    expect(JSON.stringify(specs)).not.toContain("08:00");
-    expect(specs[1].closes).toBe("16:00");
+    expect(specs).toHaveLength(1);
+    expect(JSON.stringify(specs)).toContain("08:00");
   });
 
   it("HOME_FAQ includes opening hours", () => {
     const hoursFaq = HOME_FAQ.find((f) => f.question.includes("geöffnet"));
-    expect(hoursFaq?.answer).toContain("00:00–18:00");
-    expect(hoursFaq?.answer).toContain("00:00–16:00");
-    expect(hoursFaq?.answer).not.toContain("08:00");
+    expect(hoursFaq?.answer).toContain("08:00–18:00");
+    expect(hoursFaq?.answer).toContain("08:00–18:00");
+    expect(hoursFaq?.answer).not.toContain("00:00");
   });
 
   it("non-SEO categories excluded from sitemap helper set", () => {

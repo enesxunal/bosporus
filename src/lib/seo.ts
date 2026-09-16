@@ -365,7 +365,7 @@ export const HOME_FAQ: FaqItem[] = [
   {
     question: "Wann hat Bosporus in Köln-Ossendorf geöffnet?",
     answer:
-      "Mo.–Fr.: 00:00–18:00 Uhr, Sa.: 00:00–16:00 Uhr, So.: geschlossen. Einkauf vor Ort für Privatkunden während dieser Zeiten möglich.",
+      "Mo.–Sa.: 08:00–18:00 Uhr, So.: geschlossen. Einkauf vor Ort für Privatkunden während dieser Zeiten möglich.",
   },
 ];
 

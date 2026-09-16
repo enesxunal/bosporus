@@ -61,10 +61,10 @@ describe("assertNoB2cPublicLeak", () => {
     distanceKm: 5,
     withinRadius: true,
     pickupAvailable: true,
-    pickupOpen: "00:00",
+    pickupOpen: "08:00",
     pickupClose: "18:00",
-    storeHoursDe: "Mo.–Fr.: 00:00–18:00 Uhr, Sa.: 00:00–16:00 Uhr, So.: geschlossen",
-    storeHoursTr: "Pzt.–Cum.: 00:00–18:00, Cmt.: 00:00–16:00, Paz.: kapalı",
+    storeHoursDe: "Mo.–Sa.: 08:00–18:00 Uhr, So.: geschlossen",
+    storeHoursTr: "Pzt.–Cmt.: 08:00–18:00, Paz.: kapalı",
     segment: "b2b_delivery",
   };
 

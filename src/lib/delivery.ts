@@ -38,7 +38,7 @@ export function findDeliveryZone(zip: string) {
   return null;
 }
 
-/** 30-minute pickup slots — Mo–Fr 00:00–18:00 (COMPANY store hours) */
+/** 30-minute pickup slots — Mo–Fr 08:00–18:00 (COMPANY store hours) */
 export function generatePickupSlots(): { label: string; value: string }[] {
   const { opens, closes } = storeWeekdayPickupHours();
   const openH = Number.parseInt(opens.slice(0, 2), 10);
