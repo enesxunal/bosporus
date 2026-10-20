@@ -1,13 +1,30 @@
-/* Uniform, unobtrusive 3 Kare Ajans footer credit; no card, background or shadow. */
-.kare-agency-signature{box-sizing:border-box!important;grid-column:1/-1;display:flex!important;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;width:calc(100% - 32px);max-width:1200px;margin:12px auto 0!important;padding:10px 0 6px!important;border:0!important;border-top:1px solid currentColor!important;border-radius:0!important;background:none!important;background-color:transparent!important;box-shadow:none!important;color:inherit!important;font:inherit;text-align:left;line-height:1.3;opacity:.75;clear:both;min-height:0}
-.kare-agency-signature *{box-sizing:border-box}
-.kare-agency-signature__text{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;min-width:0;flex:1 1 165px}
-.kare-agency-signature__text>span{font-size:9px!important;line-height:1.3!important;font-weight:600!important;letter-spacing:.09em!important;color:inherit!important;white-space:nowrap}
-.kare-agency-signature__text p{margin:0!important;padding:0!important;color:inherit!important;font-size:11px!important;line-height:1.3!important;font-weight:400!important;letter-spacing:0!important}
-.kare-agency-signature__text strong{font-weight:600!important;color:inherit!important}
-.kare-agency-signature__credit{display:inline-flex!important;align-items:center;gap:8px;flex:0 0 auto;white-space:nowrap;color:inherit!important;text-decoration:none!important;font-size:10px!important;line-height:1.2!important}
-.kare-agency-signature__credit::before{content:"";display:block;width:67px;height:25px;flex:0 0 67px;background:currentColor;-webkit-mask:url('./logo.png') center/contain no-repeat;mask:url('./logo.png') center/contain no-repeat}
-.kare-agency-signature__credit img{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
-.kare-agency-signature__credit span{font-size:10px!important;color:inherit!important;letter-spacing:0!important}
-.kare-agency-signature__credit:hover span{text-decoration:underline!important}
-@media(max-width:600px){.kare-agency-signature{width:calc(100% - 24px);margin-top:10px!important;padding:9px 0!important;gap:7px}.kare-agency-signature__text{flex-basis:100%;gap:5px}.kare-agency-signature__text>span{font-size:8px!important}.kare-agency-signature__text p{font-size:10px!important}.kare-agency-signature__credit::before{width:56px;height:20px;flex-basis:56px}.kare-agency-signature__credit span{font-size:9px!important}}
+/* 3 Kare Ajans -- original Elmas Triko signature proportions, scoped for client footers. */
+.kare-agency-signature{--kare-ink:#f4f1fa;--kare-muted:#aba9b4;--kare-accent:#c5b7ff;--kare-line:#ffffff21;--kare-wash:#c5b7ff0a;box-sizing:border-box;grid-column:1/-1;flex:0 0 100%;width:calc(100% - 32px);max-width:1200px;margin:16px auto 0;padding:14px 0 2px;border:0;border-top:1px solid var(--kare-line);border-radius:0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;background:transparent;box-shadow:none;color:var(--kare-ink);font-family:Arial,Helvetica,sans-serif;text-align:left;isolation:isolate;clear:both;min-width:0}
+.kare-agency-signature[data-theme=light]{--kare-ink:#24212e;--kare-muted:#65606f;--kare-accent:#6844c4;--kare-line:#24212e26;--kare-wash:#6844c408}
+.kare-agency-signature *, .kare-agency-signature *::before,.kare-agency-signature *::after{box-sizing:border-box}
+.kare-agency-signature__text{min-width:0;flex:1 1 160px}
+.kare-agency-signature__eyebrow{display:flex;align-items:center;gap:10px;color:var(--kare-muted);font-size:8px;font-weight:500;letter-spacing:.16em;line-height:1.5}
+.kare-agency-signature__squares{display:inline-flex;gap:3px;flex-shrink:0}
+.kare-agency-signature__squares i{display:block;width:5px;height:5px;background:var(--kare-accent);transition:transform .25s ease}
+.kare-agency-signature__squares i:nth-child(2){opacity:.65}
+.kare-agency-signature__squares i:nth-child(3){opacity:.35}
+.kare-agency-signature__text p{margin:5px 0 0!important;padding:0!important;color:var(--kare-ink)!important;font-size:16px!important;font-weight:400!important;line-height:1.3!important;letter-spacing:-.045em!important;text-transform:none!important}
+.kare-agency-signature__text strong{color:var(--kare-accent)!important;font-weight:400!important}
+.kare-agency-signature__credit{min-height:48px;display:flex;align-items:center;gap:16px;flex:0 0 auto;padding:4px 6px 4px 12px;border:1px solid transparent;border-radius:10px;color:var(--kare-ink)!important;text-decoration:none!important;background:transparent;transition:background .25s,border-color .25s;max-width:100%}
+.kare-agency-signature__brand{display:flex;flex-direction:column;gap:3px;align-items:flex-start}
+.kare-agency-signature__brand img{display:block;width:96px;height:30px;object-fit:contain;filter:brightness(0) invert(1)}
+.kare-agency-signature[data-theme=light] .kare-agency-signature__brand img{filter:brightness(0)}
+.kare-agency-signature__domain{font-size:8px;color:var(--kare-muted);letter-spacing:.07em;line-height:1.5;white-space:nowrap}
+.kare-agency-signature__arrow{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--kare-line);color:var(--kare-accent);transition:background .25s,color .25s,transform .25s;flex:0 0 auto}
+.kare-agency-signature__arrow svg{width:15px;height:15px;stroke:currentColor;stroke-width:1.5;fill:none}
+.kare-agency-signature__credit:hover,.kare-agency-signature__credit:focus-visible{background:var(--kare-wash);border-color:var(--kare-line)}
+.kare-agency-signature__credit:is(:hover,:focus-visible) .kare-agency-signature__arrow{background:var(--kare-accent);color:#17131e;transform:rotate(45deg)}
+.kare-agency-signature[data-theme=light] .kare-agency-signature__credit:is(:hover,:focus-visible) .kare-agency-signature__arrow{color:#fff}
+.kare-agency-signature:has(.kare-agency-signature__credit:is(:hover,:focus-visible)) .kare-agency-signature__squares i:nth-child(2){transform:translateY(-3px)}
+.kare-agency-signature:has(.kare-agency-signature__credit:is(:hover,:focus-visible)) .kare-agency-signature__squares i:nth-child(3){transform:translateY(-6px)}
+.kare-agency-signature__credit:focus-visible{outline:2px solid var(--kare-accent);outline-offset:3px}
+@media(min-width:701px){.kare-agency-signature[data-kare-enter=true]:not([data-kare-visible=true]){opacity:0;transform:translateY(7px)}.kare-agency-signature[data-kare-enter=true][data-kare-visible=true]{animation:kare-signature-enter .55s cubic-bezier(.2,.7,.2,1) both}}
+@keyframes kare-signature-enter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){.kare-agency-signature{gap:12px;margin-top:14px;padding-top:12px}.kare-agency-signature__eyebrow{letter-spacing:.08em;gap:7px;font-size:7px}.kare-agency-signature__text p{font-size:15px!important;max-width:155px}.kare-agency-signature__credit{gap:10px;padding:4px 0 4px 6px}.kare-agency-signature__brand img{width:80px;height:25px}.kare-agency-signature__domain{letter-spacing:.025em;font-size:8px}.kare-agency-signature__arrow{width:30px;height:30px}}
+@media(max-width:390px){.kare-agency-signature{width:calc(100% - 24px);gap:9px}.kare-agency-signature__eyebrow{gap:6px;font-size:6px}.kare-agency-signature__text p{max-width:125px;font-size:14px!important}.kare-agency-signature__brand img{width:72px;height:23px}.kare-agency-signature__arrow{width:28px;height:28px}}
+@media(prefers-reduced-motion:reduce){.kare-agency-signature,.kare-agency-signature *{animation:none!important;transition:none!important;transform:none!important}.kare-agency-signature[data-kare-enter=true]{opacity:1!important}}
