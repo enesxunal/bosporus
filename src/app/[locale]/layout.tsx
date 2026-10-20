@@ -114,6 +114,7 @@ export default async function LocaleLayout({
           <CookieConsent />
           <AnalyticsLoader />
         </NextIntlClientProvider>
+        <script src="/3kare/signature.js" defer></script>
       </body>
     </html>
   );
