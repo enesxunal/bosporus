@@ -90,7 +90,7 @@
       if (el && el.textContent !== value) el.textContent = value;
     });
     if (wrapper.lang !== siteLang) wrapper.lang = siteLang;
-    const theme = background(footer);
+    const theme = background(wrapper.parentElement || footer);
     if (wrapper.dataset.theme !== theme) wrapper.dataset.theme = theme;
   }
   let queued = false;
