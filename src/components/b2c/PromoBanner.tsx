@@ -10,7 +10,7 @@ import { cn } from "@/lib/cn";
 
 const SLIDES = [
   {
-    image: "/home/home-banner-gastronomie.jpg",
+    image: "/home/home-banner-giris-20261102.jpg",
     titleDe: "Ihr Markt in Köln-Ossendorf",
     titleTr: "Köln-Ossendorf'taki marketiniz",
     subtitleDe: "Einkaufen vor Ort – für Privatkunden und Gewerbe. Aktuelle Angebote direkt im Markt entdecken.",
