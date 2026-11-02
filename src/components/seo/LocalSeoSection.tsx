@@ -25,12 +25,13 @@ export function LocalSeoSection() {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           <div>
             <h2 className="text-xl sm:text-2xl font-extrabold text-bosporus-gray-800 mb-3">
-              Bosporus Großhandel in Köln-Ossendorf
+              Bosporus Markt & Großhandel Köln-Ossendorf – für Privatkunden und Gewerbe
             </h2>
             <p className="text-bosporus-muted leading-relaxed mb-4">
               Bosporus GmbH ist ein Lebensmittel- und Getränke-Großhandel mit Standort in Köln-Ossendorf.
-              Unser Online-Shop richtet sich an Gewerbekunden. Vor Ort in Köln-Ossendorf können auch
-              Privatkunden einkaufen.
+              In unserem Markt in Köln-Ossendorf kaufen Privatkunden und Gewerbekunden direkt ein.
+              Entdecken Sie unser Sortiment und fragen Sie nach aktuellen Angeboten vor Ort.
+              Online-Bestellungen sind für freigeschaltete Gewerbekunden vorgesehen.
             </p>
             <div className="space-y-3 text-sm sm:text-base">
               <div className="flex items-start gap-3">

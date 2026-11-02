@@ -3,9 +3,9 @@ import { absoluteUrl, metadataTitleSegment, resolveMetadataTitle } from "@/lib/s
 
 /** Tüm public SEO Almanca — locale sadece noindex / hreflang için */
 export const SITE_SEO = {
-  title: "Lebensmittel- & Getränke-Großhandel Köln | Bosporus GmbH",
+  title: "Bosporus Markt & Großhandel Köln | Privatkunden & Gewerbe",
   description:
-    "Lebensmittel- & Getränke-Großhandel in Köln-Ossendorf für Gastronomie, Imbiss, Kiosk und Handel. Online-Shop für Gewerbekunden – Einkauf vor Ort auch für Privatkunden.",
+    "Bosporus Markt & Großhandel in Köln-Ossendorf: Einkauf vor Ort für Privatkunden und Gewerbe. Lebensmittel, Getränke und Gastronomiebedarf. Gewerbe-Onlineshop.",
 } as const;
 
 const PAGES: Record<string, { title: string; description: string }> = {

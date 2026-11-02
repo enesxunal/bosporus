@@ -3,6 +3,7 @@ import { B2cFooter } from "@/components/layout/B2cFooter";
 import { DealTicker } from "@/components/b2c/DealTicker";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
+import { StoreVisitPopup } from "@/components/layout/StoreVisitPopup";
 import { ShopProviders } from "@/components/providers/ShopProviders";
 import { getShopNavData } from "@/lib/products-db";
 
@@ -26,6 +27,7 @@ export default async function ShopLayout({ children }: { children: React.ReactNo
         <B2cFooter />
         <MobileBottomNav />
         <WhatsAppFloat />
+        <StoreVisitPopup />
       </div>
     </ShopProviders>
   );
