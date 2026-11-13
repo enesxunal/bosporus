@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { getCategoryBySlug } from "@/lib/products";
+import { getCategoryBySlug, getProducts, getProductCount } from "@/lib/products";
 import { ProductGrid } from "@/components/b2c/ProductGrid";
 import Image from "next/image";
 import { getCategoryBannerUrl } from "@/lib/category-images";
@@ -34,6 +34,10 @@ export default async function CategoryPage({
 
   const seo = getCategorySeo(category);
   const banner = getCategoryBannerUrl(slug);
+  const [initialProducts, initialTotal] = await Promise.all([
+    getProducts({ category: slug, limit: 48 }),
+    getProductCount(slug),
+  ]);
 
   return (
     <>
@@ -54,7 +58,12 @@ export default async function CategoryPage({
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 pb-6">
-        <ProductGrid category={slug} />
+        <ProductGrid
+          key={slug}
+          category={slug}
+          initialProducts={initialProducts}
+          initialTotal={initialTotal}
+        />
       </div>
       <CategorySeoContent seo={seo} />
     </>

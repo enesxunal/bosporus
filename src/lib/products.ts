@@ -74,7 +74,10 @@ export function getProductsSync(options?: {
 export async function getProductBySku(sku: string): Promise<Product | undefined> {
   const admin = createAdminClient();
   if (admin) {
-    const { data } = await admin.from("products").select("*").eq("sku", sku).maybeSingle();
+    const { data, error } = await admin.from("products").select("*").eq("sku", sku).maybeSingle();
+    // Do not resurrect an ERP-deleted product from the old bundled JSON.
+    // Fallback to JSON only when the database itself could not be queried.
+    if (!error && !data) return undefined;
     if (data) {
       const product = mapDbRow(data);
       if (product.pfand_sku) {

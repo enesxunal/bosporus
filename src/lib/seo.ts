@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { COMPANY, storeOpeningHoursJsonLd } from "@/lib/company";
 import { getCategorySeo } from "@/lib/category-seo";
 import { getProductImageUrl } from "@/lib/category-images";
-import { isPaymentTestSku } from "@/lib/payment-test-product";
+import { isCatalogHiddenSku, isPaymentTestSku } from "@/lib/payment-test-product";
 import { getB2cGross, hasSellablePrice } from "@/lib/pricing";
 import type { Category, Product } from "@/lib/types";
 
@@ -112,6 +112,12 @@ export function productMetadata(product: Product, locale: string): Metadata {
   const url = absoluteUrl(productPath("de", product.sku));
   const isTr = locale === "tr";
   const titleSegment = metadataTitleSegment(buildProductTitle(product));
+  const isHidden =
+    !product.is_active ||
+    !(product.price_b2c > 0) ||
+    !hasSellablePrice(product) ||
+    product.category_slug === "pfand" ||
+    isCatalogHiddenSku(product.sku);
 
   if (isPaymentTestSku(product.sku)) {
     return {
@@ -149,7 +155,7 @@ export function productMetadata(product: Product, locale: string): Metadata {
       locale: "de_DE",
       images: [{ url: absoluteUrl(image) }],
     },
-    robots: isTr
+    robots: isTr || isHidden
       ? { index: false, follow: true }
       : { index: true, follow: true },
   };
@@ -304,7 +310,7 @@ export function productJsonLd(product: Product, locale: string) {
   const name = product.name_de;
   const image = absoluteUrl(getProductImageUrl(product));
   const gtin = product.barcode?.replace(/\D/g, "") ?? "";
-  const brandName = product.brand?.trim() || COMPANY.tradeName;
+  const brandName = product.brand?.trim();
 
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -313,14 +319,16 @@ export function productJsonLd(product: Product, locale: string) {
     sku: product.sku,
     image,
     description: product.description_de || name,
-    brand: { "@type": "Brand", name: brandName },
+    ...(brandName ? { brand: { "@type": "Brand", name: brandName } } : {}),
     offers: {
       "@type": "Offer",
       url: absoluteUrl(productPath(locale === "tr" ? "tr" : "de", product.sku)),
       priceCurrency: "EUR",
       price: getB2cGross(product).toFixed(2),
       availability:
-        product.is_active && hasSellablePrice(product)
+        product.is_active &&
+        hasSellablePrice(product) &&
+        product.stock_status === "in_stock"
           ? "https://schema.org/InStock"
           : "https://schema.org/OutOfStock",
       seller: { "@type": "Organization", name: COMPANY.legalName },

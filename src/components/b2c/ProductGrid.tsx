@@ -19,31 +19,42 @@ interface ProductGridProps {
   category?: string;
   search?: string;
   filter?: string;
+  // First 48 crawlable links are rendered in the server HTML.
+  initialProducts?: Product[];
+  initialTotal?: number;
 }
 
-export function ProductGrid({ category, search, filter }: ProductGridProps) {
+export function ProductGrid({
+  category,
+  search,
+  filter,
+  initialProducts,
+  initialTotal,
+}: ProductGridProps) {
   const locale = useLocale();
   const t = useTranslations("b2b");
   const profile = useShopProfile();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [total, setTotal] = useState(0);
-  const [offset, setOffset] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const hasInitial = initialProducts !== undefined && initialTotal !== undefined;
+  const [products, setProducts] = useState<Product[]>(initialProducts ?? []);
+  const [total, setTotal] = useState(initialTotal ?? 0);
+  const [offset, setOffset] = useState(initialProducts?.length ?? 0);
+  const [loading, setLoading] = useState(!hasInitial);
   const [loadingMore, setLoadingMore] = useState(false);
   const [view, setView] = useState<ViewMode>("grid");
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(VIEW_KEY);
-      if (saved === "list" || saved === "grid") setView(saved);
-      else {
-        // eski gewerbe tercihi
-        const legacy = localStorage.getItem("bosporus-b2b-view");
-        if (legacy === "list" || legacy === "grid") setView(legacy);
+    queueMicrotask(() => {
+      try {
+        const saved = localStorage.getItem(VIEW_KEY);
+        if (saved === "list" || saved === "grid") setView(saved);
+        else {
+          const legacy = localStorage.getItem("bosporus-b2b-view");
+          if (legacy === "list" || legacy === "grid") setView(legacy);
+        }
+      } catch {
+        /* ignore */
       }
-    } catch {
-      /* ignore */
-    }
+    });
   }, []);
 
   const setViewMode = (mode: ViewMode) => {
@@ -78,9 +89,8 @@ export function ProductGrid({ category, search, filter }: ProductGridProps) {
   );
 
   useEffect(() => {
-    setOffset(0);
-    load(0, false);
-  }, [load]);
+    if (!hasInitial) queueMicrotask(() => { void load(0, false); });
+  }, [load, hasInitial]);
 
   const hasMore = products.length < total;
 

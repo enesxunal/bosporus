@@ -344,6 +344,8 @@ export async function countProductsAsync(options?: {
         query = query
           .eq("is_active", true)
           .gt("price_b2c", 0)
+          .neq("name_de", "#")
+          .neq("category_slug", "pfand")
           .neq("sku", PAYMENT_TEST_SKU);
       } else {
         query = query.neq("sku", PAYMENT_TEST_SKU);
@@ -359,7 +361,11 @@ export async function countProductsAsync(options?: {
   }
 
   let result = filterCatalogHiddenProducts([...jsonProducts]);
-  if (options?.activeOnly !== false) result = result.filter((p) => p.is_active && p.price_b2c > 0);
+  if (options?.activeOnly !== false) {
+    result = result.filter(
+      (p) => p.is_active && p.price_b2c > 0 && p.name_de !== "#" && p.category_slug !== "pfand"
+    );
+  }
   if (options?.category) result = result.filter((p) => p.category_slug === options.category);
   if (options?.search) {
     const q = options.search.toLowerCase();

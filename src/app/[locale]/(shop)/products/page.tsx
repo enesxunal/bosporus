@@ -16,7 +16,8 @@ import { redirect } from "@/i18n/navigation";
 import { ProductGrid } from "@/components/b2c/ProductGrid";
 import { ProductSearch } from "@/components/b2c/ProductSearch";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { hasActivePromos } from "@/lib/products";
+import { getProductCount, getProducts, hasActivePromos } from "@/lib/products";
+import type { Product } from "@/lib/types";
 
 export default async function ProductsPage({
   params,
@@ -37,6 +38,17 @@ export default async function ProductsPage({
     }
   }
 
+  // Give crawlers (and non-JS users) visible product links in the HTML,
+  // without changing the interactive filters or load-more behavior.
+  let initialProducts: Product[] | undefined;
+  let initialTotal: number | undefined;
+  if (!q && !filter) {
+    [initialProducts, initialTotal] = await Promise.all([
+      getProducts({ limit: 48 }),
+      getProductCount(),
+    ]);
+  }
+
   const title =
     filter === "aktion"
       ? locale === "de"
@@ -55,7 +67,13 @@ export default async function ProductsPage({
             <ProductSearch initialQuery={q} />
           </div>
         </div>
-        <ProductGrid search={q} filter={filter} />
+        <ProductGrid
+          key={(q ?? "") + ":" + (filter ?? "")}
+          search={q}
+          filter={filter}
+          initialProducts={initialProducts}
+          initialTotal={initialTotal}
+        />
       </div>
     </>
   );

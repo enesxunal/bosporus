@@ -12,6 +12,7 @@ import {
   HOME_FAQ,
   metadataTitleSegment,
   productMetadata,
+  productJsonLd,
   resolveMetadataTitle,
   siteGraphJsonLd,
 } from "@/lib/seo";
@@ -82,6 +83,31 @@ describe("seo helpers", () => {
     expect(meta.robots).toMatchObject({ index: true, follow: true });
     expect(meta.alternates?.canonical).toContain("/product/test-sku");
     expect(meta.title).toContain("Test Produkt");
+  });
+
+  it("inactive products are not indexed, even with a direct product URL", () => {
+    const meta = productMetadata(mockProduct({ is_active: false }), "de");
+    expect(meta.robots).toMatchObject({ index: false, follow: true });
+  });
+
+  it("deposit and zero-price products are not indexed", () => {
+    expect(productMetadata(mockProduct({ category_slug: "pfand" }), "de").robots)
+      .toMatchObject({ index: false });
+    expect(productMetadata(mockProduct({ price_b2c: 0 }), "de").robots)
+      .toMatchObject({ index: false });
+  });
+
+  it("product schema reflects stock_status rather than claiming all active items are in stock", () => {
+    const inStock = productJsonLd(mockProduct({ stock_status: "in_stock" }), "de") as Record<string, any>;
+    const soldOut = productJsonLd(mockProduct({ stock_status: "out_of_stock" }), "de") as Record<string, any>;
+    expect(inStock.offers.availability).toBe("https://schema.org/InStock");
+    expect(soldOut.offers.availability).toBe("https://schema.org/OutOfStock");
+    expect(soldOut.offers.priceCurrency).toBe("EUR");
+  });
+
+  it("does not invent Bosporus as a manufacturer's brand", () => {
+    const info = productJsonLd(mockProduct(), "de") as Record<string, any>;
+    expect(info.brand).toBeUndefined();
   });
 
   it("priority product override description for Ayfit", () => {
