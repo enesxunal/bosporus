@@ -79,14 +79,14 @@ export function getProductImageUrl(product: Pick<Product, "image_url" | "image_u
  * Each collage shows 15 actual active Bosporus product photo sources.
  */
 export const CATEGORY_TILE_IMAGES: Record<string, string> = {
-  "verpackung-reinigungsmittel-hygiene": "/categories/verpackung-reinigungsmittel-hygiene-real15-20261113.jpg",
-  lebensmittel: "/categories/lebensmittel-real15-20261113.jpg",
-  getraenke: "/categories/getraenke-real15-20261113.jpg",
-  "snacks-suesswaren": "/categories/snacks-suesswaren-real15-20261113.jpg",
-  "tk-tiefkuehl": "/categories/tk-tiefkuehl-real15-20261113.jpg",
-  konserven: "/categories/konserven-real15-20261113.jpg",
-  gewuerze: "/categories/gewuerze-real15-20261113.jpg",
-  saucen: "/categories/saucen-real15-20261113.jpg",
+  "verpackung-reinigungsmittel-hygiene": "/categories/verpackung-reinigungsmittel-hygiene-navy15-20261113.jpg",
+  lebensmittel: "/categories/lebensmittel-navy15-20261113.jpg",
+  getraenke: "/categories/getraenke-navy15-20261113.jpg",
+  "snacks-suesswaren": "/categories/snacks-suesswaren-navy15-20261113.jpg",
+  "tk-tiefkuehl": "/categories/tk-tiefkuehl-navy15-20261113.jpg",
+  konserven: "/categories/konserven-navy15-20261113.jpg",
+  gewuerze: "/categories/gewuerze-navy15-20261113.jpg",
+  saucen: "/categories/saucen-navy15-20261113.jpg",
 };
 
 export function getCategoryImageUrl(slug: string): string {

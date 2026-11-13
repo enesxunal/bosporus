@@ -17,7 +17,7 @@ describe('actual product collages for category cards', () => {
     expect(Object.keys(CATEGORY_TILE_IMAGES)).toEqual(slugs);
     expect(new Set(Object.values(CATEGORY_TILE_IMAGES)).size).toBe(8);
     for (const slug of slugs) {
-      expect(getCategoryImageUrl(slug)).toBe(`/categories/${slug}-real15-20261113.jpg`);
+      expect(getCategoryImageUrl(slug)).toBe(`/categories/${slug}-navy15-20261113.jpg`);
     }
   });
 
