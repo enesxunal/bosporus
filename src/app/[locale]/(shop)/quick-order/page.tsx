@@ -16,6 +16,7 @@ import { useCart } from "@/stores/cart";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { cn } from "@/lib/cn";
+import { BulkOrderImport } from "@/components/b2b/BulkOrderImport";
 import {
   trackApprovedB2bAddToCart,
   trackQuickOrderUsed,
@@ -153,6 +154,8 @@ export default function QuickOrderPage() {
           {t("addSelected")}
         </Button>
       </div>
+
+      <BulkOrderImport />
 
       {msg && (
         <div className="mb-4 p-3 rounded-xl bg-bosporus-light border border-bosporus/20 text-sm flex flex-wrap justify-between gap-2">

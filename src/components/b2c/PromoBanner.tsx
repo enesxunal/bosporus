@@ -46,7 +46,11 @@ export function PromoBanner() {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => setCurrent((c) => (c + 1) % SLIDES.length), 6000);
+    // Respect reduced-motion users and avoid autoplay while the tab is hidden.
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = setInterval(() => {
+      if (document.visibilityState === "visible") setCurrent((c) => (c + 1) % SLIDES.length);
+    }, 7000);
     return () => clearInterval(timer);
   }, []);
 
@@ -56,8 +60,12 @@ export function PromoBanner() {
   const cta = locale === "tr" ? slide.ctaTr : slide.ctaDe;
 
   return (
-    <section className="relative w-full overflow-hidden bg-bosporus-gray-800">
-      <div className="relative h-[260px] sm:h-[300px] md:h-[380px]">
+    <section
+      className="relative w-full overflow-hidden bg-bosporus-gray-800"
+      aria-label={locale === "de" ? "Angebote und Informationen" : "Kampanyalar ve bilgiler"}
+      aria-roledescription="carousel"
+    >
+      <div className="relative h-[310px] sm:h-[340px] md:h-[380px]">
         {SLIDES.map((s, i) => (
           <div
             key={i}
@@ -78,7 +86,7 @@ export function PromoBanner() {
                 quality={75}
               />
             )}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#001a33]/90 via-[#002d5b]/60 to-[#001a33]/10" />
           </div>
         ))}
         <div className="relative z-10 page-container h-full flex flex-col justify-center pb-10 sm:pb-0">
@@ -104,7 +112,7 @@ export function PromoBanner() {
         type="button"
         onClick={() => setCurrent((c) => (c - 1 + SLIDES.length) % SLIDES.length)}
         className="hidden sm:flex absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 touch-target items-center justify-center bg-white/90 rounded-xl hover:bg-white shadow-lg active:scale-95 transition-all"
-        aria-label="Previous"
+        aria-label={locale === "de" ? "Vorheriger Banner" : "Önceki banner"}
       >
         <ChevronLeft className="w-5 h-5" />
       </button>
@@ -112,7 +120,7 @@ export function PromoBanner() {
         type="button"
         onClick={() => setCurrent((c) => (c + 1) % SLIDES.length)}
         className="hidden sm:flex absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-20 touch-target items-center justify-center bg-white/90 rounded-xl hover:bg-white shadow-lg active:scale-95 transition-all"
-        aria-label="Next"
+        aria-label={locale === "de" ? "Nächster Banner" : "Sonraki banner"}
       >
         <ChevronRight className="w-5 h-5" />
       </button>
@@ -121,7 +129,7 @@ export function PromoBanner() {
           type="button"
           onClick={() => setCurrent((c) => (c - 1 + SLIDES.length) % SLIDES.length)}
           className="sm:hidden flex items-center justify-center w-8 h-8 bg-white/90 rounded-lg shadow active:scale-95"
-          aria-label="Previous"
+          aria-label={locale === "de" ? "Vorheriger Banner" : "Önceki banner"}
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
@@ -135,6 +143,8 @@ export function PromoBanner() {
                 "h-2 rounded-full transition-all",
                 i === current ? "w-6 bg-bosporus-yellow" : "w-2 bg-white/50"
               )}
+              aria-label={locale === "de" ? `Banner ${i + 1} anzeigen` : `Banner ${i + 1} göster`}
+              aria-current={i === current ? "true" : undefined}
             />
           ))}
         </div>
@@ -142,7 +152,7 @@ export function PromoBanner() {
           type="button"
           onClick={() => setCurrent((c) => (c + 1) % SLIDES.length)}
           className="sm:hidden flex items-center justify-center w-8 h-8 bg-white/90 rounded-lg shadow active:scale-95"
-          aria-label="Next"
+          aria-label={locale === "de" ? "Nächster Banner" : "Sonraki banner"}
         >
           <ChevronRight className="w-4 h-4" />
         </button>

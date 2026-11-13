@@ -8,6 +8,7 @@ import { isPromoActive } from "@/lib/pricing";
 import { stripB2bPrice } from "@/lib/order-validation";
 import { createClient } from "@/lib/supabase/server";
 import type { Product } from "@/lib/types";
+import { parseCatalogSort } from "@/lib/catalog-search";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -15,7 +16,8 @@ export async function GET(request: Request) {
   const search = searchParams.get("q") ?? undefined;
   const filter = searchParams.get("filter");
   const limit = Math.min(Number(searchParams.get("limit") ?? 48), 200);
-  const offset = Number(searchParams.get("offset") ?? 0);
+  const offset = Math.max(0, Number(searchParams.get("offset") ?? 0) || 0);
+  const sort = parseCatalogSort(searchParams.get("sort"));
 
   let isB2bApproved = false;
   try {
@@ -54,7 +56,7 @@ export async function GET(request: Request) {
   }
 
   const [products, total] = await Promise.all([
-    getProductsAsync({ category, search, limit, offset, activeOnly: true }),
+    getProductsAsync({ category, search, limit, offset, activeOnly: true, sort }),
     countProductsAsync({ category, search, activeOnly: true }),
   ]);
 

@@ -15,6 +15,8 @@ import { Link } from "@/i18n/navigation";
 import { getFeaturedCategoriesAsync, getProducts, getPromoProducts } from "@/lib/products";
 import { ProductCard } from "@/components/b2c/ProductCard";
 import { PromoBanner } from "@/components/b2c/PromoBanner";
+import { CartResumePrompt } from "@/components/b2c/CartResumePrompt";
+import { RecentlyViewedProducts } from "@/components/b2c/RecentlyViewedProducts";
 import { CategoryTile } from "@/components/b2c/CategoryTile";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { LocalSeoSection } from "@/components/seo/LocalSeoSection";
@@ -41,6 +43,7 @@ export default async function HomePage({
   return (
     <>
       <PromoBanner />
+      <CartResumePrompt />
 
       <section className="py-6 sm:py-8 bg-white border-b border-bosporus-gray-100">
         <div className="page-container max-w-3xl">
@@ -154,6 +157,8 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      <RecentlyViewedProducts />
 
       <LocalSeoSection />
 

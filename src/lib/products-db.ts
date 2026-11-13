@@ -1,4 +1,5 @@
 import type { Product, Category } from "./types";
+import { parseCatalogSort, searchAndSortProducts, type CatalogSort } from "./catalog-search";
 import productsData from "@/data/products.json";
 import categoriesData from "@/data/categories.json";
 import { createAdminClient } from "./supabase/admin";
@@ -78,6 +79,7 @@ export async function fetchProductsPage(options?: {
   category?: string;
   limit?: number;
   offset?: number;
+  sort?: CatalogSort;
 }): Promise<Product[] | null> {
   const admin = createAdminClient();
   if (!admin) return null;
@@ -92,10 +94,15 @@ export async function fetchProductsPage(options?: {
     .gt("price_b2c", 0)
     .neq("name_de", "#")
     .neq("category_slug", "pfand")
-    .neq("sku", PAYMENT_TEST_SKU)
-    .order("name_de", { ascending: true });
+    .neq("sku", PAYMENT_TEST_SKU);
 
   if (options?.category) query = query.eq("category_slug", options.category);
+  const sort = parseCatalogSort(options?.sort);
+  if (sort.startsWith("price")) {
+    query = query.order("price_b2c", { ascending: sort === "price_asc" }).order("sku", { ascending: true });
+  } else {
+    query = query.order("name_de", { ascending: sort === "name_asc" }).order("sku", { ascending: true });
+  }
 
   const { data, error } = await query.range(offset, offset + limit - 1);
   if (error || !data) return null;
@@ -183,6 +190,7 @@ export async function getProductsAsync(options?: {
   limit?: number;
   offset?: number;
   activeOnly?: boolean;
+  sort?: CatalogSort;
 }): Promise<Product[]> {
   const limit = options?.limit;
   const offset = options?.offset ?? 0;
@@ -195,6 +203,7 @@ export async function getProductsAsync(options?: {
       category: options?.category,
       limit,
       offset,
+      sort: options?.sort,
     });
     if (page) return page;
   }
@@ -215,16 +224,7 @@ export async function getProductsAsync(options?: {
       result = filterCatalogHiddenProducts(result);
     }
     if (options?.category) result = result.filter((p) => p.category_slug === options.category);
-    if (options?.search) {
-      const q = options.search.toLowerCase();
-      result = result.filter(
-        (p) =>
-          p.name_de.toLowerCase().includes(q) ||
-          (p.name_tr && p.name_tr.toLowerCase().includes(q)) ||
-          p.sku.toLowerCase().includes(q) ||
-          (p.barcode && p.barcode.includes(q))
-      );
-    }
+    result = searchAndSortProducts(result, options?.search, parseCatalogSort(options?.sort));
     const lim = limit ?? result.length;
     return result.slice(offset, offset + lim);
   }
@@ -246,16 +246,7 @@ export async function getProductsAsync(options?: {
   if (options?.category) {
     result = result.filter((p) => p.category_slug === options.category);
   }
-  if (options?.search) {
-    const q = options.search.toLowerCase();
-    result = result.filter(
-      (p) =>
-        p.name_de.toLowerCase().includes(q) ||
-        (p.name_tr && p.name_tr.toLowerCase().includes(q)) ||
-        p.sku.toLowerCase().includes(q) ||
-        (p.barcode && p.barcode.includes(q))
-    );
-  }
+  result = searchAndSortProducts(result, options?.search, parseCatalogSort(options?.sort));
   const lim = limit ?? result.length;
   return result.slice(offset, offset + lim);
 }
@@ -335,6 +326,13 @@ export async function countProductsAsync(options?: {
   search?: string;
   activeOnly?: boolean;
 }): Promise<number> {
+  if (options?.search?.trim()) {
+    return (await getProductsAsync({
+      category: options.category,
+      search: options.search,
+      activeOnly: options.activeOnly,
+    })).length;
+  }
   const admin = createAdminClient();
   if (admin) {
     const { count } = await admin.from("products").select("id", { count: "exact", head: true });

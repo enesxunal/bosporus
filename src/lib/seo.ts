@@ -1,4 +1,5 @@
 import type { RatgeberArticle } from "@/lib/ratgeber";
+import { getVerifiedProductContent } from "@/lib/product-seo-content";
 import type { Metadata } from "next";
 import { COMPANY, storeOpeningHoursJsonLd } from "@/lib/company";
 import { getCategorySeo } from "@/lib/category-seo";
@@ -95,8 +96,10 @@ function buildProductTitle(product: Product): string {
 
 function buildProductDescription(product: Product): string {
   const override = PRODUCT_SEO_OVERRIDES[product.sku];
-  if (override?.description) return override.description.slice(0, 160);
   if (product.description_de?.trim()) return product.description_de.trim().slice(0, 160);
+  if (override?.description) return override.description.slice(0, 160);
+  const verified = getVerifiedProductContent(product.sku);
+  if (verified) return verified.description.slice(0, 160);
   const name = product.name_de.trim();
   const cat = product.category_name_de;
   if (cat) {
@@ -319,7 +322,7 @@ export function productJsonLd(product: Product, locale: string) {
     name,
     sku: product.sku,
     image,
-    description: product.description_de || name,
+    description: product.description_de || getVerifiedProductContent(product.sku)?.description || name,
     ...(brandName ? { brand: { "@type": "Brand", name: brandName } } : {}),
     offers: {
       "@type": "Offer",

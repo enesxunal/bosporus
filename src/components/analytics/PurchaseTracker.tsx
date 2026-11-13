@@ -9,20 +9,22 @@ export function PurchaseTracker({ orderNumber }: { orderNumber?: string }) {
     if (!orderNumber) return;
     let cancelled = false;
     (async () => {
-      let isPaymentTestOrder = false;
       try {
         const res = await fetch(
           `/api/orders/purchase-meta?order=${encodeURIComponent(orderNumber)}`
         );
-        if (res.ok) {
-          const data = (await res.json()) as { isPaymentTestOrder?: boolean };
-          isPaymentTestOrder = Boolean(data.isPaymentTestOrder);
-        }
+        if (!res.ok) return;
+        const data = (await res.json()) as {
+          verified?: boolean;
+          isPaymentTestOrder?: boolean;
+        };
+        if (cancelled || data.verified !== true) return;
+        trackPurchase(orderNumber, undefined, {
+          isPaymentTestOrder: Boolean(data.isPaymentTestOrder),
+        });
       } catch {
-        /* ignore — fall through to normal track with dedupe */
+        // Do not send a purchase event if the order cannot be verified.
       }
-      if (cancelled) return;
-      trackPurchase(orderNumber, undefined, { isPaymentTestOrder });
     })();
     return () => {
       cancelled = true;

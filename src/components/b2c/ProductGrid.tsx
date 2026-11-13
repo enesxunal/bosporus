@@ -10,6 +10,7 @@ import { isPromoActive } from "@/lib/pricing";
 import { useShopProfile } from "@/hooks/useShopProfile";
 import { Loader2, List, LayoutGrid } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { type CatalogSort } from "@/lib/catalog-search";
 
 const PAGE_SIZE = 48;
 const VIEW_KEY = "bosporus-catalog-view";
@@ -34,7 +35,8 @@ export function ProductGrid({
   const locale = useLocale();
   const t = useTranslations("b2b");
   const profile = useShopProfile();
-  const hasInitial = initialProducts !== undefined && initialTotal !== undefined;
+  const [sort, setSort] = useState<CatalogSort>("name_asc");
+  const hasInitial = initialProducts !== undefined && initialTotal !== undefined && sort === "name_asc";
   const [products, setProducts] = useState<Product[]>(initialProducts ?? []);
   const [total, setTotal] = useState(initialTotal ?? 0);
   const [offset, setOffset] = useState(initialProducts?.length ?? 0);
@@ -75,6 +77,7 @@ export function ProductGrid({
       if (category) params.set("category", category);
       if (search) params.set("q", search);
       if (filter) params.set("filter", filter);
+      params.set("sort", sort);
 
       const res = await fetch(`/api/catalog/products?${params}`);
       const data = await res.json();
@@ -85,12 +88,22 @@ export function ProductGrid({
       setLoading(false);
       setLoadingMore(false);
     },
-    [category, search, filter]
+    [category, search, filter, sort]
   );
 
   useEffect(() => {
     if (!hasInitial) queueMicrotask(() => { void load(0, false); });
   }, [load, hasInitial]);
+
+  const changeSort = (value: CatalogSort) => {
+    setSort(value);
+    if (value === "name_asc" && initialProducts && initialTotal !== undefined) {
+      setProducts(initialProducts);
+      setTotal(initialTotal);
+      setOffset(initialProducts.length);
+      setLoading(false);
+    }
+  };
 
   const hasMore = products.length < total;
 
@@ -118,7 +131,22 @@ export function ProductGrid({
         <p className="text-sm text-bosporus-muted">
           {products.length} / {total} {locale === "de" ? "Artikel" : "ürün"}
         </p>
-        <div className="flex items-center gap-1 p-1 bg-bosporus-gray-100 rounded-xl">
+        <div className="flex flex-wrap items-center gap-2">
+          <label htmlFor="catalog-sort" className="text-xs font-semibold text-bosporus-muted">
+            {locale === "de" ? "Sortieren:" : "Sırala:"}
+          </label>
+          <select
+            id="catalog-sort"
+            value={sort}
+            onChange={(e) => changeSort(e.target.value as CatalogSort)}
+            className="rounded-lg border border-bosporus-gray-200 bg-white px-3 py-2 text-sm font-semibold text-bosporus-gray-800"
+          >
+            <option value="name_asc">{locale === "de" ? "Name A–Z" : "Ad A–Z"}</option>
+            <option value="name_desc">{locale === "de" ? "Name Z–A" : "Ad Z–A"}</option>
+            <option value="price_asc">{locale === "de" ? "Preis aufsteigend" : "Fiyat artan"}</option>
+            <option value="price_desc">{locale === "de" ? "Preis absteigend" : "Fiyat azalan"}</option>
+          </select>
+          <div className="flex items-center gap-1 p-1 bg-bosporus-gray-100 rounded-xl">
           <button
             type="button"
             onClick={() => setViewMode("list")}
@@ -149,6 +177,7 @@ export function ProductGrid({
             <LayoutGrid className="w-4 h-4" />
             <span className="hidden sm:inline">{t("viewGrid")}</span>
           </button>
+          </div>
         </div>
       </div>
 
