@@ -1,3 +1,4 @@
+import type { RatgeberArticle } from "@/lib/ratgeber";
 import type { Metadata } from "next";
 import { COMPANY, storeOpeningHoursJsonLd } from "@/lib/company";
 import { getCategorySeo } from "@/lib/category-seo";
@@ -406,5 +407,27 @@ export function ratgeberMetadata(
       type: "article",
     },
     robots: isTr ? { index: false, follow: true } : { index: true, follow: true },
+  };
+}
+
+/** Human-readable guide content represented as a factual Article graph. */
+export function ratgeberArticleJsonLd(article: RatgeberArticle) {
+  const url = absoluteUrl(`/ratgeber/${article.slug}`);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${url}#article`,
+    headline: article.h1,
+    description: article.description,
+    url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    inLanguage: "de-DE",
+    author: { "@id": `${BASE}/#organization` },
+    publisher: { "@id": `${BASE}/#organization` },
+    isPartOf: { "@id": `${BASE}/#website` },
+    keywords: article.keywords.join(", "),
+    ...(article.publishedOn
+      ? { datePublished: article.publishedOn, dateModified: article.publishedOn }
+      : {}),
   };
 }

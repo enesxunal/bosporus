@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { getRatgeberArticle } from "@/lib/ratgeber";
+import { getRatgeberArticle, RATGEBER_ARTICLES } from "@/lib/ratgeber";
 import { getCategoryBySlug, getProductBySku } from "@/lib/products";
-import { ratgeberMetadata } from "@/lib/seo";
+import { ratgeberArticleJsonLd, ratgeberMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { FaqSection } from "@/components/seo/FaqSection";
 
@@ -30,16 +31,26 @@ export default async function RatgeberArticlePage({
   const article = getRatgeberArticle(slug);
   if (!article) notFound();
 
+  const relatedGuides = RATGEBER_ARTICLES
+    .filter((candidate) =>
+      candidate.slug !== article.slug &&
+      candidate.relatedCategorySlugs.some((category) =>
+        article.relatedCategorySlugs.includes(category)
+      )
+    )
+    .slice(0, 3);
+
   const relatedCategories = article.relatedCategorySlugs
     .map((s) => getCategoryBySlug(s))
     .filter(Boolean);
 
   const relatedProducts = (
     await Promise.all(article.relatedProductSkus.map((sku) => getProductBySku(sku)))
-  ).filter(Boolean);
+  ).filter((p) => p && p.is_active && p.price_b2c > 0);
 
   return (
     <>
+      <JsonLd data={ratgeberArticleJsonLd(article)} />
       <Breadcrumbs
         items={[
           { name: "Startseite", href: "/" },
@@ -103,6 +114,21 @@ export default async function RatgeberArticlePage({
                 <li key={p!.sku}>
                   <Link href={`/product/${encodeURIComponent(p!.sku)}`} className="text-bosporus hover:underline font-medium">
                     {p!.name_de.trim()}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {relatedGuides.length > 0 && (
+          <section className="mb-8 pt-6 border-t border-bosporus-gray-100">
+            <h2 className="text-lg font-bold text-bosporus-gray-800 mb-3">Weitere Einkaufsratgeber</h2>
+            <ul className="space-y-2">
+              {relatedGuides.map((guide) => (
+                <li key={guide.slug}>
+                  <Link href={`/ratgeber/${guide.slug}`} className="text-sm font-semibold text-bosporus hover:underline">
+                    {guide.h1}
                   </Link>
                 </li>
               ))}

@@ -1,3 +1,5 @@
+import { ADDITIONAL_RATGEBER_ARTICLES } from "./ratgeber-seo-expansion";
+
 export type RatgeberFaq = { question: string; answer: string };
 
 export type RatgeberSection = {
@@ -17,6 +19,7 @@ export type RatgeberArticle = {
   relatedCategorySlugs: string[];
   relatedProductSkus: string[];
   keywords: string[];
+  publishedOn?: string;
 };
 
 export const RATGEBER_ARTICLES: RatgeberArticle[] = [
@@ -176,6 +179,7 @@ export const RATGEBER_ARTICLES: RatgeberArticle[] = [
     relatedProductSkus: ["real-american-chicken-nuggets-halal-1kg-halal"],
     keywords: ["Tiefkühl Großhandel Köln", "TK Gastronomie"],
   },
+  ...ADDITIONAL_RATGEBER_ARTICLES,
 ];
 
 export function getRatgeberArticle(slug: string): RatgeberArticle | undefined {
